@@ -1,12 +1,19 @@
 Sheepy's UFO: Afterlight database
 =================================
 
-This is an alternate implementation of [Kircket's Tech Tree](http://www.irodemine.com/afterlit/), triggered by a [discussion on Stream](http://steamcommunity.com/app/237950/discussions/0/616188677801999309/#c619568793974409287).
+For project description and deliverable, see the [main branch](https://github.com/Sheep-y/ufoafterlight-db/).
 
-You can [try it online here](https://github.com/Sheep-y/ufoafterlight-db/raw/master/index.html),
-or [save it](https://github.com/Sheep-y/ufoafterlight-db/archive/master.zip) on your harddisk / SD card and open it anywhere.
+JavaScript code is in the `res` folder, and data is in data folder.
+JavaScript namespace is 'ufoal', defined in `core.js`.
+Most code is in `ui.js`, with event handlers in `event.js`.
 
-Active development is NOT planned, because this database is a small sidetrack from the author's focus of the [UFO: Afterlight wiki](http://ufoafterblank.wikia.com/) on Wikia.
+Images are embedded as data uri.  Other contents are inlined as is.
+
+The underscore in the code is a lightweight custom library, but code is mostly ES5.
+
+A single deliverable file is built using a custom build tool.
+All it does for this project is merging multiple files into one, so it should be easy to rewrite for your preferred build tool.
+Alternatively, it is even easier to change the links to html links, totally removing the build process.
 
 This program is free and open, licensed under [AGPL v3](http://www.gnu.org/licenses/agpl-3.0.html).
 Most text and icons are copyrighted (2007) ATLAR games.

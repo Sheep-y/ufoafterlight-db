@@ -1,0 +1,51 @@
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; width: 100%; background-color: black; color: white; font-family: sans-serif; }
+a, a:hover { color: #bbf }
+a:visited { color: #88f }
+.hide { display: none; }
+.error { color: #f44; }
+.f_right { float: right; }
+
+h1 { margin: 0; font-size: 24px; }
+.box {
+  padding: 10px;
+  border: 3px solid #b8cbd1; background-color: #012f3e; color: white
+}
+
+.treenode {
+  display: table;
+  border: 1px outset #3a635f; padding: 2px 5px; margin: 2px 0;
+  /* background: linear-gradient(to bottom, #083035 0%,#083035 45%,#0c3d44 45%,#0d3f46 55%,#0d555d 55%,#0d555d 60%,#082f36 60%,#082f36 100%); */
+  background: linear-gradient(to bottom, #083035 0%, #0d555d 60%, #082f36 100%);
+  margin-right: 5px;
+}
+.treenode > div { margin-left: 25px }
+.leaf .collapse, .leaf .expand { display: none }
+
+.collapse, .expand { float: right; cursor: pointer; margin-left: 5px }
+:not(.collapsed) > .expand { display: none }
+.collapsed > b { color: #999 }
+.collapsed > .collapse,
+  .collapsed > div,
+  .collapsed > .desc,
+  .collapsed > .manday,
+  .collapsed > .manhour  { 
+    display: none
+ }
+
+.icon { float: left; margin-right: 5px; vertical-align: text-bottom; }
+.desc { clear: left; float: left; cursor: help; margin-top: 3px; }
+.help { display: block; border: 2px ridge #b8cbd1; padding: 3px; background-color: black; font-size: smaller; max-width: 500px; }
+
+.treenode > .resource { margin-left: 0; float: left; } /* Default will float onto one line */
+.treenode > img + .resource:last-child { margin-left: 25px; float: none; } /* Un-float to keep box tight */
+.treenode > div:not( .resource ) + .resource { margin-left: 25px; } /* Align with previous block */
+.resource + div:not( .resource ) { clear: left } /* Do not stick after previous resource */
+.manday, .manhour { font-size: smaller; color: yellow }
+.manday:before, .manhour:before { content: ", " }
+
+#pnl_search input[type="search"] {
+  min-width: 300px;
+}
+#pnl_result { padding: 0; margin: auto; }
+#pnl_footer, nav { padding: 0 5px }
