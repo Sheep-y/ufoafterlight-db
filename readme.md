@@ -1,6 +1,8 @@
 Sheepy's UFO: Afterlight database
 =================================
 
+**For source code, see [development branch](https://github.com/Sheep-y/ufoafterlight-db/tree/development).**
+
 This is an alternate implementation of [Kircket's Tech Tree](http://www.irodemine.com/afterlit/), triggered by a [discussion on Stream](http://steamcommunity.com/app/237950/discussions/0/616188677801999309/#c619568793974409287).
 
 You can [try it online here](https://github.com/Sheep-y/ufoafterlight-db/raw/master/index.html),

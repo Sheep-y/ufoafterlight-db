@@ -1,0 +1,1464 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8" />
+<meta http-equiv="P3P" content='CP="NID"' />
+<title>Sheepy's UFO: Afterlight database</title>
+<meta name="viewport" content="width=400,initial-scale=1" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<link rel="icon" href="data:image/gif;base64,R0lGODlhIAAgAKU/AAABAAsEAhgLBR4NCCgOBzQVByQaFkgaCkgjGV0iEHAlDlQwJUc3MV44LW01I3g0H5IwF444HZ40GFpKRqs6GrA8FXtKPLg8Gb1DHG5XTp9MNMtCGohSQtxOI3xpZKBiT79hRphrXuFbM6xtW6VxZpl7cuZqRuRzT895XOl9W7qLfaiRieqHas2Xh7SfmNyWg+2We9+mlO+kjvCyn9vCuu/CsvXBsvXJuPfMwfDVzffUx/rZ0fnf1/nq5fz39f///yH5BAEKAD8ALAAAAAAgACAAQAb+wJ9wSCwaj8TYBQAIZGi+Ho8nnVqtu51Oh7vZehZILEZR+GaLSYDZLKB0sDhrnkqdTHjQACAZVwgxLCIXhBWGFBUXGxgVZQJskEx9MRiRTQYMGR4lnCsrLqCeop4lCGIxFQElUTstGgRMAgIKOlU8WVtdNjYyBBFjZT1cMzAyMCkiHcrLHRuLhBsKa5IxQirX2Nna29xE3N/g2UJKbAEGGS45Peu2V7hbVD4qp0sCK1FSOTRjMTVU7lq2eKmR4BQFAj58xBjhYgKTAAIInPDR5YYXGzMyypAxQ0OAX2TMsCgwIOKBBR+MicBjQoTLZMpEHKQWkscJmM6cEdrZyBD+BgoJprHp02KDgABIkypdypQphBZIokqdSrXquAIEsmolUAABggVgFzQYS5Zs2APVyJUTwKCECxo0cmS5MiUgFSkh6D0c4IEGO7p033XR4SPvmCUBGED5CxjgFi42djjQu6BHlBwvSmRo4MDBhx22sgTEsWvGAYMBoPB4QUJNk6wSpLzjcjEjio/ADvjgMcKDh2lIE8zQkXHGRmNyUsBwEMCgyKNKC3wgdqLOiTstYYqQxgeYgh42RliwwAEECxknOryEqSwnhgPTJgWbIYhZs5zOMFw4hIH7UGAJ3CBCfoU0QgEiBypSgQJ7WDLJBQE4MAIIFGDAyH6NQKDAAQMcCGUJNT/EEEFnJHb2wIkopqhiir9Y5eKLMA4RBAA7" />
+<style>* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; width: 100%; background-color: black; color: white; font-family: sans-serif; }
+a, a:hover { color: #bbf }
+a:visited { color: #88f }
+.hide { display: none; }
+.error { color: #f44; }
+.f_right { float: right; }
+
+h1 { margin: 0; font-size: 24px; }
+.box {
+  padding: 10px;
+  border: 3px solid #b8cbd1; background-color: #012f3e; color: white
+}
+
+.treenode {
+  display: table;
+  border: 1px outset #3a635f; padding: 2px 5px; margin: 2px 0;
+  /* background: linear-gradient(to bottom, #083035 0%,#083035 45%,#0c3d44 45%,#0d3f46 55%,#0d555d 55%,#0d555d 60%,#082f36 60%,#082f36 100%); */
+  background: linear-gradient(to bottom, #083035 0%, #0d555d 60%, #082f36 100%);
+  margin-right: 5px;
+}
+.treenode > div { margin-left: 25px }
+.leaf .collapse, .leaf .expand { display: none }
+
+.collapse, .expand { float: right; cursor: pointer; margin-left: 5px }
+:not(.collapsed) > .expand { display: none }
+.collapsed > b { color: #999 }
+.collapsed > .collapse,
+  .collapsed > div,
+  .collapsed > .desc,
+  .collapsed > .manday,
+  .collapsed > .manhour  { 
+    display: none
+ }
+
+.icon { float: left; margin-right: 5px; vertical-align: text-bottom; }
+.desc { clear: left; float: left; cursor: help; margin-top: 3px; }
+.help { display: block; border: 2px ridge #b8cbd1; padding: 3px; background-color: black; font-size: smaller; max-width: 500px; }
+
+.treenode > .resource { margin-left: 0; float: left; } /* Default will float onto one line */
+.treenode > img + .resource:last-child { margin-left: 25px; float: none; } /* Un-float to keep box tight */
+.treenode > div:not( .resource ) + .resource { margin-left: 25px; } /* Align with previous block */
+.resource + div:not( .resource ) { clear: left } /* Do not stick after previous resource */
+.manday, .manhour { font-size: smaller; color: yellow }
+.manday:before, .manhour:before { content: ", " }
+
+#pnl_search input[type="search"] {
+  min-width: 300px;
+}
+#pnl_result { padding: 0; margin: auto; }
+#pnl_footer, nav { padding: 0 5px }</style>
+</head><body>
+
+<noscript>Please enable JavaScript</noscript>
+<nav class="f_right">
+  <a href="http://www.gnu.org/licenses/agpl-3.0.html" onclick="ufoal.ui.event.lnk_license_click(event)">License</a> |
+  <a href="https://github.com/Sheep-y/ufoafterlight-db/"> Home </a>
+</nav>
+<h1 id="title" class="hide">Please upgrade browser</h1>
+<div id="pnl_search" class="box hide">
+  <label> <u>S</u>earch: <input id="txt_search" type="search" accesskey="S" list="data_search" autofocus="autofocus" placeholder="Click or press down arrow for full list" /></label>
+  <span id="lbl_not_found" class="error hide">Not found</span>
+  <datalist id="data_search"></datalist>
+</div>
+
+<div id="pnl_result" class="box hide"></div>
+<div id="pnl_footer">
+This is an <a href='http://steamcommunity.com/app/237950/discussions/0/616188677801999309/#c619568793974409287'>alternate implementation</a> of <a href='http://www.irodemine.com/afterlit/'>Kircket's Tech Tree</a>.
+The <a id="lnk_wiki" href='http://ufoafterblank.wikia.com/'>UFO: Afterlight wiki</a> contains even more information.
+</div>
+
+<script> 
+document.getElementById( 'title' ).textConcent = 'Loading';
+document.getElementById( 'title' ).className = '';
+</script>
+
+<div id="pnl_img_res" class="hide">
+<img id="icon_tech_autopsy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAEvUlEQVQ4y52U228UdRzFz/c3Mzt767a7293SQltaAppSGwpboICKhULkYpSCgcATEB40ohgeQH0zYryQmBAVjcaIIGoQIwooNBFQkISpGqAUk0IoW+hlu7fuZXZmZ34/H2wr6hvnD/gk55JDWt4uJaKVYHRrjkoXcB/qMsRyYXMfgJMyk9lj0a4rhzwlnnRXgb8vBN6NuFg/AGiGqBY23wQiD4SQwFiUgIMRJ40CgFYQLST4zsHfL691lJWxYH3NIlkIccsbCgwpd/srHFHaZYUrOzSdPwGJyu3hkY/lX8/NkE0TQgDFYBB83sIOzRDPwuaVcj53hA3eCaiGDrW05pTgoocA4DdTzBEF84D/bl+D6StDpjz0FiVTHb6ui/WluQysaBRSmR/c60WqPIxcZH4POdTusoHoWm5zZKqqO8HYpjlOGqLxHDRdLFCM/LeCSWnT4bjs67781GTGoUgyzN5ekN8PJRSCnskgGqiAMbXuoJrPL7YlSbIUx9IWF7sGAPI4MOKiC5d03gYiMF3f60kl4JlWD84YrHAYpKpwBAKQIOCODcKorvUZTvcKgrBaXKxnnCPf21aLi10BgK50wSOZJvo6O1HV3AzZ74fkcCDb04PkjRtwNDQCjKHFSVf+2/gEUMvbTVBYq5BQx+4mHpQHYtj24g7Ma56NV/bvR25wEFs3bkR1MIDdr78DyuszLtliJ9lIw+LnI27pGgDQ3/VzB3L6Sfnkz20snYV7oB9VD4Rx8NRxHP7yKxw78Bl6e3qwec8e7HtpF2aGazE8UoRRHgKfUgGrvfU4iK2OuJigsb0FpJH4Wff3pxuVbAaSZUAhjtKptSiaWbBwGMK2gHgSRCpG+27DVlRYUFCcUonc40vPCqezPeKkIo3ZZRBiJUnUDonNwGh+mfu7n8gfG0ZJ03QUFRvM4QTFskh330SqqQGFJfPypMgnYPN+wcU3EY98bsLyRI6mCEE3P3OdOLe8dDQB+LwwtJtIpUfgdKjwVk2GPD0EK5ZGalq9bbbN/YAEnos4iY8z2ASswBWRL+zDR18vt4eSiD/aivismZD9RbiLCbhYEiLEMLxwLtLzZwPaNQlHO5+B4G9qOqf/AUHkQjJTzec+lDO2r8vYAzHI730BpnJ4qnxQgm6I2BCktz9FsdQLc8fGjJgU1EVWb7jX5z9Am3NUhn5gixqP4WI3w4dHkV/yMBKr1iB+PY7koInEls0wp9aA3vgEiKcMtrj5MLzuM+BC/dcONZ0HQNirxIY3WB6PA3/eImtrh05tzaZ65nyp5JfBnDb0bJrrz6/ttT8/XYerveXkdW2SC4awyoPTtLz9QsQt6bKm8xJuWfvVO/3rynJpjEyuG8X6FUfgpD71xu2dnj80mA43GEnw/nKWFYPlOWtD+3YYfKU8MLjKnxrGcEHfJiqrEgB2M2K0yLwzsM4aiWO0pi4nfL7dERfbQjq/Spx7E6vWiPSsViQXLMXoI0uKLJOpRlH82OKSVhcnTXotW1FVLN6Owkqln9YMESItbzcKwzwORb4KWX61xUkXx7ZZIiTWBIJKhPUQyArgEDgM4vx6xC1ZAHCpIJbBMF4GYJCiPDl2XbxW07kL9ylN5yWazmsA4C8BQTUTErLeDQAAAABJRU5ErkJggg==" alt="" />
+<img id="icon_tech_beastmen" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAE3UlEQVQ4y22UXWhcZRrHf+97zsyZnJk6MzlJJmnSScKakMYl27RaeqNCgyhGjZJl3RUUREwrrIF1d9ne7I1eqFA/LiyoF4JQi1SoKFppsSZGcWtJouhFmkZt2jRf85mm83XmvOe8XmRV1D6X/+f5/3gu/s8juE7NVP2E1voQWttCGs/saZDZLT1oDnz1XyFEFSmfvbnB2Pit17weUEoe/ejoB/9x/Qgjj9yRA54GEEI/cer41JOW6TL04J1rwEu/814PGPiqf/lygdXLda7m8iOzdS1n61oWs7mR0oamVlYEyu+/ntcEmK3phBmiZcAQFwAQZr43HceKtFHeKPclUs0jCLiWv9bX39mEYRRAGPmfIN/4uld5ZHZHxIacrQX2Zr5w5Nsv576YqekxAGnKqY6d3TQlIgRK2IGvTwRKnzBFyI7HwtgpByNkTAFMV/Xj3355/our+cKR2VpgSyMk2jJLa8NTJ+ed9aXcc1/VdR+aiW2tqcnzly5g2g2bUooxIcSYtS26ubD8PXaqeRLNxFd13ZdfyT//v9PfObml9WHDFG3SV6w7Han5vX9qhWIt6XnqscGwqLZ1b/9838h+DDytPH/VV/5qoGp61123sr17++eDYVFVnnosXFHJfbtSOB0t877PurnbEqWZWnDshtbo3nJJ0RSIptm6vmP29NmnKu8dZoV0/J4XXnwYEJ+9fDjezhLLI/96araup1Tdb8qslzETJvGmxmO7LVGSW3HgnfaBvpVYVxxpynIg6ClOf2K3ZidZXK2QXV4byl5ZGbq0WqU1O0lx+hM7EPQYhizHuuOkB/+4IgTHf4mNFKMXJ880+Sf+SfbCwn22yf6o00giougpTvP2A39zjt3/18aejWkSEUXUacQ22Z+5sHCffvffXJw804QUfwYwv/Z08vJ3K2Nr778a7mm7yPG3TuxoX7ltR8NHE/SsWwxuk/gpCwQY1CgtWMxvTnCqc2B0eWKKv4RnmH+/EN7WO3Dga08fNYXEcstVO3CrpFMmzplj+KfeYdTzsMOd2K0dkIhvBW7DJpSF0YU53jz0JE63R3ooRLBYxS1XG4TEksrT610702eLziAff5pluLHAeH8zkXQX49phzVXg1sCtseYqxrWz1etvZrixwMefZik6g3TtTJ9Vnl6XeyJSN9ihI133jpbfOJcktNhNzWwjFg0zblWI5jJwZQmuLBHNZRi3KsSiYWpmG6HFbt44l6Tr3tFKgx06sicitQngKebab0wv9rY4N5U2KvyjtMGYeZW9boFMuc5R4QAwqosMRMOcWzV4XfkcVB69LQ7tN6YveorzP9+yYZLMXFpqditVDFlmqL6MoeusuC6vWklmWm4AYDXjc7BcxFAFhkQJgypuIMhcWmre0ZlKAgUTQAfU7Wi0UjDClDyfXfIapu9zUsco35LkoT9oQDDzfZKTn3ncrkrsMlxygaAQCmNHoxUd4P68oQ4oJpxkPuPVu35w62yKgLAUzEnoSFpsZgMAdiQlcxI6fZ+6p8hpSYY6CSeZ0wFFAPHTCzp71X3l3IcnDxhuSWjfxwxZuL4UvkLW3DJoTSQSwzAJLCPQynMRhoFvxfTe4btf2xe3/v4r4Ew1aLQiokdvaUKDlhDSEBNg/F9TAkoBeGJrTgvQbk0v7GmQBYAfAYRVQFxl/hVDAAAAAElFTkSuQmCC" alt="" />
+<img id="icon_tech_earth" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAEsklEQVQ4y42TW2yUVRSF1zn/bf6ZvzPTTi9OK7QUbBpsEWgDGuVSiRhiAkrig4k8GSDxxSgJCSExJsREjTH4QKJEI4kQiRiFB5AG0AoFo71My21KSyuXzkw708507v/tnONDpRHFxPW4kv1l7521CB6hgTILCiH2Cc51KskHOnSamvf5K9x1tlNFOdrhod34v4pY7O33vzwp3jvcLQZN9i4ADLti0ambk5O7938hztz6YyTiiLpHzdJHmcx1l6enCyhnJeRm01sjtlAF5xsmbycaygUdhcxcE6Wo/k/goCmCw0y0PDAJkWZbGgNoWxpCPl1opRRNpZL5tAaCLeubEAz6s4yhNH+NCA67YtkCcNDk3txs+tCN30euDJhiFwBQRboYaqqHrlGAER8XeMqx3Obm+lrUhgPwVddEBEcsYvHHUlOZH0YGopcHy2wzAFBJIfXJ+1MvXT47FpqJpz+I2KIVQvT4w+HfYjOTUHz6FATGPV59ImfmkbJKjubTj3Z4iM053xftj20c6h2tBWdbAEDmLqZD9TW3WpYk19CcXclctrPTK+8ZtMTuzq2BTzXNUxIcfkVVLtS1N3dRSR4nkL7rL/MlxLRebwv7EAw8DshKBADkVRrJD5r8eCDsXVPKmajkaASA1RoZvi5E1GHY6Vi8CsC41/AQSvGcbSEEwMNtUVU0C2hoWTQK4CwAkL/yVWlb9sdm0WqtqDQ+9Og0USjxt6729my/8ct5PRW7ByIIqhctxpPrNmHFuo3fV3jp4WzGetW27GVGwHew0yudXAA+0LArwqDYNfDTz3vGzp2qoPExtNaHoBsGhBAo5nMYS2TAG1rwxAvbsh2bug4JFwdXKiS1kJCFdphcZ8z5/JtPPtqhXL+IZ5c3IhgKQTECoIoKAHDNMtxSHtl0Gpdv3oXTth6vvbP3a0lS3uzw0MJDwdY00nXhxIkdvL8bm9e2waiqBlc84KBgjIExBiIpEKoOo6oam9e2gfedxYUT3+7waOSZfzWlUHS3ifgYnu9YDqKoIJIMSqV/PAWgVAKRZBBFQ9fqVtDkHZQsse4hYMQWRrlkrpFzKVQYXnDGwRwblLsgnAFknsqZA8pdMMeGYAyGYWBuYgTZ9NzLQ45o+PuG+69e+XVlcS6DXLGMeDKF0Yk7OH2xD4l4AnY+C6uQw3RiCqcv9WF04g5iyRRyJRPZZApnjhxtd2znAADQiC3UdHJ2Q+9XnwF2GZJEMTlTxLUZA30j93Dsx0vIZmaRy6RxrLsXfdF7uDZjYHKmCIkCi2sDyPT3IBWb7og4IkABQHDmttfrMDwK0tkczg3dR1xqh6xq8HtVjMdSGI8l4ddVyKqGuNSOc0P3kckVoCkUlT6CbHo2SCn8shBwFE1xZFVGcmoaHhpAV2sQitoDz6pm3Lg7hd5IFJIkIRDw48VVYZh2D5zWIPJFE+OJDBzFh8pQVV5w5OXVGhEDJjuy4o29S29Ho/Ul2yGybUH16kI3/LydCUzfnVAAgrrGJkeTKHghR0WpTEqqhmUeTVTW1OWrwuHjKxUytxCKIVcsliXUAKAEoAJwBWATABLgB0AYkBXzbVAJIAuAA2BcIG9bYrxTp/xPlTlNUSAhO+gAAAAASUVORK5CYII=" alt="" />
+<img id="icon_tech_interrogation" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAE9UlEQVQ4y4VVW0wUZxT+/n9nl9mFXRYQuXgDAYWqqHWRUqPWNiKxoq1Wg9bWtDGxMSnpzaRGrUlj40Pbh2oTwdaqvVg1JRWJ2KpoRUFxd7kIgoJabnKLuMDuzuzszszpg0qND3pez3e+nOt3gOeYS9LFWq9y4Prg8JBL0tY/A8cAgAOA269uc/vVY84AzX8aSIyNMynSWxGevkgArz3td8r6WKdMHzJdPenyq/O4S9YZI31JZH/HGtE3dMYp69+6JM0yGsGQJIQUW0TAC1NQznbKFDealax/ZFDVS5EDnXssw/eXEefpgsPMySnTYSXcNi+mu1UcSkj+xG8bM+iUtDmcs390wlk1zNI/ZIyI08B8DPTAJWncIPBXEAwWxnS3JuuMwZOQ4gJwmgMAI/2gbIspH4mbGNKMYV7GkF1RUrayt71ru03E2gFF8393vAKqSfQbjSzHFMa39HX1ngmFtGTJHgtPYupN1SSuyzLzHvY4fXeANnABqzQVP1jD4Nj/9YEvbtQ3Y8Nnm1D++xFcu3AZO4qLMH5CPLkuXGKKJCGvYMVuMgjnoFGnw8xvA4AAAPUhSm1tuPll99322OWr88KqrjZOryj5EzbfCNqLNWRHhSNncQ66fyzGL219rOFOF3YW7dajRWHwQYByNU27B2Dvw5Y/JIzt7eyp/ObTXenxaZPhqa7EpgVTkZc3D8O6Ebd6u+EZUZA5PgaiLKH42EVcGmaY9cbriI2MwKIVuXvnWsMKRwdZp1BUjVdpzl9bSC9bk6lp+xairgZyl5yi/IIdFB0/juITx9LyVe/ShYNHiK6cpFObN9KrSXNo/9mr1ES07jEXBwCDgA2l+w5ldJwqxVeZYzFtyULoIR3VtwbgqinBg757+GnXNqxc6EB53b9QLVYsXb8CByfpiC49guEh3+d1IRoPALwuSMmefs/Wi4cPIZ+8mGsHQiaASX5YBQXmcCMAoL27B3JIRYzNDM4NCEZGISFjMmKK96CssHCGFJCLagN6lGHT9p0sGAgsi7Bax6U5ZqKmzo0EUYE9LQOCdwjNnjGQVS9cjbWQdTs25uYgPj4cPdVVOPrXZYx09OL49XqYMqZPmTZ7Rg0DALesTzWJLEMFHFUlpz927yuyLFvkwMqlL6Gn8TbuDCuAJRwxRhMSk6Jw8ugJlFVehzhzDmZlToEtJZXS5i+4arPbN7InzshABpZjMuLt2uqmdX98f8hmlYexaGYSYi0CIBgx4PHib2cbrJMmYPnm9+6kzJhyWeCoBNAaUtDwosi87BFZKtO1ny0j97M1o9iHGHtRf+/QO+fLzqf5R3zEjQKDRkhMHu9Lz0xvTpwYd0UQ0AafvFoDC6rGsK1ZZu7+XzEC9GZLXz/dd1ZSW2cHXQtQfl2QkpqJcluIznV7h+luUKVGog/qQ2QGAJdfLe262UT3muvJJWknXJLOAYC7JM3KdH2NSfLCGx0Pb3RiAyeqmW1i7S8wdibgU5h4twXG9lYEAmSfZWTyw4Xjx0eiE0IggtnnWUKcZQEAJ8amC4pUEBQjMJiQUq4ZDAUOMx94pHVhxJhZNZjgs40BwOoeV+Uw898kW/T7g/EpCtc0EUQTAEBgRDdUk3lXSIzoYUSHs8xcekI/QwBr8UbG5igW6zWAqp4U1yyR/eqS9UlB0ZLAiCpGb/nZL0BLJMYXM1Ctw8wbn4f/D2yMbCZP3/MWAAAAAElFTkSuQmCC" alt="" />
+<img id="icon_tech_martian" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAE40lEQVQ4y4WSy29U9xmGn9/vzDlnLmHMjC9gY2wowXJpbAxOYJFrqVAVQYRqqRVpU1pVaiQWZNOkRK2yShaRIi8SKVI3JVUTOVEUBVWQRJhCSWIyBDPGeFTqmICxndjjGWbGnvvlnPN1E1uVsuj7Bzyf3uf9FN9lsiI9rkhmMKgz8YobEZEXRSSgtfHyYECnAeIVr9Xz3JeUUmWl1KuDAWMlXvaaDaWaBwJqBkADxEvu0GL19lhNKicBtOY3o++e/eNHIxdOKCXH144qJcfPvPPPE+dGzpzUmt8C1KTy4mL19li85A4B6ImqWIVC7rmxpZHWupQHADzX/eG381mS3zis3ssemahLYKIugZV05kg+A7l0GddxegHqUt49tjTSWijknpuoiuUDHC1m4+7sNJnOud1TNWlviJfc3hHC54tSXCn2Rja1bAUo5Aq9j+7polKzEPTyjaps/roe3313dhodMRuAo/f6ledT9nx5qcpXhcttCh7Thv7Xth/t5P7ujQRMO+i4st1xZft9/mBwc0uAcEcbhum7pBWPf1W43FZequJT9sJev/I0QLjFHg9nO7k5F6MBh5RwZUPHpthSdhEzGCgoWNSwpCyzMHVrBrslGtNwpQGHbs7FCGc7CbfYVwF8AD6DmTZ/N5dnz7HYP314q9Hb3bql4/cbIhtfMC17dNCvEwDjJed4308fORgMhV5TLl2L7vTh27PXedj/LD6DmbXxSLiy7dRobHnnyU3ySmpYElUZ5v8kUZXhV1LDsvPkJjk1GltOuLJt/W36DHW3f//g6K7gAWILH5L17j2daMhDANfrYiRc6Uy40nm9LgZAoiEPZb17T8cWPmRX8AD9+wfP9Rnq7nplgGDYfOsnA8/88r3k8/ofkdfaDzt/OH0jL1+szBaa55PTPxCB7vbeOzfykknPph4+6xtuzyWzHB34kxcMm39b46wD6w5Xd2x/4Jrv/fZ9n+4aYfLS5Jampuafz8kUS95txIOO5R3buif7WV3NsHrwJqFYDzt+8cC1usPV7wEHTFWcEfms94NH9n0ycZnisc/5RlxMv4GfGgA17vDv6i2UMih/5PGk/h07+7o+61Gq+D3gZF2i8/PJJ8YbH+Pf10TUNgmzEcEjxTIKRSttKL8mzwrevgbj1z5mfv74E5N1iQ5YKrs+CoBtcvTM+bcfDPVM81TJwxIbCxsTCwMDjYGJhYWNJTZPlTxCPdOcOf/2g7bJ0TWOBrheE51Orh4ZS5/lUJPF0MUMFU9IUiRDngoVqpTJkCdJkYonDF3McKjJYix9lnRy9chEVfR6ZaUI5ku5iLIyfL6ni4laJ0NfLNNSLXC6zyLXZAPQvJrjZ4k69/wbeP1AHyVbo2Yz5Eu5jeHmpiBQXHPoKU871DUEwvz6Spr+L1O4VeH+rxv8eagbAV44PcfWqQaGv8Ku/VH+8uNWVGMFLYYDeP/rsGEallu8UyZ1IUVhweHYBZu9p2Al3sAbL+CN51mJN9j7Vzh2waaw4JC+mCY1lUJ5SgAHQK3J/DJff+ODv7954s6t/2Bammw2g2WF2LI5gg7fh3iClMp8u5SlXi8RjTbjOEI00sKvnn3+3XCk6Zk9tvbWgfGKF7VtdVCgq+ESVYqQzyANJA0oAbgQAjY7Lm0iFE2DrFYkqzUuDfrVAsB/AbSiUITfHjT8AAAAAElFTkSuQmCC" alt="" />
+<img id="icon_tech_medicine" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAADvklEQVQ4y5WVT2hcVRTGf/fe997Me5nJaP5oaNppEhtDK6UKTxEtKPgHFxWEIii4saAQBelScOFC0IVQFGnErlyKlZSKIG50WdSnULGFNramaSfamLbJTDLzZubde1w8k5mCm35wNvcePr77fedyFECSyi5E1uJQN7gDJC0XotQ9OLcUR0YAvKRpn3b1+gldKCwlqRzDue+AAbR+HZ9JwAIKhabDCs6djCPzW5LKAbrd912zuV+XSkeBeQAPpaqu0ZjMarVJb3z8CV0qvY1WnR3p5gfRxUVQKq8sI63uphaV9yUt9660219nS0tVFQTowcGpLdUe8I03OrrYqdcn7PXr6FJ5nwRqvbRwhfLhF+DWWk4oDv/UadTBx0Np81y2vFx19TrB3r3/oNRX24RxqFeSlvswmJ5+XtrtgyDnETXqjIFGA1ZX806jcUoDOESumcFBMZVKVxWLn8RFtdivkDjUc8Bc0nJTcagv/2zlo/zW6yXg+blSCJzIvB4afgpFIy6qpD8oL2naYbSeJWAC6CROtCiepFC4PVIRCAIE9qui/hRoojBJKodw7rM4Mn8BeKLVKztaG++Vzy0g2uQqPE20vAza9AiDgHDpCtNhYUwydwQE1c1oTk5xrVTxgXfyJ/tqZ3R5mfJLL8KtddA6J9A693AL1mLemKUs0lOsFXr+NDz26O6eh0ImxkBjoxfA/6HVyqsfQYAzGiDbOtLbl1pzx9B6Kyj6UzbG2TzFgYFek+dBmkKzmXcWixCGYG3+XAS0RnczgG2zPWXl5o27hsi++BLj+ziBNOtw9+oqxTdne4TGkB2fY33mflTmUEqhbEa6ZxrVlm2vPAPfnt9IX41m9rcHKtHftkv5j0uL8SMd7c2YPhtsxvquKj8M7bD3jgz/YozZAGWMsxuek8+3XXiooM+OV3e+XClFf5quUFCc3HPfxE8jQyXIXJ87Cmm3KYfh7+WC/3FR67Sg1ZpnzGwcmbO3/RTr5FmsPSTWavzge6W5YYzO/eobGxHB933jrBx1m5sP43moIDi3NYMAOmm5UbLstc7Cgs5qNVAUjVFOWwuFAAYHoVKBgYii7+EHfgmtIru2RvfCBaTdPpKksrtf4aFsZWUKwIyOAgzRtcXNXVXUqdOIylNXNqM+No600ov43o9mePgBaTaxKytjXrV6GDj232BLTZfLNW9k5BKFwnGc+1UJzyyH5RoHDnCbiR2CksgJcXJGheEZf3LyLddsPohzV3tN+QqYQORmHOr6Ha6ACKXGcG4xjowD+Bef7JXAHBdm9gAAAABJRU5ErkJggg==" alt="" />
+<img id="icon_tech_planetology" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAEp0lEQVQ4y63US2xUZRTA8f9375376nTuPOiUaZnSCj5iECkdiRiUCFEMPqMkGrduRJbsXGh065ONiRpd+QqJGxITFd8PBFOKGgShlU5hYGRmOp2Zdmbu87suMDVx7X998ktOTnIE/zTdl6JkKTH/acaLDUXBJgYZ09tqCO+/M9N9qRPHUclWIzHdiwRx/CxS7iCR+Bgp31EURUsYPO725RO+6zor7VYSIeLkYKqrW2bbtNQPA4+fpJRNhDgYh+FOYEZo2rNiui8VguCr4MKFnSKdxiqufb273M//8uOPT/5+4jiL1SpudwVV09ANg9zIKJu2b2fLHTvOW0n9qHulcSD66y8S4+OXRDJZEgDTrnxa1upvJKQU1TDgyNtvc/H0GQbtJI6TQkuoGIZNp93G8zyWOi1Gbr6Rx/bvZ9i0cDvLJIrFt4Cnr4G9yNASyuHOUvuhD156GduHpJOkWBxDCGi1GhiGjWUOIOOYK5crXKlcxrM1nnr+OQad1KEokC+WbLWpAZRs1TsVxO33D71K2GgyOLaeDRs3MDE+ju+79PvDmKZJt7uCrpsIERNGIWdOn+a9117hwAsv+JO22gRQAH6L4vVnT/26qzFbpjg2QRR55DJp6vUqpqmTzaZJpQbQdYV6/TKZjIPnddl0y2aqv5/nwtnZfb+GcWEVjGP2TH/15ejaXIEg9JicnMJJO6gqpFIpFAXiWJLP5xECHMdh8+ZJVFVhojjB8aOfTQjB7lWw3/enFisVnFQK1+2xbt0Ytm1RKIySyWRxHId8Pk8mk2NoaBjLMhkbG6e51KCwtkBtvozrhtsANAAZRunqwkUqvT8YGRnhxIljpNODSBlRr9dRVQUpY3q9PtXqFUCwvNxlcbHBxYUFPCSh74+sgrGUsT1gk8kOYw2YjI2txzBUoihidHQU3/dQVY0gCPF9n0TCYM2aiHL5AulUjmqnAULxVkHDthbS+Tw5bZAg6uM4aWzbpNdbJplM0em00HUDy1IxDJ1cLk8QhORyeQzNxh80MG3jzL+gqXx+w9TUwdmvf1AnrtvAqVMzbNy4gWr1IpqWwPN8AKIopFK5BCSYnT1HLpvn3LmzbLr/XldTxberR4kCjt22a/fxlrtCa7HJ7Ox5Op0u+XyRTqeL70cIoVGvL+I4Q7TbHS5VKiw1F1lyl7l1+/afooifV8EtuugX1uXLdz72KNX6VTLpPOXyAkEQ02i0mJubY36+jOtG6MYAtVqN8eJGas0Gd+3bR244W5nUhb+6MoDnxrndjzzMUq3G3A8nSKcc3L6Lbhi02w1McwBdNxBC4Pb6tJfbrN+2lZ0P7MV34+J0LzJLtur+8xziJ2Sj8a6s1Sz1+us59sVnHDvyCW6rjUKMoqjouoHb72HYNlYuS+nee7j97l2Ef84hsjmpDA09UzLFm9fAleDTYH5+j2LbaIWRjzRDzK50enedPXlyaunq1WS7uYhQBKlMllyhsHzT5NaTA4PWd6EnR8N6/SnZ7ZJYN3qUhH7fNbAbPk4cP0RC+55IHi7ZanPGizUtwa1CMCElGUAqgo6MKUcBM1tNEU33oiSKspcoehD4BiHe5f/ub9G1IGIt4cMlAAAAAElFTkSuQmCC" alt="" />
+<img id="icon_tech_reticulan" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAEv0lEQVQ4y22UbWiVZRjH//d9P+flOec5Z+dlO9t0m5tOnZuz0mkahmRiZcIQLSI/mEJCBGEIUSQERlRYUNAbfShKTAwtHUFlYBY2fNlzNjd10704x17Odna2ne3snOftvu8+zE4qu+D+cl38f9zXdf25COYJPSdCQvC3pJAqVdi7DSpL3s1Xccc+RCjrI4R83OBjxoNaBfOG2Hvl17/e8AUKsWrTqnEAhwFASnHgQlPzvqKYipWb1mUAfPqgks6H445Tl0lnEXJrsLPZRt2QnrgpI9PjqWf8riCEwSG4fGg+LQUA3ZChNlsuyyeZMl4YdCOkKuCmVQOgAgSVzqxdXVWsIaQpAKWtANCS5aSdyxrdkAUAQHVD+GYnp74Y6Bpo1g25fw7I/i5ZUgHVTUA5fFLKxY4jKopCQRKLqPCXFDkA9Lkx4M2rzR2XcjPTR3RDuClTyIKJRPLZXn04mp3MfKCbogaQ59VY0cXuoQGYAglC0EsJ6eeMZIenUnBHon9AysutttyQHJo6HP+zPzg1mtpCGQlRwZEoiEW6NB/AU0ZYcvnyag/NFhQVvrR884ZL4bLwOcVFClwuMqGEtU+K1z78SyAcPLjGSx1uOXuVaVNZv64ckQXF7cKRE8pqD8nohjiuRj3rJicy0KoixVe5DBGCrTc7rhcn+m+vjpUu3MUUNm7bTlbxeCarlte8d03KU7mMqDZmDfiK/VADvmOPuIhD7vorbJnWh2bOriss0Xr6unprz/90siF9pw9V5eVYUFYGKSWm02n03bmDkck0HtveiC07G8emxjK3PT7PReZibzeobJbcu/LrUr7628nTH7U0/ex98vGNqF66FIRScM7BKAUIAWMUfd09+OHECWzZt9/Z9tyO12oJ+fI/Rh7YIeSjVy/qTWe//jz2wq6d8GkaHMeBqqrw+/0AANM0kc1mwRjDzPQ0vj16DC8eemekunb59lWMxPM+bDWFMpGcPHTmq89i25/eCq/PB8dxEAgEEAwGoWkaVFWF1+uFqqpztWAQjduewu/ffVNq5owD9xmbMlI/0N3zREVRFLHSUmQyGXg8HjDGQAiBlBIAwBjLv3Q6jYpFldAoMNg/WN9my2AeSChq+q53+BdVlCOVHIfjOBBCwLIsWJaFXC4Hy7JgmiZs24aUEqZpYiSRQGVZGQa7b65gCqryx0FKeI2ZGShehtTEBLo6OmGbNtZvXI9ocSEg537HOUdicARXmi/DH9awbMUyFEajGJzNuAig3XttuMfnw2xmCrf0dvzYcwZGCUfX6W48v3UniEJBKYWVNXH07HG02tfg/8eNPWI3VtbXwRWIEAk4/7dMkCooimF4aBhuqsBcS8D3+HAp2IHerl4QEEACN27cQLzmFuxX/DDXEriJGy3xOAKRyJiUSOaBUqCtsmbFQEtcx0hiGK5zBsSFGRh902hr1TE+NorRoSG0durI2Rnw5hm4dAvdPV1oa2/H4tq6Tu5gIO/DuCGYkTOavj/y/rapZBLhaAyK1wVpclAPg6IoICCwHBuOwqFwBnvWRCo1ivIlS7H79YOn16hsx33G1nOiHoTsYgxSUTBMAUMCigQg5FzXFJBkTsQFoDoOFgoOU0h5qkGlnQDwL1m5ORB7yD3XAAAAAElFTkSuQmCC" alt="" />
+<img id="icon_ui_building" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAADDUlEQVQ4y82US2hcdRTGf/97Z+Zm7uTexBmTGc20FkOLTSNFSNTxWUGKDdYXqUohbrKw4KLgLj6woiAi4gNcutBAaRRLjC1C7SaiViW+GrQqaYxDxkmmk0wynZn7/N/rSkhDO0l3nt3hnPPj43zwiaNLC0fYZB1MZTbevRrg/7PmPj7cP/f+gfKxB2/+Ss79oG+0rzQbHnuit8+sL54wY8WU/cX0nR8MD42fGhk2mt2oVxq81qP1395SOZHZ1Z62oib+yT+Z+eNC9+TZn/a0GvGT+YZf27TCYZ3+XaEzsS2w0wiJtahSlJBVwKiSs8vWxBbIbAr4aDbWk4WJTsiUTY2z51W+mZHkswnyAhIKJKFfhU+mRj+Mbwjs9NyR6zQyq1H4zUqx2H43A69+xGOjp7Fz3ZQCuB7Q4Y7B4afuavrD0y8dShW+nnonoqOvpju4Ifcw5k33sOS5VN0ltm7bilOr8vtfBVygLimtwKm1jMja5sJ8YV89IKXduJ29h58njJsMDg2haQr1RpX9t+QYGRuj8spzuO8dxYY9ucw1ypmFSnBZhT0d8TdSyUz3/hdeZ/u9j1BVAub/PsfFyjJme4aBAw+x89YH6LtvgLixwvffTnVyUXz6T+gv/scQa4Gjb7/5c29P7+6u3X2sug6aKkkID6+6ikKEiKHh2iqhEkHoIZ8fH/cSxO9//NDTX14WWK81koX8/C+xiJ8VqkfUsXnrxWexi7OEvuS2J59h7+BBLMsmIIIveHnHjp1HruhyolVfdh2rIaRH6IdI10LO/4pZKKIXS8haGTcIkTLA8xyqK9XZ9S5fYsq56WlV+lJpOOBoJkJK0kmTLrlCqQEtLVECT+J7Hl4okIEfXZ9clwDPz8xiGoboMHRsGUfKGG2JFjIOqG0K8YSB3WhgOw5BCPVaXTRVODk5SSqVFF1JnYaMgKqSSCaJqCaeFSVfWqZ85jv8wEVKqFs2TYHjn00EiqLsa9VETIQellU3tlzb9m7EM/VKZYWFH8eOJ5LpsTCQhAhAFNYDxdVk42bS/V/cDUrw1pa7xwAAAABJRU5ErkJggg==" alt="" />
+<img id="icon_ui_desc" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAABf0lEQVQ4y6WUr0tEQRDHPycHGgTDwLn+Qs3+KKKIf4DZ6gbxgkWTVQxi0CgGMVzwUFgFDQaD4foVuSCXFBREYVVWFA4Mglj24PG4d/sebnn7Zmc+OzszfHPG2S1SLi0q7JsFmGblEi5ZBo4CsUUtqhwEGmcXgCWgHgCOA8da1GUi0Di7B/QCV1qUCZRqDZgD6lrUbtOej/mNAe/Agw/qAlZjPp/AtRZ1YJydAXaA1kAtat44uwJsG2dLgAKKEZcGMAssAmfAbzzzfIvRKBlnH4EToKZFTUSeOehBH0mlyCfMWwXoi9VsGLgFprWoO+NswR89B4ExUA4QX9d+LerV1/YUuNGihqL+HSlmtQC8+u6/eVsVqACbqZ4cyW4KOAd6tKiGt90D+0BZi/rJBAQ6gVGgbpzt9LYN4KJ5QVZgDZgEuiMNq7YLCAHFz+GA/38xzj5pUS9JAaGmjADrPtOa34+0U658SlX6SitfIeC3/x62sGUHalG1JM3MJLD/Ufc/AnV7tEtuNrAAAAAASUVORK5CYII=" alt="" />
+<img id="icon_ui_minus" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAUklEQVQ4y2Nc+vp5AwORIFpUkrBaUgwcBaMAAhiROcvevvhPqgFRwhKMOCXJMXDZ2xczkflM1PYyC7rz0W0cBfQFS18/b6B6LA9+AxlJDSNCagDtoRsdmOdlNgAAAABJRU5ErkJggg==" alt="" />
+<img id="icon_ui_plus" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAfUlEQVQ4y2Nc+vp5AwORIFpUkrBaUgwcEMBISMGyty/+w9hRwhKMFNuIbOCyty9mElLPRG0vD34DGXGFFzKARQY2ebwRhctAApE2k6ZeZkF3PpakkYbk5WsMDAyHR9Mh7Qxc+vp5AwshRcgRFSUskU5SLOMxNH1wZD1qlO4AZLE6vEg5bQoAAAAASUVORK5CYII=" alt="" />
+</div>
+<div id="pnl_license" class="box hide">
+<p>
+Name, descriptions, and most icons are copyrighted 2007 ATLAR game.
+This license applies to the remaining parts.
+</p>
+<h1>License: Affero General Public License 3.0</h1>
+  <div class="help">
+  <h2 id="terms">TERMS AND CONDITIONS</h2>
+<h3 id="section0">0. Definitions.</h3>
+<p>"This License" refers to version 3 of the GNU Affero General Public License.</p>
+<p>"Copyright" also means copyright-like laws that apply to other kinds of works, such as semiconductor masks.</p>
+<p>"The Program" refers to any copyrightable work licensed under this License.  Each licensee is addressed as "you".  "Licensees" and "recipients" may be individuals or organizations.</p>
+<p>To "modify" a work means to copy from or adapt all or part of the work in a fashion requiring copyright permission, other than the making of an exact copy.  The resulting work is called a "modified version" of the earlier work or a work "based on" the earlier work.</p>
+<p>A "covered work" means either the unmodified Program or a work based on the Program.</p>
+<p>To "propagate" a work means to do anything with it that, without permission, would make you directly or secondarily liable for infringement under applicable copyright law, except executing it on a computer or modifying a private copy.  Propagation includes copying, distribution (with or without modification), making available to the public, and in some countries other activities as well.</p>
+<p>To "convey" a work means any kind of propagation that enables other parties to make or receive copies.  Mere interaction with a user through a computer network, with no transfer of a copy, is not conveying.</p>
+<p>An interactive user interface displays "Appropriate Legal Notices" to the extent that it includes a convenient and prominently visible feature that (1) displays an appropriate copyright notice, and (2) tells the user that there is no warranty for the work (except to the extent that warranties are provided), that licensees may convey the work under this License, and how to view a copy of this License.  If the interface presents a list of user commands or options, such as a menu, a prominent item in the list meets this criterion.</p>
+<h3 id="section1">1. Source Code.</h3>
+<p>The "source code" for a work means the preferred form of the work for making modifications to it.  "Object code" means any non-source form of a work.</p>
+<p>A "Standard Interface" means an interface that either is an official standard defined by a recognized standards body, or, in the case of interfaces specified for a particular programming language, one that is widely used among developers working in that language.</p>
+<p>The "System Libraries" of an executable work include anything, other than the work as a whole, that (a) is included in the normal form of packaging a Major Component, but which is not part of that Major Component, and (b) serves only to enable use of the work with that Major Component, or to implement a Standard Interface for which an implementation is available to the public in source code form.  A "Major Component", in this context, means a major essential component (kernel, window system, and so on) of the specific operating system (if any) on which the executable work runs, or a compiler used to produce the work, or an object code interpreter used to run it.</p>
+<p>The "Corresponding Source" for a work in object code form means all the source code needed to generate, install, and (for an executable work) run the object code and to modify the work, including scripts to control those activities.  However, it does not include the work's System Libraries, or general-purpose tools or generally available free programs which are used unmodified in performing those activities but which are not part of the work.  For example, Corresponding Source includes interface definition files associated with source files for the work, and the source code for shared libraries and dynamically linked subprograms that the work is specifically designed to require, such as by intimate data communication or control flow between those subprograms and other parts of the work.</p>
+<p>The Corresponding Source need not include anything that users can regenerate automatically from other parts of the Corresponding Source.</p>
+<p>The Corresponding Source for a work in source code form is that same work.</p>
+<h3 id="section2">2. Basic Permissions.</h3>
+<p>All rights granted under this License are granted for the term of copyright on the Program, and are irrevocable provided the stated conditions are met.  This License explicitly affirms your unlimited permission to run the unmodified Program.  The output from running a covered work is covered by this License only if the output, given its content, constitutes a covered work.  This License acknowledges your rights of fair use or other equivalent, as provided by copyright law.</p>
+<p>You may make, run and propagate covered works that you do not convey, without conditions so long as your license otherwise remains in force.  You may convey covered works to others for the sole purpose of having them make modifications exclusively for you, or provide you with facilities for running those works, provided that you comply with the terms of this License in conveying all material for which you do not control copyright.  Those thus making or running the covered works for you must do so exclusively on your behalf, under your direction and control, on terms that prohibit them from making any copies of your copyrighted material outside their relationship with you.</p>
+<p>Conveying under any other circumstances is permitted solely under the conditions stated below.  Sublicensing is not allowed; section 10 makes it unnecessary.</p>
+<h3 id="section3">3. Protecting Users' Legal Rights From Anti-Circumvention Law.</h3>
+<p>No covered work shall be deemed part of an effective technological measure under any applicable law fulfilling obligations under article 11 of the WIPO copyright treaty adopted on 20 December 1996, or similar laws prohibiting or restricting circumvention of such measures.</p>
+<p>When you convey a covered work, you waive any legal power to forbid circumvention of technological measures to the extent such circumvention is effected by exercising rights under this License with respect to the covered work, and you disclaim any intention to limit operation or modification of the work as a means of enforcing, against the work's users, your or third parties' legal rights to forbid circumvention of technological measures.</p>
+<h3 id="section4">4. Conveying Verbatim Copies.</h3>
+<p>You may convey verbatim copies of the Program's source code as you receive it, in any medium, provided that you conspicuously and appropriately publish on each copy an appropriate copyright notice; keep intact all notices stating that this License and any non-permissive terms added in accord with section 7 apply to the code; keep intact all notices of the absence of any warranty; and give all recipients a copy of this License along with the Program.</p>
+<p>You may charge any price or no price for each copy that you convey, and you may offer support or warranty protection for a fee.</p>
+<h3 id="section5">5. Conveying Modified Source Versions.</h3>
+<p>You may convey a work based on the Program, or the modifications to produce it from the Program, in the form of source code under the terms of section 4, provided that you also meet all of these conditions:</p>
+<ul>
+<li>a) The work must carry prominent notices stating that you modified it, and giving a relevant date.</li>
+<li>b) The work must carry prominent notices stating that it is released under this License and any conditions added under section 7.  This requirement modifies the requirement in section 4 to "keep intact all notices".</li>
+<li>c) You must license the entire work, as a whole, under this License to anyone who comes into possession of a copy.  This License will therefore apply, along with any applicable section 7 additional terms, to the whole of the work, and all its parts, regardless of how they are packaged.  This License gives no permission to license the work in any other way, but it does not invalidate such permission if you have separately received it.</li>
+<li>d) If the work has interactive user interfaces, each must display Appropriate Legal Notices; however, if the Program has interactive interfaces that do not display Appropriate Legal Notices, your work need not make them do so.</li>
+</ul>
+<p>A compilation of a covered work with other separate and independent works, which are not by their nature extensions of the covered work, and which are not combined with it such as to form a larger program, in or on a volume of a storage or distribution medium, is called an "aggregate" if the compilation and its resulting copyright are not used to limit the access or legal rights of the compilation's users beyond what the individual works permit.  Inclusion of a covered work in an aggregate does not cause this License to apply to the other parts of the aggregate.</p>
+<h3 id="section6">6. Conveying Non-Source Forms.</h3>
+<p>You may convey a covered work in object code form under the terms of sections 4 and 5, provided that you also convey the machine-readable Corresponding Source under the terms of this License, in one of these ways:</p>
+<ul>
+<li>a) Convey the object code in, or embodied in, a physical product (including a physical distribution medium), accompanied by the Corresponding Source fixed on a durable physical medium customarily used for software interchange.</li>
+<li>b) Convey the object code in, or embodied in, a physical product (including a physical distribution medium), accompanied by a written offer, valid for at least three years and valid for as long as you offer spare parts or customer support for that product model, to give anyone who possesses the object code either (1) a copy of the Corresponding Source for all the software in the product that is covered by this License, on a durable physical medium customarily used for software interchange, for a price no more than your reasonable cost of physically performing this conveying of source, or (2) access to copy the Corresponding Source from a network server at no charge.</li>
+<li>c) Convey individual copies of the object code with a copy of the written offer to provide the Corresponding Source.  This alternative is allowed only occasionally and noncommercially, and only if you received the object code with such an offer, in accord with subsection 6b.</li>
+<li>d) Convey the object code by offering access from a designated place (gratis or for a charge), and offer equivalent access to the Corresponding Source in the same way through the same place at no further charge.  You need not require recipients to copy the Corresponding Source along with the object code.  If the place to copy the object code is a network server, the Corresponding Source may be on a different server (operated by you or a third party) that supports equivalent copying facilities, provided you maintain clear directions next to the object code saying where to find the Corresponding Source.  Regardless of what server hosts the Corresponding Source, you remain obligated to ensure that it is available for as long as needed to satisfy these requirements.</li>
+<li>e) Convey the object code using peer-to-peer transmission, provided you inform other peers where the object code and Corresponding Source of the work are being offered to the general public at no charge under subsection 6d.</li>
+</ul>
+<p>A separable portion of the object code, whose source code is excluded from the Corresponding Source as a System Library, need not be included in conveying the object code work.</p>
+<p>A "User Product" is either (1) a "consumer product", which means any tangible personal property which is normally used for personal, family, or household purposes, or (2) anything designed or sold for incorporation into a dwelling.  In determining whether a product is a consumer product, doubtful cases shall be resolved in favor of coverage.  For a particular product received by a particular user, "normally used" refers to a typical or common use of that class of product, regardless of the status of the particular user or of the way in which the particular user actually uses, or expects or is expected to use, the product.  A product is a consumer product regardless of whether the product has substantial commercial, industrial or non-consumer uses, unless such uses represent the only significant mode of use of the product.</p>
+<p>"Installation Information" for a User Product means any methods, procedures, authorization keys, or other information required to install and execute modified versions of a covered work in that User Product from a modified version of its Corresponding Source.  The information must suffice to ensure that the continued functioning of the modified object code is in no case prevented or interfered with solely because modification has been made.</p>
+<p>If you convey an object code work under this section in, or with, or specifically for use in, a User Product, and the conveying occurs as part of a transaction in which the right of possession and use of the User Product is transferred to the recipient in perpetuity or for a fixed term (regardless of how the transaction is characterized), the Corresponding Source conveyed under this section must be accompanied by the Installation Information.  But this requirement does not apply if neither you nor any third party retains the ability to install modified object code on the User Product (for example, the work has been installed in ROM).</p>
+<p>The requirement to provide Installation Information does not include a requirement to continue to provide support service, warranty, or updates for a work that has been modified or installed by the recipient, or for the User Product in which it has been modified or installed.  Access to a network may be denied when the modification itself materially and adversely affects the operation of the network or violates the rules and protocols for communication across the network.</p>
+<p>Corresponding Source conveyed, and Installation Information provided, in accord with this section must be in a format that is publicly documented (and with an implementation available to the public in source code form), and must require no special password or key for unpacking, reading or copying.</p>
+<h3 id="section7">7. Additional Terms.</h3>
+<p>"Additional permissions" are terms that supplement the terms of this License by making exceptions from one or more of its conditions.  Additional permissions that are applicable to the entire Program shall be treated as though they were included in this License, to the extent that they are valid under applicable law.  If additional permissions apply only to part of the Program, that part may be used separately under those permissions, but the entire Program remains governed by this License without regard to the additional permissions.</p>
+<p>When you convey a copy of a covered work, you may at your option remove any additional permissions from that copy, or from any part of it.  (Additional permissions may be written to require their own removal in certain cases when you modify the work.)  You may place additional permissions on material, added by you to a covered work, for which you have or can give appropriate copyright permission.</p>
+<p>Notwithstanding any other provision of this License, for material you add to a covered work, you may (if authorized by the copyright holders of that material) supplement the terms of this License with terms:</p>
+<ul>
+<li>a) Disclaiming warranty or limiting liability differently from the terms of sections 15 and 16 of this License; or</li>
+<li>b) Requiring preservation of specified reasonable legal notices or author attributions in that material or in the Appropriate Legal Notices displayed by works containing it; or</li>
+<li>c) Prohibiting misrepresentation of the origin of that material, or requiring that modified versions of such material be marked in reasonable ways as different from the original version; or</li>
+<li>d) Limiting the use for publicity purposes of names of licensors or authors of the material; or</li>
+<li>e) Declining to grant rights under trademark law for use of some trade names, trademarks, or service marks; or</li>
+<li>f) Requiring indemnification of licensors and authors of that material by anyone who conveys the material (or modified versions of it) with contractual assumptions of liability to the recipient, for any liability that these contractual assumptions directly impose on those licensors and authors.</li>
+</ul>
+<p>All other non-permissive additional terms are considered "further restrictions" within the meaning of section 10.  If the Program as you received it, or any part of it, contains a notice stating that it is governed by this License along with a term that is a further restriction, you may remove that term.  If a license document contains a further restriction but permits relicensing or conveying under this License, you may add to a covered work material governed by the terms of that license document, provided that the further restriction does not survive such relicensing or conveying.</p>
+<p>If you add terms to a covered work in accord with this section, you must place, in the relevant source files, a statement of the additional terms that apply to those files, or a notice indicating where to find the applicable terms.</p>
+<p>Additional terms, permissive or non-permissive, may be stated in the form of a separately written license, or stated as exceptions; the above requirements apply either way.</p>
+<h3 id="section8">8. Termination.</h3>
+<p>You may not propagate or modify a covered work except as expressly provided under this License.  Any attempt otherwise to propagate or modify it is void, and will automatically terminate your rights under this License (including any patent licenses granted under the third paragraph of section 11).</p>
+<p>However, if you cease all violation of this License, then your license from a particular copyright holder is reinstated (a) provisionally, unless and until the copyright holder explicitly and finally terminates your license, and (b) permanently, if the copyright holder fails to notify you of the violation by some reasonable means prior to 60 days after the cessation.</p>
+<p>Moreover, your license from a particular copyright holder is reinstated permanently if the copyright holder notifies you of the violation by some reasonable means, this is the first time you have received notice of violation of this License (for any work) from that copyright holder, and you cure the violation prior to 30 days after your receipt of the notice.</p>
+<p>Termination of your rights under this section does not terminate the licenses of parties who have received copies or rights from you under this License.  If your rights have been terminated and not permanently reinstated, you do not qualify to receive new licenses for the same material under section 10.</p>
+<h3 id="section9">9. Acceptance Not Required for Having Copies.</h3>
+<p>You are not required to accept this License in order to receive or run a copy of the Program.  Ancillary propagation of a covered work occurring solely as a consequence of using peer-to-peer transmission to receive a copy likewise does not require acceptance.  However, nothing other than this License grants you permission to propagate or modify any covered work.  These actions infringe copyright if you do not accept this License.  Therefore, by modifying or propagating a covered work, you indicate your acceptance of this License to do so.</p>
+<h3 id="section10">10. Automatic Licensing of Downstream Recipients.</h3> <p>Each time you convey a covered work, the recipient automatically receives a license from the original licensors, to run, modify and propagate that work, subject to this License.  You are not responsible for enforcing compliance by third parties with this License.</p>
+<p>An "entity transaction" is a transaction transferring control of an organization, or substantially all assets of one, or subdividing an organization, or merging organizations.  If propagation of a covered work results from an entity transaction, each party to that transaction who receives a copy of the work also receives whatever licenses to the work the party's predecessor in interest had or could give under the previous paragraph, plus a right to possession of the Corresponding Source of the work from the predecessor in interest, if
+the predecessor has it or can get it with reasonable efforts.</p>
+<p>You may not impose any further restrictions on the exercise of the rights granted or affirmed under this License.  For example, you may not impose a license fee, royalty, or other charge for exercise of rights granted under this License, and you may not initiate litigation (including a cross-claim or counterclaim in a lawsuit) alleging that any patent claim is infringed by making, using, selling, offering for sale, or importing the Program or any portion of it.</p>
+<h3 id="section11">11. Patents.</h3>
+<p>A "contributor" is a copyright holder who authorizes use under this License of the Program or a work on which the Program is based.  The work thus licensed is called the contributor's "contributor version".</p>
+<p>A contributor's "essential patent claims" are all patent claims owned or controlled by the contributor, whether already acquired or hereafter acquired, that would be infringed by some manner, permitted by this License, of making, using, or selling its contributor version, but do not include claims that would be infringed only as a consequence of further modification of the contributor version.  For purposes of this definition, "control" includes the right to grant patent sublicenses in a manner consistent with the requirements of this License.</p>
+<p>Each contributor grants you a non-exclusive, worldwide, royalty-free patent license under the contributor's essential patent claims, to make, use, sell, offer for sale, import and otherwise run, modify and propagate the contents of its contributor version.</p>
+<p>In the following three paragraphs, a "patent license" is any express agreement or commitment, however denominated, not to enforce a patent (such as an express permission to practice a patent or covenant not to sue for patent infringement).  To "grant" such a patent license to a party means to make such an agreement or commitment not to enforce a patent against the party.</p>
+<p>If you convey a covered work, knowingly relying on a patent license, and the Corresponding Source of the work is not available for anyone to copy, free of charge and under the terms of this License, through a publicly available network server or other readily accessible means, then you must either (1) cause the Corresponding Source to be so available, or (2) arrange to deprive yourself of the benefit of the patent license for this particular work, or (3) arrange, in a manner consistent with the requirements of this License, to extend the patent license to downstream recipients.  "Knowingly relying" means you have actual knowledge that, but for the patent license, your conveying the covered work in a country, or your recipient's use of the covered work in a country, would infringe one or more identifiable patents in that country that you have reason to believe are valid.</p>
+<p>If, pursuant to or in connection with a single transaction or arrangement, you convey, or propagate by procuring conveyance of, a covered work, and grant a patent license to some of the parties receiving the covered work authorizing them to use, propagate, modify or convey a specific copy of the covered work, then the patent license you grant is automatically extended to all recipients of the covered work and works based on it.</p>
+<p>A patent license is "discriminatory" if it does not include within the scope of its coverage, prohibits the exercise of, or is conditioned on the non-exercise of one or more of the rights that are specifically granted under this License.  You may not convey a covered work if you are a party to an arrangement with a third party that is in the business of distributing software, under which you make payment to the third party based on the extent of your activity of conveying the work, and under which the third party grants, to any of the parties who would receive the covered work from you, a discriminatory patent license (a) in connection with copies of the covered work conveyed by you (or copies made from those copies), or (b) primarily for and in connection with specific products or compilations that contain the covered work, unless you entered into that arrangement, or that patent license was granted, prior to 28 March 2007.</p>
+<p>Nothing in this License shall be construed as excluding or limiting any implied license or other defenses to infringement that may otherwise be available to you under applicable patent law.</p>
+<h3 id="section12">12. No Surrender of Others' Freedom.</h3>
+<p>If conditions are imposed on you (whether by court order, agreement or otherwise) that contradict the conditions of this License, they do not excuse you from the conditions of this License.  If you cannot convey a covered work so as to satisfy simultaneously your obligations under this License and any other pertinent obligations, then as a consequence you may not convey it at all.  For example, if you agree to terms that obligate you
+to collect a royalty for further conveying from those to whom you convey the Program, the only way you could satisfy both those terms and this
+License would be to refrain entirely from conveying the Program.</p>
+<h3 id="section13">13. Remote Network Interaction; Use with the GNU General Public License.</h3>
+<p>Notwithstanding any other provision of this License, if you modify the Program, your modified version must prominently offer all users interacting with it remotely through a computer network (if your version supports such interaction) an opportunity to receive the Corresponding Source of your version by providing access to the Corresponding Source from a network server at no charge, through some standard or customary means of facilitating copying of software.  This Corresponding Source shall include the Corresponding Source for any work covered by version 3 of the GNU General Public License that is incorporated pursuant to the following paragraph.</p>
+<p>Notwithstanding any other provision of this License, you have permission to link or combine any covered work with a work licensed under version 3 of the GNU General Public License into a single combined work, and to convey the resulting work.  The terms of this License will continue to apply to the part which is the covered work, but the work with which it is combined will remain governed by version 3 of the GNU General Public License.</p>
+<h3 id="section14">14. Revised Versions of this License.</h3>
+<p>The Free Software Foundation may publish revised and/or new versions of the GNU Affero General Public License from time to time.  Such new versions will be similar in spirit to the present version, but may differ in detail to address new problems or concerns.</p>
+<p>Each version is given a distinguishing version number.  If the Program specifies that a certain numbered version of the GNU Affero General Public License "or any later version" applies to it, you have the option of following the terms and conditions either of that numbered version or of any later version published by the Free Software Foundation.  If the Program does not specify a version number of the GNU Affero General Public License, you may choose any version ever published by the Free Software Foundation.</p>
+<p>If the Program specifies that a proxy can decide which future versions of the GNU Affero General Public License can be used, that proxy's public statement of acceptance of a version permanently authorizes you to choose that version for the Program.</p>
+<p>Later license versions may give you additional or different permissions.  However, no additional obligations are imposed on any
+author or copyright holder as a result of your choosing to follow a later version.</p>
+<h3 id="section15">15. Disclaimer of Warranty.</h3>
+<p>THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY APPLICABLE LAW.  EXCEPT WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT HOLDERS AND/OR OTHER PARTIES PROVIDE THE PROGRAM "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.  THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE PROGRAM IS WITH YOU.  SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL NECESSARY SERVICING, REPAIR OR CORRECTION.</p>
+<h3 id="section16">16. Limitation of Liability.</h3>
+<p>IN NO EVENT UNLESS REQUIRED BY APPLICABLE LAW OR AGREED TO IN WRITING WILL ANY COPYRIGHT HOLDER, OR ANY OTHER PARTY WHO MODIFIES AND/OR CONVEYS THE PROGRAM AS PERMITTED ABOVE, BE LIABLE TO YOU FOR DAMAGES, INCLUDING ANY GENERAL, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OR INABILITY TO USE THE PROGRAM (INCLUDING BUT NOT LIMITED TO LOSS OF DATA OR DATA BEING RENDERED INACCURATE OR LOSSES SUSTAINED BY YOU OR THIRD PARTIES OR A FAILURE OF THE PROGRAM TO OPERATE WITH ANY OTHER PROGRAMS), EVEN IF SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.</p>
+<h3 id="section17">17. Interpretation of Sections 15 and 16.</h3>
+<p>If the disclaimer of warranty and limitation of liability provided above cannot be given local legal effect according to their terms, reviewing courts shall apply local law that most closely approximates an absolute waiver of all civil liability in connection with the Program, unless a warranty or assumption of liability accompanies a copy of the Program in return for a fee.</p>
+  </div>
+</div>
+
+<script>// <![CDATA[
+(function(){ 'use strict';
+window._=function(a,b){void 0===b&&(b=a,a=document);if(!b)return[a];if(0<b.indexOf(" ")||!/^[#.]?\w+$/.test(b))return a.querySelectorAll(b);if("#"===b.charAt(0)){var c=a.getElementById(b.substr(1));return c?[c]:[]}return"."===b.charAt(0)?a.getElementsByClassName(b.substr(1)):a.getElementsByTagName(b)};_.ary=function(a,b,c){return"string"===typeof a||void 0===a.length?[a]:0>=a.length?[]:void 0===b?a instanceof Array?a:Array.prototype.slice.call(a,0):Array.prototype.slice.call(a,b,c)};
+_.toAry=function(a){return a instanceof Array?a:[a]};_.col=function(a,b){a=_.ary(a);return void 0===b?a.map(function(a){return a[0]}):2===arguments.length?a.map(function(a){return a[b]}):a.map(function(a){for(var b=[],e=1,f=arguments.length;e<f;e++)b.push(a[arguments[e]]);return b})};_.sorter=function(a,b){var c=b?0:1,d=-c;return function(b,f){return b[a]>f[a]?c:b[a]<f[a]?d:0}};
+_.sorter.number=function(a,b){var c=b?0:1,d=-c;return void 0===a?function(a,b){return+a>+b?c:+a<+b?d:0}:function(b,f){return+b[a]>+f[a]?c:+b[a]<+f[a]?d:0}};_.sort=function(a,b,c){return _.ary(a).sort(_.sorter(b,c))};_.mapper=function(a){var b=arguments,c=b.length;return 0>=c?_.dummy():1===c&&"string"===typeof a?function(b){return b[a]}:function(a){for(var e=[],f=_.mapper._map,g=0;g<c;g++)e.push(f(a,b[g]));return 1===c?e[0]:e}};
+_.mapper._map=function _mapper_map(b,c){if(_.is.literal(c))return b[c];if(c instanceof Array){for(var d=0,e=c.length;d<e&&void 0!==b&&null!==b;d++)b=b[c[d]];return b}d=new _.Map;for(e in c)d[e]=_mapper_map(b,c[e]);return d};_.map=function(a,b){return _.ary(a).map(_.mapper.apply(null,_.ary(arguments).slice(1)))};_.dummy=function(){};_.echo=function(a){return a};_.call=function(a,b,c){return void 0===a||null===a?void 0:a.apply(b,_.ary(arguments,2))};
+_.callonce=function(a){return a?function(){if(a){var b=a;a=null;return b.apply(this,arguments)}}:function(){}};void 0===window.setImmediate&&(window.requestAnimationFrame?(window.setImmediate=window.requestAnimationFrame,window.clearImmediate=window.cancelAnimationFrame):(window.setImmediate=function(a){return window.setTimeout(a,0)},window.clearImmediate=window.clearTimeout));
+_.ajax=function(a,b){"string"===typeof a&&(a={url:a});void 0!==b&&(a.onload=b);void 0===a.cor&&(a.cor="file:"===location.protocol);var c=a.url,d=a.xhr;void 0===d&&(a.cor&&_.is.ie()&&(d=new ActiveXObject("Microsoft.XMLHttp")),d||(d=new XMLHttpRequest));_.info("[AJAX] Ajax: "+c);d.open("GET",c);var e=!1;d.onreadystatechange=function(){4===d.readyState&&(_.info("[AJAX] Complete, status "+d.status+": "+c),0<=[0,200,302].indexOf(d.status)&&d.responseText?setImmediate(function(){e||(e=!0,_.call(a.onload,
+d,d.responseText,d),_.call(a.ondone,d,d))}):setImmediate(function(){e||(e=!0,_.call(a.onerror,d,d,"HTTP Response Code "+d.status),_.call(a.ondone,d,d))}),d.onreadystatechange=function(){})};try{d.send()}catch(f){_.error("Ajax exception on "+c+": "+f),e=!0,_.call(a.onerror,d,d,f),_.call(a.ondone,d,d)}return d};
+_.js=function(a,b){function c(b,c){g||(g=!0,c&&_.info(c),_.call(b,f,d,a),f&&f.parentNode===document.body&&document.body.removeChild(f))}"string"===typeof a&&(a={url:a});void 0!==b&&(a.onload=b);if(a.validate&&a.validate.call(null,d,a))return c(a.onload);var d=a.url;a.harmony&&_.is.firefox()&&(a.type="application/javascript;version=1.8");var e={src:d};a.charset&&(e.charset=a.charset);a.type&&(e.type=a.type);var f=_.create("script",e);_.info("[JS] Load script: "+d);var g=!1;f.addEventListener("load",
+function(){setImmediate(function(){if(a.validate&&!_.call(a.validate,f,d,a))return c(a.onerror,"[JS] Script loaded but fails validation: "+d);c(a.onload,"[JS] Script loaded: "+d)})});f.addEventListener("error",function(b){c(a.onerror,"[JS] Script error or not found: "+d)});document.body?document.body.appendChild(f):document.head.appendChild(f);return f};
+_.is={ie:function(){var a=/\bMSIE \d|\bTrident\/\d\b./.test(navigator.userAgent);_.is.ie=function(){return a};return a},firefox:function(){var a=/\bGecko\/\d{8}/.test(navigator.userAgent);_.is.firefox=function(){return a};return a},activeX:function(){var a=!1;try{a=!!new ActiveXObject("htmlfile")}catch(b){}_.is.activeX=function(){return a};return a},literal:function(a){if(void 0===a||null===a)return a;a=typeof a;return"boolean"===a||"number"===a||"string"===a},object:function(a){if(void 0===a||null===
+a)return a;a=typeof a;return"object"===a||"function"===a},yes:function(a){var b=typeof a;if("string"===b){a=a.trim().toLowerCase();if(0<=["true","on","yes","1"].indexOf(a))return!0;if(0<=["false","off","no","0"].indexOf(a))return!1}else if("boolean"===b||"number"===b)return a?!0:!1;return null}};
+_.xml=function(a){if(void 0!==window.DOMParser)return(new DOMParser).parseFromString(a,"text/xml");if(_.is.activeX()){var b=new ActiveXObject("Msxml2.DOMDocument.6.0");b.loadXML(a);return b}throw"XML Parser not supported";};_.xml.toObject=function _xml_toObject(b,c){void 0===c&&(c=new _.Map);c.tagName=b.tagName;_.ary(b.attributes).forEach(function(b){c[b.name]=b.value});_.ary(b.children).forEach(function(b){var e=b.name;b=_xml_toObject(b);void 0===c[e]?c[e]=b:(c[e]=_.ary(c[e]),c[e].push(b))});return c};
+_.html=function(a){var b=_.html.node=document.createElement("div");b.innerHTML=a;return b};
+_.xsl=function(a,b){var c="string"===typeof a?_.xml(a):a,d="string"===typeof b?_.xml(b):b;if(window.XSLTProcessor){var e=new XSLTProcessor;e.importStylesheet(d);return e.transformToFragment(c,document)}return c.transformNode?c.transformNode(d):_.is.activeX()?(c=new ActiveXObject("Msxml2.DOMDocument.6.0"),c.loadXML(a),d=new ActiveXObject("Msxml2.DOMDocument.6.0"),d.loadXML(b),e=new ActiveXObject("Msxml2.DOMDocument.6.0"),e.async=!1,e.validateOnParse=!0,c.transformNodeToObject(d,e),e):null};
+_.xpath=function(a,b){var c=a.ownerDocument;return c.evaluate?c.evaluate(b,a,null,XPathResult.ANY_TYPE,null):c.selectNodes(b)};_.assert=function(a,b){if(!1===a||void 0===a||null===a)throw void 0===b&&(b=""),"string"===typeof b&&(b="Assertion failed ("+b+")"),Error(b);};_.log=function(a,b){void 0===b&&(b=a,a="log");console&&(console[a]||(a="log"),console[a](b))};_.info=function(a){_.log("info",a)};_.warn=function(a){_.log("warn",a)};_.error=function(a){_.log("error",a)};
+_.alert=function(a){_.alert.timeout||(_.alert.timeout=setTimeout(function(){_.alert.timeout=0;alert(_.alert.log);_.alert.log=[]},50));0>_.alert.log.indexOf(a)&&_.alert.log.push(a)};_.alert.timeout=0;_.alert.log=[];_.time=function(a){var b=_.time,c=new Date;if(void 0===a)b.base=c,b.last=null;else{var d=c-b.base;_.info(a+" (+"+d+(b.last?"ms,+"+(c-b.last):"")+"ms)");b.last=c;return[c-b.last,d]}};
+_.escHtml=function(a){return/[<&'"]/.test(a)?a.replace(/[&<"']/g,function(a){return{"&":"&amp;","<":"&lt;",'"':"&quot;","'":"&#39;"}[a]}):a};_.escJs=function(a){return a.replace(/\r?\n/g,"\\n").replace(/'"/g,"\\$0")};_.escRegx=function(a){return a.replace(/([()?*+.\\{}[\]])/g,"\\$1")};_.round=function(a,b){var c=Math.pow(10,~~b);return Math.round(a*c)/c};
+_.si=function(a,b){if("string"===typeof a){if(!/^-?\d+(\.\d+)?[kmgtp]$/i.test(a))return+a;var c=a.length-1,d=a.charAt(c).toLowerCase();return a.substr(0,c)*{k:1E3,m:1E6,g:1E9,t:1E12,p:1E15}[d]}for(c=0;1E3<a||-1E3>a;)a/=1E3,++c;return _.round(a,b)+" k M G T P".split(" ")[c]};_.halfwidth=function(a){for(var b=0,c=0,d=a.length;c<d;c++){var e=a.charCodeAt(c);25>e||(b=511>e?b+1:65376>e?b+2:65439>e?b+1:b+2)}return b};
+_.proto=function(a){if(null===a||void 0===a)return a;if("object"===typeof a||"function"===typeof a)return Object.getPrototypeOf(a)};_.inherit=function _inherit(b,c,d){_.assert(!b||b.prototype,_inherit.name+": base must be inheritable");_.assert(null===c||"function"===typeof c,_inherit.name+": constructor must be function");null===c&&(c=b?function(){b.apply(this,arguments)}:function(){});if(b){var e=c.prototype=Object.create(b.prototype);if(d)for(var f in d)e[f]=d[f]}else c.prototype=d;return c};
+_.deepclone=function(a){return _.clone(a,!0)};_.clone=function(a,b){var c;if(null===a)return a;switch(typeof a){case "object":c=a instanceof Array?[]:Object.create(Object.getPrototypeOf(a));break;case "function":c=function(){return a.apply(this,arguments)};c.prototype=a.prototype;break;default:return a}for(var d in a)c[d]=b?_.clone(a[d],b):a[d];return c};_.extend=function(a,b){Object.keys(b).forEach(function(c){a[c]=b[c]});return a};_.freeze=Object.freeze?function(a){return Object.freeze(a)}:_.echo;
+_.seal=Object.seal?function(a){return Object.seal(a)}:_.echo;_.noExt=Object.preventExtensions?function(a){return Object.preventExtensions(a)}:_.echo;_.noDef=function(a){a&&a.preventDefault&&a.preventDefault();return!1};_.create=function(a,b){var c=document.createElement(a);b&&("object"!==typeof b?c.textContent=b:_.attr(c,b));return c};_.domlist=function(a){return"string"===typeof a?_(a):void 0===a.length?[a]:a};
+_.set=function(a,b,c,d){if("string"===typeof a||a&&a[0]instanceof Element){if(d&&"^"!==d)throw Error("Property flags cannot be set on DOM elements");return _.attr(a,b,c)}var e=b,f;_.is.literal(b)&&(e={},e[b]=c);a=_.ary(a);if(d&&"^"!==d&&Object.defineProperties){d=d.toLowerCase();var g={};b=0>d.indexOf("c");c=0>d.indexOf("e");d=0>d.indexOf("w");for(f in e)g[f]={value:e[f],configurable:b,enumerable:c,writable:d};f=function(a){Object.defineProperties(a,g)}}else f=function(a){for(var b in e)a[b]=e[b]};
+a.forEach(f);return a};_.proto=function(a){if(void 0===a||null===a)return a;if(_.is.object(a))return Object.getPrototypeOf(a)};
+_.attr=function(a,b,c){var d=b;_.is.literal(b)&&(d={},d[b]=c);a=_.ary(_.domlist(a));a.forEach(function(a){for(var b in d)switch(b){case "text":a.textContent=d.text;break;case "html":a.innerHTML=d.html;break;case "class":case "className":a.className=d[b];break;case "style":if("object"===typeof d[b]){_.style(a,d[b]);break}default:"on"===b.substr(0,2)?a.addEventListener(b.substr(2),d[b]):void 0!==d[b]?a.setAttribute(b,d[b]):a.removeAttribute(b)}});return a};
+_.style=function(a,b,c){var d=b;"string"===typeof d&&(d={},d[b]=c);"string"===typeof a&&(a=_(a));a=_.ary(a);a.forEach(function(a){for(var b in d)void 0!==d[b]?a.style[b]=d[b]:(a.style[b]="",delete a.style[b])});return a};_.show=function(a){return _.style(a,"display",void 0)};_.hide=function(a){return _.style(a,"display","none")};_.visible=function(a,b){return b?_.show(a):_.hide(a)};_.hasClass=function(a,b){return _.domlist(a).some(function(a){return 0<=a.className.split(/\s+/).indexOf(b)})};
+_.addClass=function(a,b){return _.toggleClass(a,b,!0)};_.removeClass=function(a,b){void 0===b&&(b=a.match(/\.[^. :#>+~()\[\]]+$/)[0].substr(1));return _.toggleClass(a,b,!1)};_.toggleClass=function(a,b,c){a=_.domlist(a);for(var d="string"===typeof b?[b]:b,e=a.length-1;0<=e;e--){for(var f=b=a[e].className,f=f.split(/\s+/),g=d.length-1;0<=g;g--){var h=d[g],k=f.indexOf(h);0>k&&(c||void 0===c)?f.push(h):0<=k&&(!c||void 0===c)&&f.splice(k,1)}f=f.join(" ");b!==f&&(a[e].className=f)}return a};_.Map=function(){return Object.create(null)};
+_.Latch=function(a,b){"function"===typeof a&&(b=a,a=0);this.count=a;this.ondone=b};_.Latch.prototype={count:0,ondone:null,count_up:function(a){void 0===a&&(a=1);this.count+=a},count_down:function(a){void 0===a&&(a=1);this.count-=a;if(0>this.count)throw Error("IllegalStateException: Latch count below zero");0===this.count&&_.call(this.ondone,this)},count_down_function:function(a){var b=this;return function(){b.count_down(a)}}};
+_.Executor=function(a,b){a&&(this.thread=a);b&&(this.interval=b);this.running=[];this.waiting=[]};
+_.Executor.prototype={_paused:!1,_lastRun:0,_timer:0,thread:1,interval:0,running:[],waiting:[],add:function(a,b){return this.addTo.apply(this,[this.waiting.length].concat(_.ary(arguments)))},asap:function(a,b){return this.addTo.apply(this,[0].concat(_.ary(arguments)))},addTo:function(a,b,c){b.name||(b.name=b.toString().match(/^function\s+([^\s(]+)/)[1]);_.info("Queue task "+b.name);var d=[b].concat(_.ary(arguments,2));this.waiting.splice(a,0,d);return this.notice()},finish:function(a){_.info("Finish task #"+
+a+" "+this.running[a][0].name);this.running[a]=null;return this.notice()},clear:function(){this.waiting=[]},pause:function(){this._paused=!0;this._timer&&clearTimeout(this._timer);return this},resume:function(){this._paused=!1;this.notice();return this},notice:function(){function a(a){c._timer&&clearTimeout(c._timer);c._timer=setTimeout(c.notice.bind(c),a);return c}function b(a,b){_.info("Start task #"+a+" "+b[0].name);try{!1!==b[0].apply(null,[a].concat(b.slice(1)))&&c.finish(a)}catch(d){_.error(d),
+c.finish(a)}}this._timer=0;if(this._paused)return this;var c=this,d=0>=this.interval?0:Math.max(0,-(new Date).getTime()+this._lastRun+this.interval);if(12<d)return a(d);for(d=0;d<this.thread&&0<this.waiting.length;d++)if(!this.running[d]){var e=c.waiting.splice(0,1)[0];c.running[d]=e;c._lastRun=(new Date).getTime();setImmediate(b.bind(null,d,e));if(0<c.interval)return a(c.interval)}return this}};
+_.EventManager=function(a,b){this.owner=b;var c=this.lst=new _.Map;if(void 0===a)this.strict=!1;else for(var d=0,e=a.length;d<e;d++)c[a[d]]=null};
+_.EventManager.prototype={lst:{},owner:null,strict:!0,add:function(a,b){var c=this;if(a instanceof Array)return a.forEach(function(a){c.add(a,b)});if(b instanceof Array)return b.forEach(function(b){c.add(a,b)});var d=this.lst[a];if(!d){if(this.strict&&void 0===d)throw Error("[sparrow.EventManager.add] Cannot add to unknown event '"+a+"'");d=this.lst[a]=[]}this.lst[a].push(b)},remove:function(a,b){var c=this;if(a instanceof Array)return a.forEach(function(a){c.remove(a,b)});if(b instanceof Array)return b.forEach(function(b){c.remove(a,
+b)});var d=this.lst[a];if(d){var e=d.indexOf(b);0<=e&&(d.splice(e,1),0>d.length&&(this.lst[a]=null))}else if(this.strict&&void 0===d)throw Error("[sparrow.EventManager.remove] Cannot remove from unknown event '"+a+"'");},fire:function(a,b){var c=this.lst[a];if(c){var d=c.length;b=_.ary(arguments,1);for(var e=0;e<d;e++)c[e].apply(this.owner,b)}else if(this.strict&&void 0===c)throw Error("[sparrow.EventManager.fire] Cannot fire unknown event '"+a+"'");},createFireMethods:function(a){var b=this;_.ary(a).forEach(function(a){Object.hasOwnProperty(b,
+a)?_.warn('[sparrow.EventManager.createFireMethods] Fire method "'+a+"' cannot be created."):b[a]=b.fire.bind(b,a)})}};_.l=function(a,b,c){var d=_.l,e=d.getset(a,void 0,d.currentLocale);void 0===e&&(e=void 0!==b?b:a);return 2<arguments.length?3===arguments.length?d.format(""+e,c):d.format.apply(this,[e].concat(_.ary(arguments,2))):e};_.l.format=function(a,b){for(var c=1,d=arguments.length;c<d;c++)a=a.replace("%"+c,arguments[c]);return a};_.l.currentLocale="en";_.l.fallbackLocale="en";_.l.data=new _.Map;
+_.l.setLocale=function(a){if(!a)return _.l.detectLocale();a!==_.l.currentLocale&&(_.l.currentLocale=a,_.l.event.fire("locale",a))};_.l.saveLocale=function(a){window.localStorage&&(a?localStorage["_.l.locale"]=a:delete localStorage["_.l.locale"]);_.l.setLocale(a)};
+_.l.detectLocale=function(a){var b=_.l,c=Object.keys(b.data);a&&(b.fallbackLocale=a);a=navigator.language||navigator.userLanguage;window.localStorage&&(a=localStorage["_.l.locale"]||a);if(a){if(0<=c.indexOf(a))return b.setLocale(a);a=a.split("-")[0];0<=c.indexOf(a)&&b.setLocale(a)}};
+_.l.getset=function(a,b,c){var d=a.split("."),e=_.l,f=d.pop();d.unshift(c);for(var g=e.data,h=0,k=d.length;h<k;h++){var l=d[h];void 0===g[l]&&(g[l]=new _.Map);g=g[l]}if(void 0!==b)g[f]=b;else return void 0===g[f]&&c!==e.fallbackLocale?e.getset(a,void 0,e.fallbackLocale):g[f]};_.l.set=function(a,b){_.l.getset(a,b,_.l.currentLocale);_.l.event.fire("set",a,b)};
+_.l.localise=function(a){void 0===a&&(a=document.documentElement);a.setAttribute("lang",_.l.currentLocale);_.ary(_(".i18n")).forEach(function(a){var c=a.getAttribute("data-i18n");if(!c){switch(a.tagName){case "INPUT":c=a.value;break;case "MENUITEM":c=a.getAttribute("label");break;default:c=a.textContent}if(!c)return _.warn("i18 class without l10n key: "+a.tagName.toLowerCase()+(a.id?"#"+a.id:"")+" / "+a.textContext);c=c.trim();a.setAttribute("data-i18n",c)}c=_.l(c,c.split(".").pop());switch(a.tagName){case "INPUT":a.value=
+c;break;case "MENUITEM":a.setAttribute("label",c);break;default:a.innerHTML=c}})};_.l.event=new _.EventManager(["set","locale"],_.l);
+_.test=function(a,b){if(void 0!==b)document.write("<tr><td>"+_.escHtml(b)+"</td><td>"+(a?"OK":"<b>FAIL</b>")+"</td></tr>");else{document.open();document.write("<!DOCTYPE html><h"+"1 id='sparrow_test'> Testing... </h1>");for(var c in a)c.match(/^test/)&&"function"===typeof a[c]&&(document.write("<table class='sparrow_test_result' border='1'><tr><th colspan='2'>"+_.escHtml(c).replace(/^test_+/,"").replace(/_/g," ")+"</th></tr>"),a[c](),document.write("</table>"));document.close();c=0===_(".sparrow_test_result b").length;
+_("#sparrow_test")[0].textContent=c?"Test Success":"Test FAILED"}};_.info("Sparrow loaded.");_.time();
+})();
+//]]></script>
+<script>var ufoal = (function ufoal_core(){ 'use strict';
+
+var ns = { // Main namespace
+  data: _.Map(), // raw game data
+  txt: _.Map(), // text
+  entity: _.Map(), // Entity lookup dict
+};
+
+ns.data.map_entity = function ufoal_data_map_entity ( data ) {
+  var raw = ns.data[data], names = ns.txt.name;
+  raw.forEach( function each_data( e ) {
+    e.type = data;
+    if ( e.id ) e.text = names[ e.id ];
+    if ( e.name ) ns.entity[ e.name ] = e;
+  });
+}
+
+return ns;
+
+})();</script>
+<script>// <![CDATA[
+(function ufoal_ui( ns ) { 'use strict';
+
+var event = {};
+
+var displayed = []; // Displayed entity stack; cleared with each new result
+
+var ui = ns.ui = {
+  'event' : event, // event handlers
+
+  'init' : function ui_init() {
+    _.hide( '.hide' );
+    _.removeClass( '.hide' );
+    _( '#title' )[0].textContent = document.title;
+    document.head.appendChild( _.create( 'meta', { rel: 'apple-touch-icon', href: _('link[rel="icon"]')[0].href } ) );
+    
+    // Initialise searchable data list
+    var data_search = _( '#data_search' )[0];
+    [ 'Tech', 'Building' ].forEach( function each_type( type ) {
+      ns.data.map_entity( type.toLowerCase() );
+      _.sort( ns.data[ type.toLowerCase() ], 'text' ).forEach( function each_entity( e ) {
+        data_search.appendChild( _.create( 'option', { value: type + ': ' + e.text } ) );
+      });
+    });
+    
+    // Search handler
+    var txt_search = _( '#txt_search' )[0];
+    txt_search.addEventListener( 'input', event.txt_search_input );
+    if ( location.hash ) txt_search.value = location.hash.substr(1);
+    event.txt_search_input();
+
+    _.show( '#pnl_search' );
+    //_( 'input[autofocus]' )[0].focus(); // Focus may cause browser to not trigger datalist dropdown.
+    _( 'input[autofocus]' )[0].select();
+  },
+  
+  'show_result' : function ui_show_result( root ) {
+    _.hide('#pnl_license');
+    var pnl_result = _.show( '#pnl_result' )[0];
+    displayed = [];
+    pnl_result.innerHTML = '';
+    var result = ui.box_recur( root );
+    event.btn_desc_click( { target: _( result, '.desc' )[0] } );
+    pnl_result.appendChild( result );
+  },
+  
+  'box_recur' : function ui_box_recur( root ) {
+    var result = ui[ 'create_' + root.type + '_box' ]( root );
+    if ( root.prereq ) {
+      for ( var t in root.prereq ) {
+        var e = ns.entity[ t ];
+        if ( e )
+          result.appendChild( ui.box_recur( e ) );
+        else
+          result.appendChild( ui.create_entity_box( t ) );
+      }
+    } else {
+      _.addClass( result, 'leaf' );
+    }
+    return result;
+  },
+  
+  'create_tech_box' : function ui_create_tech_box( e ) {
+    var orig = ns.txt.tech_orig[ e.orig ];
+    var result = ui.create_box( e, 'tech', 'icon_tech_'+orig.toLowerCase(), orig );
+    return ui.create_help_buttons( result );
+  },
+  
+  'create_building_box' : function ui_create_building_box( e ) {
+    var result = ui.create_box( e, 'building', 'icon_ui_building', 'Building' );
+    _( result, 'b' )[0].title = ns.txt.building[ e.id + '_tip' ];
+    return ui.create_help_buttons( result );
+  },
+  
+  'create_box' : function ui_create_box( e, className, icon, alt ) {
+    var result = _.create( 'div', { 'class': className + ' treenode', 'data-name': e.name } );
+    if ( displayed.indexOf( e ) >= 0 ) result.className += ' collapsed';
+    else displayed.push( e );
+    result.appendChild( _.create( 'b', e.text ) );
+    result.appendChild( _.create( 'img', { 'class': 'icon', src: _('#'+icon)[0].src, alt: alt } ) );
+    if ( e.day )       result.appendChild( _.create( 'span', { 'class': 'manday', text: e.day + ' man days' } ) );
+    else if ( e.hour ) result.appendChild( _.create( 'span', { 'class': 'manhour', text: e.hour + ' man hours' } ) );
+    return result;
+  },
+
+  'create_fold_buttons' : function ui_create_help_buttons( e ) {
+    e.appendChild( _.create( 'img', { 'class': 'collapse', src: _('#icon_ui_minus')[0].src, alt: 'Expand', 'tabindex': 0, 'aria-role': 'button', onclick: event.btn_collapse_click } ) );
+    e.appendChild( _.create( 'img', { 'class': 'expand', src: _('#icon_ui_plus')[0].src, alt: 'Collapse', 'tabindex': 0, 'aria-role': 'button', onclick: event.btn_expand_click } ) );
+    return e;
+  },
+
+  'create_help_buttons' : function ui_create_help_buttons( e ) {
+    ui.create_fold_buttons( e );
+    e.appendChild( _.create( 'img', { 'class': 'desc', src: _('#icon_ui_desc')[0].src, alt: 'Descriptions', 'tabindex': 0, 'aria-role': 'button', onclick: event.btn_desc_click } ) );
+    return e;
+  },
+  
+  /* Create a general entity box */
+  'create_entity_box' : function ui_create_entity_box( e ) {
+    var result = _.create( 'div', { 'class': 'entity treenode' } );
+    if ( e.match( /^[A-Z][a-z]+[1-7]$/ ) ) { // resource
+      var req = { 'T_CrystalMining': /^Crystals\d$/, 'T_NobleMetalMining': /^Noble\d$/, 'FossilePowerUpgrade': /^Energy[45]$/, 'AlienPowerUpgrade': /^Energy[678]$/ };
+      for ( var r in req ) {
+        if ( e.match( req[r] ) ) {
+          if ( displayed.indexOf( r ) >= 0 ) result.className += ' collapsed';
+          else displayed.push( r );
+          ui.create_fold_buttons( result );
+          result.appendChild( ui.box_recur( ns.entity[r] ) );
+          req = null;
+          break;
+        }
+      }
+      if ( req ) _.addClass( result, 'resource' );
+      e = "Lv. " + e.substr( e.length-1 ) + " " + e.substr( 0, e.length-1 );
+    } else {
+      e = e.split( /(?=[A-Z0-9])/ ).join( ' ' ).trim();
+    }
+    result.insertBefore( _.create( 'b', e ), result.firstChild );
+    return result;
+  },
+  
+};
+
+})( ufoal ); // ]]></script>
+<script>// <![CDATA[
+(function ufoal_ui( ns ) { 'use strict';
+
+var ui = ns.ui;
+var event = ui.event;
+
+event.txt_search_input = function txt_search_input( evt ) {
+  _.hide( '#lbl_not_found' );
+  var val = _( '#txt_search')[0].value;
+  if ( ! val ) return;
+  var name = val.toLowerCase().split( ': ' );
+  if ( name.length <= 1 ) name.unshift();
+  var target = ns.data.tech.concat( ns.data.building ).filter( function(e){
+    if ( ! e.text ) _.log( e );
+    return e.text.toLowerCase() === name[1] && ( ! name[0] || e.type == name[0] );
+  } );
+  if ( target.length <= 0 ) return _.show( '#lbl_not_found' );
+  history.pushState( {}, '', '#' + val );
+  ui.show_result( target[0] );
+};
+
+event.btn_collapse_click = function btn_collapse_click( evt ) {
+  _.addClass( evt.target.parentNode, 'collapsed' );
+};
+
+event.btn_expand_click = function btn_expand_click( evt ) {
+  _.removeClass( evt.target.parentNode, 'collapsed' );
+};
+
+event.btn_desc_click = function btn_desc_click( evt ) {
+  var box = evt.target.parentNode;
+
+  // Remove description
+  var help = _( box, '.help' );
+  if ( help.length > 0 && help[0].parentNode === box )
+    return box.removeChild( _( box, '.help' )[0] );
+
+  // Create description
+  var help = _.create( 'div', { 'class': 'help' } );
+  var e = ns.entity[ box.dataset.name ];
+  if ( e.type === 'tech' ) {
+    help.innerHTML = ns.txt.tech[ e.id + '_b4' ] + '<hr/>' + ns.txt.tech[ e.id + '_done' ];
+  } else {
+    help.innerHTML = ns.txt[ e.type ][ e.id ];
+  }
+  var firstdiv = box.querySelector( 'div' );
+  box.insertBefore( help, firstdiv && firstdiv.parentNode === box ? firstdiv : undefined );
+};
+
+event.lnk_license_click = function lnk_license_click( evt ) {
+  evt.preventDefault();
+  _.hide('#pnl_result');
+  _.show('#pnl_license');
+};
+
+})( ufoal ); // ]]></script>
+
+<script>//<![CDATA[
+ufoal.txt.name = {
+1:"Basic suit",
+2:"Transport suit",
+3:"Armored suit",
+4:"Open suit",
+5:"Battle suit",
+6:"Advanced battle suit",
+7:"Heavy suit",
+8:"Computerised heavy suit",
+9:"Life-support suit",
+10:"Heavy battle suit",
+11:"Beastman armor",
+12:"Beastman shaman harness",
+13:"Beastman chief armor",
+14:"Beastman alchemist harness",
+15:"Reticulan light suit",
+16:"Reticulan battle armor",
+17:"Expedition light suit",
+18:"Expedition battle armor",
+19:"Martian armor",
+20:"Martian light suit",
+21:"Mistress’ armor",
+22:"Greatmistress’ armor",
+23:"Nature forces armor",
+25:"Pistol",
+26:"Rifle",
+27:"Reticulan laser rifle",
+28:"Beastman rifle",
+29:"Beastman pistol",
+30:"Sniper rifle",
+31:"FN F2000",
+32:"Walther P22",
+33:"Dan Wesson 722-VH6",
+34:"Beastman big rifle",
+36:"Beastman cannon",
+37:"Shotgun",
+38:"Gatling",
+39:"Reticulan laser pistol",
+40:"Scientific laser",
+42:"Laser rifle",
+44:"Laser cannon",
+45:"Martian plasma cannon",
+47:"Annihilator",
+48:"Martian magnetic pistol",
+49:"Lightning thrower",
+50:"Magnetic rifle",
+51:"Lightning ball thrower",
+52:"Reticulan rocket launcher",
+53:"Rocket launcher",
+54:"Grenade launcher",
+55:"Beastman grenade launcher",
+60:"Warp cannon",
+62:"Buzzsaw crossbow",
+63:"ToolKit",
+64:"MedKit",
+65:"Buzzsaw",
+66:"Beastman MedKit",
+75:"Mind controller",
+76:"MediKit",
+77:"Elements control device",
+78:"Psionic weapon",
+79:"Psionic healing device",
+80:"Knife",
+81:"Martian blade",
+82:"Katana",
+83:"Light sword",
+84:"Buzzsaw",
+85:"Defence grenade",
+86:"Acid grenade",
+87:"Attack grenade",
+88:"Pulse grenade",
+89:"Stun grenade",
+90:"Beastman grenade",
+91:"Beastman antiarmor grenade",
+92:"Beastman acid grenade",
+93:"Martian pulse grenade",
+94:"Elements control device",
+95:"Robot control",
+96:"Martian robot control",
+97:"Doppler scanner",
+98:"Metal detector",
+99:"Magnetic scanner",
+1001:"Artifact FB791",
+1002:"Artifact FR168",
+1003:"Beastman Captain Armor",
+100:"Reticulan battery",
+101:"First aid set",
+102:"Advanced first aid set",
+103:"Hypersteroids",
+104:"Supervitamins",
+105:"Projectile magazine",
+106:"Stun ammo magazine",
+107:"Beastman ammo magazine",
+108:"5,56 x 45mm cartridge",
+109:".22 LR magazine",
+110:".22 LR ammo",
+111:"Beastman AP ammo",
+112:"Beastman acid ammo",
+113:"Beastman poison ammo",
+114:"Beastman paralyzing ammo",
+115:"Beastman debilitating ammo",
+116:"AP projectile magazine",
+117:"LR projectile magazine",
+118:"Heavy projectile magazine",
+119:"Shotgun shell",
+120:"Battery",
+121:"Advanced battery",
+122:"Martian battery",
+123:"Reticulan rocket",
+124:"Reticulan psi rocket",
+125:"Rocket",
+126:"Phosphorus rocket",
+136:"Buzzsaw disc",
+137:"Buzzsaw tearing disc",
+138:"Ramirezol",
+139:"Ultracofeine",
+140:"Martamphetamine",
+141:"Reticulin",
+142:"Suit repair set",
+143:"Robot repair set",
+144:"Mine dismantling set",
+145:"Beastman drug",
+146:"Beastman drug",
+147:"Beastman drug",
+148:"Gatling ammo strip",
+149:"Human phosphorus grenade",
+150:"Scope",
+151:"Recoil compensator",
+152:"Cooler",
+153:"Gyrostabilizer",
+154:"Silencer",
+155:"Accelerator",
+156:"Computerized scope",
+157:"Advanced recoil compensator",
+158:"Advanced cooler",
+159:"Advanced gyrostabilizer",
+160:"Advanced silencer",
+161:"Advanced accelerator",
+162:"Cooler",
+163:"Heater",
+164:"Laser scope",
+165:"Power enhancer",
+167:"Remote control protection",
+168:"Advanced video sensors",
+169:"Night vision",
+170:"Infravision",
+171:"Electromagnetic vision",
+172:"Power shield",
+173:"Psionic absorber",
+175:"Magnetic enhacer",
+176:"Aiming support",
+177:"Cloaker",
+178:"Advanced audio sensors",
+180:"Robot EM negator",
+181:"Robotic gyrostabilizer",
+182:"Smell absorber",
+200:"Medicine",
+201:"Stimulants",
+202:"Alien Biology",
+203:"Beastman Autopsy",
+204:"Beastman Shaman Interrogation",
+205:"Advanced Medicine",
+206:"Advanced Stimulants",
+207:"Mars Nature Forces",
+208:"Survival Methods",
+209:"Beastman Elements Control",
+210:"Controlling Martian Elements",
+211:"Interrogation Facility",
+212:"Automatic Defense System",
+213:"Battle Drones",
+214:"Crawling Drone Disassembly",
+215:"Fly Drone Disassembly",
+216:"Martian Drones",
+217:"Robotic Chip Cards",
+218:"Enhanced Robotic Chip Cards",
+219:"Seizing Martian Drones",
+220:"Martian Drones’ Control",
+221:"Protection from Remote Control",
+222:"Martian Mech Disassembly",
+223:"Advanced Robot Turret",
+224:"Armored Robot Turret",
+225:"Battle Robot Turret",
+226:"Firearms",
+227:"Advanced Firearms",
+228:"Gatling technology",
+229:"Military Training",
+230:"Combat Explosives",
+231:"Special Military Operations",
+232:"Combat Combustibles",
+233:"Non-lethal Combat",
+234:"Computer Aiming Support",
+235:"Water Tank Construction",
+236:"Faster UFO Engine",
+237:"Humidity Condensation",
+238:"Transport Suit",
+239:"Radar",
+240:"Improved Vehicle Engine",
+241:"Fossil Fuel Power Plant",
+242:"Reticulan Fusion Reactor",
+243:"Advanced Optics",
+244:"Combat Detection Devices",
+245:"Lifesupport",
+246:"Heavy Duty Suit",
+247:"Advanced Medium Armor",
+248:"Heavy Armored Suit",
+249:"Hi-tech Armored Suit",
+250:"Light Battle Armor",
+251:"Contact Mines",
+252:"Domes",
+253:"Communication With Earth",
+254:"Earth Technologies",
+255:"Fossil Fuel Origin",
+256:"Ancient Martian Civilization",
+257:"Martian Astronomical Model",
+258:"UFO Cosmic Flights",
+259:"Advanced Earth Technologies",
+260:"Supercomputers",
+261:"Rocket-based Weapons",
+262:"Reticulan Autopsy",
+263:"Reticulan Soldier Interrogation",
+264:"Reticulan Commander Interrogation",
+265:"Expedition Soldier Interrogation",
+266:"Psi Weapons",
+267:"Psi Absorber",
+268:"Crystal Mining",
+269:"Laser Weapons",
+270:"Reticulan Energy Sources",
+271:"Force Field",
+272:"Moons Data Analysis",
+273:"Original Inhabitants of Mars",
+274:"Hyperspace Gates",
+275:"Long-range Rockets",
+276:"Beastman Soldier Interrogation",
+277:"Beastman Alchemist Interrogation",
+278:"Beastman Commander Interrogation",
+279:"Beastman Chief Interrogation",
+280:"Beastman Matriarch Interrogation",
+281:"Worm Autopsy",
+282:"Beastman Plastics",
+283:"Beastman Weapons Handling",
+284:"Medium Armor",
+285:"Acid Weapons",
+286:"Acid Mines",
+287:"Martian Archives",
+288:"Elements Of Martian Language",
+289:"Written Martian Language",
+290:"Spoken Martian Language",
+291:"Terraforming Acceptable By Martians",
+292:"Martian Autopsy",
+293:"Martian Soldier Interrogation",
+294:"Martian Commander Interrogation",
+295:"Martian Pet Autopsy",
+296:"EM Principles",
+297:"Plasma Principles",
+298:"Plasma Weapons Handling",
+299:"Annihilator",
+300:"EM Weapons Handling",
+301:"EM Weapons Manufacture",
+302:"Combat Methods Against Martians",
+303:"EM Detection",
+304:"Advanced EM Principles",
+305:"Cloaking",
+306:"Irrigation",
+307:"Mass Breeding",
+308:"Planetary Magnetic Field",
+309:"Terraformation",
+310:"Accelerated Terraformation",
+311:"Lightning Balls",
+312:"Superstimulants",
+313:"Beastman Artifact No. 187D",
+314:"Beastman Artifact No. 294C",
+315:"Beastman Artifact No. 340G",
+316:"Beastman Artifact No. 376A",
+317:"Advanced Metallurgy",
+320:"Light Open Armor",
+321:"Mind Control",
+322:"Psionic Healing",
+323:"Psionic Rocket",
+324:"Martian Robot Control Device",
+325:"Expedition Commander Interrogation",
+326:"Stasis",
+327:"Alien Biology",
+328:"Magnetic Pulse Grenades",
+329:"Reticulan Technologies",
+330:"Advanced Reticulan Tech.",
+331:"Warehouse",
+332:"Beastman Language",
+333:"Roller Autopsy",
+334:"Spider Autopsy",
+335:"Boss Autopsy",
+336:"Noble Metal Mining",
+337:"Advanced Mining",
+338:"Cooling",
+339:"Firearm Stabilization",
+340:"Silent Fire",
+341:"Power Lasers",
+342:"Smell Absorption",
+343:"Matriarch Autopsy",
+397:"Cryogenic monument",
+398:"Cryogenic monument",
+400:"Tactical training",
+401:"University",
+402:"Polytechnics",
+403:"Surgery",
+404:"Hospital Ward",
+405:"Lab",
+406:"Shooting range",
+407:"Supercomputer",
+408:"Magnetron",
+409:"Alien interrogation",
+410:"Pathology department",
+411:"Workshop",
+412:"Drone assembly",
+413:"Precision engineering",
+414:"Chemical plant",
+415:"Optical engineering",
+416:"Residential sector",
+419:"Aqueduct ending",
+420:"Giant water tank",
+421:"Water condensation",
+422:"Solar power plant",
+423:"Fossile power plant",
+424:"Alien power plant",
+426:"Technical bay",
+427:"Scientific bay",
+428:"UFO bay",
+429:"Civil engineering",
+430:"Satellite",
+431:"Data accessory",
+433:"Cryogenic monument",
+434:"Cryogenic monument",
+436:"Dome",
+438:"Pyrotechnics range",
+439:"Mars simulation",
+440:"Advanced foundry",
+441:"Microelectronics",
+442:"Fuel store",
+443:"Metal store",
+444:"Chemical store",
+445:"Cryogenic monument",
+446:"Technical vehicle bay",
+447:"Scientific vehicle bay",
+448:"Civil engineering",
+449:"Cryogenic monument",
+800:"Geological probe",
+801:"Excavation site",
+802:"Radar base",
+803:"Rocket base",
+804:"Terraforming station",
+805:"Advanced terraforming station",
+806:"Fuel mine",
+807:"Advanced fuel mine",
+808:"Metal mine",
+809:"Advanced metal mine",
+810:"Chemical mine",
+811:"Advanced chemical mine",
+812:"Noble metal mine",
+813:"Advanced noble metal mine",
+814:"Crystal mine",
+815:"Advanced crystal mine",
+900:"Dynamite",
+901:"Contact mine",
+902:"Acid mine",
+903:"Plastic mine",
+904:"Reticulan mine",
+905:"Group cloaker",
+906:"Beastman smell detector",
+907:"Beastman heartbeat scanner",
+908:"Battle turret",
+909:"Armored turret",
+910:"Hi-tech turret",
+911:"Turret",
+912:"Light martian turret",
+913:"Heavy martian turret",
+914:"Beastman Soldier Corpse",
+915:"Drone chassis",
+916:"Spare parts",
+917:"Martian spare parts",
+918:"Processor chip card",
+919:"Memory chip card",
+920:"Sensor chip card",
+921:"Gear chip card",
+922:"Monitor chip card",
+923:"Advanced processor chip card",
+924:"Advanced memory chip card",
+925:"Advanced sensor chip card",
+926:"Advanced gear chip card",
+927:"Advanced monitor chip card",
+928:"Robot projectile weapon",
+929:"Robot gatling",
+930:"Robot annihilator",
+931:"Robot rocket launcher",
+932:"Robot laser cannon",
+933:"Robot laser rifle",
+934:"Robot magnetic rifle",
+935:"Robot projectile ammo",
+936:"Robot battery",
+937:"Robot rocket",
+938:"Robot gatling ammo",
+939:"Martian levitating drone wreck",
+940:"Martian crawling drone wreck",
+941:"Beastman artifact 187D",
+942:"Beastman artifact 294C",
+943:"Beastman Artifact 340G",
+944:"Beastman artifact 376A",
+945:"Reticulan corpse",
+946:"Worm corpse",
+947:"Spider corpse",
+948:"Boss corpse",
+949:"Roller corpse",
+950:"Martian corpse",
+951:"Martian plant pet corpse",
+952:"Turtle-scout turret",
+953:"Alien EM weapon",
+954:"Alien EM weapon",
+955:"Alien energy cell",
+956:"Animal attack",
+957:"Animal attack",
+958:"Animal attack",
+959:"Animal attack",
+960:"Animal attack",
+961:"Nature force attack",
+962:"Animal attack",
+963:"Alien plasma weapon",
+964:"Alien plasma weapon",
+965:"Alien EM weapon",
+966:"Alien plasma weapon",
+967:"Alien EM weapon",
+977:"Animal attack",
+978:"Animal attack",
+979:"Martian crawling drone wreck",
+980:"Martian levitating drone wreck",
+981:"Martian spider robot wreck",
+982:"Martian mech wreck",
+983:"Wreckage of robot with turtle turret",
+984:"Wreckage of robot with basic turret",
+985:"Wreckage of robot with armored turret",
+986:"Wreckage of robot with battle turret",
+987:"Wreckage of robot with hi-tech turret",
+988:"Reticulan corpse",
+989:"Beastman Matriarch corpse",
+990:"Martian artifact UW696",
+991:"Martian artifact RP771",
+992:"Martian artifact NE106",
+993:"Reticulan artifact N4C",
+995:"Fireball",
+}; // ]]></script>
+<script>//<![CDATA[
+ufoal.txt.building = {
+"397":"Sometimes called the Mausoleum: this monumental building holds more than 10,000 people in cryogenic slumber, waiting for the time when Mars will be able to feed more than the few brave pioneers. People may survive for centuries in this state, but it takes more than a year to wake them up.",
+"397_tip":"Monument: thousands of people sleeping",
+"398":"Sometimes called the Mausoleum: this monumental building holds more than 10,000 people in cryogenic slumber, waiting for the time when Mars will be able to feed more than the few brave pioneers. People may survive for centuries in this state, but it takes more than a year to wake them up.",
+"398_tip":"Monument: thousands of people sleeping",
+"400":"Our soldiers will receive their military training in this facility. It offers equipment and grounds, where they can master all the necessary fighting skills. <br>Soldiers obtain their training here.",
+"400_tip":"Tactical training: soldiers are trained here",
+"401":"At university, our researchers will find a library with textbooks on many subjects, as well as labs, where they can train their professional skills. <br>Scientists obtain their training here.",
+"401_tip":"University: scientists are trained here",
+"402":"Polytechnics enable our technicians to learn about and practice the technologies and methods necessary for their area of specialization. <br>Technicians obtain their training here.",
+"402_tip":"Polytechnics: technicians are trained here",
+"403":"Surgery speeds up our soldiers’ recovery, using up-to-date diagnostic equipment, surgery and rehabilitation facilities. <br>Surgery speeds up healing in hospital wards.",
+"403_tip":"Surgery: speeds up healing",
+"404":"Each hospital ward can host one soldier needing medical treatment to fight at his or her full potential. <br>Soldiers in wards regain their lost permanent hit points.",
+"404_tip":"Hospital ward: soldiers are healed here",
+"405":"The laboratory or laboratories are at the centre of your research. The team of scientists here study new principles and apply these to further develop Mars’ human colonies. <br>The team of scientists in the lab works on a research project. <br>Some technologies can only be researched once a specific lab add-on is built. The add-on can then be used by all laboratories.",
+"405_tip":"Lab: scientists research here",
+"406":"This lab add-on enables firearms and similar weapons to be tested. <br>The shooting range enables research into some technologies (see their prerequisites).",
+"406_tip":"Shooting range: lab add-on",
+"407":"The high speed computer in this lab add-on provides the facilities for making analysis of complex data possible. <br>The supercomputer enables research into some technologies (see their prerequisites).",
+"407_tip":"Supercomputer: lab add-on",
+"408":"This hi-tech resonator assists our scientists with verifying their theories on EMP and practical applications of interrelated technologies. <br>The magnetron enables research into some technologies (see their prerequisites).",
+"408_tip":"Magnetron: lab add-on",
+"409":"The alien interrogation facility contains the equipment and drugs needed to investigate captured aliens, whether they are willing to cooperate or not. <br>The alien interrogation facility enables research into some technologies (see their prerequisites).",
+"409_tip":"Alien Interrogation: lab add-on",
+"410":"Pathology is the part of our scientific complex, where we examine alien corpses. The data collected on their anatomy and physiology can be useful in learning more effective battle tactics. <br>The Pathology Department enables research into some technologies (see their prerequisites).",
+"410_tip":"Pathology: lab add-on",
+"411":"The workshops are where technicians working in shifts, build and operate the production lines, where all the weapons and other equipment are made. <br>A team of workshop technicians (a shift) produces equipment for tactical missions. <br>Some equipment can only be produced when the specific workshop add-on is built. The add-on can then be used by all workshops.",
+"411_tip":"Workshop: technicians manufacture here",
+"412":"Drone assembly is the place, where our battle robots are completed into the deadly killing machines that they are. <br>Drone assembly enables production of battle drones, as well as their accessories and spare parts.",
+"412_tip":"Drone assembly: workshop add-on",
+"413":"Some items parts must fit perfectly into another item. This is achieved in the precision engineering hall. <br>The precision engineering enables production of some items (see their prerequisites).",
+"413_tip":"Precision engineering: workshop add-on",
+"414":"A chemical plant enables preparing extremely clean solutions particularly used in medical equipment to be produced. <br>The chemical plant enables production of some items (see their prerequisites).",
+"414_tip":"Chemical plant: workshop add-on",
+"415":"The lenses are cut with high precision equipment and integrated into complex optical devices in the optical engineering hall. <br>The optical engineering  enables production of some items (see their prerequisites).",
+"415_tip":"Optical engineering: workshop add-on",
+"416":"The residential area is the place for Mars’ human inhabitants to rest and lead their “normal” lives . This is where they spend time when they are not assigned to other tasks. <br>The people not assigned to another building reside here. It is useful to place the members of your active tactical squad here.",
+"416_tip":"Residential sector: colonists live here",
+"419":"This is where the aqueduct bringing water from the North Pole reserves back to the Base terminates. It is Mars’ human colony’s only source of water .",
+"419_tip":"Aqueduct: brings water",
+"420":"The giant water tank enables us to store a large quantity of water. This enables us to be more independent of the water supply coming from the North Pole.",
+"420_tip":"Aqueduct with tank: stores water",
+"421":"This facility condenses water vapor from Mars’ slowly evolving atmosphere and collects the water to supply all the human colonies’ physical and industrial needs.",
+"421_tip":"Water condensers: collects water",
+"422":"The power plant gathers the scarce sun rays reaching Mars and transforms them into energy. This is needed for the survival and further growth of the human colony. <br>Solar power plant provides an Energy level of Limited.",
+"422_tip":"Solar power plant: creating energy",
+"423":"This power plant burns the fossil fuel found on Mars and transforms it into electricity. Power stations on old Earth worked on a similar principle. <br>Fossil power plant provides an Energy level of Large.",
+"423_tip":"Fossil power plant: creating energy",
+"424":"This power plant uses machinery made with the help of Reticulan technology and supplies enough energy for the whole planet’s population. <br>Power Plant providing an Energy level of Abundant.",
+"424_tip":"Power plant: creating energy",
+"426":"All machinery and materials needed to build mines and other stations are stored in the technical bay. This is where the technicians set out for their journeys to planetary outposts. <br>Technicians can be assigned to the technical bay. If they are working on tasks outside the Base, they will still be displayed, but they cannot be transferred to work in other buildings.",
+"426_tip":"Technical bay: technicians build planet stations from here",
+"427":"The vehicles and stores of field instruments and archeological findings are found in the scientific bay. Scientists exploring Mars reside in this building as well. <br>Scientists can be assigned to the scientific bay. If they are working on tasks outside the Base, they will still be displayed, but they cannot be transferred to work in other buildings.",
+"427_tip":"Scientific bay: scientists build planet stations from here",
+"428":"In this shed, our only UFO airplane is docked when it does not transport our soldiers to their mission on the planet. There are also supplies of military equipment and barracks where the soldiers rest before the battle. <br> Soldiers may be assigned to the Scientific Bay. If they fulfill the tasks outside the Base, they are still displayed, but they cannot work in other buildings.",
+"428_tip":"",
+"429":"The civil engineering yard acts as a support base to all technicians constructing buildings inside the Base. All construction materials, scaffolding and building machinery can be found here. <br>Technicians can be assigned to the civil engineering yard. If you start building a new construction inside the Base, technicians from the civil engineering yard will be assigned to this task.",
+"429_tip":"Civil engineering: technicians construct base buildings from here",
+"430":"This installation serves to receive and transmit radio signals. <br>We can contact people on the Earth via the communication satellite.",
+"430_tip":"Satellite: communication with Earth",
+"431":"This extension to communication satellite enables us to receive and transfer large amounts of data directly onto our computer system.<br>Data accessory is necessary to share technology with the people from Earth.",
+"431_tip":"Satellite: data communication with Earth",
+"433":"Sometimes called Mausoleum, this monumental building holds more than 10,000 people in cryogenic slumber, waiting for the time when Mars will be able to feed more than the few brave pioneers. People may survive for centuries in this state, but it takes more than a year to wake them up.",
+"433_tip":"Monument: thousands of people sleeping",
+"434":"Sometimes called Mausoleum, this monumental building holds more than 10,000 people in cryogenic slumber, waiting for the time when Mars will be able to feed more than the few brave pioneers. People may survive for centuries in this state, but it takes more than a year to wake them up.",
+"434_tip":"Monument: thousands of people sleeping",
+"436":"The dome’s infrastructure maintains the conditions needed for the survival of human beings. Most of the buildings in the Base can only be built inside domes.",
+"436_tip":"Cupola: necessary for people to live in",
+"438":"The pyrotechnics range allows the effectiveness of explosives used in battle to be safely tested. <br>A pyrotechnics range enables some technologies to be researched (see their prerequisites).",
+"438_tip":"Pyrotechnics: lab add-on",
+"439":"This lab add-on is necessary to test the safety, durability and air-tightness of spacesuits. <br>An open mars surface simulation enables some technologies to be researched (see their prerequisites).",
+"439_tip":"Mars Simulation: lab add-on",
+"440":"Some noble metals can only be founded and melted into alloys in this special foundry. <br>An advanced foundry enables production of some items (see their prerequisites).",
+"440_tip":"Foundry: workshop add-on",
+"441":"Printed circuits and similar microelectronic components can be produced in this workshop add-on. <br>A microelectronics production line enables production of some items (see their prerequisites).",
+"441_tip":"Microelectronics: workshop add-on",
+"442":"This is where we can store fuel obtained from mines all over the planet ready for future use. <br>A fuel store increases the level of fuel supply by one.",
+"442_tip":"Fuel Store: increases fuel supply",
+"443":"We can store metal obtained from mines all over the planet here ready for future use. <br>A metal store increases the level of metal supply by one.",
+"443_tip":"Metal Store: increases the supply of metal",
+"444":"This is where we can store chemicals obtained in our mines throughout the planet ready for future use. <br>A chemical store increases the level of chemical supply by one.",
+"444_tip":"Chemical Store: increases the supply of chemicals",
+"445":"Sometimes called the Mausoleum, this monumental building holds more than 10,000 people in cryogenic slumber, waiting for the time when Mars will be able to feed more than the few brave pioneers. People may survive for centuries in this state, but it takes more than a year to wake them up.",
+"445_tip":"Monument: thousands of people sleeping",
+"446":"All machinery and materials needed to build the mines and other stations are stored in the technical bay. This is where the technicians set out for their journeys to planetary outposts. <br>Technicians can be assigned to the technical bay. If they are working on tasks outside the Base, they will still be displayed, but they cannot be transferred to work in other buildings.",
+"446_tip":"Technical bay: tTechnicians build planet stations from here",
+"447":"The vehicles and stores of field instruments and archeological findings are found in the scientific bay. Our scientists who explore Mars reside in this building as well. <br>Scientists may be assigned to the scientific bay. If they are working on tasks outside the Base, they will still be displayed, but they cannot be transferred to work in other buildings.",
+"447_tip":"Scientific bay: scientists build planet stations from here",
+"448":"The civil engineering yard acts as a support base to all technicians constructing buildings inside the Base. All construction materials, scaffolding and building machinery can be found here. <br>Technicians can be assigned to the civil engineering yard. If you start building a new construction inside the Base, technicians from the civil engineering yard will be assigned to this task.",
+"448_tip":"Civil engineering: technicians construct base buildings from here",
+"449":"Sometimes called the Mausoleum, this monumental building holds more than 10,000 people in cryogenic slumber, waiting for the time when Mars will be able to feed more than the few brave pioneers. People may survive for centuries in this state, but it takes more than a year to wake them up.",
+"449_tip":"Monument: thousands of people sleeping",
+}; // ]]></script>
+<script>//<![CDATA[
+ufoal.txt.tech = {
+"200_done":"The easiest way to treat our soldiers whilst in their spacesuits on the battlefield, is to inject regenerative and analgesic substances into their blood. This treatment does not heal permanent damage, but it enables them to cope with temporary injuries.",
+"200_b4":"We need to extend our medical knowledge so that it can be used in battle.",
+"201_done":"We have developed two types of stimulants that can be injected into a soldiers’ blood using the medkit. Each of these increases just one of the attributes. The drawback is that they slightly decrease another attribute at the same time.",
+"201_b4":"We can develop biochemical stimulants to enhance the combat abilities of our soldiers.",
+"202_done":"We have developed the techniques and tools necessary to study alien anatomy and physiology. If the soldiers bring dead aliens back to the main base, we will be able to dissect the corpses and discover their strengths and weaknesses.",
+"202_b4":"The need to explore alien anatomy and physiology calls for a completely new set of research methods and techniques.",
+"203_done":"The Beastmen are strong and tough creatures, as can be easily seen from their body size. Above that, they enjoy weak regeneration ability. In other aspects, their physiology and anatomy are similar to humans and they are vulnerable to the same kinds of damage. They use mostly seeing and hearing, just as humans, but they also have perfect sense of smell.",
+"203_b4":"Studying a Beastman’s body may help us fighting against this enemy.",
+"204_done":"The Beastman shamans play important role in their civilization. They carry out the rituals combining mystic and scientific techniques that enable them to control Mars’ dangerous natural elements. They have worthwhile knowledge about biological manipulation. We have also learned from shaman how to use Beastman scanners.",
+"204_b4":"The shamans seem to know a lot about the Beastmen’s technology and culture - interrogating them may give us useful information.",
+"205_done":"These new medical techniques speed up regeneration of wounded soldiers at our home base. As well as this, we are now able to produce even more effective substances for treating troops on the battlefield. We can cure more temporary damage and remove some of the negative effects caused by the enemy.",
+"205_b4":"Recent discoveries suggest that we can greatly improve our medical skills.",
+"206_done":"These two new stimulants always boost two attributes instead of just the one and they have no drawbacks like the previous substances. It is possible that we will be able to develop even the more effective ones, once we learn more about Beastmen biotechnology.",
+"206_b4":"We can try to create combat stimulants that don’t have any negative side effects.",
+"207_done":"The Mars nature forces are not living creatures, but a natural physical phenomenon. It is caused by the planetary magnetic field and disturbing this field in some way would probably be the most effective way to destroy it. In missions, our soldiers do not need to destroy nature forces to successfully finish the mission.",
+"207_b4":"These nature forces are very dangerous if met on a mission. We should study them thoroughly.",
+"208_done":"The knowledge gained during this project will help us a lot when researching new types of spacesuits and related technologies.",
+"208_b4":"The new situation demands that we study more about outdoor survival techniques on Mars’ surface.",
+"211_done":"We have developed the tools and techniques necessary to acquire information from aliens whose biology we have explored. It is not necessary to know their language, on the contrary, we may learn the language during the interrogation process.",
+"211_b4":"The aliens must know a lot. If we find a way to communicate, and persuade them to share their knowledge, it may prove very useful to progressing our technology.",
+"212_done":"Analysis of camera footage shows that Martians built the extended automatic defense system, which is activated when anybody tries to enter their long-deserted dwellings. The robots in this system are independent combat units and they are not just programmed to protect, but also to attack potential intruders anywhere on the planet.",
+"212_b4":"When the archeologists entered the Martian ruins, they were attacked by some kind of automatic drone. To be better prepared next time, we should learn more about them.",
+"213_done":"We adapted our labor robots and their artificial intelligence so that they can now take part in combat missions. Their electronic brains can learn from experience and so improve the drones’ abilities. Battle drones consist of a chassis, turret and weapon.",
+"213_b4":"The Martian battle drones are a great idea. Why not use automatons equipped with weapons and thus save human lives?",
+"214_done":"The crawling drones use a similar type of movement to insects - not fast, but steady. Their artificial inteligence is the cause for delays in movement and attacking. Their metal bodies can be detected by electromagnetic scanning. To orientate themselves, they use only normal cameras. We are gaining a basic understanding of how the Martian drones work, later we could repair some of them and include them in our battle team.",
+"214_b4":"Our soldiers brought the body of Martian crawling drone back from a mission. We should study its construction.",
+"215_done":"The drones’ propulsion uses an electromagnetic field to enable it to effectively levitate above the ground. They move just as easily as any man does. Their metal bodies can be detected by electromagnetic scanning. To orientate themselves, they use only normal cameras. Unfortunately, we cannot reproduce this effect without more information, but we can still set their engines in motion if need arises.",
+"215_b4":"Our soldiers brought the body of a Martian levitating drone back from a mission. We should study its construction.",
+"216_done":"From now on, Martian drones can be included in our combat squads. We need to find the chassis and the turrets, which can then be repaired once back at the Base. The turret is equipped with our robotic weapons and then the Martian drone can be sent back into battle to fight together with our units.",
+"216_b4":"The data we have got by disassembling Martian drones  will made it possible to include them in our squads once we have done some application research.",
+"217_done":"The chip cards we can produce in our electronic workshop may be put into the drones’ slots, upgrading their functionality and so effectively improving their attributes. However, the drone must have enough experience for the chip card to be used.",
+"217_b4":"If we want to use the drone’s combat experience,we need to develop the hardware to enable us to do this.",
+"218_done":"A deeper study of robotic hardware makes production of more effective chip cards possible, enhancing the drones’ attributes more than previously possible. The condition for this upgrade - that the drone must have enough experience - remains the same.",
+"218_b4":"After some research in the field of robotic hardware, we could upgrade our drones’ abilities even further.",
+"220_done":"The Martian drones’ electronic system can be accessed and controlled with a control device. If our technician successfully completes this operation, it allows him to take command of the robot, effectively making it a part of our squad. Technicians need Automation training to be able to perform this, but the major version of training will enable them to control drones remotely.",
+"220_b4":"We could try to create a device enabling us to take control of the Martian drones.",
+"221_done":"Because of their ability to manipulate magnetic fields, the Martians are able to access the electronic systems of our combat drones and use them against our units. We can prevent this by equipping the robots with electromagnetic shielding.",
+"221_b4":"It seems that Martians have found a way of breaking into our drones’ system and assuming control over them.",
+"222_done":"The mechs - great robots walking on two legs - are one of the most dangerous Martian automatons. Their bulk and heavy armor enable them to withstand extensive damage and they are equipped with more dangerous weapons than the other Martian drones. On the other hand, they are slow and vulnerable to electromagnetic pulses and laser. Like most of the robots, the mech cannot detect enemies behind it, because he can see only things in front of itself.",
+"222_b4":"Our soldiers brought the body of a Martian giant mech back from a mission. We should study its construction.",
+"223_done":"Drones equipped with this kind of turret may be issued with two identical weapons, and are therefore able to cause the enemy twice as much damage. As well as this, the advanced turret has one slot for special robotic accessories.",
+"223_b4":"Our drones would be more dangerous if they could carry two weapons, instead of one.",
+"224_done":"This turret provides our drones with much better protection than previous. The damage sustained by them will be lower, so we can send them into even the fiercest battles. As well as this, the armored turret has one slot for special robotic accessories.",
+"224_b4":"Better protection for our drones would make them able to withstand more damage in battle.",
+"225_done":"The faster electronics enable the drone to control four weapons at the same time and to accept special robotic accessories in two slots. The new materials also give the turret better protection from damage.",
+"225_b4":"We could develop the robotic turret to be able to carry four weapons using the new technologies.",
+"226_done":"Small modifications to the blueprints we brought from Earth have adapted firearms to Mars’ environment. We can now manufacture these effective weapons and their ammo to be used by our soldiers in combat.",
+"226_b4":"Firearms were the most typical ranged weapons on Old Earth. We need to adapt their functionality so they can be used on Mars.",
+"227_done":"Besides developing special kinds of ammo for the firearms already in use, the results of this research are two specific weapons - a sniper rifle and a shotgun. The former will be very useful over long range and the latter for close combat.",
+"227_b4":"Deeper study of firearm’s principles could help us to develop more effective weapons of this kind.",
+"228_done":"The gatling consists of several rifle barrels and is able to fire an incredible number of rounds over a very short time. Although its great weight and consumption of ammo makes it an awkward weapon, its effect is more than deadly. Note that you must have Advanced Foundry built before you can manufacture gatlings.",
+"228_b4":"Classic firearms do not deal enough damage to be dangerous to our most feared enemies. We need to construct something more deadly.",
+"229_done":"Methods and exercises have been developed by our researchers to train the military skills of the colony’s crew that are to participate in tactical missions. These provide a basis for developing other effective combat techniques.",
+"229_b4":"We are not used to fighting and that must change fast, otherwise the new enemies will smash us.",
+"230_done":"Grenades cause effective damage to all enemies standing near the place of impact. The soldiers does not need any device to throw grenades and quite a lot of them may be carried in the backpack.",
+"230_b4":"Explosive weapons are very useful, because they can hurt several enemies at the same time.",
+"231_done":"Our soldiers can now be trained in methods of how to protect themselves by using cover more effectively and how to get near to the enemy without being noticed. Attacking from a close range is usually much more dangerous.",
+"231_b4":"Our soldiers need to learn technique for getting close to the enemy silently and without being spotted.",
+"232_done":"After impact, the contents of our phosphorous rockets will disperse and then immediately burst into flames. Any enemies nearby will be set on fire and will be subjected to burning damage for several seconds until the flames go out.",
+"232_b4":"Using inflammable substances in combat could give us an advantage over our enemies.",
+"233_done":"Our scientists developed special grenade, whose impact causes strong sound wave, effectively stunning everybody standing in vicinity.",
+"233_b4":"Sometimes it is more useful to render an enemy unconscious rather than killing him.",
+"233":"Non-lethal combat",
+"234_done":"The device our researchers have developed is installed into a special slot in the spacesuit and guarantees greater precision when aiming with long-range weapons. It monitors the hand-eye coordination between the mechanical parts of the suit and the user and adjusts as necessary.",
+"234_b4":"We could try to connect the weapon to the mechanical parts of the spacesuit arms to improve aiming accuracy.",
+"235_done":"Our civil engineers were given the plans of how to enlarge our actual tank so the water reserves will last for more than a few days. Even so, if the aqueduct is damaged, we will still have to send a technical team to repair it, only now there will be a leeway of several days.",
+"235_b4":"The attack on the aqueduct has made us to think about ways we can ensure sufficient access to water in times of danger.",
+"236_done":"We made several changes to the UFO engine, so it can fly faster and so transport our squad to missions quicker. The fuel consumption has neither increased nor decreased.",
+"236_b4":"Reticulan records indicate that the UFO could be equipped with stronger engines.",
+"237_done":"Instead of our water tank, we could construct a facility able to condense vapor from air, which would then supply our home base with water. This way, we will become independent of the aqueduct and it will become redundant.",
+"237_b4":"Terraformation has increased the water vapor content in Mars’ atmosphere. We could try to use this to satisfy our demand for water.",
+"238_done":"This modification to our current spacesuit will enable soldiers to carry more equipment into missions. All other characteristics of the suit remain unchanged.",
+"238_b4":"Our current spacesuits do not have enough space for soldiers to place reserve ammo, weapons or other equipment.",
+"239_done":"A local radar station will notify us about any coming threat, giving us more time to deal with it. It is not necessary to build radars everywhere, but the border regions with their rich mines deserve this kind of protection.",
+"239_b4":"Radar could help us to identify approaching enemies and to take appropriate measures to prevent them from doing any harm.",
+"240_done":"Adjusting the engines in the vehicles that scientists and technicians use for transport has made them faster. Now it doesn’t take as long to reach the place where an outside station is to be constructed and so the teams’ work will become more efficient.",
+"240_b4":"An engine modification could make scientific and technical vehicles move faster around the planet.",
+"241_done":"The fuel found at various places on Mars is very similar to Earth‘s crude oil. As such, it can be used for fuelling the powerplant, producing much more energy than we have had until now.",
+"241_b4":"The solar power plant cannot cope with the increasing demand for energy. We must find other ways of satisfying it.",
+"242_done":"Applying the same principle used in Reticulan batteries gives us the opportunity of building a reactor that can supply sufficient energy for our home base as well as all the stations around Mars. This is going to be very important if we want to take another step in terraforming the planet.",
+"242_b4":"Employing the Reticulan technology of obtaining energy on a larger scale could solve the potential scarcity of this resource.",
+"243_done":"Thorough research in the field of technical perception enables the manufacture of equipment that will help our soldiers. Scopes may be adjusted to the weapons to increase their precision, and visual aids will be very useful if their normal sight distance is reduced.",
+"243_b4":"We could try to make our observation devices more precise and sensitive.",
+"244_done":"The scanners we have developed during this research, enable metal objects like mines or moving creatures that are otherwise hard to notice to be detected.",
+"244_b4":"Not all threats can be detected by our soldier’s eyes or ears. Our scientists should find ways of assisting them.",
+"245_done":"The life support armor’s protection characteristics are almost the same as that of the advanced heavy armor.  It however offers better environmental resistance, so the soldiers wearing it can move about freely anywhere on Mars. The life support device automatically heals soldier’s stun injuries during battle and first aid sets heal more temporary hit points than usual.",
+"245_b4":"Linking our current knowledge of medicine and electronics could bring important advances to help our soldiers in combat.",
+"246_done":"This heavy-duty suit offers better protection against combat damage and is especially adapted to prevent damage caused by the harsh environment. Although it is a bit cumbersome and the soldiers have to get used to wearing it, they can now go to places where they would have previously died.",
+"246_b4":"Our soldiers cannot take part in missions to regions with a hostile environment. We should develop a suit enabling this.",
+"247_done":"Advanced medium armor offers the same flexibility as the basic medium battle suit, but it prevents more damage and contains one additional slot for special armor accessories. This is the best armor we have, which does not require any special training to wear.",
+"247_b4":"If we combine the knowledge of the Beastmen’s super-plastics and enhanced armor construction, we could develop an extremely useful battle suit.",
+"248_done":"Heavy metal plates make this spacesuit the most suitable for combat situations. It protects effectively against most kinds of damage, only it is a little hard to move around in.",
+"248_b4":"As the enemies use more and more effective weapons, we badly need to develop armor with really good protection.",
+"249_done":"A thick sheet of metal is not the only thing that protects the soldier wearing this battle suit. Electronic sensors try to foresee approaching danger and adapt the armor’s structure accordingly, so preventing even more injuries than normal heavy armor.",
+"249_b4":"Enhancing heavy armor with electronic devices could make it more useful in combat.",
+"250_done":"Light armor we developed is based on classical spacesuits, only some light metal plates were added to vulnerable places. No special training is needed to wear it.",
+"250_b4":"We can try to add some light protection to our spacesuits.",
+"251_done":"Our technicians can now deploy contact mines in the terrain and then lure the enemy to enter the area. Defending important strategic points is also made easier this way.",
+"251_b4":"Using contact mines may give us an advantage in tactical missions.",
+"252_done":"We can now reproduce Reticulan building technology and start construction of new domes, which will protect their inhabitants from Mars’ uninhabitable environment. We can place the new interior buildings that we need for our development in these cupolas.",
+"252_b4":"The habitable space in the home base begins to shrink as we construct new interior buildings. We should find a way of making this bigger.",
+"253_done":"The original communication between Mars and Council of Earth was based on Reticulan technologies. We are now able to reuse radio wave technology to try to contact the Council or anybody else on the Earth who is able to reply and inform us what happened.",
+"253_b4":"We have an emergency system that could be used  if communication with Council of Earth is interrupted. The scientists must fine-tune a few details in order to make it operational.",
+"254_done":"Analysis of the vast data files sent from Earth open up a handful of opportunities for our further growth. Now we have a lot of detailed information about weapon construction, material processing, combat tactics and so on. Our researchers just need to apply this information to our specific circumstances.",
+"254_b4":"Some of the knowledge we had on Earth has been lost during our stay on Mars. We have an opportunity to renew it.",
+"255_done":"We have made a revolutionary discovery through studying the material we call fuel. Fuel is the fossil remnant of organisms similar to the biomass that flooded Earth 50 years ago. We’re talking about millions years of history and our answers will probably create even more questions. Was the original Martian civilization destroyed by biomass? Did Reticulans already exist in those ancient times doing their filthy experiments on other planets?",
+"255_b4":"It is a mystery how the material we use as fuel got to Mars. Solving this puzzle may also help us in exploiting this resource.",
+"256_done":"Martians disappeared from the planet several million years before our arrival. It seems that they left intentionally and did not suddenly become extinct. Where they went we cannot tell at this moment, but the Martian archives will probably contain the answers to most of our questions. What we can be very sure about, is that their scientific knowledge was extraordinary, especially in the field of magnetism and plasma physics.",
+"256_b4":"Studying the excavation site findings may reveal some interesting information about the lost Martian civilization.",
+"257_done":"The Martians were very familiar with the surrounding universe. According to their records, they visited at least one star besides the Sun. Their knowledge of the Solar system confirms our theories about its past. The only exception is that the Martians do not display two Mars moons on their astronomy charts. We may only hazard a guess as to what this may mean. Maybe the moons are not natural, but were constructed as giant spaceships for interstellar travels.",
+"257_b4":"The only Martian files we are able to decode at this moment refer to astronomy. Still it might be useful to exploit any information we have found.",
+"258_done":"Reticulan ideas about UFO construction made several modifications possible. These enable our flying saucer to travel safely into open space. We cannot travel between planets, but the short trip into orbit to visit Mars’ moons can easily be made.",
+"258_b4":"We must find a way of getting to Phobos and Deimos. Maybe we could modify the UFO for this purpose?",
+"259_done":"The knowledge base we gained by studying the Laputian scientific files give us the opportunity to develop new weapons and accessories. They also contain some data about constructing  lightweight, but highly protective armor.",
+"259_b4":"The Laputians sent us their files containing records about some advanced technologies. They deserve a thorough analysis.",
+"260_done":"This technology enables our computers’ miniaturization, so they can perform difficult tasks even when integrated into spacesuits or weapons. Moreover, the computing power may be useful in decoding Martian archives and learning the language of this ancient civilization.",
+"260_b4":"If we can shrink the size of the processor and increase its performance, our computers will be even more useful, especially in combat situations.",
+"261_done":"Soldiers equipped with a rocket-launcher and a backpack full of rockets (or grenade-launcher with hand grenades) can send doom into an enemies’ ranks, if he receives training in how to use these weapons. Further research may allow the rockets to be used for ammunition other than explosives.",
+"261_b4":"Rockets could be very useful against tough and strong enemies.",
+"261":"Rocket-based Weapons",
+"262_done":"The Reticulans are physically a weak race, relying mostly on their hi-tech equipment and psionic abilities. They cannot withstand much damage and are easily hurt especially by explosives, on the other hand they are resistant to lasers. They can detect our soldiers with their psionic senses. Our soldiers can be taught which parts of the Reticulan’s bodies are the most effective to hit.",
+"262_b4":"By dissecting a Reticulan’s body, we could learn a lot about their anatomy and physiology and use this data in combat.",
+"263_done":"The thing that makes Reticulans such a dangerous opponent is their psionic weapons. For more detailed research, we must first get hold of some, but it seems that even then our soldiers may not be able to use them. Only the Reticulan race retains psionic abilities, and these seem to become weaker, at least in comparison with what we know from the war at the Earth.",
+"263_b4":"Reticulan soldiers could give us important information about Reticulan weapon technologies.",
+"264_done":"The information we have received from the interrogation completely changes our ideas about Reticulans. The group that attacked Earth acted on its own and they were going completely against their ruler’s orders. Their goal was to make Earth a home for some giant interstellar organism. They were successful and it was their doom. When the organism was safely established, a few months after our arrival on Mars, it sent a strong psionic signal, kind of loud cry, and it killed or debilitated most of the Reticulans. That is why they are such weak and dull opponents.",
+"264_b4":"If we can get answers to our questions about Reticulan civilization, a lot of new information may be revealed.",
+"265_done":"Reticulan expedition troops use a similar device to psionic weapons, but much more refined. They can enter the mind of any living being and persuade it to do as they command. This is the way our soldiers are forced to turn against their comrades. Nobody without psionic abilities can use the special device - mind controller - and stronger the psionic abilities of the user, the wider range the mind controller has and the more dangerous it is.",
+"265_b4":"Reticulan Expedition soldiers could tell us something about the way they get control over our soldiers.",
+"266_done":"Psionic weapons are Reticulan embryos that work together with the weapon’s user, strengthening and directing his psionic abilities. The Reticulan user will decide if he wants to hurt, to stun or to just confuse the victim. The stronger psionic abilities the Reticulan has, the harder it is to resist the effect of the weapon. On the other hand, soldiers with strong willpower have a better chance of protecting themselves.",
+"266_b4":"The most dangerous Reticulan weapons take effect directly in  their victim’s brain.",
+"267_done":"The psi absorber we developed may be attached to armor via a special slot, and it will counteract most of psionic energy entering a soldier’s brain. Will power training is still important, but psionic attacks now present a much lesser threat for a properly equipped soldier.",
+"267_b4":"We need some method of protecting our troops against psionic attacks.",
+"268_done":"Crystal deposits can be found all over Mars. Our geosondes have been automatically reprogrammed to search for them, and it is quite possible that a few will even be in our current territory. As soon as some has been located, we can start building mining stations.",
+"268_b4":"If we want to manufacture new equipment, we will have to prospect for crystals.",
+"269_done":"Our researchers have created blueprints for two types of laser weapon – the rifle and cannon. We were not able to find a way of producing a one-handed laser weapon, so we’ll have to rely on Reticulan laser pistols.",
+"269_b4":"Laser can be very an effective weapon, especially against enemies immune to projectiles.",
+"270_done":"Reticulans use a similar principle to thermonuclear fusion to produce energy, even in small energy sources like batteries. Effective and miniaturized sources of energy enable further research in the areas of terraformation, combat and many others.",
+"270_b4":"It would be useful to discover the secret of how the Reticulans obtain such a huge amount of energy",
+"271_done":"The defensive force field we have developed can be attached to armor via its special accessory slot. It repels fast-moving bullets, and so effectively protects against projectile weapons.",
+"271_b4":"Powerful batteries could be used to power another Reticulan invention - the force field.",
+"272_done":"Two important discoveries were made on our mission to Phobos and Deimos. The first concerns the moons themselves - these are actually the gigantic organisms that came to Mars millions of years ago and brought with them a mysterious civilization. Martians have lately inhabited one of the moons. Everything points to the fact that Mars has been affected by the same disaster that struck Earth 50 years ago. The voyage’s second success was obtaining photo shots of Mars’ surface. Now, we know the locations of all hyperspace gates and the Beastmen’s main fortress.",
+"272_b4":"Our scientists brought back a lot of data from their voyage to Mars’ moons. We need to do a complete analysis before it can be used.",
+"273_done":"Our discoveries completely change our idea about the history of Mars. Not Martians, but Beastmen are the planet’s original inhabitants. The Martians arrived with the Myrmecols, won the following war against their enemies from the second Myrmecols and Beastmen too. Instead of destroying the Beastmen, they sent them to a distant planet via hyperspace gates. The Beastmen waited there patiently preparing themselves for their return and for wresting Mars from the hands of the intruders.",
+"273_b4":"Some of the knowledge we have gained about Mars’ history contradicts itself. We should learn where the truth lies.",
+"274_done":"We have made a more thorough analysis of all the camera shots made during the mission and connected these to the other scientific observations, especially the magnetic field changes. The gate is probably not of Beastman origin, because its technology is beyond their reach. We have a theory that there may be more gates on the planet, but we cannot say how many, where they are and where they may lead.",
+"274_b4":"The device that was activated during our mission to the excavation site, is, without doubt, a hyperspace gate. We should try to learn more about it.",
+"275_done":"If we integrate our current radar stations with short-range rocket ramps, they could be used to attack approaching enemy raiding parties and destroying them before they reach their goal, so our soldiers need not to take care of it.",
+"275_b4":"Our UFO cannot be everywhere. We should find another way of protecting our territory.",
+"276_done":"From now on, our soldier can use Beastman firearms and grenades. They might have problems with their handling, but the weapons generally cause more damage than ours.",
+"276_b4":"By interrogating one of the Beastman soldiers we could learn how to handle their weapons.",
+"277_done":"The Beastman alchemist had an extensive knowledge about chemistry, unknown to us up to now. Apart from the basic principles of acid weapons, he revealed completely new potential methods of healing and curing our soldiers.",
+"277_b4":"The Beastmen we call alchemists look after chemical processes and manufacture.",
+"278_done":"The Beastmen enhance their fighting skills even further with extremely effective stimulative drugs. We have some hints about their manufacture, as well as about how the Beastmen’s plastic armor is constructed.",
+"278_b4":"The Beastman commander could tell us a lot about their battle tactics and equipment.",
+"280_done":"The matriarch’s answers about the Beastmen’s history did not make much sense. She was talking about their race as if they were outcasts, how they had spent many years making themselves strong enough to win their home back from the intruders. It seems like they return to Mars instead of conquering the new world.",
+"280_b4":"The Matriarch holds the highest rank in the Beastmen’s hierarchy. They must know a lot about their society and culture.",
+"281_done":"These worms spit acid at their enemies from close quarters. Their skin offers them almost no protection against projectiles or other weapons. They come in two varieties - the more dangerous are the clear worms, because they are almost invisible and can get very close without being noticed.",
+"281_b4":"The study of this beast’s body structure may reveal its weak spots.",
+"282_done":"The Beastmen’s technology for producing super light and yet hardwearing plastics is surprisingly simple. They use special ingredients to start a chemical reaction that creates the item in the shape desired. Using this, we could develop new kinds of armor for our soldiers.",
+"282_b4":"Beastmen are able to produce plastics that are both hard wearing and light. We should learn this secret.",
+"283_done":"Operating Beastman weapons is a bit awkward for human beings. They are large and heavy, just like the Beastmen. However, they deal more damage than human firearms and we could use special types of Beastman ammo against our enemies.",
+"283_b4":"The Beastman’s firearms surpass our own in some of their characteristics. It would be great if we could use these against them.",
+"284_done":"At this time, the best use of these super-plastics is to make armor, that is not as cumbersome as heavy armor, but at the same time more protective than light armor. Soldiers can move much more freely in a spacesuit made from this material due to its flexibility.",
+"284_b4":"We need to study some details in order to produce functional items from Beastman super-plastics.",
+"284":"Super-plastic Components",
+"285_done":"The best way of including acid weapons as part of our arsenal is through the production of acid filled grenades instead of using classic explosives. The acid splashes out after impact and covers anything in reach with a thin corrosive layer, causing injury lasting several seconds or until it is washed off.",
+"285_b4":"Acid weapons are deadly against most targets, as this substance adheres to the skin and hurts the victim for several seconds.",
+"287_done":"The Martian archives  probably hold all data about science, history and the life of this lost civilization. We could find treasures there that would give us a decisive advantage over our enemies. At first, however, we must learn the Martian’s language . We may be able to decode the files with exact scientific data and discover the basic language structures in that way. Any information that would give us  clues would be priceless. That’s why we should collect as many Martian artifacts from the excavation sites as we can.",
+"287_b4":"The archives of this ancient civilization are a huge source of potential knowledge. We should learn more about them.",
+"288_done":"We have gained some basic orientation in simple texts. We are able to read mostly theoretical scientific texts, where numbers and figures play a major part. To be able to learn more, we need a fast computer so we can perform a complete and thorough analysis of all available data.",
+"288_b4":"The first insights into the Martian archives give us some idea of how to advance in the study of their language.",
+"289_done":"After huge efforts, our researchers have decoded the last details of this ancient civilization’s language and sorted all data into categories for further study. The most appealing seems to be information concerning electro-magnetism and plasma. Knowledge of this would make the production of new more effective weapons possible. However, at this stage, we can only read and write. We have no idea how the language was used in everyday life among Martians",
+"289_b4":"We are just a few steps from discovering one of the greatest mysteries - the Martian language.",
+"290_done":"Martians finely modulate electromagnetic fields to express their “words”. Human beings are unable to understand it, as we have no senses able to perceive this communication. However, we have built a device serving as a translator for our communication officer, so she can start direct negotiations with the Martians.",
+"290_b4":"If we want to communicate directly with the Martians, we should learn to speak their language.",
+"291_done":"It seems that the Martians should be able to live in an environment very similar to the one on Earth. Only slight changes need to be made to the magnetic field and the atmosphere’s gas content to make terraformation acceptable to them. People could easily survive in the open in these conditions, , it would only need small adjustments. To reprogram terraforming stations would take just a matter of hours.",
+"291_b4":"Maybe we could find a way to make the terraforming process tolerable to the original inhabitants of Mars.",
+"292_done":"Martians’ bodies are very different from all other races we know. They are more plants than animals. Their metabolism is much slower, but they can still move relatively quickly, although they cannot dodge as readily as we can, for example. Because of their structure, projectiles do not injure them too much. The edged weapons are very injuring to Martians as well as fire damage. When concentrating, they can change the flow of the light rays around them, effectively making themselves invisible.",
+"292_b4":"By dissecting a Martian’s body, we may learn a lot about their anatomy and physiology and use this data in combat.",
+"293_done":"The Martian soldier revealed important facts about plasma principles and their application during the interrogation. Our researchers should process the information and try to prepare the data for production of plasma equipment.",
+"293_b4":"The Martian weapons are effective and deadly, but we have no idea how to operate them. One of their fighters could tell us.",
+"295_done":"The Martian pet’s body is similar to the Martians. It is a plant-like creature able to modulate an electromagnetic field. It protects itself and its masters by the electromagnetic pulses. On the other hand, the pulses are so weak and its body so vulnerable, that they are probably really more pets than the battle beasts we know from the Beastmen.",
+"295_b4":"We have often met this beast messing around the Martians. It does not seem dangerous, but maybe we should find out more.",
+"296_done":"We have discovered the theoretical principles necessary to create devices that are able to manipulate an electromagnetic field at will. These will require some energy before they will happen, but we should be able to produce hand weapons, scanners and similar equipment after further research.",
+"296_b4":"If we can simulate the Martians’ ability to manipulate an EM field, we may be able to create EM equipment and advance in terraformation process.",
+"297_done":"The biggest problem is to find enough energy to transform matter into a plasma state. Once we can do that, we should be able to manipulate the clouds of plasma created to bring destruction to our enemies. However, such weapons will not be easy to handle properly.",
+"297_b4":"Using plasma in combat seems to be very devastating. Studying this state of matter may turn out to be very useful.",
+"298_done":"Plasma cannons work in two modes. They can either produce a big ball of plasma, which is sent to hit one specific target, or they create a cone of hot plasma, which sweeps over everyone in its way. The cannons are constructed to be used by Martians, so human soldiers may have slight problems in operating them.",
+"298_b4":"Plasma cannons are the most dangerous weapons Martians and their robots wield in combat. It would be great if our troops could use them.",
+"299_done":"Our scientists have created the necessary blueprints for production of a human plasma cannon - the annihilator. It should be more effective than the Martian ones, as the plasma contains particles of antimatter, making it even more destructive than “ordinary” hot plasma. The annihilator uses normal batteries, but its energy consumption is remarkable.",
+"299_b4":"Now it is time to create our own ultimate plasma weapon - an annihilator.",
+"300_done":"It will be hard for our soldiers to use Martian EM weapons, but it is possible. With some effort, they can learn how to operate them, but they will never be able to use them in the same way that Martians do. The members of that race can enhance the weapon’s performance with their ability to manipulate electromagnetic fields, effectively increasing its accuracy, range and damage.",
+"300_b4":"Martians seem to be much more vulnerable to EM pulses than bullets. We should try to use their own weapons against them.",
+"301_done":"The blueprints of an magnetic rifle are now available and the technicians can start its manufacture. Weapon users can choose between a weaker pulse with longer range or devastating lightning inflicting major damage, but consuming a lot of energy from the battery and taking a longer time to aim.",
+"301_b4":"Our soldiers could handle EM weapons of our own design more effectively than Martian ones.",
+"302_done":"The Martians are similar to trees, and trees can be taken out  with a saw. We have developed special circular blades for our buzz-saws, which tear Martian tissue and cause them extensive damage. To be able to attack Martians from a distance, the blueprints of the blades are available for manufacture.",
+"302_b4":"Firearms are not very effective against the Martians’ combat tactics. We should try other ways of fighting them.",
+"303_done":"By monitoring the electromagnetic field, we can see objects or creatures invisible to the naked human eye, for example metal mines or camouflaged Martians. We can either produce special optical add-ons for spacesuits or scanners able to explore a large area in single sweep.",
+"303_b4":"It might be useful to develop devices able to monitor changes to the electromagnetic field.",
+"304_done":"This project has resulted in two findings - one applicable to defense and the other to attacks. The two add-ons can be attached to the spacesuit slots. The first one highly increases protection against EM pulses, the other one adds to the strength and range of the EM weapons the soldiers wield.",
+"304_b4":"Deeper study of electromagnetic manipulation may give us greater advantages over our enemies.",
+"305_done":"This research has enabled us to divert light waves away from an object, so making it almost invisible to anyone relying on normal vision. It can be used either individually as add-on to a spacesuit, or like the single shot device, effectively cloaking anyone in its range. However, be careful, the cloaking only works if the cloaked person does not move.",
+"305_b4":"Our knowledge of electromagnetic manipulation should allow us to simulate the Martians’ impressive talent - for perfect camouflage.",
+"306_done":"We can build a medium-sized water condensation facility that is able to collect enough water to irrigate large areas of the planetary surface, creating suitable conditions for plant growth. This is only one stage in the process of terraformation, but an extremely important one.",
+"306_b4":"Irrigating Mars’ surface could prove a breakthrough to progressing terraformation.",
+"307_done":"Our team has changed the genetic code of some plants so that they reproduce really fast and will cover vast areas in just few days or weeks, if provided with suitable conditions. This should release enormous amounts of oxygen into the atmosphere in a short period of time, enabling humans to breath the air.",
+"307_b4":"Using the Beastmen’s technology of biological manipulation could speed up Mars’ terraformation dramatically.",
+"308_done":"If we place the devices we have developed during this project evenly around the planet, they will gradually start  to strengthen the planet’s magnetic field. This will stop the atmosphere from escaping into space. This opportunity could be a decisive step in the  journey to a terraformed Mars.",
+"308_b4":"Applying electromagnetic principles learned from the Martians could change the planet’s magnetic field  so enabling further terraformation of Mars.",
+"309_done":"The research team have handed the terraformation station’s ground plan to the technicians together with the list of devices it should contain. If we build as many of these stations as we can all around the planet, the terraformation process will gradually start. This way, the environment on Mars should enable the people who are going to wake up from their cryogenic sleep next year to survive, but it is still nowhere near to making Mars a copy of old Earth.",
+"309_b4":"It is time to start the terraformation process. All necessary research has been done, we just need to start the process.",
+"310_done":"Combining the technologies of irrigation, rapid plant growth and magnetic field strengthening may boost the speed of terraformation greatly. Our technicians should upgrade as many of our terraformation stations as possible. It may sound like a miracle, but this way, Mars could become perfectly habitable in the course of a year or two.",
+"310_b4":"If we combine the suitable technologies, we could make the terraformation process much faster.",
+"311_done":"This new weapon - the lightning ball thrower - creates a sufficient amount of plasma, which is steered by electromagnetic manipulation. The soldier firing this weapon can change the lightning ball’s direction , send it behind a cornet and get it to explode wherever it will have the most devastating effect. Controlling the ball requires driver training.",
+"311_b4":"Combining our knowledge about plasma and EM manipulation could result in the creation of a completely new weapon.",
+"312_done":"The medics can use two new stimulants to treat our soldiers on the battlefield. One of them slightly improves all basic abilities, the second one strongly supports the soldier’s concentration and boosts his or her dexterity and willpower. Moreover, they have no side effects.",
+"312_b4":"We could try to adapt the extremely effective stimulants Beastmen use for human soldiers.",
+"313_done":"This object is used as a medkit of some sort or the other. We are not very sure about its function as the Beastmen’s biochemistry is different to humans. However, we have noticed that these medkits are mostly used by the units we call alchemists.",
+"313_b4":"This object was found on one of the Beastmen after the battle. It might be useful to learn more about it.",
+"314_done":"We have discovered the solution to one of the biggest secrets of this war. Under normal circumstances, Mars elements move randomly and attack our soldiers and our enemies equally. This has not been the case with Beastmen - elements have never attacked them and instead just steadily advance on our troops. The device we have just examined is the reason for this behavior. The Beastmen have found a way of controlling the elements and use them as a weapon.",
+"314_b4":"This object was found on one of the Beastmen after the battle. It might be useful to learn more about it.",
+"315_done":"Despite trying everything, we have not been able to discover this object’s function. Obviously, the Beastman’s way of thinking is very different to ours and it is not possible for us to understand everything from their culture.",
+"315_b4":"This object was found on one of the Beastmen after the battle. It might be useful to learn more about it.",
+"316_done":"This device is able to monitor almost imperceptible body sounds like heartbeat. It is extremely useful for detecting unarmored beasts like the Beastmen’s pets, but our soldiers can be identified with it as well. Our troops can take the heartbeat scanner on missions and use it from now on.",
+"316_b4":"This object was found on one of the Beastmen after the battle. It might be useful to learn more about it.",
+"317_done":"Until now, we have managed with metals like iron or copper. We will need other metals such as titan or gold to create more subtle alloys with specific qualities that can be used for production of weapons or armor that will be more effective in the future. We will need to build a foundry to process these kinds of metals.",
+"317_b4":"To further our development we require a more in depth study of metal smelting and processing.",
+"320_done":"Open armor can be worn in places where terraformation has progressed so much that the environment reminds one more of Earth than Mars. It is extraordinarily light and can be worn freely by anyone, but it still offers comparable protection against combat damage to other spacesuits in this category.",
+"320_b4":"Terraformation has advanced so much that we can concentrate on just protecting against combat damage instead of the hostile environment.",
+"321_done":"The mind controller’s function is obvious - it seizes control over the will of affected person and forces him or her to carry out the commands of Reticulan. Nobody without psionic abilities can use this device, and stronger the psionic abilities of the user, the wider range the mind controller has and the more dangerous it is.",
+"321_b4":"Information we gained from Expedition soldier seems to be referred to that mind controlling device we have obtained before.",
+"322_done":"The embryo that is part of this device can enter the mind of the person and literally persuade his or her organism to cure itself. The great thing is that the healer need not stand next to the injured person. The stronger the psionic abilities of the healing Reticulan are, the further the range of the device.",
+"322_b4":"Reticulans use this device, which is similar to their psionic weapons, to heal themselves instead of using normal medkits.",
+"323_done":"Instead of an explosive filling, this rocket contains one of the Reticulan embryos. It dies on impact, but just before its death it sends an extremely strong psionic signal. Our soldiers describe the feeling as if their soul is ripped out and sent crying into an abyss. The effect is devastating, causing mostly stun damage.",
+"323_b4":"Our soldiers are really afraid of those rockets. They damage the body as well as the mind.",
+"324_done":"It seems that the Martians’ competence with electromagnetic fields enables them to sometimes assume control over our robots and turn them against the rest of the squad. If we can equip our robots with some sort of EM shading, this problem could be prevented.",
+"324_b4":"When we fight against Martians, our drones sometimes cease to react to our commands and start attacking our own troops.",
+"325_done":"Finally, we have a clearer idea of what destroyed our Earth. A group of Reticulans were taken over by an interstellar organism called Myrmecol - as a psionic race they were highly susceptible. They rebelled against the collective consciousness of their civilization and set out on a journey, looking for a planet where the Myrmecol could breed. They found Earth and used their advanced technologies to get rid of the only thing standing in their way - humans. Expedition arrived to learn what happened and punish the rebels.",
+"325_b4":"Someone high in the Reticulan hierarchy could clarify those events in our past, which are still cloaked in shadow.",
+"327_done":"The first step in studying alien races is looking at their biology. Research in this area will require exact scientific methods, technologies and tools in order to give useful results. Our technicians can construct a building enabling them to autopsy and learn from dead alien corpses.",
+"327_b4":"We should develop methods and tools for studying alien anatomy and physiology.",
+"328_done":"We have applied the principles of electromagnetic pulse manipulation in a way Martians have never managed. It shows the greatest strength of the human race - our will to survive whatever the circumstances that we find ourselves in. After impact the EM grenade releases a strong electromagnetic pulse, badly hurting all susceptible victims in its vicinity.",
+"328_b4":"It would be great to have weapons able to cause EM damage to a greater number of enemies simultaneously.",
+"329_done":"Reticulan technologies are far more advanced than ours. They have an extensive knowledge, mostly concerning both the production and use of energy. The archives contain a lot of data about our UFO and the methods of mining new resources that might shortly be needed - crystals and noble metals. Once we apply everything we have learned from the Reticulans, we’ll gain a decisive advantage over our enemies.",
+"329_b4":"We need to sort through the content of the Reticulan database to learn what we can use from their experience.",
+"330_done":"When the Reticulans gave us their database, it would appear that they removed important data referring to their greatest secrets: powerful miniaturized batteries able to supply energy for hand weapons and ways of protecting people against their psionic weapons. We can start researching in those areas as well.",
+"330_b4":"Even though the original Reticulan files we have studied seemed to be very comprehensive and detailed, it appears that there is yet more we can learn from this race.",
+"330":"Advanced Reticulan Tech.",
+"331_done":"Our scientists have developed the ground plans for warehouses to store metals, chemicals and fuel. This will allow us to accumulate these raw materials at the home base, enabling better access and ensuring that we are not so dependent on the distant mines.",
+"331_b4":"If we store some of the raw materials at our home base, we can use more of them for manufacturing or construction.",
+"332_done":"A language tells us a lot about a nation and its culture. The Beastmen are born warriors. Their vocabulary contains hundreds of words describing warfare, combat and fighting. On the other hand, they are almost unable to talk about more subtle matters like art. Something else that must be noted: they do not have a word for “peace” or “ceasefire”.",
+"332_b4":"All our attempts to communicate with this race came to grief. Maybe we should take more time to study their language.",
+"333_done":"Rollers are not like any organism we know from Earth. They roll their huge body towards their opponent and when they are close, great bone blades stretch from their skin and hurt the enemy. Their skin is surprisingly resistant to projectiles and explosions, but their tissues are susceptible to fire.",
+"333_b4":"The study of this beast’s body structure may reveal its weak spots.",
+"334_done":"Although we call them spiders, these beasts only have four legs. They can spit acid at short range or smash their enemy with either one of their legs, which end in razor-sharp barbs. We have met two varieties of the spider:  the purple one is not as armored and strong as the orange spider, but its acid attack is much more dangerous.",
+"334_b4":"The study of this beast’s body structure may reveal its weak spots.",
+"335_done":"The name - Boss - was given to this beast by our soldiers, because of the way he rules over the battlefield. It is very hard to kill him since he can endure a great amount of damage, and the small particles the boss spits are as lethal as rifle bullets. It is almost impossible to get around him, but his vulnerable place might be the back - he cannot spit in that direction.",
+"335_b4":"The study of this beast’s body structure may reveal its weak spots.",
+"336_done":"Noble metal deposits can be found at various locations on the planet. Our geosondes will start prospecting our territory immediately. Technicians will then construct a mine station on the spot where a find is made as soon as is practicable. Sufficient supplies of noble metals is are needed for our further development.",
+"336_b4":"Mining noble metals requires special technologies and tools.",
+"337_done":"Application of special chemical procedures can decrease the amounts of raw material that are left unused in debris. Our current mines must first be upgraded, but after this, their production should increase by twofold compared to before the upgrade.",
+"337_b4":"It seems that Reticulans could extract much more raw material from their deposits. We should try to duplicate their technology.",
+"338_done":"Our scientists has developed accessory to laser weapons that shorten the cooling time before the next attack, but the decreased intensity of the laser beam cause shorter range as well.",
+"338_b4":"Our lasers tend to overheat when firing intensively. We should try to find a way how to overcome this problem.",
+"339_done":"Technicians have now developed plans for producing  several weapon accessories:  a recoil compensator, gyrostabilizer, and accelerator. They enhance various firearm qualities, enabling our soldiers to use them more accurately and dealing more damage to our enemies. Each accessory has two variants - simple, but cheap, and advanced, but more expensive to manufacture.",
+"339_b4":"We could try to develop some accessories assisting soldiers with the aim of projectile weapons.",
+"340_done":"The silencer we have developed suppresses the sound and light the shots create. It should be attached to the muzzle slot of the weapon and cannot be exchanged during battle. Firearms with this accessory are especially useful on stealth missions, where a soldier has to move unobserved.",
+"340_done":"The silencer we have developed suppresses the sound and light the shots create. It should be attached to the muzzle slot of the weapon and cannot be exchanged during battle. Firearms with this accessory are especially useful on stealth missions, where a soldier has to move unobserved.",
+"340_b4":"The shots from projectile weapons are audible and visible from a great distance. We should try to silence them so as not to attract the enemies’ attention.",
+"341_done":"The first logical step was making our laser shots stronger. The shot now deals more damage, but this comes at a cost of bigger energy consumption. On the other hand, the heating process has even more intensive positive effect, but in exchange for longer shooting time and energy consumption as well.",
+"341_b4":"We could try to enhance our laser weapons with useful accessories.",
+"342_done":"The heavier and less penetrable the armor, the less personal smell escapes to the surrounding air. We have developed a device – a small absorber that can further suppress the smell, if attached to the armor’s add-on slot. This should prevent Beastmen from detecting our soldiers.",
+"342_b4":"No matter how careful our soldiers are, Beastmen always find them by their smell.",
+"343_done":"Although we call them matriarchs, it cannot be said that these creatures are female. They were biologically modified to be the perfect chiefs - strong,  skilful and cunning. If the normal Beastmen soldiers are a very dangerous enemy, this  is twice as true of the Beastmen’s matriarchs. She is very agile, dodging most of the attacks. When hit, she is not easily hurt, with the exception of laser damage and probably psionic attacks.",
+"343_b4":"The Beastmen’s rulers are our most impressive opponents. We can learn a bit more about them by studying their dead bodies.",
+"343":"Beastman Matriarch Autopsy",
+}; // ]]></script>
+<script>//<![CDATA[
+ufoal.data.building = [
+{id:400,hour:60,name:"Training-m",prereq:{"T_MilitaryTraining":1,"Metal1":1}},
+{id:401,hour:60,name:"Training-s"},
+{id:402,hour:60,name:"Training-t"},
+{id:403,hour:80,name:"Hospital",prereq:{"T_AdvancedMedicine":1,"Energy3":1,"Noble1":1,"Chemicals4":1}},
+{id:404,hour:30,name:"Ward",prereq:{"Chemicals2":1}},
+{id:405,hour:200,name:"Lab",prereq:{"Energy4":1,"Metal2":1,"Chemicals2":1}},
+{id:406,hour:60,name:"Range",prereq:{"T_Firearms":1,"Metal2":1}},
+{id:407,hour:100,name:"Computer",prereq:{"T_Supercomputers":1,"Metal3":1,"Noble1":1}},
+{id:408,hour:80,name:"Magnetic",prereq:{"T_WrittenMartianLanguage":1,"Energy5":1,"Noble2":1,"Crystals2":1}},
+{id:409,hour:40,name:"Alien",prereq:{"T_InterrogationFacility":1,"Energy1":1,"Metal2":1,"Chemicals2":1}},
+{id:410,hour:40,name:"Autopsy",prereq:{"T_AlienBiology":1,"Energy1":1,"Metal1":1,"Chemicals1":1}},
+{id:411,hour:200,name:"Workshop",prereq:{"Energy4":1,"Metal3":1,"Chemicals1":1}},
+{id:412,hour:60,name:"Robotics",prereq:{"T_BattleDrones":1,"Metal2":1}},
+{id:413,hour:60,name:"Technics",prereq:{"T_EarthTechnologies1":1,"Metal3":1,"Noble1":1}},
+{id:414,hour:60,name:"Chemics",prereq:{"T_EarthTechnologies1":1,"Metal3":1,"Chemicals4":1}},
+{id:415,hour:60,name:"Optics",prereq:{"T_AdvancedOptics":1,"Energy4":1,"Crystals1":1}},
+{id:416,name:"Living"},
+{id:419,name:"Aqua"},
+{id:420,hour:70,name:"CisternAquaUpgrade",upgrade:"Aqua",prereq:{"T_WaterReserversEnlargement":1,"Metal2":1}},
+{id:421,hour:200,name:"DirectGainAquaUpgrade",upgrade:"CisternAquaUpgrade",prereq:{"T_WaterFromSoil":1,"Energy4":1,"Chemicals5":1}},
+{id:422,name:"Power"},
+{id:423,hour:120,name:"FossilePowerUpgrade",upgrade:"Power",prereq:{"T_FossilEnergy":1,"Metal3":1,"Fuel4":1}},
+{id:424,hour:300,name:"AlienPowerUpgrade",upgrade:"FossilePowerUpgrade",prereq:{"T_AlienReactor":1,"Crystals3":1,"Metal6":1}},
+{id:426,hour:400,name:"Bay-t"},
+{id:427,hour:400,name:"Bay-s"},
+{id:429,hour:400,name:"Bay-c"},
+{id:430,hour:20,name:"Communication",prereq:{"T_EarthCommunication":1,"Metal1":1}},
+{id:431,hour:40,name:"DataCommunication",upgrade:"Communication",prereq:{"EarthContact":1}},
+{id:433,name:"MonumentCentre"},
+{id:436,hour:450,name:"Cupola",prereq:{"T_BaseEnlargement":1,"Metal3":1,"Chemicals2":1}},
+{id:438,hour:70,name:"Pyrotechnics",prereq:{"T_CombatExplosives":1,"Chemicals2":1}},
+{id:439,hour:60,name:"MarsSimulation",prereq:{"T_SurvivalTechnics":1,"Energy1":1}},
+{id:440,hour:70,name:"Metalurgy",prereq:{"T_EarthTechnologies1":1,"Metal4":1,"Noble1":1,"Chemicals3":1}},
+{id:441,hour:80,name:"Electronics",prereq:{"T_EarthTechnologies2":1,"Metal3":1,"Noble2":1}},
+{id:442,hour:150,name:"StoreFuel",prereq:{"T_Warehouses":1,"Metal2":1,"Fuel4":1}},
+{id:443,hour:150,name:"StoreMetal",prereq:{"T_Warehouses":1,"Metal4":1}},
+{id:444,hour:150,name:"StoreMedical",prereq:{"T_Warehouses":1,"Metal2":1,"Chemicals4":1}},
+]; // ]]></script>
+<script>//<![CDATA[
+ufoal.data.tech = [
+{id:200,day:8,name:"T_Medicine",orig:1},
+{id:201,day:31,name:"T_Stimulants",orig:1,prereq:{T_Medicine:1}},
+{id:202,day:23,name:"T_AlienBiology",orig:1,prereq:{FirstAlienCorpse:1}},
+{id:203,day:18,name:"T_BeastmanAutopsy",orig:7,prereq:{Autopsy:0,BeastmanCorpse:1}},
+{id:204,day:45,name:"T_BeastmanShamanInterrogation",orig:8,prereq:{T_BeastmanAutopsy:0,Alien:0,BeastmanShamanCapture:1}},
+{id:205,day:90,name:"T_AdvancedMedicine",orig:1,prereq:{T_Medicine:0.5,T_BeastmenAlchemistInterrogation:0.5}},
+{id:206,day:125,name:"T_AdvancedStimulants",orig:1,prereq:{T_Stimulants:0.5,T_AdvancedMedicine:0.5}},
+{id:207,day:11,name:"T_MarsElementalBeings",orig:2,prereq:{BeastmenArrivesForce:1}},
+{id:208,day:9,name:"T_SurvivalTechnics",orig:2},
+{id:211,day:45,name:"T_InterrogationFacility",orig:7,prereq:{T_AlienBiology:0,FirstAlienCapture:1}},
+{id:212,day:14,name:"T_AutomaticDefenseSystem",orig:6},
+{id:213,day:24,name:"T_BattleDrones",orig:3,prereq:{T_AutomaticDefenseSystem:1}},
+{id:214,day:8,name:"T_SpiderDroneDisassembly",orig:6,prereq:{MartianSpiderWreck1:1}},
+{id:215,day:8,name:"T_FlyDroneDisassembly",orig:6,prereq:{MartianFlyWreck1:1}},
+{id:216,day:45,name:"T_MartianDronesUse",orig:6,prereq:{T_BattleDrones:0.4,T_SpiderDroneDisassembly:0.4,T_FlyDroneDisassembly:0.4}},
+{id:217,day:40,name:"T_MinorEnhacements",orig:3,prereq:{T_BattleDrones:1}},
+{id:218,day:100,name:"T_MajorEnhancements",orig:3,prereq:{T_MinorEnhacements:0.5,T_Supercomputers:0.5}},
+{id:220,day:99,name:"T_MartianDronesRemoteControl",orig:6,prereq:{T_MartianDronesUse:0.5,T_MechDisassembly:0.5}},
+{id:221,day:47,name:"T_RemoteControlProtection",orig:6,prereq:{MartianRobotControl:0.5,HumanRobotControlled:0.5}},
+{id:222,day:33,name:"T_MechDisassembly",orig:6,prereq:{MartianMechWreck:1}},
+{id:223,day:31,name:"T_AdvancedDecking",orig:3,prereq:{T_BattleDrones:1}},
+{id:224,day:40,name:"T_ArmoredDecking",orig:3,prereq:{T_AdvancedDecking:0.5,T_AdvancedMetalurgy:0.5}},
+{id:225,day:85,name:"T_SuperBattleDecking",orig:3,prereq:{T_AdvancedDecking:0.5,T_Supercomputers:0.5}},
+{id:226,day:16,name:"T_Firearms",orig:3},
+{id:227,day:48,name:"T_AdvancedFirearms",orig:3,prereq:{T_Firearms:0.5,T_EarthTechnologies1:0.5,Range:0}},
+{id:228,day:95,name:"T_Gatling",orig:3,prereq:{T_AdvancedFirearms:0.4,T_EarthTechnologies2:0.4,T_AdvancedMetalurgy:0.4,Range:0}},
+{id:229,day:8,name:"T_MilitaryTraining",orig:3},
+{id:230,day:30,name:"T_CombatExplosives",orig:3},
+{id:231,day:28,name:"T_SpecialMilitaryOperations",orig:3,prereq:{T_MilitaryTraining:0.5,T_EarthTechnologies1:0.5,"Training-m":0}},
+{id:232,day:24,name:"T_CombatCombustibles",orig:3,prereq:{T_CombatExplosives:0.5,T_RocketbasedWeapons:0.5,Pyrotechnics:0}},
+{id:233,day:44,name:"T_NonLethalCombat",orig:3,prereq:{T_AdvancedFirearms:0.5,T_CombatExplosives:0,T_SpecialMilitaryOperations:0.5,"Training-m":0}},
+{id:234,day:91,name:"T_AimingSupport",orig:3,prereq:{T_AdvancedOptics:0.5,Range:0}},
+{id:235,day:17,name:"T_WaterReserversEnlargement",orig:2,prereq:{FirstRobotAttackAqueduct:1}},
+{id:236,day:47,name:"T_UfoEnhacement",orig:4,prereq:{T_ReticulanTechnologies1:1}},
+{id:237,day:124,name:"T_WaterFromSoil",orig:4,prereq:{T_ReticulanEnergySources:0.5,TerraformForWaterCondens:1}},
+{id:238,day:8,name:"T_TransportSuit",orig:2,prereq:{T_SurvivalTechnics:1,MarsSimulation:0}},
+{id:239,day:24,name:"T_MilitaryBase1",orig:3,prereq:{FirstNonRobotBaseAttack:1}},
+{id:240,day:31,name:"T_VehicleHaste",orig:3,prereq:{T_EarthTechnologies1:0.5,T_ReticulanTechnologies1:0.5}},
+{id:241,day:31,name:"T_FossilEnergy",orig:2,prereq:{T_EarthTechnologies1:0,T_BiomassOnMars:1}},
+{id:242,day:72,name:"T_AlienReactor",orig:4,prereq:{T_ReticulanEnergySources:1}},
+{id:243,day:44,name:"T_AdvancedOptics",orig:3,prereq:{T_BasicDetection:1}},
+{id:244,day:12,name:"T_BasicDetection",orig:3,prereq:{T_MilitaryTraining:1}},
+{id:245,day:42,name:"T_Lifesupport",orig:1,prereq:{T_Medicine:0.5,T_HeavyDutySuit:0.5,MarsSimulation:0}},
+{id:246,day:50,name:"T_HeavyDutySuit",orig:2,prereq:{T_SurvivalTechnics:1,MarsSimulation:0}},
+{id:247,day:93,name:"T_NinjaSuit",orig:2,prereq:{T_BeastmenCommanderInterrogation:0.5,T_SuperplasticsComponents:0.5,T_AdvancedMetalurgy:0.5,MarsSimulation:0}},
+{id:248,day:30,name:"T_ArmoredSuit",orig:2,prereq:{T_HeavyDutySuit:0.5,T_AdvancedMetalurgy:0.5,MarsSimulation:0}},
+{id:249,day:103,name:"T_ElectronicalSuit",orig:3,prereq:{T_ArmoredSuit:0.5,T_Supercomputers:0.5,MarsSimulation:0}},
+{id:250,day:15,name:"T_Exoskelet",orig:3,prereq:{T_SurvivalTechnics:1,MarsSimulation:0}},
+{id:251,day:17,name:"T_LandMines",orig:3,prereq:{T_CombatExplosives:0.5,T_EarthTechnologies1:0.5,Pyrotechnics:0}},
+{id:252,day:48,name:"T_BaseEnlargement",orig:2,prereq:{T_SurvivalTechnics:0.5,T_ReticulanTechnologies1:0.5}},
+{id:253,day:13,name:"T_EarthCommunication",orig:3,prereq:{LostConnection:1}},
+{id:254,day:16,name:"T_EarthTechnologies1",orig:3,prereq:{DataCommunication:0,CultistTechnology:1}},
+{id:255,day:16,name:"T_BiomassOnMars",orig:2,prereq:{Fuel3:1}},
+{id:256,day:31,name:"T_PreviousCivExtinction",orig:2,prereq:{TwoExcavations:1}},
+{id:257,day:18,name:"T_MartianPlanetology",orig:2,prereq:{T_MartianLanguageBasics:1}},
+{id:258,day:70,name:"T_EmpoweredUFO",orig:4,prereq:{T_UfoEnhacement:0.4,Fuel7:0,MoonTravelRequest:0.4,LaputaIntroSeen:0.4}},
+{id:259,day:26,name:"T_EarthTechnologies2",orig:3,prereq:{T_EarthTechnologies1:0,DataCommunication:0,LaputaTechnology:1}},
+{id:260,day:89,name:"T_Supercomputers",orig:3,prereq:{T_EarthTechnologies1:1}},
+{id:261,day:24,name:"T_RocketbasedWeapons",orig:4,prereq:{T_CombatExplosives:0.5,T_ReticulanTechnologies1:0.5,Range:0,Pyrotechnics:0}},
+{id:262,day:18,name:"T_ReticulanAutopsy",orig:7,prereq:{Autopsy:0,AnyReticulanCorpse:1}},
+{id:263,day:18,name:"T_ReticulanRebelSoldierInterrogation",orig:8,prereq:{T_ReticulanAutopsy:0,Alien:0,RebelSoldierCaptive:1}},
+{id:264,day:18,name:"T_ReticulanRebelCommanderInterrogation",orig:8,prereq:{T_ReticulanAutopsy:0,Alien:0,RebelLeaderCaptive:1}},
+{id:265,day:30,name:"T_ReticulanExpeditionSoldierInterrogation",orig:8,prereq:{T_ReticulanAutopsy:0,Alien:0,ExpeditionSoldierCaptive:1}},
+{id:266,day:35,name:"T_PsiWeapons",orig:4,prereq:{PsionicWeapon:0.5,ReticulanRebelInterrogation:0.5}},
+{id:267,day:90,name:"T_PsiAbsorber",orig:4,prereq:{T_PsiWeapons:0.5,T_ReticulanTechnologies2:0.5}},
+{id:268,day:24,name:"T_CrystalMining",orig:4,prereq:{T_ReticulanTechnologies1:1}},
+{id:269,day:30,name:"T_LaserWeapons",orig:4,prereq:{T_ReticulanTechnologies1:1,Range:0}},
+{id:270,day:70,name:"T_ReticulanEnergySources",orig:4,prereq:{T_LaserWeapons:0.5,T_ReticulanTechnologies2:1}},
+{id:271,day:135,name:"T_DefenseForceField",orig:4,prereq:{T_ReticulanEnergySources:1}},
+{id:272,day:33,name:"T_MoonDataAnalysis",orig:2,prereq:{Computer:0,MartianxCrystal1:0.5,MartianxCrystal2:0.5}},
+{id:273,day:9,name:"T_MarsNatives",orig:2,prereq:{T_PreviousCivExtinction:0.4,T_BeastmenMatriarchInterrogation:0.4,T_WrittenMartianLanguage:0.4}},
+{id:274,day:24,name:"T_HyperspaceGatesTheory",orig:2,prereq:{FirstGateOpened:1}},
+{id:275,day:43,name:"T_MilitaryBase2",orig:3,prereq:{T_MilitaryBase1:0.5,T_RocketbasedWeapons:0.5}},
+{id:276,day:24,name:"T_BeastmenSoldierInterrogation",orig:8,prereq:{T_BeastmanAutopsy:0,Alien:0,BeastmanSoldierCaptive:1}},
+{id:277,day:34,name:"T_BeastmenAlchemistInterrogation",orig:8,prereq:{T_BeastmanAutopsy:0,Alien:0,BeastmanAlchemistCaptive:1}},
+{id:278,day:34,name:"T_BeastmenCommanderInterrogation",orig:8,prereq:{T_BeastmanAutopsy:0,Alien:0,BeastmanCommanderCaptive:1}},
+{id:280,day:44,name:"T_BeastmenMatriarchInterrogation",orig:8,prereq:{T_MatriarchAutopsy:0,Alien:0,BeastmanMatriarchCaptive:1}},
+{id:281,day:9,name:"T_WormAutopsy",orig:7,prereq:{Autopsy:0,WormCorpse:1}},
+{id:282,day:120,name:"T_BeastmenPlastics",orig:8,prereq:{T_BeastmanAutopsy:1}},
+{id:284,day:69,name:"T_SuperplasticsComponents",orig:5,prereq:{T_BeastmenPlastics:1,MarsSimulation:0}},
+{id:285,day:24,name:"T_AcidWeapons",orig:5,prereq:{BeastmenAcidGrenade:0.2,BeastmenAcidAmmo:0.2,T_CombatCombustibles:0.4,T_BeastmenAlchemistInterrogation:0.4,Pyrotechnics:0}},
+{id:287,day:45,name:"T_MartianArchives",orig:6,prereq:{OneMartianArtifact:1}},
+{id:288,day:45,name:"T_MartianLanguageBasics",orig:6,prereq:{T_MartianArchives:0.5,TwoMartianArtifacts:0.5}},
+{id:289,day:88,name:"T_WrittenMartianLanguage",orig:6,prereq:{T_MartianLanguageBasics:0.3,Computer:0,MartianArtifact1:0.4,MartianArtifact2:0.4,MartianArtifact3:0.4}},
+{id:290,day:90,name:"T_SpokenMartianLanguage",orig:6,prereq:{T_WrittenMartianLanguage:0.5,T_MartianSoldierInterrogation:0.5}},
+{id:291,day:90,name:"T_MartianfriendlyTerraforming",orig:2,prereq:{T_SpokenMartianLanguage:0,T_AdvancedComplexTerraforming:0.4,TerraformWarDeclared:0.4,MartianTerraform:0.4}},
+{id:292,day:25,name:"T_MartianAutopsy",orig:7,prereq:{Autopsy:0,MartianCorpse:1}},
+{id:293,day:25,name:"T_MartianSoldierInterrogation",orig:8,prereq:{T_MartianAutopsy:0,Alien:0,MartianSoldierCaptive:1}},
+{id:295,day:25,name:"T_MartianPetAutopsy",orig:7,prereq:{Autopsy:0,MartianPetCorpse:1}},
+{id:296,day:79,name:"T_EMPrincipes",orig:6,prereq:{T_WrittenMartianLanguage:1,Magnetic:0}},
+{id:297,day:90,name:"T_PlasmaPrinciples",orig:6,prereq:{T_MartianSoldierInterrogation:1,Magnetic:1}},
+{id:298,day:62,name:"T_PlasmaWeaponsHandling",orig:6,prereq:{MartianPlasmaCannon:0.5,T_MartianSoldierInterrogation:0.5,Range:0,Magnetic:0.5}},
+{id:299,day:90,name:"T_Annihilator",orig:6,prereq:{T_PlasmaPrinciples:0.5,T_PlasmaWeaponsHandling:0.5,Range:0}},
+{id:300,day:60,name:"T_EMWeaponsHandling",orig:6,prereq:{LightningThrower:1,Range:0,Magnetic:0}},
+{id:301,day:106,name:"T_EMWeaponsManufacturing",orig:6,prereq:{T_EMPrincipes:0.5,T_EMWeaponsHandling:0.5,Magnetic:0}},
+{id:302,day:33,name:"T_AntiMartioanWeapons",orig:6,prereq:{T_MartianAutopsy:0.5,T_AdvancedMetalurgy:0.5,Range:0}},
+{id:305,day:132,name:"T_Cloaking",orig:6,prereq:{T_AdvancedOptics:0,T_EMPrincipes:1}},
+{id:306,day:45,name:"T_ReticulanTerraformingTechnology",orig:4,prereq:{T_WaterFromSoil:1}},
+{id:307,day:70,name:"T_BeastmenTerraformingTechnology",orig:5,prereq:{T_BeastmanAutopsy:0.5,T_BeastmanShamanInterrogation:1,Alien:0.5}},
+{id:308,day:88,name:"T_MartianTerraformingTechnology",orig:6,prereq:{T_EMPrincipes:1,MarsSimulation:0}},
+{id:309,day:23,name:"T_BasicComplexTerraforming",orig:2},
+{id:310,day:120,name:"T_AdvancedComplexTerraforming",orig:2,prereq:{T_ReticulanTerraformingTechnology:0.4,T_BeastmenTerraformingTechnology:0.4,T_MartianTerraformingTechnology:0.4,T_BasicComplexTerraforming:0.4}},
+{id:311,day:90,name:"T_LightingBolt",orig:6,prereq:{T_PlasmaPrinciples:0.4,T_PlasmaWeaponsHandling:0.4,T_EMWeaponsHandling:0.4}},
+{id:312,day:47,name:"T_AdvancedDrugs",orig:5,prereq:{T_AdvancedStimulants:0.5,T_BeastmenCommanderInterrogation:0.5}},
+{id:313,day:20,name:"T_BeastmenArtifact1",orig:5,prereq:{BeastmanArtifact1:1}},
+{id:314,day:26,name:"T_BeastmenArtifact2",orig:5,prereq:{BeastmanArtifact2:1}},
+{id:317,day:30,name:"T_AdvancedMetalurgy",orig:3,prereq:{T_EarthTechnologies1:0.5,T_NobleMetalMining:0.5}},
+{id:320,day:37,name:"T_LighOpenArmour",orig:2,prereq:{OpenArmorTerraformation:1}},
+{id:322,day:26,name:"T_PsiHealing",orig:4,prereq:{PsionicHealing:0.5,T_ReticulanRebelCommanderInterrogation:0.5,T_PsiWeapons:0.5}},
+{id:324,day:35,name:"T_MartianRobotControl",orig:6,prereq:{MartianRobotControl:1}},
+{id:325,day:25,name:"T_ReticulanExpeditionCommanderInterrogation",orig:8,prereq:{T_ReticulanAutopsy:0,Alien:0,ExpeditionLeaderCaptive:1}},
+{id:328,day:60,name:"T_EMGrenades",orig:6,prereq:{MartianEMGrenade:0,T_CombatExplosives:0.5,T_EMWeaponsHandling:0.5}},
+{id:329,day:16,name:"T_ReticulanTechnologies1",orig:4,prereq:{ReticulanTech1Prereq:1}},
+{id:330,day:20,name:"T_ReticulanTechnologies2",orig:4,prereq:{T_ReticulanTechnologies1:0.5,ReticulanTech2Prereq:0.5}},
+{id:331,day:24,name:"T_Warehouses",orig:2,prereq:{T_WaterReserversEnlargement:0.5,Metal3:0.25,Chemicals3:0.25,Fuel3:0.25}},
+{id:333,day:25,name:"T_RollerAutopsy",orig:7,prereq:{Autopsy:0,RollerCorpse:1}},
+{id:334,day:25,name:"T_SpiderAutopsy",orig:7,prereq:{Autopsy:0,SpiderCorpse:1}},
+{id:335,day:31,name:"T_BossAutopsy",orig:7,prereq:{Autopsy:0,BossCorpse:1}},
+{id:336,day:24,name:"T_NobleMetalMining",orig:2,prereq:{T_ReticulanTechnologies1:1}},
+{id:337,day:24,name:"T_AdvancedMining",orig:2,prereq:{T_CrystalMining:0.4,T_NobleMetalMining:0.4,TerraformAdvMine:0.4}},
+{id:338,day:33,name:"T_Cooling",orig:3,prereq:{T_AdvancedFirearms:0.5,T_LaserWeapons:0.5}},
+{id:339,day:45,name:"T_FirearmStabilization",orig:3,prereq:{T_AdvancedFirearms:0.5,T_EarthTechnologies2:0.5}},
+{id:340,day:24,name:"T_SilentFire",orig:3,prereq:{T_AdvancedFirearms:1}},
+{id:341,day:45,name:"T_PowerLasers",orig:4,prereq:{T_LaserWeapons:0.5,T_ReticulanEnergySources:0.5}},
+{id:342,day:33,name:"T_SmellAbsorption",orig:5,prereq:{BeastmenSmellScanner:1}},
+{id:343,day:40,name:"T_MatriarchAutopsy",orig:7,prereq:{Autopsy:0,MatriarchCorpse:1}}
+]; // ]]></script>
+<script>//<![CDATA[
+ufoal.txt.tech_orig = {
+1:"Medicine",
+2:"Planetology",
+3:"Earth",
+4:"Reticulan",
+5:"Beastmen",
+6:"Martian",
+7:"Autopsy",
+8:"Interrogation",
+}; // ]]></script>
+
+<script> ufoal.ui.init(); </script>
+
+</body></html>
