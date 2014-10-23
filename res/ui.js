@@ -16,9 +16,10 @@ var ui = ns.ui = {
 
       // Initialise searchable data list
       var data_search = _( '#data_search' )[0];
-      _.col( ns.all, 'text' ).sort().forEach( function each_option( e ) {
-      if ( e )
-         data_search.appendChild( _.create( 'option', { value: e } ) );
+      var options = _.col( ns.all, 'text' ).sort()
+      options.forEach( function each_option( e, i ) {
+         if ( e && options.indexOf( e ) === i ) // Filter out empties and duplicates
+            data_search.appendChild( _.create( 'option', { value: e } ) );
       });
 
       // Search handler
@@ -46,24 +47,28 @@ var ui = ns.ui = {
    'show_result' : function ui_show_result( roots ) {
       var pnl_result = ui.clear_result();
       roots.forEach( function( root ) {
-      var result = ui.box_recur( root );
-      event.btn_desc_click( { target: _( result, '.desc' )[0] } ); // Show top level descriptions
-      pnl_result.appendChild( result );
+         var result = ui.box_recur( root );
+         event.btn_desc_click( { target: _( result, '.desc' )[0] } ); // Show top level descriptions
+         pnl_result.appendChild( result );
       });
    },
 
    'box_recur' : function ui_box_recur( root ) {
       var result = ui[ 'create_' + root.type + '_box' ]( root );
       if ( root.prereq ) {
-         for ( var t in root.prereq ) {
+         var req = root.prereq;
+         if ( ! ( req instanceof Array ) ) req = Object.keys( req );
+         _.log( req );
+         req.forEach( function recur_prereq( t ) {
             var e = ns.entity[ t ];
             if ( e )
                result.appendChild( ui.box_recur( e ) );
             else
                result.appendChild( ui.create_entity_box( t ) );
-         }
+         });
       } else {
-      _.addClass( result, 'leaf' );
+         if ( _( result, '.treenode' ).length <= 0 )
+            _.addClass( result, 'leaf' );
       }
       return result;
    },
@@ -77,7 +82,41 @@ var ui = ns.ui = {
    'create_building_box' : function ui_create_building_box( e ) {
       var result = ui.create_box( e, 'building', 'icon_ui_building', 'Building' );
       _( result, 'b' )[0].title = ns.txt.building[ e.id + '_tip' ];
+      ui.create_help_buttons( result );
+      if ( e.upgrage ) { // Add lower tier building as requirement
+         var from = ns.entity[ e.upgrade ];
+         if ( from ) result.appendChild( ui.box_recur( from ) );
+      }
+      return result;
+   },
+
+   'create_item_box' : function ui_create_item_box( e ) {
+      var result = ui.create_box( e, 'item', 'icon_ui_item', 'Item' );
       return ui.create_help_buttons( result );
+   },
+
+   /* Create a general entity box */
+   'create_entity_box' : function ui_create_entity_box( e ) {
+      var result = _.create( 'div', { 'class': 'entity treenode' } );
+      if ( e.match( /^[A-Z][a-z]+[1-7]$/ ) ) { // resource
+      var req = { 'T_CrystalMining': /^Crystals\d$/, 'T_NobleMetalMining': /^Noble\d$/, 'FossilePowerUpgrade': /^Energy[45]$/, 'AlienPowerUpgrade': /^Energy[678]$/ };
+      for ( var r in req ) {
+         if ( e.match( req[r] ) ) {
+            if ( displayed.indexOf( r ) >= 0 ) result.className += ' collapsed';
+            else displayed.push( r );
+            ui.create_fold_buttons( result );
+            result.appendChild( ui.box_recur( ns.entity[r] ) );
+            req = null;
+            break;
+         }
+      }
+      if ( req ) _.addClass( result, 'resource' );
+         e = "Lv. " + e.substr( e.length-1 ) + " " + e.substr( 0, e.length-1 );
+      } else {
+         e = ns.uncamel( e );
+      }
+      result.insertBefore( _.create( 'b', e ), result.firstChild );
+      return result;
    },
 
    'create_box' : function ui_create_box( e, className, icon, alt ) {
@@ -101,30 +140,6 @@ var ui = ns.ui = {
       ui.create_fold_buttons( e );
       e.appendChild( _.create( 'img', { 'class': 'desc', src: _('#icon_ui_desc')[0].src, alt: 'Descriptions', 'tabindex': 0, 'aria-role': 'button', onclick: event.btn_desc_click } ) );
       return e;
-   },
-
-   /* Create a general entity box */
-   'create_entity_box' : function ui_create_entity_box( e ) {
-      var result = _.create( 'div', { 'class': 'entity treenode' } );
-      if ( e.match( /^[A-Z][a-z]+[1-7]$/ ) ) { // resource
-      var req = { 'T_CrystalMining': /^Crystals\d$/, 'T_NobleMetalMining': /^Noble\d$/, 'FossilePowerUpgrade': /^Energy[45]$/, 'AlienPowerUpgrade': /^Energy[678]$/ };
-      for ( var r in req ) {
-         if ( e.match( req[r] ) ) {
-            if ( displayed.indexOf( r ) >= 0 ) result.className += ' collapsed';
-            else displayed.push( r );
-            ui.create_fold_buttons( result );
-            result.appendChild( ui.box_recur( ns.entity[r] ) );
-            req = null;
-            break;
-         }
-      }
-      if ( req ) _.addClass( result, 'resource' );
-      e = "Lv. " + e.substr( e.length-1 ) + " " + e.substr( 0, e.length-1 );
-      } else {
-      e = e.split( /(?=[A-Z0-9])/ ).join( ' ' ).trim();
-      }
-      result.insertBefore( _.create( 'b', e ), result.firstChild );
-      return result;
    },
 };
 

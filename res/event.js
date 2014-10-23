@@ -35,11 +35,11 @@ event.btn_desc_click = function btn_desc_click( evt ) {
 
    // Create description
    var help = _.create( 'div', { 'class': 'help' } );
-   var e = ns.entity[ box.dataset.name ];
+   var e = ns.entity[ box.dataset.name ], txt = ns.txt[ e.type ];
    if ( e.type === 'tech' ) {
-      help.innerHTML = ns.txt.tech[ e.id + '_b4' ] + '<hr/>' + ns.txt.tech[ e.id + '_done' ];
+      help.innerHTML = txt[ e.id + '_b4' ] + '<hr/>' + ns.txt.tech[ e.id + '_done' ];
    } else {
-      help.innerHTML = ns.txt[ e.type ][ e.id ];
+      help.innerHTML = txt[ e.id ] ? txt[ e.id ] : '(Internal data; no description)';
    }
    var firstdiv = box.querySelector( 'div' );
    box.insertBefore( help, firstdiv && firstdiv.parentNode === box ? firstdiv : undefined );
