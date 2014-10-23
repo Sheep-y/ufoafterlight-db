@@ -47,6 +47,7 @@ var ui = ns.ui = {
    'show_result' : function ui_show_result( roots ) {
       var pnl_result = ui.clear_result();
       roots.forEach( function( root ) {
+         if ( displayed.indexOf( root ) >= 0 ) return;
          var result = ui.box_recur( root );
          event.btn_desc_click( { target: _( result, '.desc' )[0] } ); // Show top level descriptions
          pnl_result.appendChild( result );
