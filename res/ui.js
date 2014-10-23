@@ -13,37 +13,45 @@ var ui = ns.ui = {
     _.removeClass( '.hide' );
     _( '#title' )[0].textContent = document.title;
     document.head.appendChild( _.create( 'meta', { rel: 'apple-touch-icon', href: _('link[rel="icon"]')[0].href } ) );
-    
+
     // Initialise searchable data list
     var data_search = _( '#data_search' )[0];
-    [ 'Tech', 'Building' ].forEach( function each_type( type ) {
-      ns.data.map_entity( type.toLowerCase() );
-      _.sort( ns.data[ type.toLowerCase() ], 'text' ).forEach( function each_entity( e ) {
-        data_search.appendChild( _.create( 'option', { value: type + ': ' + e.text } ) );
-      });
+    _.col( ns.all, 'text' ).sort().forEach( function each_option( e ) {
+      if ( e )
+        data_search.appendChild( _.create( 'option', { value: e } ) );
     });
-    
+
     // Search handler
     var txt_search = _( '#txt_search' )[0];
     txt_search.addEventListener( 'input', event.txt_search_input );
-    if ( location.hash ) txt_search.value = location.hash.substr(1);
+    if ( location.search ) {
+       var match = location.search.match( /\bquery=([^&]*)/ );
+       if ( match.length ) txt_search.value = decodeURIComponent( match[1] );
+    }
     event.txt_search_input();
 
     _.show( '#pnl_search' );
     //_( 'input[autofocus]' )[0].focus(); // Focus may cause browser to not trigger datalist dropdown.
     _( 'input[autofocus]' )[0].select();
   },
-  
-  'show_result' : function ui_show_result( root ) {
+
+  'clear_result' : function ui_clear_result() {
     _.hide('#pnl_license');
     var pnl_result = _.show( '#pnl_result' )[0];
-    displayed = [];
+    displayed = []; // Reset display record
     pnl_result.innerHTML = '';
-    var result = ui.box_recur( root );
-    event.btn_desc_click( { target: _( result, '.desc' )[0] } );
-    pnl_result.appendChild( result );
+    return pnl_result;
   },
-  
+
+  'show_result' : function ui_show_result( roots ) {
+    var pnl_result = ui.clear_result();
+    roots.forEach( function( root ) {
+      var result = ui.box_recur( root );
+      event.btn_desc_click( { target: _( result, '.desc' )[0] } ); // Show top level descriptions
+      pnl_result.appendChild( result );
+    });
+  },
+
   'box_recur' : function ui_box_recur( root ) {
     var result = ui[ 'create_' + root.type + '_box' ]( root );
     if ( root.prereq ) {
@@ -59,19 +67,19 @@ var ui = ns.ui = {
     }
     return result;
   },
-  
+
   'create_tech_box' : function ui_create_tech_box( e ) {
     var orig = ns.txt.tech_orig[ e.orig ];
     var result = ui.create_box( e, 'tech', 'icon_tech_'+orig.toLowerCase(), orig );
     return ui.create_help_buttons( result );
   },
-  
+
   'create_building_box' : function ui_create_building_box( e ) {
     var result = ui.create_box( e, 'building', 'icon_ui_building', 'Building' );
     _( result, 'b' )[0].title = ns.txt.building[ e.id + '_tip' ];
     return ui.create_help_buttons( result );
   },
-  
+
   'create_box' : function ui_create_box( e, className, icon, alt ) {
     var result = _.create( 'div', { 'class': className + ' treenode', 'data-name': e.name } );
     if ( displayed.indexOf( e ) >= 0 ) result.className += ' collapsed';
@@ -94,7 +102,7 @@ var ui = ns.ui = {
     e.appendChild( _.create( 'img', { 'class': 'desc', src: _('#icon_ui_desc')[0].src, alt: 'Descriptions', 'tabindex': 0, 'aria-role': 'button', onclick: event.btn_desc_click } ) );
     return e;
   },
-  
+
   /* Create a general entity box */
   'create_entity_box' : function ui_create_entity_box( e ) {
     var result = _.create( 'div', { 'class': 'entity treenode' } );
@@ -118,7 +126,7 @@ var ui = ns.ui = {
     result.insertBefore( _.create( 'b', e ), result.firstChild );
     return result;
   },
-  
+
 };
 
 })( ufoal ); // ]]>

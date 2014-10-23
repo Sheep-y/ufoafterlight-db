@@ -6,17 +6,15 @@ var event = ui.event;
 
 event.txt_search_input = function txt_search_input( evt ) {
   _.hide( '#lbl_not_found' );
-  var val = _( '#txt_search')[0].value;
+  var val = _( '#txt_search')[0].value.trim();
   if ( ! val ) return;
-  var name = val.toLowerCase().split( ': ' );
-  if ( name.length <= 1 ) name.unshift();
-  var target = ns.data.tech.concat( ns.data.building ).filter( function(e){
-    if ( ! e.text ) _.log( e );
-    return e.text.toLowerCase() === name[1] && ( ! name[0] || e.type == name[0] );
-  } );
+  var name = val.toLowerCase();
+  var target = ns.all.filter( function(e){
+    return e.text.toLowerCase() === name;
+  });
   if ( target.length <= 0 ) return _.show( '#lbl_not_found' );
-  history.pushState( {}, '', '#' + val );
-  ui.show_result( target[0] );
+  history.pushState( {}, '', '?query=' + val );
+  ui.show_result( target );
 };
 
 event.btn_collapse_click = function btn_collapse_click( evt ) {
@@ -49,6 +47,7 @@ event.btn_desc_click = function btn_desc_click( evt ) {
 
 event.lnk_license_click = function lnk_license_click( evt ) {
   evt.preventDefault();
+  ui.clear_result();
   _.hide('#pnl_result');
   _.show('#pnl_license');
 };

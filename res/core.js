@@ -6,13 +6,28 @@ var ns = { // Main namespace
   entity: _.Map(), // Entity lookup dict
 };
 
-ns.data.map_entity = function ufoal_data_map_entity ( data ) {
-  var raw = ns.data[data], names = ns.txt.name;
-  raw.forEach( function each_data( e ) {
-    e.type = data;
-    if ( e.id ) e.text = names[ e.id ];
-    if ( e.name ) ns.entity[ e.name ] = e;
-  });
+ns.map_entity = function ufoal_data_map_entity ( datatype ) {
+}
+
+ns.init = function ufoal_init() {
+  var txt = ns.txt.name;
+  var ent = ns.entity;
+  var all = ns.all = new Array(100);
+  for ( var type in this.data ) {
+    ns.data[ type ].forEach( function each_data( e, i ) {
+      e.type = type;
+      if ( e.id ) {
+         e.text = txt[ e.id ];
+         if ( ! e.text ) _.info( 'Entity without name: ' + type + ' #' + i + ' (' + e.id + ':' + e.name + ')'  );
+      }
+      if ( e.name ) {
+         if ( ent[ e.name ] ) _.warn ( 'Duplicate entity "' + e.name + '"' );
+         else ent[ e.name ] = e;
+      }
+      all.push( e );
+    });
+  }
+  ns.ui.init();
 }
 
 return ns;
