@@ -26,7 +26,12 @@ h1 { margin: 0; font-size: 24px; }
   margin-right: 5px;
 }
 .treenode > div { margin-left: 25px }
-.leaf .collapse, .leaf .expand { display: none }
+
+a.title { font-weight: bold; cursor: pointer; }
+a.title, a.title:visited, a.title:hover { color: white }
+.icon { float: left; margin-right: 5px; vertical-align: text-bottom; }
+.desc { clear: left; float: left; cursor: help; margin-top: 3px; }
+.help { display: block; border: 2px ridge #b8cbd1; padding: 3px; background-color: black; font-size: smaller; max-width: 500px; }
 
 .collapse, .expand { float: right; cursor: pointer; margin-left: 5px }
 :not(.collapsed) > .expand { display: none }
@@ -39,22 +44,24 @@ h1 { margin: 0; font-size: 24px; }
     display: none
  }
 
-.icon { float: left; margin-right: 5px; vertical-align: text-bottom; }
-.desc { clear: left; float: left; cursor: help; margin-top: 3px; }
-.help { display: block; border: 2px ridge #b8cbd1; padding: 3px; background-color: black; font-size: smaller; max-width: 500px; }
+.leaf .collapse, .leaf .expand { display: none }
+#pnl_enable .desc,
+#pnl_enable .collapse,
+#pnl_enable .expand { display: none }
 
-.treenode > .resource { margin-left: 0; float: left; } /* Default will float onto one line */
-.treenode > img + .resource:last-child { margin-left: 25px; float: none; } /* Un-float to keep box tight */
-.treenode > div:not( .resource ) + .resource { margin-left: 25px; } /* Align with previous block */
-.resource + div:not( .resource ) { clear: left } /* Do not stick after previous resource */
+.treenode > .resource { margin-left: 0; float: left; } /* Resources will float onto one line */
+.treenode > img + .resource:last-child { margin-left: 25px; float: none; } /* Contains only one resource? Un-float to keep box tight */
+.treenode > div:not(.resource) + .resource { margin-left: 25px; } /* Align with previous block */
+.resource + div:not(.resource) { clear: left } /* Normal blocks do not stick after previous resource */
 .manday, .manhour { font-size: smaller; color: yellow }
 .manday:before, .manhour:before { content: ", " }
 
 #pnl_search input[type="search"] {
   min-width: 300px;
 }
-#pnl_result { padding: 0; margin: auto; }
-#pnl_footer, nav { padding: 0 5px }</style>
+#pnl_result { padding: 0; float: left; }
+#pnl_enable { padding: 0; float: right; }
+#pnl_footer, nav { padding: 0 5px; clear: both }</style>
 </head><body>
 
 <noscript>Please enable JavaScript</noscript>
@@ -70,6 +77,7 @@ h1 { margin: 0; font-size: 24px; }
 </div>
 
 <div id="pnl_result" class="box hide"></div>
+<div id="pnl_enable" class="box hide f_right"></div>
 <div id="pnl_footer">
 This is an <a href='http://steamcommunity.com/app/237950/discussions/0/616188677801999309/#c619568793974409287'>alternate implementation</a> of <a href='http://www.irodemine.com/afterlit/'>Kircket's Tech Tree</a>.
 The <a id="lnk_wiki" href='http://ufoafterblank.wikia.com/'>UFO: Afterlight wiki</a> contains even more information.
@@ -293,6 +301,13 @@ ns.init = function ufoal_init() {
    ns.ui.init();
 };
 
+/** Converts prereq object to prereq array */
+ns.prereq = function ufoal_prereq( e ) {
+   if ( ! e.prereq ) return [];
+   if ( ! ( e.prereq instanceof Array ) ) return Object.keys( e.prereq );
+   return e.prereq;
+}
+
 ns.uncamel = function ufoal_uncamel( txt ) {
    return txt.split( /(?=[A-Z0-9])/ ).join( ' ' ).trim();
 };
@@ -305,51 +320,74 @@ return ns;
 
 var event = {}; // Event handlers are stored here
 
-var displayed = []; // Displayed entity stack; cleared with each new result
+
+var pnl_result = _( '#pnl_result' )[0];
+var pnl_enable = _( '#pnl_enable' )[0];
+var pnl_license = _( '#pnl_license' )[0];
 
 var ui = ns.ui = {
    'event' : event,
+   'displayed' : [], // Displayed entity stack; cleared with each new result
 
    'init' : function ui_init() {
       _.hide( '.hide' );
       _.removeClass( '.hide' );
       _( '#title' )[0].textContent = document.title;
       document.head.appendChild( _.create( 'meta', { rel: 'apple-touch-icon', href: _('link[rel="icon"]')[0].href } ) );
+      window.addEventListener( 'popstate', event.window_popstate );
 
       // Initialise searchable data list
       var data_search = _( '#data_search' )[0];
-      var options = _.col( ns.all, 'text' ).sort()
+      var options = _.col( ns.all, 'text' ).sort();
       options.forEach( function each_option( e, i ) {
          if ( e && options.indexOf( e ) === i ) // Filter out empties and duplicates
             data_search.appendChild( _.create( 'option', { value: e } ) );
       });
 
       // Search handler
-      var txt_search = _( '#txt_search' )[0];
-      txt_search.addEventListener( 'input', event.txt_search_input );
-      if ( location.search ) {
-         var match = location.search.match( /\bquery=([^&]*)/ );
-         if ( match.length ) txt_search.value = decodeURIComponent( match[1] );
-      }
-      event.txt_search_input();
+      _( '#txt_search' )[0].addEventListener( 'input', event.txt_search_input );
+      event.window_popstate();
 
       _.show( '#pnl_search' );
       //_( 'input[autofocus]' )[0].focus(); // Focus may cause browser to not trigger datalist dropdown.
       _( 'input[autofocus]' )[0].select();
    },
 
-   'clear_result' : function ui_clear_result() {
-      _.hide('#pnl_license');
-      var pnl_result = _.show( '#pnl_result' )[0];
-      displayed = []; // Reset display record
-      pnl_result.innerHTML = '';
-      return pnl_result;
+   'find_query' : function ui_find_query() {
+      if ( location.search ) {
+         var match = location.search.match( /\bquery=([^&]*)/ );
+         if ( match.length ) return decodeURIComponent( match[1] ).trim();
+      }
+      return "";
+   },
+
+   'show_panel' : function ui_show_panel( panel ) {
+      _.hide( [ pnl_result, pnl_enable, pnl_license ] );
+      pnl_enable.innerHTML = pnl_result.innerHTML = '';
+      ui.displayed = []; // Reset display record
+      if ( panel ) return _.show( panel );
    },
 
    'show_result' : function ui_show_result( roots ) {
-      var pnl_result = ui.clear_result();
+      ui.show_panel( pnl_result );
       roots.forEach( function( root ) {
-         if ( displayed.indexOf( root ) >= 0 ) return;
+         // Find enables
+         var enable = ns.all.filter( function(e) { return e.prereq && ns.prereq( e ).indexOf( root.name ) >= 0; } );
+         if ( enable.length > 0 ) {
+            var result = ui.create_box( root );
+            result.appendChild( _.create( 'div', { class: 'help', text: 'This entity enables the following:' } ) );
+            enable.forEach( function(e) {
+               result.appendChild( ui.create_box( e ) );
+            });
+            pnl_enable.appendChild( result );
+            _.show( pnl_enable );
+         }
+      });
+      ui.displayed = [];
+
+      roots.forEach( function( root ) {
+         // Find requirements
+         if ( ui.displayed.indexOf( root ) >= 0 ) return;
          var result = ui.box_recur( root );
          event.btn_desc_click( { target: _( result, '.desc' )[0] } ); // Show top level descriptions
          pnl_result.appendChild( result );
@@ -357,12 +395,9 @@ var ui = ns.ui = {
    },
 
    'box_recur' : function ui_box_recur( root ) {
-      var result = ui[ 'create_' + root.type + '_box' ]( root );
+      var result = ui.create_box( root );
       if ( root.prereq ) {
-         var req = root.prereq;
-         if ( ! ( req instanceof Array ) ) req = Object.keys( req );
-         _.log( req );
-         req.forEach( function recur_prereq( t ) {
+         ns.prereq( root ).forEach( function recur_prereq( t ) {
             var e = ns.entity[ t ];
             if ( e )
                result.appendChild( ui.box_recur( e ) );
@@ -375,75 +410,87 @@ var ui = ns.ui = {
       }
       return result;
    },
+};
 
-   'create_tech_box' : function ui_create_tech_box( e ) {
-      var orig = ns.txt.tech_orig[ e.orig ];
-      var result = ui.create_box( e, 'tech', 'icon_tech_'+orig.toLowerCase(), orig );
-      return ui.create_help_buttons( result );
-   },
+})( ufoal ); // ]]></script>
+<script>// <![CDATA[
+(function ufoal_ui_builder( ns ) { 'use strict';
 
-   'create_building_box' : function ui_create_building_box( e ) {
-      var result = ui.create_box( e, 'building', 'icon_ui_building', 'Building' );
-      _( result, 'b' )[0].title = ns.txt.building[ e.id + '_tip' ];
-      ui.create_help_buttons( result );
-      if ( e.upgrage ) { // Add lower tier building as requirement
-         var from = ns.entity[ e.upgrade ];
-         if ( from ) result.appendChild( ui.box_recur( from ) );
+var ui = ns.ui;
+var event = ui.event;
+
+ui.create_box = function ui_create_box( e ) {
+  return ui[ 'create_' + e.type + '_box' ]( e );
+};
+
+ui.create_tech_box = function ui_create_tech_box( e ) {
+   var orig = ns.txt.tech_orig[ e.orig ];
+   var result = ui.create_base_box( e, 'tech', 'icon_tech_'+orig.toLowerCase(), orig );
+   return ui.create_help_buttons( result );
+};
+
+ui.create_building_box = function ui_create_building_box( e ) {
+   var result = ui.create_base_box( e, 'building', 'icon_ui_building', 'Building' );
+   _( result, '.title' )[0].title = ns.txt.building[ e.id + '_tip' ];
+   ui.create_help_buttons( result );
+   if ( e.upgrage ) { // Add lower tier building as requirement
+      var from = ns.entity[ e.upgrade ];
+      if ( from ) result.appendChild( ui.box_recur( from ) );
+   }
+   return result;
+};
+
+ui.create_item_box = function ui_create_item_box( e ) {
+   var result = ui.create_base_box( e, 'item', 'icon_ui_item', 'Item' );
+   return ui.create_help_buttons( result );
+};
+
+/* Create a general entity box */
+ui.create_entity_box = function ui_create_entity_box( e ) {
+   var result = _.create( 'div', { 'class': 'entity treenode' } );
+   if ( e.match( /^[A-Z][a-z]+[1-7]$/ ) ) { // resource
+   var req = { 'T_CrystalMining': /^Crystals\d$/, 'T_NobleMetalMining': /^Noble\d$/, 'FossilePowerUpgrade': /^Energy[45]$/, 'AlienPowerUpgrade': /^Energy[678]$/ };
+   for ( var r in req ) {
+      // If special resources, add requirements
+      if ( e.match( req[r] ) ) {
+         if ( ui.displayed.indexOf( r ) >= 0 ) result.className += ' collapsed';
+         else ui.displayed.push( r );
+         ui.create_fold_buttons( result );
+         result.appendChild( ui.box_recur( ns.entity[r] ) );
+         req = null;
+         break;
       }
-      return result;
-   },
+   }
+   if ( req ) _.addClass( result, 'resource' );
+      e = "Lv. " + e.substr( e.length-1 ) + " " + e.substr( 0, e.length-1 );
+   } else {
+      e = ns.uncamel( e );
+   }
+   result.insertBefore( _.create( 'b', e ), result.firstChild );
+   return result;
+};
 
-   'create_item_box' : function ui_create_item_box( e ) {
-      var result = ui.create_box( e, 'item', 'icon_ui_item', 'Item' );
-      return ui.create_help_buttons( result );
-   },
+ui.create_base_box = function ui_create_base_box( e, className, icon, alt ) {
+   var result = _.create( 'div', { 'class': className + ' treenode', 'data-name': e.name } );
+   if ( ui.displayed.indexOf( e ) >= 0 ) result.className += ' collapsed';
+   else ui.displayed.push( e );
+   result.appendChild( _.create( 'a', { class: 'title', text: e.text, onclick: event.lnk_block_title_click } ) );
+   result.appendChild( _.create( 'img', { class: 'icon', src: _('#'+icon)[0].src, alt: alt } ) );
+   if ( e.day )       result.appendChild( _.create( 'span', { class: 'manday', text: e.day + ' man days' } ) );
+   else if ( e.hour ) result.appendChild( _.create( 'span', { class: 'manhour', text: e.hour + ' man hours' } ) );
+   return result;
+};
 
-   /* Create a general entity box */
-   'create_entity_box' : function ui_create_entity_box( e ) {
-      var result = _.create( 'div', { 'class': 'entity treenode' } );
-      if ( e.match( /^[A-Z][a-z]+[1-7]$/ ) ) { // resource
-      var req = { 'T_CrystalMining': /^Crystals\d$/, 'T_NobleMetalMining': /^Noble\d$/, 'FossilePowerUpgrade': /^Energy[45]$/, 'AlienPowerUpgrade': /^Energy[678]$/ };
-      for ( var r in req ) {
-         if ( e.match( req[r] ) ) {
-            if ( displayed.indexOf( r ) >= 0 ) result.className += ' collapsed';
-            else displayed.push( r );
-            ui.create_fold_buttons( result );
-            result.appendChild( ui.box_recur( ns.entity[r] ) );
-            req = null;
-            break;
-         }
-      }
-      if ( req ) _.addClass( result, 'resource' );
-         e = "Lv. " + e.substr( e.length-1 ) + " " + e.substr( 0, e.length-1 );
-      } else {
-         e = ns.uncamel( e );
-      }
-      result.insertBefore( _.create( 'b', e ), result.firstChild );
-      return result;
-   },
+ui.create_fold_buttons = function ui_create_help_buttons( e ) {
+   e.appendChild( _.create( 'img', { class: 'collapse', src: _('#icon_ui_minus')[0].src, alt: 'Expand', tabindex: 0, 'aria-role': 'button', onclick: event.btn_collapse_click } ) );
+   e.appendChild( _.create( 'img', { class: 'expand', src: _('#icon_ui_plus')[0].src, alt: 'Collapse', tabindex: 0, 'aria-role': 'button', onclick: event.btn_expand_click } ) );
+   return e;
+};
 
-   'create_box' : function ui_create_box( e, className, icon, alt ) {
-      var result = _.create( 'div', { 'class': className + ' treenode', 'data-name': e.name } );
-      if ( displayed.indexOf( e ) >= 0 ) result.className += ' collapsed';
-      else displayed.push( e );
-      result.appendChild( _.create( 'b', e.text ) );
-      result.appendChild( _.create( 'img', { 'class': 'icon', src: _('#'+icon)[0].src, alt: alt } ) );
-      if ( e.day )       result.appendChild( _.create( 'span', { 'class': 'manday', text: e.day + ' man days' } ) );
-      else if ( e.hour ) result.appendChild( _.create( 'span', { 'class': 'manhour', text: e.hour + ' man hours' } ) );
-      return result;
-   },
-
-   'create_fold_buttons' : function ui_create_help_buttons( e ) {
-      e.appendChild( _.create( 'img', { 'class': 'collapse', src: _('#icon_ui_minus')[0].src, alt: 'Expand', 'tabindex': 0, 'aria-role': 'button', onclick: event.btn_collapse_click } ) );
-      e.appendChild( _.create( 'img', { 'class': 'expand', src: _('#icon_ui_plus')[0].src, alt: 'Collapse', 'tabindex': 0, 'aria-role': 'button', onclick: event.btn_expand_click } ) );
-      return e;
-   },
-
-   'create_help_buttons' : function ui_create_help_buttons( e ) {
-      ui.create_fold_buttons( e );
-      e.appendChild( _.create( 'img', { 'class': 'desc', src: _('#icon_ui_desc')[0].src, alt: 'Descriptions', 'tabindex': 0, 'aria-role': 'button', onclick: event.btn_desc_click } ) );
-      return e;
-   },
+ui.create_help_buttons = function ui_create_help_buttons( e ) {
+   ui.create_fold_buttons( e );
+   e.appendChild( _.create( 'img', { class: 'desc', src: _('#icon_ui_desc')[0].src, alt: 'Descriptions', tabindex: 0, 'aria-role': 'button', onclick: event.btn_desc_click } ) );
+   return e;
 };
 
 })( ufoal ); // ]]></script>
@@ -453,17 +500,30 @@ var ui = ns.ui = {
 var ui = ns.ui;
 var event = ui.event;
 
+var txt_search = _( '#txt_search')[0];
+
+event.window_popstate = function window_popstate( evt ) {
+   txt_search.value = ui.find_query();
+   event.txt_search_input( evt );
+};
+
 event.txt_search_input = function txt_search_input( evt ) {
    _.hide( '#lbl_not_found' );
-   var val = _( '#txt_search')[0].value.trim();
+   var val = txt_search.value.trim();
    if ( ! val ) return;
    var name = val.toLowerCase();
    var target = ns.all.filter( function(e){
       return e.text.toLowerCase() === name;
    });
    if ( target.length <= 0 ) return _.show( '#lbl_not_found' );
-   history.pushState( {}, '', '?query=' + val );
+   if ( val !== ui.find_query() ) 
+      history.pushState( {}, '', '?query=' + val );
    ui.show_result( target );
+};
+
+event.lnk_block_title_click = function lnk_block_title_click( evt ) {
+   txt_search.value = evt.target.textContent;
+   event.txt_search_input();
 };
 
 event.btn_collapse_click = function btn_collapse_click( evt ) {
@@ -483,7 +543,7 @@ event.btn_desc_click = function btn_desc_click( evt ) {
       return box.removeChild( _( box, '.help' )[0] );
 
    // Create description
-   var help = _.create( 'div', { 'class': 'help' } );
+   var help = _.create( 'div', { class: 'help' } );
    var e = ns.entity[ box.dataset.name ], txt = ns.txt[ e.type ];
    if ( e.type === 'tech' ) {
       help.innerHTML = txt[ e.id + '_b4' ] + '<hr/>' + ns.txt.tech[ e.id + '_done' ];
@@ -496,9 +556,7 @@ event.btn_desc_click = function btn_desc_click( evt ) {
 
 event.lnk_license_click = function lnk_license_click( evt ) {
    evt.preventDefault();
-   ui.clear_result();
-   _.hide('#pnl_result');
-   _.show('#pnl_license');
+   ui.show_panel( '#pnl_license' );
 };
 
 })( ufoal ); // ]]></script>
@@ -8817,7 +8875,6 @@ ufoal.txt.tech = {
 "342_b4":"No matter how careful our soldiers are, Beastmen always find them by their smell.",
 "343_done":"Although we call them matriarchs, it cannot be said that these creatures are female. They were biologically modified to be the perfect chiefs - strong,  skilful and cunning. If the normal Beastmen soldiers are a very dangerous enemy, this  is twice as true of the Beastmen’s matriarchs. She is very agile, dodging most of the attacks. When hit, she is not easily hurt, with the exception of laser damage and probably psionic attacks.",
 "343_b4":"The Beastmen’s rulers are our most impressive opponents. We can learn a bit more about them by studying their dead bodies.",
-"343":"Beastman Matriarch Autopsy",
 }; // ]]></script>
 <script>//<![CDATA[
 ufoal.txt.tech_orig = {
