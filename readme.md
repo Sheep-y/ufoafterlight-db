@@ -5,7 +5,6 @@ For project description and deliverable, see the [main branch](https://github.co
 
 JavaScript code is in [`res`](https://github.com/Sheep-y/ufoafterlight-db/tree/development/res) folder, and data is in [`data`](https://github.com/Sheep-y/ufoafterlight-db/tree/development/data) folder.
 JavaScript namespace is 'ufoal', defined in [`core.js`](https://github.com/Sheep-y/ufoafterlight-db/tree/development/res/core.js).
-Most code is in [`ui.js`](https://github.com/Sheep-y/ufoafterlight-db/tree/development/res/ui.js), with event handlers in [`event.js`](https://github.com/Sheep-y/ufoafterlight-db/tree/development/res/event.js).
 
 [Images](https://github.com/Sheep-y/ufoafterlight-db/tree/development/img) are embedded as data uri.  Other contents are inlined as is.
 

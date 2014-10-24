@@ -48,8 +48,7 @@ event.btn_desc_click = function btn_desc_click( evt ) {
 event.lnk_license_click = function lnk_license_click( evt ) {
    evt.preventDefault();
    ui.clear_result();
-   _.hide('#pnl_result');
-   _.show('#pnl_license');
+   ui.show_panel( '#pnl_license' );
 };
 
 })( ufoal ); // ]]>
