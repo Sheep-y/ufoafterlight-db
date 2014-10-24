@@ -20,7 +20,12 @@ h1 { margin: 0; font-size: 24px; }
   margin-right: 5px;
 }
 .treenode > div { margin-left: 25px }
-.leaf .collapse, .leaf .expand { display: none }
+
+a.title { font-weight: bold; cursor: pointer; }
+a.title, a.title:visited, a.title:hover { color: white }
+.icon { float: left; margin-right: 5px; vertical-align: text-bottom; }
+.desc { clear: left; float: left; cursor: help; margin-top: 3px; }
+.help { display: block; border: 2px ridge #b8cbd1; padding: 3px; background-color: black; font-size: smaller; max-width: 500px; }
 
 .collapse, .expand { float: right; cursor: pointer; margin-left: 5px }
 :not(.collapsed) > .expand { display: none }
@@ -33,19 +38,21 @@ h1 { margin: 0; font-size: 24px; }
     display: none
  }
 
-.icon { float: left; margin-right: 5px; vertical-align: text-bottom; }
-.desc { clear: left; float: left; cursor: help; margin-top: 3px; }
-.help { display: block; border: 2px ridge #b8cbd1; padding: 3px; background-color: black; font-size: smaller; max-width: 500px; }
+.leaf .collapse, .leaf .expand { display: none }
+#pnl_enable .desc,
+#pnl_enable .collapse,
+#pnl_enable .expand { display: none }
 
-.treenode > .resource { margin-left: 0; float: left; } /* Default will float onto one line */
-.treenode > img + .resource:last-child { margin-left: 25px; float: none; } /* Un-float to keep box tight */
-.treenode > div:not( .resource ) + .resource { margin-left: 25px; } /* Align with previous block */
-.resource + div:not( .resource ) { clear: left } /* Do not stick after previous resource */
+.treenode > .resource { margin-left: 0; float: left; } /* Resources will float onto one line */
+.treenode > img + .resource:last-child { margin-left: 25px; float: none; } /* Contains only one resource? Un-float to keep box tight */
+.treenode > div:not(.resource) + .resource { margin-left: 25px; } /* Align with previous block */
+.resource + div:not(.resource) { clear: left } /* Normal blocks do not stick after previous resource */
 .manday, .manhour { font-size: smaller; color: yellow }
 .manday:before, .manhour:before { content: ", " }
 
 #pnl_search input[type="search"] {
   min-width: 300px;
 }
-#pnl_result { padding: 0; margin: auto; }
-#pnl_footer, nav { padding: 0 5px }
+#pnl_result { padding: 0; float: left; }
+#pnl_enable { padding: 0; float: right; }
+#pnl_footer, nav { padding: 0 5px; clear: both }

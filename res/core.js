@@ -35,6 +35,13 @@ ns.init = function ufoal_init() {
    ns.ui.init();
 };
 
+/** Converts prereq object to prereq array */
+ns.prereq = function ufoal_prereq( e ) {
+   if ( ! e.prereq ) return [];
+   if ( ! ( e.prereq instanceof Array ) ) return Object.keys( e.prereq );
+   return e.prereq;
+}
+
 ns.uncamel = function ufoal_uncamel( txt ) {
    return txt.split( /(?=[A-Z0-9])/ ).join( ' ' ).trim();
 };

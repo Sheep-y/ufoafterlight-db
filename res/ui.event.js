@@ -4,17 +4,30 @@
 var ui = ns.ui;
 var event = ui.event;
 
+var txt_search = _( '#txt_search')[0];
+
+event.window_popstate = function window_popstate( evt ) {
+   txt_search.value = ui.find_query();
+   event.txt_search_input( evt );
+};
+
 event.txt_search_input = function txt_search_input( evt ) {
    _.hide( '#lbl_not_found' );
-   var val = _( '#txt_search')[0].value.trim();
+   var val = txt_search.value.trim();
    if ( ! val ) return;
    var name = val.toLowerCase();
    var target = ns.all.filter( function(e){
       return e.text.toLowerCase() === name;
    });
    if ( target.length <= 0 ) return _.show( '#lbl_not_found' );
-   history.pushState( {}, '', '?query=' + val );
+   if ( val !== ui.find_query() ) 
+      history.pushState( {}, '', '?query=' + val );
    ui.show_result( target );
+};
+
+event.lnk_block_title_click = function lnk_block_title_click( evt ) {
+   txt_search.value = evt.target.textContent;
+   event.txt_search_input();
 };
 
 event.btn_collapse_click = function btn_collapse_click( evt ) {
@@ -34,7 +47,7 @@ event.btn_desc_click = function btn_desc_click( evt ) {
       return box.removeChild( _( box, '.help' )[0] );
 
    // Create description
-   var help = _.create( 'div', { 'class': 'help' } );
+   var help = _.create( 'div', { class: 'help' } );
    var e = ns.entity[ box.dataset.name ], txt = ns.txt[ e.type ];
    if ( e.type === 'tech' ) {
       help.innerHTML = txt[ e.id + '_b4' ] + '<hr/>' + ns.txt.tech[ e.id + '_done' ];
@@ -47,7 +60,6 @@ event.btn_desc_click = function btn_desc_click( evt ) {
 
 event.lnk_license_click = function lnk_license_click( evt ) {
    evt.preventDefault();
-   ui.clear_result();
    ui.show_panel( '#pnl_license' );
 };
 
