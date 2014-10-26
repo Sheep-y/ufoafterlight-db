@@ -5,8 +5,29 @@ var ui = ns.ui;
 var event = ui.event;
 var txt = ns.txt;
 
+ui.create_index = function ui_create_index() {
+   var top = _.create( 'ul' );
+   for ( var type in ns.data ) {
+      var cat = _.create( 'li', ns.ucfirst( type ) );
+      var list = _.create( 'ul', { class: 'title' } );
+      var data = ns.data[ type ];
+      var txtlist = [];
+      for ( var i in data ) {
+         if ( data[i].text ) txtlist.push( data[i].text );
+      }
+      txtlist = txtlist.sort();
+      txtlist.forEach( function create_index( e, i ) {
+         if ( txtlist.indexOf( e ) === i )
+            list.appendChild( _.create( 'li', { text: e, onclick: event.lnk_block_title_click } ) );
+      });
+      cat.appendChild( list );
+      top.appendChild( cat );
+   }
+   _( '#pnl_index' )[0].appendChild( top );
+};
+
 ui.create_box = function ui_create_box( e ) {
-  return ui[ 'create_' + e.type + '_box' ]( e );
+   return ui[ 'create_' + e.type + '_box' ]( e );
 };
 
 ui.create_tech_box = function ui_create_tech_box( e ) {
@@ -19,10 +40,6 @@ ui.create_building_box = function ui_create_building_box( e ) {
    var result = ui.create_base_box( e, 'building' );
    _( result, '.title' )[0].title = txt.building[ e.id + '_tip' ];
    ui.create_help_buttons( result );
-   if ( e.upgrage ) { // Add lower tier building as requirement
-      var from = ns.entity[ e.upgrade ];
-      if ( from ) result.appendChild( ui.box_recur( from ) );
-   }
    return result;
 };
 
@@ -33,7 +50,7 @@ ui.create_item_box = function ui_create_item_box( e ) {
 
 ui.create_training_box = function ui_create_training_box( e ) {
    var result = ui.create_base_box( e, 'training' );
-   _( result, '.title' )[0].appendChild( _.create( 'span', ' (' + txt.race[ e.race ] + ')' );
+   _( result, '.title' )[0].appendChild( _.create( 'span', ' (' + txt.race[ e.race ] + ')' ) );
    return ui.create_help_buttons( result );
 };
 
@@ -74,7 +91,7 @@ ui.create_entity_box = function ui_create_entity_box( e ) {
 ui.create_base_box = function ui_create_base_box( e, className, icon, alt ) {
    var result = _.create( 'div', { 'class': className + ' treenode', 'data-name': e.name } );
    if ( ! icon ) icon = 'icon_ui_' + className;
-   if ( ! alt ) alt = className.substr(0,1).toUpperCase() + className.substr(1);
+   if ( ! alt ) alt = ns.ucfirst( className );
    if ( ui.displayed.indexOf( e ) >= 0 ) result.className += ' collapsed';
    else ui.displayed.push( e );
    result.appendChild( _.create( 'a', { class: 'title', text: e.text, onclick: event.lnk_block_title_click } ) );

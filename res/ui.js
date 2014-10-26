@@ -3,7 +3,7 @@
 
 var event = {}; // Event handlers are stored here
 
-
+var pnl_index = _( '#pnl_index' )[0];
 var pnl_result = _( '#pnl_result' )[0];
 var pnl_enable = _( '#pnl_enable' )[0];
 var pnl_license = _( '#pnl_license' )[0];
@@ -19,19 +19,19 @@ var ui = ns.ui = {
       document.head.appendChild( _.create( 'meta', { rel: 'apple-touch-icon', href: _('link[rel="icon"]')[0].href } ) );
       window.addEventListener( 'popstate', event.window_popstate );
 
-      // Initialise searchable data list
+      // Initialise index and searchable data list
+      ui.create_index();
       var data_search = _( '#data_search' )[0];
       var options = _.col( ns.all, 'text' ).sort();
       options.forEach( function each_option( e, i ) {
          if ( e && options.indexOf( e ) === i ) // Filter out empties and duplicates
             data_search.appendChild( _.create( 'option', { value: e } ) );
       });
+      _.show( '#pnl_search' );
 
-      // Search handler
-      _( '#txt_search' )[0].addEventListener( 'input', event.txt_search_input );
+      // Update query from url
       event.window_popstate();
 
-      _.show( '#pnl_search' );
       //_( 'input[autofocus]' )[0].focus(); // Focus may cause browser to not trigger datalist dropdown.
       _( 'input[autofocus]' )[0].select();
    },
@@ -39,13 +39,13 @@ var ui = ns.ui = {
    'find_query' : function ui_find_query() {
       if ( location.search ) {
          var match = location.search.match( /\bquery=([^&]*)/ );
-         if ( match.length ) return decodeURIComponent( match[1] ).trim();
+         if ( match && match.length ) return decodeURIComponent( match[1] ).trim();
       }
       return "";
    },
 
    'show_panel' : function ui_show_panel( panel ) {
-      _.hide( [ pnl_result, pnl_enable, pnl_license ] );
+      _.hide( [ pnl_index, pnl_result, pnl_enable, pnl_license ] );
       pnl_enable.innerHTML = pnl_result.innerHTML = '';
       ui.displayed = []; // Reset display record
       if ( panel ) return _.show( panel );
@@ -82,14 +82,19 @@ var ui = ns.ui = {
       if ( root.prereq ) {
          ns.prereq( root ).forEach( function recur_prereq( t ) {
             var e = ns.entity[ t ];
-            if ( e )
+            if ( e ) {
                result.appendChild( ui.box_recur( e ) );
-            else
+            } else {
                result.appendChild( ui.create_entity_box( t ) );
+            }
          });
       } else {
          if ( _( result, '.treenode' ).length <= 0 )
             _.addClass( result, 'leaf' );
+      }
+      if ( root.upgrade ) { // Add lower tier entity as requirement
+         var from = ns.entity[ root.upgrade ];
+         if ( from ) result.appendChild( ui.box_recur( from ) );
       }
       return result;
    },

@@ -14,7 +14,12 @@ event.window_popstate = function window_popstate( evt ) {
 event.txt_search_input = function txt_search_input( evt ) {
    _.hide( '#lbl_not_found' );
    var val = txt_search.value.trim();
-   if ( ! val ) return;
+   if ( ! val ) {
+      if ( ui.find_query() )
+         history.pushState( {}, '', '?' );
+      return ui.show_panel( '#pnl_index' );
+   }
+
    var name = val.toLowerCase();
    var target = ns.all.filter( function(e){
       return e.text.toLowerCase() === name;
@@ -23,6 +28,11 @@ event.txt_search_input = function txt_search_input( evt ) {
    if ( val !== ui.find_query() ) 
       history.pushState( {}, '', '?query=' + val );
    ui.show_result( target );
+};
+
+event.btn_reset_click = function btn_reset_click( evt ) {
+   txt_search.value = '';
+   event.txt_search_input();
 };
 
 event.lnk_block_title_click = function lnk_block_title_click( evt ) {
