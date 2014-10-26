@@ -49,11 +49,15 @@ event.btn_desc_click = function btn_desc_click( evt ) {
    // Create description
    var help = _.create( 'div', { class: 'help' } );
    var e = ns.entity[ box.dataset.name ], txt = ns.txt[ e.type ];
+   var content = 'Id: ' + e.id + ', ' + e.name;
+   if ( e.effect ) content += '<br/>Effect: ' + ns.uncamel( e.effect );
+   content += '<hr/>';
    if ( e.type === 'tech' ) {
-      help.innerHTML = txt[ e.id + '_b4' ] + '<hr/>' + ns.txt.tech[ e.id + '_done' ];
+      content += txt[ e.id + '_b4' ] + '<hr/>' + ns.txt.tech[ e.id + '_done' ];
    } else {
-      help.innerHTML = txt[ e.id ] ? txt[ e.id ] : '(Internal data; no description)';
+      content += txt[ e.id ] ? txt[ e.id ] : '(Internal data; no description)';
    }
+   help.innerHTML = content;
    var firstdiv = box.querySelector( 'div' );
    box.insertBefore( help, firstdiv && firstdiv.parentNode === box ? firstdiv : undefined );
 };

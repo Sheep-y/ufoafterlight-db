@@ -1,0 +1,21 @@
+//<![CDATA[
+ufoal.txt.trigger = {
+'FirstAlienCorpse':'Any alien corpse',
+'FirstAlienCapture':'Any alien captive',
+'FirstRobotAttackAqueduct':'After first aqueduct mission',
+'FirstNonRobotBaseAttack':'After first non-aqueduct defend',
+'LostConnection':'Lost connection with Earth',
+'CultistTechnology':'Share technology with Servants or Laputian',
+'LaputaTechnology':'Share technology with Laputian',
+'ReticulanTech1Prereq':'Raid any reticulan main base',
+'AnyReticulanCorpse':'Reticulan corpse',
+'FirstGateOpened':'First Hyperspace gate opened',
+'OneMartianArtifact':'Any Martian artifact from excavation',
+'TwoMartianArtifacts':'Two Martian artifacts from excavation',
+'TerraformForWaterCondens':'Moderate terraform level',
+'TerraformAdvMine':'Terraform 50% or above',
+'OpenArmorTerraformation':'High terraform level',
+'BeastmenArrivesForce':'Meet Natural Force',
+'LaputaIntroSeen':'Contacted Laputian',
+'MoonTravelRequest':'Moon travel suggested',
+}; // ]]>
