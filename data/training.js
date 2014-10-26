@@ -120,6 +120,7 @@ ufoal.data.training = [
 {id:124,"name":"M_BeastTechnologyMajor",day:3,type:"scientist",effect:"BeastmanTechnologyMajorEffect",icon:"cBeastTechnologyMajor",upgrade:117,race:3,prereq:["T_BeastmenCommanderInterrogation"]},
 {id:125,"name":"M_PlanetologyMinor",day:3,type:"scientist",effect:"PlanetologyMinorEffect",icon:"cPlanetologyMinor",race:3},
 {id:126,"name":"M_PlanetologyMajor",day:3,type:"scientist",effect:"PlanetologyMajorEffect",icon:"cPlanetologyMajor",upgrade:119,race:3},
+/* // Drone trainings has same name with relevant items. Disable to avoid conflict.
 {id:127,"name":"ProcessorMinor",day:2,type:"soldier",effect:"ProcessorMinorEffect",icon:"cProcessorMinor",race:5,prereq:["T_MinorEnhacements"]},
 {id:128,"name":"ProcessorMajor",day:3,type:"soldier",effect:"ProcessorMajorEffect",icon:"cProcessorMajor",upgrade:121,race:5,prereq:["T_MajorEnhancements"]},
 {id:129,"name":"MemoryMinor",day:2,type:"soldier",effect:"MemoryMinorEffect",icon:"cMemoryMinor",race:5,prereq:["T_MinorEnhacements"]},
@@ -130,5 +131,6 @@ ufoal.data.training = [
 {id:134,"name":"GearMajor",day:3,type:"soldier",effect:"GearMajorEffect",icon:"cGearMajor",upgrade:127,race:5,prereq:["T_MajorEnhancements"]},
 {id:135,"name":"MonitorMinor",day:2,type:"soldier",effect:"MonitorMinorEffect",icon:"cMonitorMinor",race:5,prereq:["T_MinorEnhacements"]},
 {id:136,"name":"MonitorMajor",day:3,type:"soldier",effect:"MonitorMajorEffect",icon:"cMemoryMinor",upgrade:129,race:5,prereq:["T_MajorEnhancements"]},
+*/
 {id:137,"name":"OlgaSpecial",day:0,type:"soldier",effect:"FastLearning",icon:"cOlgaSpecial",race:1},
 ]; // ]]>
