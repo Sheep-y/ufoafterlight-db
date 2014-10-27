@@ -99,8 +99,8 @@ ui.create_base_box = function ui_create_base_box( e, className, icon, alt ) {
    else ui.displayed.push( e );
    result.appendChild( _.create( 'a', { class: 'title', text: e.text, onclick: event.lnk_block_title_click } ) );
    result.appendChild( _.create( 'img', { class: 'icon', src: _('#'+icon)[0].src, alt: alt } ) );
-   if ( e.day )       result.appendChild( _.create( 'span', { class: 'manday', text: e.day + ' days' } ) );
-   else if ( e.hour ) result.appendChild( _.create( 'span', { class: 'manhour', text: e.hour + ' hours' } ) );
+   if ( e.day )       result.appendChild( _.create( 'span', { class: 'manday', text: e.day + ' man-days' } ) );
+   else if ( e.hour ) result.appendChild( _.create( 'span', { class: 'manhour', text: e.hour + ' man-hours' } ) );
    return result;
 };
 

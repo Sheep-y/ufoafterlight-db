@@ -51,23 +51,14 @@ event.btn_expand_click = function btn_expand_click( evt ) {
 event.btn_desc_click = function btn_desc_click( evt ) {
    var box = evt.target.parentNode;
 
-   // Remove description
+   // Remove description if any already exists
    var help = _( box, '.help' );
    if ( help.length > 0 && help[0].parentNode === box )
       return box.removeChild( _( box, '.help' )[0] );
 
-   // Create description
-   var help = _.create( 'div', { class: 'help' } );
-   var e = ns.entity[ box.dataset.name ], txt = ns.txt[ e.type ];
-   var content = 'Id: ' + e.id + ', ' + e.name;
-   if ( e.effect ) content += '<br/>Effect: ' + ns.uncamel( e.effect );
-   content += '<hr/>';
-   if ( e.type === 'tech' ) {
-      content += txt[ e.id + '_b4' ] + '<hr/>' + ns.txt.tech[ e.id + '_done' ];
-   } else {
-      content += txt[ e.id ] ? txt[ e.id ] : '(Internal data; no description)';
-   }
-   help.innerHTML = content;
+   // Create and insert description
+   var e = ns.entity[ box.dataset.name ];
+   var help = _.create( 'div', { class: 'help', html: ns.get_desc( e ) } );
    var firstdiv = box.querySelector( 'div' );
    box.insertBefore( help, firstdiv && firstdiv.parentNode === box ? firstdiv : undefined );
 };

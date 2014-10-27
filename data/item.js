@@ -3350,7 +3350,7 @@ wam:[{
   defenseskill:"DodgeMelee",
   animationtime:21,
   weaponmode:"Melee",
-  dmgtype:"Cut",
+  dmgtype:"Melee",
   close:{
 accuracy:1.25}},
  {
@@ -3363,7 +3363,7 @@ accuracy:1.25}},
   defenseskill:"Dodge",
   animationtime:2,
   weaponmode:"Mechanical",
-  dmgtype:"Cut",
+  dmgtype:"Melee",
   ranged:{
 aimingtime:10,
 accuracy:1.6,
@@ -3380,7 +3380,7 @@ wam:[{
   defenseskill:"DodgeMelee",
   animationtime:21,
   weaponmode:"Melee",
-  dmgtype:"Cut",
+  dmgtype:"Melee",
   close:{
 accuracy:1.25}},
  {
@@ -3393,7 +3393,7 @@ accuracy:1.25}},
   defenseskill:"Dodge",
   animationtime:2,
   weaponmode:"Mechanical",
-  dmgtype:"Cut",
+  dmgtype:"Melee",
   ranged:{
 aimingtime:10,
 accuracy:1.6,
@@ -3660,7 +3660,7 @@ wam:[{
   defenseskill:"DodgeMelee",
   animationtime:21,
   weaponmode:"Melee",
-  dmgtype:"Cut",
+  dmgtype:"Melee",
   close:{
 accuracy:1.25}}]},
   {
@@ -3674,7 +3674,7 @@ wam:[{
   defenseskill:"DodgeMelee",
   animationtime:21,
   weaponmode:"Melee",
-  dmgtype:"Cut",
+  dmgtype:"Melee",
   close:{
 accuracy:1.25}}]},
  ]},
@@ -3886,7 +3886,7 @@ wam:[{
   damageskill:"Melee",
   animationtime:10,
   weaponmode:"Melee",
-  dmgtype:"Cut",
+  dmgtype:"Melee",
   close:{
 accuracy:1,
 attackspeedskill:"Melee"}},
@@ -3901,7 +3901,7 @@ attackspeedskill:"Melee"}},
   damageskill:"Melee",
   animationtime:5,
   weaponmode:"Throw",
-  dmgtype:"Cut",
+  dmgtype:"Melee",
   ranged:{
 aimingtime:2,
 accuracy:1,
@@ -3939,7 +3939,7 @@ wam:[{
   damageskill:"Melee",
   animationtime:10,
   weaponmode:"Melee",
-  dmgtype:"Cut",
+  dmgtype:"Melee",
   close:{
 accuracy:1,
 attackspeedskill:"Melee"}}]},
@@ -3969,7 +3969,7 @@ wam:[{
   damageskill:"Melee",
   animationtime:15,
   weaponmode:"Melee",
-  dmgtype:"Cut",
+  dmgtype:"Melee",
   close:{
 accuracy:2,
 attackspeedskill:"Melee"}}]},
@@ -6404,7 +6404,7 @@ wam:[{
   damageskill:"Melee",
   animationtime:26,
   weaponmode:"AimedSingle",
-  dmgtype:"Cut",
+  dmgtype:"Melee",
   close:{
 accuracy:1}}]},
  ]},
@@ -6518,7 +6518,7 @@ wam:[{
   animationtime:13,
   pellets:true,
   weaponmode:"AimedSingle",
-  dmgtype:"Cut",
+  dmgtype:"Melee",
   close:{
 accuracy:1},
   radius:{
@@ -6829,7 +6829,7 @@ wam:[{
   damageskill:"Melee",
   animationtime:26,
   weaponmode:"AimedSingle",
-  dmgtype:"Cut",
+  dmgtype:"Melee",
   close:{
 accuracy:1}}]},
  ]},
