@@ -35,7 +35,7 @@ ns.init = function ufoal_init() {
    });
    // Training processing. Training is different from other data.
    data.training.forEach( function each_training( e ) {
-      e.text = ns.ucword( ns.txt.training[ e.id + '_name' ] );
+      e.text = ns.ucfirst( ns.txt.training[ e.id + '_name' ].toLowerCase() );
       if ( e.upgrade ) e.upgrade = data.training[ e.upgrade-1 ].name;
    });
    ns.ui.init();
@@ -51,10 +51,6 @@ ns.prereq = function ufoal_prereq( e ) {
 ns.ucfirst = function ufoal_ucfirst( txt ) {
    return txt ? txt.substr(0,1).toUpperCase() + txt.substr(1) : txt;
 };
-
-ns.ucword = function ufoal_ucword( txt ) {
-   return txt.split( /\b(?=\w)/ ).map( ns.ucfirst ).join( '' );
-}
 
 ns.uncamel = function ufoal_uncamel( txt ) {
    return txt.split( /(?=[A-Z0-9])/ ).join( ' ' ).trim();

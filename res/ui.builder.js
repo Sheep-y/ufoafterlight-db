@@ -9,7 +9,7 @@ ui.create_index = function ui_create_index() {
    var top = _.create( 'ul' );
    for ( var type in ns.data ) {
       var cat = _.create( 'li', ns.ucfirst( type ) );
-      var list = _.create( 'ul', { class: 'title' } );
+      var list = _.create( 'ul' );
       var data = ns.data[ type ];
       var txtlist = [];
       for ( var i in data ) {
@@ -17,8 +17,11 @@ ui.create_index = function ui_create_index() {
       }
       txtlist = txtlist.sort();
       txtlist.forEach( function create_index( e, i ) {
-         if ( txtlist.indexOf( e ) === i )
-            list.appendChild( _.create( 'li', { text: e, onclick: event.lnk_block_title_click } ) );
+         if ( txtlist.indexOf( e ) === i ) {
+            var li = _.create( 'li' );
+            li.appendChild( _.create( 'span', { class: 'title', text: e, onclick: event.lnk_block_title_click } ) );
+            list.appendChild( li );
+         }
       });
       cat.appendChild( list );
       top.appendChild( cat );

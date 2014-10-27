@@ -22,7 +22,8 @@ h1 { margin: 0; font-size: 24px; }
 .treenode > div { margin-left: 25px }
 
 .title { font-weight: bold; cursor: pointer; }
-.title, .title:visited, .title:hover { color: white }
+.title, .title:visited { color: white }
+.title:hover { color: yellow }
 .icon { float: left; margin-right: 5px; vertical-align: text-bottom; }
 .desc { clear: left; float: left; cursor: help; margin-top: 3px; }
 .help { display: block; border: 2px ridge #b8cbd1; padding: 3px; background-color: black; font-size: smaller; max-width: 500px; }
