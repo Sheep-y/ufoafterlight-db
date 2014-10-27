@@ -1,4 +1,4 @@
-//<![CDATA[
+// <![CDATA[
 ufoal.txt.tech = {
 "200_done":"The easiest way to treat our soldiers whilst in their spacesuits on the battlefield, is to inject regenerative and analgesic substances into their blood. This treatment does not heal permanent damage, but it enables them to cope with temporary injuries.",
 "200_b4":"We need to extend our medical knowledge so that it can be used in battle.",
@@ -62,7 +62,6 @@ ufoal.txt.tech = {
 "232_b4":"Using inflammable substances in combat could give us an advantage over our enemies.",
 "233_done":"Our scientists developed special grenade, whose impact causes strong sound wave, effectively stunning everybody standing in vicinity.",
 "233_b4":"Sometimes it is more useful to render an enemy unconscious rather than killing him.",
-"233":"Non-lethal combat",
 "234_done":"The device our researchers have developed is installed into a special slot in the spacesuit and guarantees greater precision when aiming with long-range weapons. It monitors the hand-eye coordination between the mechanical parts of the suit and the user and adjusts as necessary.",
 "234_b4":"We could try to connect the weapon to the mechanical parts of the spacesuit arms to improve aiming accuracy.",
 "235_done":"Our civil engineers were given the plans of how to enlarge our actual tank so the water reserves will last for more than a few days. Even so, if the aqueduct is damaged, we will still have to send a technical team to repair it, only now there will be a leeway of several days.",
@@ -119,7 +118,6 @@ ufoal.txt.tech = {
 "260_b4":"If we can shrink the size of the processor and increase its performance, our computers will be even more useful, especially in combat situations.",
 "261_done":"Soldiers equipped with a rocket-launcher and a backpack full of rockets (or grenade-launcher with hand grenades) can send doom into an enemies’ ranks, if he receives training in how to use these weapons. Further research may allow the rockets to be used for ammunition other than explosives.",
 "261_b4":"Rockets could be very useful against tough and strong enemies.",
-"261":"Rocket-based Weapons",
 "262_done":"The Reticulans are physically a weak race, relying mostly on their hi-tech equipment and psionic abilities. They cannot withstand much damage and are easily hurt especially by explosives, on the other hand they are resistant to lasers. They can detect our soldiers with their psionic senses. Our soldiers can be taught which parts of the Reticulan’s bodies are the most effective to hit.",
 "262_b4":"By dissecting a Reticulan’s body, we could learn a lot about their anatomy and physiology and use this data in combat.",
 "263_done":"The thing that makes Reticulans such a dangerous opponent is their psionic weapons. For more detailed research, we must first get hold of some, but it seems that even then our soldiers may not be able to use them. Only the Reticulan race retains psionic abilities, and these seem to become weaker, at least in comparison with what we know from the war at the Earth.",
