@@ -35,7 +35,7 @@ h1 { margin: 0; font-size: 24px; }
   .collapsed > div,
   .collapsed > .desc,
   .collapsed > .manday,
-  .collapsed > .manhour  { 
+  .collapsed > .manhour  {
     display: none
  }
 

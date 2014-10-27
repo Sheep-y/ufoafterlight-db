@@ -25,7 +25,7 @@ event.txt_search_input = function txt_search_input( evt ) {
       return e.text.toLowerCase() === name;
    });
    if ( target.length <= 0 ) return _.show( '#lbl_not_found' );
-   if ( val !== ui.find_query() ) 
+   if ( val !== ui.find_query() )
       history.pushState( {}, '', '?query=' + val );
    ui.show_result( target );
 };
