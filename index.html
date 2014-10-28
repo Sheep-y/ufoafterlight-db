@@ -6,16 +6,28 @@
 <link rel="icon" href="data:image/gif;base64,R0lGODlhIAAgAKU/AAABAAsEAhgLBR4NCCgOBzQVByQaFkgaCkgjGV0iEHAlDlQwJUc3MV44LW01I3g0H5IwF444HZ40GFpKRqs6GrA8FXtKPLg8Gb1DHG5XTp9MNMtCGohSQtxOI3xpZKBiT79hRphrXuFbM6xtW6VxZpl7cuZqRuRzT895XOl9W7qLfaiRieqHas2Xh7SfmNyWg+2We9+mlO+kjvCyn9vCuu/CsvXBsvXJuPfMwfDVzffUx/rZ0fnf1/nq5fz39f///yH5BAEKAD8ALAAAAAAgACAAQAb+wJ9wSCwaj8TYBQAIZGi+Ho8nnVqtu51Oh7vZehZILEZR+GaLSYDZLKB0sDhrnkqdTHjQACAZVwgxLCIXhBWGFBUXGxgVZQJskEx9MRiRTQYMGR4lnCsrLqCeop4lCGIxFQElUTstGgRMAgIKOlU8WVtdNjYyBBFjZT1cMzAyMCkiHcrLHRuLhBsKa5IxQirX2Nna29xE3N/g2UJKbAEGGS45Peu2V7hbVD4qp0sCK1FSOTRjMTVU7lq2eKmR4BQFAj58xBjhYgKTAAIInPDR5YYXGzMyypAxQ0OAX2TMsCgwIOKBBR+MicBjQoTLZMpEHKQWkscJmM6cEdrZyBD+BgoJprHp02KDgABIkypdypQphBZIokqdSrXquAIEsmolUAABggVgFzQYS5Zs2APVyJUTwKCECxo0cmS5MiUgFSkh6D0c4IEGO7p033XR4SPvmCUBGED5CxjgFi42djjQu6BHlBwvSmRo4MDBhx22sgTEsWvGAYMBoPB4QUJNk6wSpLzjcjEjio/ADvjgMcKDh2lIE8zQkXHGRmNyUsBwEMCgyKNKC3wgdqLOiTstYYqQxgeYgh42RliwwAEECxknOryEqSwnhgPTJgWbIYhZs5zOMFw4hIH7UGAJ3CBCfoU0QgEiBypSgQJ7WDLJBQE4MAIIFGDAyH6NQKDAAQMcCGUJNT/EEEFnJHb2wIkopqhiir9Y5eKLMA4RBAA7" />
 <style>* { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; width: 100%; background-color: black; color: white; font-family: sans-serif; }
-a, a:hover { color: #bbf }
-a:visited { color: #88f }
+a { color: #bbf; }
+a:visited { color: #88f; }
+a:hover { color: yellow; }
 .hide { display: none; }
 .error { color: #f44; }
+.f_left { float: left; }
 .f_right { float: right; }
+.cf:after { content: " "; display: table; clear: both; }
 h1 { margin: 0; font-size: 24px; }
 .box {
-padding: 10px;
-border: 3px solid #b8cbd1; background-color: #012f3e; color: white
+padding: 10px; color: white;
+border: 3px solid #b8cbd1; background-color: #012f3e;
 }
+nav { padding: 0 5px; clear: both; }
+nav a, nav a:visited { color: #ddf; }
+#nav_top a { padding-right: 5px; }
+#pnl_index > ul > li { /* Main categories */
+display: block;
+float: left;
+padding: 0 3px;
+}
+:target { background: #448; }
 .treenode {
 display: table;
 border: 1px outset #3a635f; padding: 2px 5px; margin: 2px 0;
@@ -25,7 +37,8 @@ margin-right: 5px;
 }
 .treenode > div { margin-left: 25px }
 .title { font-weight: bold; cursor: pointer; }
-.title, .title:visited, .title:hover { color: white }
+.title, .title:visited { color: white }
+.title:hover { color: yellow }
 .icon { float: left; margin-right: 5px; vertical-align: text-bottom; }
 .desc { clear: left; float: left; cursor: help; margin-top: 3px; }
 .help { display: block; border: 2px ridge #b8cbd1; padding: 3px; background-color: black; font-size: smaller; max-width: 500px; }
@@ -53,15 +66,17 @@ display: none
 min-width: 300px;
 }
 #pnl_result { padding: 0; float: left; }
-#pnl_enable { padding: 0; float: right; }
-#pnl_footer, nav { padding: 0 5px; clear: both }</style>
+#pnl_enable { padding: 0; float: right; }</style>
 </head><body>
 <noscript>Please enable JavaScript</noscript>
 <nav class="f_right">
+<a href='http://www.irodemine.com/afterlit/'>Kircket's Tree</a> |
+<a id="lnk_wiki" href='http://ufoafterblank.wikia.com/'>Wikia</a> |
 <a href="http://www.gnu.org/licenses/agpl-3.0.html" onclick="ufoal.ui.event.lnk_license_click(event)">License</a> |
 <a href="https://github.com/Sheep-y/ufoafterlight-db/"> Home </a>
 </nav>
 <h1 id="title" class="hide">Please upgrade browser</h1>
+<nav id="nav_top" class="cf"></nav>
 <div id="pnl_search" class="box hide">
 <label>
 <u>S</u>earch:
@@ -73,13 +88,9 @@ autofocus="autofocus" placeholder="Click or press down arrow for full list" />
 <input type='reset' value='Clear' accesskey='C' onclick='ufoal.ui.event.btn_reset_click(event)' />
 <datalist id="data_search"></datalist>
 </div>
-<div id="pnl_index" class="box"></div>
+<div id="pnl_index" class="box hide cf"></div>
 <div id="pnl_result" class="box hide"></div>
 <div id="pnl_enable" class="box hide f_right"></div>
-<div id="pnl_footer">
-This is an <a href='http://steamcommunity.com/app/237950/discussions/0/616188677801999309/#c619568793974409287'>alternate implementation</a> of <a href='http://www.irodemine.com/afterlit/'>Kircket's Tech Tree</a>.
-The <a id="lnk_wiki" href='http://ufoafterblank.wikia.com/'>UFO: Afterlight wiki</a> contains even more information.
-</div>
 <script>
 document.getElementById( 'title' ).textContent = 'Loading';
 document.getElementById( 'title' ).className = '';
@@ -263,13 +274,13 @@ _("#sparrow_test")[0].textContent=c?"Test Success":"Test FAILED"}};_.info("Sparr
 //]]></script>
 <script>// <![CDATA[
 var ufoal = (function ufoal_core(){ 'use strict';
+var txt = {};
 var ns = { // Main namespace
 data: {}, // raw data
-txt: {}, // text data
+txt: txt, // text data
 entity: {}, // Name to Entity map
 };
 ns.init = function ufoal_init() {
-var txt = ns.txt.name;
 var ent = ns.entity;
 var data = ns.data;
 var all = ns.all = new Array(360);
@@ -277,7 +288,7 @@ for ( var type in this.data ) {
 data[ type ].forEach( function each_data( e ) {
 e.type = type;
 if ( e.id ) {
-e.text = txt[ e.id ];
+e.text = txt.name[ e.id ];
 if ( ! e.text ) e.text = ns.uncamel( e.name );
 }
 if ( e.name ) {
@@ -292,14 +303,120 @@ data.item.forEach( function each_item( e ) {
 if ( e.manufacturable ) {
 e.day = e.manufacturable.assemblytime + "\u202F+\u202F" + e.manufacturable.manufacturingtime;
 e.prereq = e.manufacturable.prereq;
+if ( e.allowentityid ) {
+if ( e.prereq ) e.prereq.unshift( e.allowentityid );
+else e.prereq = [ e.allowentityid ];
+}
 }
 });
 // Training processing. Training is different from other data.
 data.training.forEach( function each_training( e ) {
-e.text = ns.ucword( ns.txt.training[ e.id + '_name' ] );
+e.text = ns.ucfirst( txt.training[ e.id + '_name' ].toLowerCase() );
 if ( e.upgrade ) e.upgrade = data.training[ e.upgrade-1 ].name;
 });
+data.station.forEach( function each_station( e ) {
+if ( e.upgrade ) e.upgrade = data.station[ e.upgrade-1 ].name;
+});
 ns.ui.init();
+};
+/** Return the description of any entity */
+ns.get_desc = function ufoal_get_desc( e ) {
+var content = 'Id: ' + e.id + ', ' + e.name;
+content += '<hr/>';
+if ( e.type === 'tech' ) {
+content += txt.tech[ e.id + '_b4' ] + '<hr/>' + ns.txt.tech[ e.id + '_done' ];
+} else if ( e.type === 'item' ) {
+content += ns.get_item_desc( e );
+} else {
+content += ns.get_general_desc( e );
+if ( e.effect ) content += '<hr/>Effect: ' + ns.uncamel( e.effect ); // Training
+}
+return content;
+};
+/** Description for entities other then technologies */
+ns.get_general_desc = function ufoal_get_general_desc( e ) {
+var txt = ns.txt[ e.type ];
+return txt[ e.id ] ? txt[ e.id ] : '(Internal data; no description)';
+};
+ns.get_item_desc = function ufoal_get_item_desc( e ) {
+var sub, result = [ ns.get_general_desc( e ) + '<hr/>' ];
+function add( t ) { result.push( t ); }
+if ( e.weight ) add( 'Weight: ' + e.weight + ' kg' );
+if ( e.startquantity ) add( 'Starts game with: ' + e.startquantity + ' pieces' );
+if ( e.manufacturable ) {
+sub = e.manufacturable;
+if ( sub.assemblytime ) add( 'Assembly line: ' + sub.assemblytime + ' man-days to setup' );
+if ( sub.manufacturingtime ) add( 'Produce: ' + sub.manufacturingtime + ' man-days per piece' );
+}
+if ( e.armour ) {
+sub = e.armour;
+add( '<hr/>' );
+if ( sub.headslotIndex && sub.handslotIndex ) add( 'Addon slots: 2' );
+else if ( sub.headslotIndex || sub.handslotIndex ) add( 'Addon slot: 1' );
+if ( sub.maxhostility ) add( 'Env. Resist: ' + sub.maxhostility );
+if ( sub.protection ) sub.protection.forEach( function( e, i ) {
+if ( i ) add( txt.damage_type[i] + ': ' + (e*100) + '%' );
+});
+}
+if ( e.ammo ) {
+sub = e.ammo;
+add( '<hr/>' );
+if ( sub.capacity ) add( 'Ammo capaticy: ' + sub.capacity );
+if ( sub.isrechargable ) add( '(Recharge at base)' );
+}
+function second( t ) { return (t/10) + '&thinsp;s.'; }
+if ( e.weapon ) {
+var slot = [];
+sub = e.weapon;
+add( '<hr/>' );
+// TODO: Replace with shapeIndex
+add( 'Hands: ' + ( sub.righthandhelper === "parent_one-handed" ) ? '1' : '2' );
+if ( sub.muzzleslotIndex ) slot.push( 'Muzzle' );
+if ( sub.visorslotIndex ) slot.push( 'Scope' );
+if ( sub.additionalslotIndex ) slot.push( 'Underbarrel' );
+if ( sub.origin ) add( 'Type: ' + ns.uncamel( txt.weapon_origin[ sub.origin ] ) ) ;
+if ( slot.length ) add( 'Addons: ' + slot.join( ', ' ) );
+if ( sub.deploytime ) add( 'Deploy: ' + second( sub.deploytime ) );
+if ( sub.ammo ) { sub.ammo.forEach( function( ammo ) {
+add( ' ' );
+var clip = ns.entity[ ammo.ammoIT ];
+var line = clip.text;
+if ( clip.ammo.capacity ) line += ' (' + clip.ammo.capacity + ')';
+if ( ammo.reloadtime ) line +=' Reload ' + second( ammo.reloadtime );
+add( line );
+if ( ammo.wam ) { ammo.wam.forEach( function( wam ) {
+var line = wam.weaponmode ? ns.uncamel( wam.weaponmode ) : 'Attack';
+if ( wam.rounds && wam.rounds > 1 ) line += ' (x' + wam.rounds + ')';
+if ( wam.consumption && wam.consumption > 1 ) line += ' (' + wam.consumption + ' ammo per shot)';
+if ( wam.timetofire && wam.timetofire > 1 ) line += ', ' + second( wam.timetofire ) + ' warm up';
+add( line );
+line = ' &nbsp; &nbsp;';
+if ( wam.strength && wam.dmgtype ) line += ' ' + wam.strength + ' ' + wam.dmgtype + ' damage';
+if ( wam.timeeffect ) line += ' "' + wam.timeeffect + '" temp effect';
+sub = null;
+if ( wam.ranged ) sub = wam.ranged;
+else if ( wam.close ) sub = wam.close;
+if ( sub ) {
+if ( sub.range ) line += ' ' + sub.range + ' m';
+if ( sub.aimingtime ) line += ' ' + second( sub.aimingtime );
+if ( sub.accuracy && sub.accuracy < 10 ) line += ', accuracy x' + sub.accuracy;
+}
+if ( wam.radius ) {
+sub = wam.radius;
+if ( sub.radius ) line += ' radius ' + sub.radius + ' m';
+if ( sub.angle ) line += ' ∠' + sub.angle + 'º';
+}
+add( line );
+});}
+});}
+}
+return result.join( '<br/>' ).replace( /(<br\/>)*<hr\/>(<[bh]r\/>)+/g, '<hr/>' );
+};
+ns.special_req = {
+'MineCrystalMinor': /\bCrystals\d\b/,
+'MineNobleMinor': /\bNoble\d\b/,
+'FossilePowerUpgrade': /\bEnergy[45]\b/,
+'AlienPowerUpgrade': /\bEnergy[6789]\b/
 };
 /** Get an entity's prereq in array */
 ns.prereq = function ufoal_prereq( e ) {
@@ -311,7 +428,7 @@ ns.ucfirst = function ufoal_ucfirst( txt ) {
 return txt ? txt.substr(0,1).toUpperCase() + txt.substr(1) : txt;
 };
 ns.ucword = function ufoal_ucword( txt ) {
-return txt.split( /\b(?=\w)/ ).map( ns.ucfirst ).join( '' );
+return txt ? txt.split( /\b(?=[a-zA-Z])/g ).map( ns.ucfirst ).join( '' ) : txt;
 }
 ns.uncamel = function ufoal_uncamel( txt ) {
 return txt.split( /(?=[A-Z0-9])/ ).join( ' ' ).trim();
@@ -340,9 +457,9 @@ var data_search = _( '#data_search' )[0];
 var options = _.col( ns.all, 'text' ).sort();
 options.forEach( function each_option( e, i ) {
 if ( e && options.indexOf( e ) === i ) // Filter out empties and duplicates
-data_search.appendChild( _.create( 'option', { value: e } ) );
+data_search.appendChild( _.create( 'option', { value: ns.ucword( e ) } ) );
 });
-_.show( '#pnl_search' );
+_.show( '#pnl_search, #pnl_footer' );
 // Update query from url
 event.window_popstate();
 //_( 'input[autofocus]' )[0].focus(); // Focus may cause browser to not trigger datalist dropdown.
@@ -364,8 +481,12 @@ if ( panel ) return _.show( panel );
 'show_result' : function ui_show_result( roots ) {
 ui.show_panel( pnl_result );
 roots.forEach( function( root ) {
-// Find enables
-var enable = ns.all.filter( function(e) { return e.prereq && ns.prereq( e ).indexOf( root.name ) >= 0; } );
+var regx = ns.special_req[ root.name ];
+if ( ! regx ) regx = new RegExp( '\\b' + _.escRegx( root.name ) + '\\b' );
+var enable = ns.all.filter( function( e ) {
+return ( e.prereq && ns.prereq( e ).join( ' ' ).match( regx ) )
+|| ( e.upgrade && e.upgrade === root.name )
+});
 if ( enable.length > 0 ) {
 var result = ui.create_box( root );
 result.appendChild( _.create( 'div', { class: 'help', text: 'This entity enables the following:' } ) );
@@ -414,10 +535,11 @@ var ui = ns.ui;
 var event = ui.event;
 var txt = ns.txt;
 ui.create_index = function ui_create_index() {
+var nav = _( '#nav_top' )[0];
 var top = _.create( 'ul' );
 for ( var type in ns.data ) {
-var cat = _.create( 'li', ns.ucfirst( type ) );
-var list = _.create( 'ul', { class: 'title' } );
+var cat = _.create( 'li', { text: ns.ucfirst( type ), id: type } );
+var list = _.create( 'ul' );
 var data = ns.data[ type ];
 var txtlist = [];
 for ( var i in data ) {
@@ -425,11 +547,17 @@ if ( data[i].text ) txtlist.push( data[i].text );
 }
 txtlist = txtlist.sort();
 txtlist.forEach( function create_index( e, i ) {
-if ( txtlist.indexOf( e ) === i )
-list.appendChild( _.create( 'li', { text: e, onclick: event.lnk_block_title_click } ) );
+if ( txtlist.indexOf( e ) === i ) {
+var li = _.create( 'li' );
+li.appendChild( _.create( 'span', {
+class: 'title', text: ns.ucword( e ), onclick: event.lnk_block_title_click } ) );
+list.appendChild( li );
+}
 });
 cat.appendChild( list );
 top.appendChild( cat );
+nav.appendChild( _.create( 'a', { href: '#' + type,text: ns.ucfirst( type )
+, class: 'f_left', onclick: event.btn_reset_click } ) );
 }
 _( '#pnl_index' )[0].appendChild( top );
 };
@@ -464,19 +592,18 @@ return ui.create_help_buttons( result );
 ui.create_entity_box = function ui_create_entity_box( e ) {
 var result = _.create( 'div', { 'class': 'entity treenode' } );
 if ( e.match( /^[A-Z][a-z]+[1-7]$/ ) ) { // resource
-var req = { 'T_CrystalMining': /^Crystals\d$/, 'T_NobleMetalMining': /^Noble\d$/, 'FossilePowerUpgrade': /^Energy[45]$/, 'AlienPowerUpgrade': /^Energy[678]$/ };
-for ( var r in req ) {
+for ( var r in ns.special_req ) {
 // If special resources, add requirements
-if ( e.match( req[r] ) ) {
+if ( e.match( ns.special_req[r] ) ) {
 if ( ui.displayed.indexOf( r ) >= 0 ) result.className += ' collapsed';
 else ui.displayed.push( r );
 ui.create_fold_buttons( result );
 result.appendChild( ui.box_recur( ns.entity[r] ) );
-req = null;
+r = null;
 break;
 }
 }
-if ( req ) _.addClass( result, 'resource' );
+if ( r ) _.addClass( result, 'resource' );
 e = "Lv. " + e.substr( e.length-1 ) + " " + e.substr( 0, e.length-1 );
 } else {
 if ( txt.trigger[ e ] )
@@ -496,8 +623,8 @@ if ( ui.displayed.indexOf( e ) >= 0 ) result.className += ' collapsed';
 else ui.displayed.push( e );
 result.appendChild( _.create( 'a', { class: 'title', text: e.text, onclick: event.lnk_block_title_click } ) );
 result.appendChild( _.create( 'img', { class: 'icon', src: _('#'+icon)[0].src, alt: alt } ) );
-if ( e.day )       result.appendChild( _.create( 'span', { class: 'manday', text: e.day + ' days' } ) );
-else if ( e.hour ) result.appendChild( _.create( 'span', { class: 'manhour', text: e.hour + ' hours' } ) );
+if ( e.day )       result.appendChild( _.create( 'span', { class: 'manday', text: e.day + ' man-days' } ) );
+else if ( e.hour ) result.appendChild( _.create( 'span', { class: 'manhour', text: e.hour + ' man-hours' } ) );
 return result;
 };
 ui.create_fold_buttons = function ui_create_help_buttons( e ) {
@@ -553,22 +680,13 @@ _.removeClass( evt.target.parentNode, 'collapsed' );
 };
 event.btn_desc_click = function btn_desc_click( evt ) {
 var box = evt.target.parentNode;
-// Remove description
+// Remove description if any already exists
 var help = _( box, '.help' );
 if ( help.length > 0 && help[0].parentNode === box )
 return box.removeChild( _( box, '.help' )[0] );
-// Create description
-var help = _.create( 'div', { class: 'help' } );
-var e = ns.entity[ box.dataset.name ], txt = ns.txt[ e.type ];
-var content = 'Id: ' + e.id + ', ' + e.name;
-if ( e.effect ) content += '<br/>Effect: ' + ns.uncamel( e.effect );
-content += '<hr/>';
-if ( e.type === 'tech' ) {
-content += txt[ e.id + '_b4' ] + '<hr/>' + ns.txt.tech[ e.id + '_done' ];
-} else {
-content += txt[ e.id ] ? txt[ e.id ] : '(Internal data; no description)';
-}
-help.innerHTML = content;
+// Create and insert description
+var e = ns.entity[ box.dataset.name ];
+var help = _.create( 'div', { class: 'help', html: ns.get_desc( e ) } );
 var firstdiv = box.querySelector( 'div' );
 box.insertBefore( help, firstdiv && firstdiv.parentNode === box ? firstdiv : undefined );
 };
@@ -3062,7 +3180,7 @@ detectiongroupid:"Laser",
 attackskill:"Aimed",
 defenseskill:"Dodge",
 animationtime:2,
-weaponmode:"ReticulanPowerShot",
+weaponmode:"PowerShot",
 dmgtype:"Laser",
 ranged:{
 aimingtime:20,
@@ -3133,7 +3251,7 @@ detectiongroupid:"Laser",
 attackskill:"Aimed",
 defenseskill:"Dodge",
 animationtime:2,
-weaponmode:"ReticulanPowerShot",
+weaponmode:"PowerShot",
 dmgtype:"Laser",
 ranged:{
 aimingtime:20,
@@ -3929,7 +4047,7 @@ attackskill:"Melee",
 defenseskill:"DodgeMelee",
 animationtime:21,
 weaponmode:"Melee",
-dmgtype:"Cut",
+dmgtype:"Melee",
 close:{
 accuracy:1.25}},
 {
@@ -3942,7 +4060,7 @@ attackskill:"Mechanical",
 defenseskill:"Dodge",
 animationtime:2,
 weaponmode:"Mechanical",
-dmgtype:"Cut",
+dmgtype:"Melee",
 ranged:{
 aimingtime:10,
 accuracy:1.6,
@@ -3959,7 +4077,7 @@ attackskill:"Melee",
 defenseskill:"DodgeMelee",
 animationtime:21,
 weaponmode:"Melee",
-dmgtype:"Cut",
+dmgtype:"Melee",
 close:{
 accuracy:1.25}},
 {
@@ -3972,7 +4090,7 @@ attackskill:"Mechanical",
 defenseskill:"Dodge",
 animationtime:2,
 weaponmode:"Mechanical",
-dmgtype:"Cut",
+dmgtype:"Melee",
 ranged:{
 aimingtime:10,
 accuracy:1.6,
@@ -4239,7 +4357,7 @@ attackskill:"Melee",
 defenseskill:"DodgeMelee",
 animationtime:21,
 weaponmode:"Melee",
-dmgtype:"Cut",
+dmgtype:"Melee",
 close:{
 accuracy:1.25}}]},
 {
@@ -4253,7 +4371,7 @@ attackskill:"Melee",
 defenseskill:"DodgeMelee",
 animationtime:21,
 weaponmode:"Melee",
-dmgtype:"Cut",
+dmgtype:"Melee",
 close:{
 accuracy:1.25}}]},
 ]},
@@ -4465,7 +4583,7 @@ defenseskill:"DodgeMelee",
 damageskill:"Melee",
 animationtime:10,
 weaponmode:"Melee",
-dmgtype:"Cut",
+dmgtype:"Melee",
 close:{
 accuracy:1,
 attackspeedskill:"Melee"}},
@@ -4480,7 +4598,7 @@ defenseskill:"Dodge",
 damageskill:"Melee",
 animationtime:5,
 weaponmode:"Throw",
-dmgtype:"Cut",
+dmgtype:"Melee",
 ranged:{
 aimingtime:2,
 accuracy:1,
@@ -4518,7 +4636,7 @@ defenseskill:"DodgeMelee",
 damageskill:"Melee",
 animationtime:10,
 weaponmode:"Melee",
-dmgtype:"Cut",
+dmgtype:"Melee",
 close:{
 accuracy:1,
 attackspeedskill:"Melee"}}]},
@@ -4548,7 +4666,7 @@ defenseskill:"DodgeMelee",
 damageskill:"Melee",
 animationtime:15,
 weaponmode:"Melee",
-dmgtype:"Cut",
+dmgtype:"Melee",
 close:{
 accuracy:2,
 attackspeedskill:"Melee"}}]},
@@ -6983,7 +7101,7 @@ defenseskill:"DodgeMelee",
 damageskill:"Melee",
 animationtime:26,
 weaponmode:"AimedSingle",
-dmgtype:"Cut",
+dmgtype:"Melee",
 close:{
 accuracy:1}}]},
 ]},
@@ -7097,7 +7215,7 @@ damageskill:"Melee",
 animationtime:13,
 pellets:true,
 weaponmode:"AimedSingle",
-dmgtype:"Cut",
+dmgtype:"Melee",
 close:{
 accuracy:1},
 radius:{
@@ -7408,7 +7526,7 @@ defenseskill:"DodgeMelee",
 damageskill:"Melee",
 animationtime:26,
 weaponmode:"AimedSingle",
-dmgtype:"Cut",
+dmgtype:"Melee",
 close:{
 accuracy:1}}]},
 ]},
@@ -7685,65 +7803,6 @@ protection:[0,0.25,0.25,0.25,0.7,0,0.25,0.25,0,1,1],
 normalslot:{"0":1,"1":1,"2":1,"7":1,"15":1}}}
 ]; // ]]></script>
 <script>//<![CDATA[
-ufoal.data.building = [
-{id:400,hour:60,name:"Training-m",prereq:{"T_MilitaryTraining":1,"Metal1":1}},
-{id:401,hour:60,name:"Training-s"},
-{id:402,hour:60,name:"Training-t"},
-{id:403,hour:80,name:"Hospital",prereq:{"T_AdvancedMedicine":1,"Energy3":1,"Noble1":1,"Chemicals4":1}},
-{id:404,hour:30,name:"Ward",prereq:{"Chemicals2":1}},
-{id:405,hour:200,name:"Lab",prereq:{"Energy4":1,"Metal2":1,"Chemicals2":1}},
-{id:406,hour:60,name:"Range",prereq:{"T_Firearms":1,"Metal2":1}},
-{id:407,hour:100,name:"Computer",prereq:{"T_Supercomputers":1,"Metal3":1,"Noble1":1}},
-{id:408,hour:80,name:"Magnetic",prereq:{"T_WrittenMartianLanguage":1,"Energy5":1,"Noble2":1,"Crystals2":1}},
-{id:409,hour:40,name:"Alien",prereq:{"T_InterrogationFacility":1,"Energy1":1,"Metal2":1,"Chemicals2":1}},
-{id:410,hour:40,name:"Autopsy",prereq:{"T_AlienBiology":1,"Energy1":1,"Metal1":1,"Chemicals1":1}},
-{id:411,hour:200,name:"Workshop",prereq:{"Energy4":1,"Metal3":1,"Chemicals1":1}},
-{id:412,hour:60,name:"Robotics",prereq:{"T_BattleDrones":1,"Metal2":1}},
-{id:413,hour:60,name:"Technics",prereq:{"T_EarthTechnologies1":1,"Metal3":1,"Noble1":1}},
-{id:414,hour:60,name:"Chemics",prereq:{"T_EarthTechnologies1":1,"Metal3":1,"Chemicals4":1}},
-{id:415,hour:60,name:"Optics",prereq:{"T_AdvancedOptics":1,"Energy4":1,"Crystals1":1}},
-{id:416,name:"Living"},
-{id:419,name:"Aqua"},
-{id:420,hour:70,name:"CisternAquaUpgrade",upgrade:"Aqua",prereq:{"T_WaterReserversEnlargement":1,"Metal2":1}},
-{id:421,hour:200,name:"DirectGainAquaUpgrade",upgrade:"CisternAquaUpgrade",prereq:{"T_WaterFromSoil":1,"Energy4":1,"Chemicals5":1}},
-{id:422,name:"Power"},
-{id:423,hour:120,name:"FossilePowerUpgrade",upgrade:"Power",prereq:{"T_FossilEnergy":1,"Metal3":1,"Fuel4":1}},
-{id:424,hour:300,name:"AlienPowerUpgrade",upgrade:"FossilePowerUpgrade",prereq:{"T_AlienReactor":1,"Crystals3":1,"Metal6":1}},
-{id:426,hour:400,name:"Bay-t"},
-{id:427,hour:400,name:"Bay-s"},
-{id:429,hour:400,name:"Bay-c"},
-{id:430,hour:20,name:"Communication",prereq:{"T_EarthCommunication":1,"Metal1":1}},
-{id:431,hour:40,name:"DataCommunication",upgrade:"Communication",prereq:{"EarthContact":1}},
-{id:433,name:"MonumentCentre"},
-{id:436,hour:450,name:"Cupola",prereq:{"T_BaseEnlargement":1,"Metal3":1,"Chemicals2":1}},
-{id:438,hour:70,name:"Pyrotechnics",prereq:{"T_CombatExplosives":1,"Chemicals2":1}},
-{id:439,hour:60,name:"MarsSimulation",prereq:{"T_SurvivalTechnics":1,"Energy1":1}},
-{id:440,hour:70,name:"Metalurgy",prereq:{"T_EarthTechnologies1":1,"Metal4":1,"Noble1":1,"Chemicals3":1}},
-{id:441,hour:80,name:"Electronics",prereq:{"T_EarthTechnologies2":1,"Metal3":1,"Noble2":1}},
-{id:442,hour:150,name:"StoreFuel",prereq:{"T_Warehouses":1,"Metal2":1,"Fuel4":1}},
-{id:443,hour:150,name:"StoreMetal",prereq:{"T_Warehouses":1,"Metal4":1}},
-{id:444,hour:150,name:"StoreMedical",prereq:{"T_Warehouses":1,"Metal2":1,"Chemicals4":1}},
-]; // ]]></script>
-<script>//<![CDATA[
-ufoal.data.station = [
-{id:800,day:2.5,name:"Geosonde",type:5,resource:0,upgrade:0,prereq:[]},
-{id:801,day:3,name:"Excavations",type:4,resource:0,upgrade:0,prereq:[]},
-{id:802,day:4,name:"MilitaryMinor",type:2,resource:0,upgrade:0,prereq:["T_MilitaryBase1"]},
-{id:803,day:6,name:"MilitaryMajor",type:2,resource:0,upgrade:3,prereq:["T_MilitaryBase2"]},
-{id:804,day:4,name:"TerraformMinor",type:3,resource:0,upgrade:0,prereq:["T_BasicComplexTerraforming"]},
-{id:805,day:6,name:"TerraformMajor",type:3,resource:0,upgrade:5,prereq:["T_AdvancedComplexTerraforming"]},
-{id:806,day:2.5,name:"MineFuelMinor",type:1,resource:7,upgrade:0,prereq:[]},
-{id:807,day:4,name:"MineFuelMajor",type:1,resource:7,upgrade:7,prereq:["T_AdvancedMining"]},
-{id:808,day:2.5,name:"MineMetalMinor",type:1,resource:3,upgrade:0,prereq:[]},
-{id:809,day:4,name:"MineMetalMajor",type:1,resource:3,upgrade:9,prereq:["T_AdvancedMining"]},
-{id:810,day:2.5,name:"MineChemicalsMinor",type:1,resource:5,upgrade:0,prereq:[]},
-{id:811,day:4,name:"MineChemicalsMajor",type:1,resource:5,upgrade:11,prereq:["T_AdvancedMining"]},
-{id:812,day:4,name:"MineNobleMinor",type:1,resource:4,upgrade:0,prereq:["T_NobleMetalMining"]},
-{id:813,day:6,name:"MineNobleMajor",type:1,resource:4,upgrade:13,prereq:["T_AdvancedMining"]},
-{id:814,day:4,name:"MineCrystalMinor",type:1,resource:6,upgrade:0,prereq:["T_CrystalMining"]},
-{id:815,day:6,name:"MineCrystalMajor",type:1,resource:6,upgrade:15,prereq:["T_AdvancedMining"]},
-]; // ]]></script>
-<script>//<![CDATA[
 ufoal.data.training = [
 {id:1,name:"CoverMinor",day:1,type:"soldier",effect:"CoverBonus",icon:"cCoverMinor",race:1,prereq:["T_SpecialMilitaryOperations"]},
 {id:2,"name":"CoverMajor",day:1,type:"soldier",effect:"FriendlyFireHitDecrease",icon:"cCoverMajor",upgrade:1,race:1,prereq:["T_SpecialMilitaryOperations"]},
@@ -7878,6 +7937,65 @@ ufoal.data.training = [
 {id:136,"name":"MonitorMajor",day:3,type:"soldier",effect:"MonitorMajorEffect",icon:"cMemoryMinor",upgrade:129,race:5,prereq:["T_MajorEnhancements"]},
 */
 {id:137,"name":"OlgaSpecial",day:0,type:"soldier",effect:"FastLearning",icon:"cOlgaSpecial",race:1},
+]; // ]]></script>
+<script>//<![CDATA[
+ufoal.data.building = [
+{id:400,hour:60,name:"Training-m",prereq:{"T_MilitaryTraining":1,"Metal1":1}},
+{id:401,hour:60,name:"Training-s"},
+{id:402,hour:60,name:"Training-t"},
+{id:403,hour:80,name:"Hospital",prereq:{"T_AdvancedMedicine":1,"Energy3":1,"Noble1":1,"Chemicals4":1}},
+{id:404,hour:30,name:"Ward",prereq:{"Chemicals2":1}},
+{id:405,hour:200,name:"Lab",prereq:{"Energy4":1,"Metal2":1,"Chemicals2":1}},
+{id:406,hour:60,name:"Range",prereq:{"T_Firearms":1,"Metal2":1}},
+{id:407,hour:100,name:"Computer",prereq:{"T_Supercomputers":1,"Metal3":1,"Noble1":1}},
+{id:408,hour:80,name:"Magnetic",prereq:{"T_WrittenMartianLanguage":1,"Energy5":1,"Noble2":1,"Crystals2":1}},
+{id:409,hour:40,name:"Alien",prereq:{"T_InterrogationFacility":1,"Energy1":1,"Metal2":1,"Chemicals2":1}},
+{id:410,hour:40,name:"Autopsy",prereq:{"T_AlienBiology":1,"Energy1":1,"Metal1":1,"Chemicals1":1}},
+{id:411,hour:200,name:"Workshop",prereq:{"Energy4":1,"Metal3":1,"Chemicals1":1}},
+{id:412,hour:60,name:"Robotics",prereq:{"T_BattleDrones":1,"Metal2":1}},
+{id:413,hour:60,name:"Technics",prereq:{"T_EarthTechnologies1":1,"Metal3":1,"Noble1":1}},
+{id:414,hour:60,name:"Chemics",prereq:{"T_EarthTechnologies1":1,"Metal3":1,"Chemicals4":1}},
+{id:415,hour:60,name:"Optics",prereq:{"T_AdvancedOptics":1,"Energy4":1,"Crystals1":1}},
+{id:416,name:"Living"},
+{id:419,name:"Aqua"},
+{id:420,hour:70,name:"CisternAquaUpgrade",upgrade:"Aqua",prereq:{"T_WaterReserversEnlargement":1,"Metal2":1}},
+{id:421,hour:200,name:"DirectGainAquaUpgrade",upgrade:"CisternAquaUpgrade",prereq:{"T_WaterFromSoil":1,"Energy4":1,"Chemicals5":1}},
+{id:422,name:"Power"},
+{id:423,hour:120,name:"FossilePowerUpgrade",upgrade:"Power",prereq:{"T_FossilEnergy":1,"Metal3":1,"Fuel4":1}},
+{id:424,hour:300,name:"AlienPowerUpgrade",upgrade:"FossilePowerUpgrade",prereq:{"T_AlienReactor":1,"Crystals3":1,"Metal6":1}},
+{id:426,hour:400,name:"Bay-t"},
+{id:427,hour:400,name:"Bay-s"},
+{id:429,hour:400,name:"Bay-c"},
+{id:430,hour:20,name:"Communication",prereq:{"T_EarthCommunication":1,"Metal1":1}},
+{id:431,hour:40,name:"DataCommunication",upgrade:"Communication",prereq:{"EarthContact":1}},
+{id:433,name:"MonumentCentre"},
+{id:436,hour:450,name:"Cupola",prereq:{"T_BaseEnlargement":1,"Metal3":1,"Chemicals2":1}},
+{id:438,hour:70,name:"Pyrotechnics",prereq:{"T_CombatExplosives":1,"Chemicals2":1}},
+{id:439,hour:60,name:"MarsSimulation",prereq:{"T_SurvivalTechnics":1,"Energy1":1}},
+{id:440,hour:70,name:"Metalurgy",prereq:{"T_EarthTechnologies1":1,"Metal4":1,"Noble1":1,"Chemicals3":1}},
+{id:441,hour:80,name:"Electronics",prereq:{"T_EarthTechnologies2":1,"Metal3":1,"Noble2":1}},
+{id:442,hour:150,name:"StoreFuel",prereq:{"T_Warehouses":1,"Metal2":1,"Fuel4":1}},
+{id:443,hour:150,name:"StoreMetal",prereq:{"T_Warehouses":1,"Metal4":1}},
+{id:444,hour:150,name:"StoreMedical",prereq:{"T_Warehouses":1,"Metal2":1,"Chemicals4":1}},
+]; // ]]></script>
+<script>//<![CDATA[
+ufoal.data.station = [
+{id:800,day:2.5,name:"Geosonde",type:5,resource:0,upgrade:0,prereq:[]},
+{id:801,day:3,name:"Excavations",type:4,resource:0,upgrade:0,prereq:[]},
+{id:802,day:4,name:"MilitaryMinor",type:2,resource:0,upgrade:0,prereq:["T_MilitaryBase1"]},
+{id:803,day:6,name:"MilitaryMajor",type:2,resource:0,upgrade:3,prereq:["T_MilitaryBase2"]},
+{id:804,day:4,name:"TerraformMinor",type:3,resource:0,upgrade:0,prereq:["T_BasicComplexTerraforming"]},
+{id:805,day:6,name:"TerraformMajor",type:3,resource:0,upgrade:5,prereq:["T_AdvancedComplexTerraforming"]},
+{id:806,day:2.5,name:"MineFuelMinor",type:1,resource:7,upgrade:0,prereq:[]},
+{id:807,day:4,name:"MineFuelMajor",type:1,resource:7,upgrade:7,prereq:["T_AdvancedMining"]},
+{id:808,day:2.5,name:"MineMetalMinor",type:1,resource:3,upgrade:0,prereq:[]},
+{id:809,day:4,name:"MineMetalMajor",type:1,resource:3,upgrade:9,prereq:["T_AdvancedMining"]},
+{id:810,day:2.5,name:"MineChemicalsMinor",type:1,resource:5,upgrade:0,prereq:[]},
+{id:811,day:4,name:"MineChemicalsMajor",type:1,resource:5,upgrade:11,prereq:["T_AdvancedMining"]},
+{id:812,day:4,name:"MineNobleMinor",type:1,resource:4,upgrade:0,prereq:["T_NobleMetalMining"]},
+{id:813,day:6,name:"MineNobleMajor",type:1,resource:4,upgrade:13,prereq:["T_AdvancedMining"]},
+{id:814,day:4,name:"MineCrystalMinor",type:1,resource:6,upgrade:0,prereq:["T_CrystalMining"]},
+{id:815,day:6,name:"MineCrystalMajor",type:1,resource:6,upgrade:15,prereq:["T_AdvancedMining"]},
 ]; // ]]></script>
 <script>//<![CDATA[
 ufoal.data.tech = [
@@ -8552,6 +8670,19 @@ ufoal.txt.building = {
 "449_tip":"Monument: thousands of people sleeping",
 }; // ]]></script>
 <script>//<![CDATA[
+ufoal.txt.damage_type = {
+1:"Projectile",
+2:"Fire",
+3:"Melee",
+4:"EMP",
+5:"Psi",
+6:"Explosion",
+7:"Laser",
+8:"Heal",
+9:"Repair",
+10:"Suit Repair",
+}; // ]]></script>
+<script>//<![CDATA[
 ufoal.txt.item = {
 1:"This suit offers only basic protection in combat and it is not possible to use it in areas with an excessively hostile environment.<br>This suit is always available to your troops. They will wear it if you assign them no other suit.",
 2:"This suit has similar characteristics to the basic one, but you can carry much larger items with you on missions. It also offers slightly better protection against a hostile environment.",
@@ -8794,7 +8925,7 @@ ufoal.txt.station = {
 <script>//<![CDATA[
 ufoal.txt.station_type = [,"Mine","Military","Terraform","Excavation","Geosonde"];
 // ]]></script>
-<script>//<![CDATA[
+<script>// <![CDATA[
 ufoal.txt.tech = {
 "200_done":"The easiest way to treat our soldiers whilst in their spacesuits on the battlefield, is to inject regenerative and analgesic substances into their blood. This treatment does not heal permanent damage, but it enables them to cope with temporary injuries.",
 "200_b4":"We need to extend our medical knowledge so that it can be used in battle.",
@@ -8858,7 +8989,6 @@ ufoal.txt.tech = {
 "232_b4":"Using inflammable substances in combat could give us an advantage over our enemies.",
 "233_done":"Our scientists developed special grenade, whose impact causes strong sound wave, effectively stunning everybody standing in vicinity.",
 "233_b4":"Sometimes it is more useful to render an enemy unconscious rather than killing him.",
-"233":"Non-lethal combat",
 "234_done":"The device our researchers have developed is installed into a special slot in the spacesuit and guarantees greater precision when aiming with long-range weapons. It monitors the hand-eye coordination between the mechanical parts of the suit and the user and adjusts as necessary.",
 "234_b4":"We could try to connect the weapon to the mechanical parts of the spacesuit arms to improve aiming accuracy.",
 "235_done":"Our civil engineers were given the plans of how to enlarge our actual tank so the water reserves will last for more than a few days. Even so, if the aqueduct is damaged, we will still have to send a technical team to repair it, only now there will be a leeway of several days.",
@@ -8915,7 +9045,6 @@ ufoal.txt.tech = {
 "260_b4":"If we can shrink the size of the processor and increase its performance, our computers will be even more useful, especially in combat situations.",
 "261_done":"Soldiers equipped with a rocket-launcher and a backpack full of rockets (or grenade-launcher with hand grenades) can send doom into an enemies’ ranks, if he receives training in how to use these weapons. Further research may allow the rockets to be used for ammunition other than explosives.",
 "261_b4":"Rockets could be very useful against tough and strong enemies.",
-"261":"Rocket-based Weapons",
 "262_done":"The Reticulans are physically a weak race, relying mostly on their hi-tech equipment and psionic abilities. They cannot withstand much damage and are easily hurt especially by explosives, on the other hand they are resistant to lasers. They can detect our soldiers with their psionic senses. Our soldiers can be taught which parts of the Reticulan’s bodies are the most effective to hit.",
 "262_b4":"By dissecting a Reticulan’s body, we could learn a lot about their anatomy and physiology and use this data in combat.",
 "263_done":"The thing that makes Reticulans such a dangerous opponent is their psionic weapons. For more detailed research, we must first get hold of some, but it seems that even then our soldiers may not be able to use them. Only the Reticulan race retains psionic abilities, and these seem to become weaker, at least in comparison with what we know from the war at the Earth.",
@@ -8960,7 +9089,6 @@ ufoal.txt.tech = {
 "283_b4":"The Beastman’s firearms surpass our own in some of their characteristics. It would be great if we could use these against them.",
 "284_done":"At this time, the best use of these super-plastics is to make armor, that is not as cumbersome as heavy armor, but at the same time more protective than light armor. Soldiers can move much more freely in a spacesuit made from this material due to its flexibility.",
 "284_b4":"We need to study some details in order to produce functional items from Beastman super-plastics.",
-"284":"Super-plastic Components",
 "285_done":"The best way of including acid weapons as part of our arsenal is through the production of acid filled grenades instead of using classic explosives. The acid splashes out after impact and covers anything in reach with a thin corrosive layer, causing injury lasting several seconds or until it is washed off.",
 "285_b4":"Acid weapons are deadly against most targets, as this substance adheres to the skin and hurts the victim for several seconds.",
 "287_done":"The Martian archives  probably hold all data about science, history and the life of this lost civilization. We could find treasures there that would give us a decisive advantage over our enemies. At first, however, we must learn the Martian’s language . We may be able to decode the files with exact scientific data and discover the basic language structures in that way. Any information that would give us  clues would be priceless. That’s why we should collect as many Martian artifacts from the excavation sites as we can.",
@@ -9043,7 +9171,6 @@ ufoal.txt.tech = {
 "329_b4":"We need to sort through the content of the Reticulan database to learn what we can use from their experience.",
 "330_done":"When the Reticulans gave us their database, it would appear that they removed important data referring to their greatest secrets: powerful miniaturized batteries able to supply energy for hand weapons and ways of protecting people against their psionic weapons. We can start researching in those areas as well.",
 "330_b4":"Even though the original Reticulan files we have studied seemed to be very comprehensive and detailed, it appears that there is yet more we can learn from this race.",
-"330":"Advanced Reticulan Tech.",
 "331_done":"Our scientists have developed the ground plans for warehouses to store metals, chemicals and fuel. This will allow us to accumulate these raw materials at the home base, enabling better access and ensuring that we are not so dependent on the distant mines.",
 "331_b4":"If we store some of the raw materials at our home base, we can use more of them for manufacturing or construction.",
 "332_done":"A language tells us a lot about a nation and its culture. The Beastmen are born warriors. Their vocabulary contains hundreds of words describing warfare, combat and fighting. On the other hand, they are almost unable to talk about more subtle matters like art. Something else that must be noted: they do not have a word for “peace” or “ceasefire”.",
@@ -9071,7 +9198,8 @@ ufoal.txt.tech = {
 "342_b4":"No matter how careful our soldiers are, Beastmen always find them by their smell.",
 "343_done":"Although we call them matriarchs, it cannot be said that these creatures are female. They were biologically modified to be the perfect chiefs - strong,  skilful and cunning. If the normal Beastmen soldiers are a very dangerous enemy, this  is twice as true of the Beastmen’s matriarchs. She is very agile, dodging most of the attacks. When hit, she is not easily hurt, with the exception of laser damage and probably psionic attacks.",
 "343_b4":"The Beastmen’s rulers are our most impressive opponents. We can learn a bit more about them by studying their dead bodies.",
-}; // ]]></script>
+}; // ]]>
+</script>
 <script>//<![CDATA[
 ufoal.txt.tech_orig = [
 ,"Medicine","Planetology","Earth","Reticulan"
@@ -9363,10 +9491,15 @@ ufoal.txt.trigger = {
 'TwoMartianArtifacts':'Two Martian artifacts from excavation',
 'TerraformForWaterCondens':'Moderate terraform level',
 'TerraformAdvMine':'Terraform 50% or above',
+'MartianTerraform':'Medium High terraform level',
 'OpenArmorTerraformation':'High terraform level',
 'BeastmenArrivesForce':'Meet Natural Force',
 'LaputaIntroSeen':'Contacted Laputian',
 'MoonTravelRequest':'Moon travel suggested',
 }; // ]]></script>
+<script>//<![CDATA[
+ufoal.txt.weapon_origin = [,
+"Human","Reticulan","Martian","Beastman","HumanPistol","HumanPlasma","HumanEMP","ReticulanPistol","MartianPlasma","MartianEMP","BeastmanPistol","MartianEMPPistol"
+]; // ]]></script>
 <script> ufoal.init(); </script>
 </body></html>
