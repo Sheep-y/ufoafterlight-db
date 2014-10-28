@@ -93,9 +93,9 @@ ns.get_item_desc = function ufoal_get_item_desc( e ) {
       sub = e.ammo;
       add( '<hr/>' );
       if ( sub.capacity ) add( 'Ammo capaticy: ' + sub.capacity );
-      if ( sub.isrechargable ) add( '(Self-recharging)' );
+      if ( sub.isrechargable ) add( '(Recharge at base)' );
    }
- 
+
    function second( t ) { return (t/10) + '&thinsp;s.'; }
    if ( e.weapon ) {
       var slot = [];
@@ -112,15 +112,20 @@ ns.get_item_desc = function ufoal_get_item_desc( e ) {
 
       if ( sub.ammo ) { sub.ammo.forEach( function( ammo ) {
          add( ' ' );
-         add( ns.entity[ ammo.ammoIT ].text );
-         if ( ammo.reloadtime ) add( 'Reload: ' + second( ammo.reloadtime ) );
+         var clip = ns.entity[ ammo.ammoIT ];
+         var line = clip.text;
+         if ( clip.ammo.capacity ) line += ' (' + clip.ammo.capacity + ')';
+         if ( ammo.reloadtime ) line +=' Reload ' + second( ammo.reloadtime );
+         add( line );
          if ( ammo.wam ) { ammo.wam.forEach( function( wam ) {
              var line = wam.weaponmode ? ns.uncamel( wam.weaponmode ) : 'Attack';
              if ( wam.rounds && wam.rounds > 1 ) line += ' (x' + wam.rounds + ')';
-             if ( wam.comsumption && wam.consumption > 1 ) line += ' (' + wam.consumption + ' ammo per shot)';
-             if ( wam.timetofire && wam.timetofire > 1 ) line += ', ' + second( wam.timetofire ) + ' warm up'
-             line += '<br/> &nbsp; &nbsp;';
+             if ( wam.consumption && wam.consumption > 1 ) line += ' (' + wam.consumption + ' ammo per shot)';
+             if ( wam.timetofire && wam.timetofire > 1 ) line += ', ' + second( wam.timetofire ) + ' warm up';
+             add( line );
+             line = ' &nbsp; &nbsp;';
              if ( wam.strength && wam.dmgtype ) line += ' ' + wam.strength + ' ' + wam.dmgtype + ' damage';
+             if ( wam.timeeffect ) line += ' "' + wam.timeeffect + '" temp effect';
 
              sub = null;
              if ( wam.ranged ) sub = wam.ranged;
@@ -128,19 +133,26 @@ ns.get_item_desc = function ufoal_get_item_desc( e ) {
              if ( sub ) {
                 if ( sub.range ) line += ' ' + sub.range + ' m';
                 if ( sub.aimingtime ) line += ' ' + second( sub.aimingtime );
-                if ( sub.accuracy ) line += ', accuracy x' + sub.accuracy;
+                if ( sub.accuracy && sub.accuracy < 10 ) line += ', accuracy x' + sub.accuracy;
              }
 
              if ( wam.radius ) {
                 sub = wam.radius;
-                if ( sub.radius ) line += ' radius ' + wam.radius + ' m';
-                if ( sub.angle && sub.angle !== 360 ) line += ' ∠' + wam.angle + 'º';
+                if ( sub.radius ) line += ' radius ' + sub.radius + ' m';
+                if ( sub.angle ) line += ' ∠' + sub.angle + 'º';
              }
              add( line );
          });}
       });}
    }
    return result.join( '<br/>' ).replace( /(<br\/>)*<hr\/>(<[bh]r\/>)+/g, '<hr/>' );
+};
+
+ns.special_req = {
+   'MineCrystalMinor': /\bCrystals\d\b/,
+   'MineNobleMinor': /\bNoble\d\b/,
+   'FossilePowerUpgrade': /\bEnergy[45]\b/,
+   'AlienPowerUpgrade': /\bEnergy[6789]\b/
 };
 
 /** Get an entity's prereq in array */
@@ -153,6 +165,10 @@ ns.prereq = function ufoal_prereq( e ) {
 ns.ucfirst = function ufoal_ucfirst( txt ) {
    return txt ? txt.substr(0,1).toUpperCase() + txt.substr(1) : txt;
 };
+
+ns.ucword = function ufoal_ucword( txt ) {
+   return txt ? txt.split( /\b(?=[a-zA-Z])/g ).map( ns.ucfirst ).join( '' ) : txt;
+}
 
 ns.uncamel = function ufoal_uncamel( txt ) {
    return txt.split( /(?=[A-Z0-9])/ ).join( ' ' ).trim();

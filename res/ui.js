@@ -25,9 +25,9 @@ var ui = ns.ui = {
       var options = _.col( ns.all, 'text' ).sort();
       options.forEach( function each_option( e, i ) {
          if ( e && options.indexOf( e ) === i ) // Filter out empties and duplicates
-            data_search.appendChild( _.create( 'option', { value: e } ) );
+            data_search.appendChild( _.create( 'option', { value: ns.ucword( e ) } ) );
       });
-      _.show( '#pnl_search' );
+      _.show( '#pnl_search, #pnl_footer' );
 
       // Update query from url
       event.window_popstate();
@@ -54,8 +54,12 @@ var ui = ns.ui = {
    'show_result' : function ui_show_result( roots ) {
       ui.show_panel( pnl_result );
       roots.forEach( function( root ) {
-         // Find enables
-         var enable = ns.all.filter( function(e) { return e.prereq && ns.prereq( e ).indexOf( root.name ) >= 0; } );
+         var regx = ns.special_req[ root.name ];
+         var filter = regx
+            ? function(e){ return ns.prereq( e ).join( ' ' ).match( regx ); }
+            : function(e){ return ns.prereq( e ).indexOf( root.name ) >= 0; };
+         var enable = ns.all.filter( function(e){ return e.prereq; } ).filter( filter );
+
          if ( enable.length > 0 ) {
             var result = ui.create_box( root );
             result.appendChild( _.create( 'div', { class: 'help', text: 'This entity enables the following:' } ) );

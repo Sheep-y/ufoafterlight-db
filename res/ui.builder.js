@@ -19,7 +19,7 @@ ui.create_index = function ui_create_index() {
       txtlist.forEach( function create_index( e, i ) {
          if ( txtlist.indexOf( e ) === i ) {
             var li = _.create( 'li' );
-            li.appendChild( _.create( 'span', { class: 'title', text: e, onclick: event.lnk_block_title_click } ) );
+            li.appendChild( _.create( 'span', { class: 'title', text: ns.ucword( e ), onclick: event.lnk_block_title_click } ) );
             list.appendChild( li );
          }
       });
@@ -66,20 +66,19 @@ ui.create_station_box = function ui_create_station_box( e ) {
 ui.create_entity_box = function ui_create_entity_box( e ) {
    var result = _.create( 'div', { 'class': 'entity treenode' } );
    if ( e.match( /^[A-Z][a-z]+[1-7]$/ ) ) { // resource
-      var req = { 'T_CrystalMining': /^Crystals\d$/, 'T_NobleMetalMining': /^Noble\d$/, 'FossilePowerUpgrade': /^Energy[45]$/, 'AlienPowerUpgrade': /^Energy[678]$/ };
-      for ( var r in req ) {
+      for ( var r in ns.special_req ) {
          // If special resources, add requirements
-         if ( e.match( req[r] ) ) {
+         if ( e.match( ns.special_req[r] ) ) {
             if ( ui.displayed.indexOf( r ) >= 0 ) result.className += ' collapsed';
             else ui.displayed.push( r );
             ui.create_fold_buttons( result );
             result.appendChild( ui.box_recur( ns.entity[r] ) );
-            req = null;
+            r = null;
             break;
          }
       }
-      if ( req ) _.addClass( result, 'resource' );
-         e = "Lv. " + e.substr( e.length-1 ) + " " + e.substr( 0, e.length-1 );
+      if ( r ) _.addClass( result, 'resource' );
+      e = "Lv. " + e.substr( e.length-1 ) + " " + e.substr( 0, e.length-1 );
    } else {
       if ( txt.trigger[ e ] )
          e = txt.trigger[ e ];
