@@ -6,9 +6,10 @@ var event = ui.event;
 var txt = ns.txt;
 
 ui.create_index = function ui_create_index() {
+   var nav = _( '#nav_top' )[0];
    var top = _.create( 'ul' );
    for ( var type in ns.data ) {
-      var cat = _.create( 'li', ns.ucfirst( type ) );
+      var cat = _.create( 'li', { text: ns.ucfirst( type ), id: type } );
       var list = _.create( 'ul' );
       var data = ns.data[ type ];
       var txtlist = [];
@@ -19,12 +20,15 @@ ui.create_index = function ui_create_index() {
       txtlist.forEach( function create_index( e, i ) {
          if ( txtlist.indexOf( e ) === i ) {
             var li = _.create( 'li' );
-            li.appendChild( _.create( 'span', { class: 'title', text: ns.ucword( e ), onclick: event.lnk_block_title_click } ) );
+            li.appendChild( _.create( 'span', {
+               class: 'title', text: ns.ucword( e ), onclick: event.lnk_block_title_click } ) );
             list.appendChild( li );
          }
       });
       cat.appendChild( list );
       top.appendChild( cat );
+      nav.appendChild( _.create( 'a', { href: '#' + type,text: ns.ucfirst( type )
+         , class: 'f_left', onclick: event.btn_reset_click } ) );
    }
    _( '#pnl_index' )[0].appendChild( top );
 };
