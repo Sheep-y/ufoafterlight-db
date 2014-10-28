@@ -55,10 +55,11 @@ var ui = ns.ui = {
       ui.show_panel( pnl_result );
       roots.forEach( function( root ) {
          var regx = ns.special_req[ root.name ];
-         var filter = regx
-            ? function(e){ return ns.prereq( e ).join( ' ' ).match( regx ); }
-            : function(e){ return ns.prereq( e ).indexOf( root.name ) >= 0; };
-         var enable = ns.all.filter( function(e){ return e.prereq; } ).filter( filter );
+         if ( ! regx ) regx = new RegExp( '\\b' + _.escRegx( root.name ) + '\\b' );
+         var enable = ns.all.filter( function( e ) { 
+            return ( e.prereq && ns.prereq( e ).join( ' ' ).match( regx ) )
+                || ( e.upgrade && e.upgrade === root.name )
+         });
 
          if ( enable.length > 0 ) {
             var result = ui.create_box( root );

@@ -43,6 +43,9 @@ ns.init = function ufoal_init() {
       e.text = ns.ucfirst( txt.training[ e.id + '_name' ].toLowerCase() );
       if ( e.upgrade ) e.upgrade = data.training[ e.upgrade-1 ].name;
    });
+   data.station.forEach( function each_station( e ) {
+      if ( e.upgrade ) e.upgrade = data.station[ e.upgrade-1 ].name;
+   });
    ns.ui.init();
 };
 
