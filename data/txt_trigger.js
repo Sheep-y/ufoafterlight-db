@@ -15,6 +15,7 @@ ufoal.txt.trigger = {
 'TwoMartianArtifacts':'Two Martian artifacts from excavation',
 'TerraformForWaterCondens':'Moderate terraform level',
 'TerraformAdvMine':'Terraform 50% or above',
+'MartianTerraform':'Medium High terraform level',
 'OpenArmorTerraformation':'High terraform level',
 'BeastmenArrivesForce':'Meet Natural Force',
 'LaputaIntroSeen':'Contacted Laputian',
