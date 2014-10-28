@@ -15,8 +15,9 @@ h1 { margin: 0; font-size: 24px; }
   border: 3px solid #b8cbd1; background-color: #012f3e;
 }
 
-#nav_top a { padding-right: 5px; }
+nav { padding: 0 5px; clear: both; }
 nav a, nav a:visited { color: #ddf; }
+#nav_top a { padding-right: 5px; }
 
 #pnl_index > ul > li { /* Main categories */
   display: block;
@@ -69,4 +70,3 @@ nav a, nav a:visited { color: #ddf; }
 }
 #pnl_result { padding: 0; float: left; }
 #pnl_enable { padding: 0; float: right; }
-#pnl_footer, nav { padding: 0 5px; clear: both; }

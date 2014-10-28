@@ -88,7 +88,7 @@ ns.get_item_desc = function ufoal_get_item_desc( e ) {
       else if ( sub.headslotIndex || sub.handslotIndex ) add( 'Addon slot: 1' );
       if ( sub.maxhostility ) add( 'Env. Resist: ' + sub.maxhostility );
       if ( sub.protection ) sub.protection.forEach( function( e, i ) {
-         add( txt.damage_type[i] + ': ' + (e*100) + '%' );
+         if ( i ) add( txt.damage_type[i] + ': ' + (e*100) + '%' );
       });
    }
 
