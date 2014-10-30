@@ -20,6 +20,8 @@ var ui = ns.ui = {
 
       // Initialise index and searchable data list
       ui.create_index();
+      _('#pnl_license')[0].appendChild( _.create( 'span', 'Data loaded in ' + _.time( 'Data loaded' )[1] + 'ms' ) );
+
       var data_search = _( '#data_search' )[0];
       var options = _.col( ns.all, 'text' ).sort();
       options.forEach( function each_option( e, i ) {
@@ -31,8 +33,8 @@ var ui = ns.ui = {
       // Update query from url
       event.window_popstate();
 
-      //_( 'input[autofocus]' )[0].focus(); // Focus may cause browser to not trigger datalist dropdown.
-      _( 'input[autofocus]' )[0].select();
+      //_( '#txt_search' )[0].focus(); // Focus may cause browser to not trigger datalist dropdown.
+      _( '#txt_search' )[0].select();
    },
 
    'find_query' : function ui_find_query() {

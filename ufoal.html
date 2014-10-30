@@ -9,16 +9,14 @@
 
 [coco:include=html/above.html]
 [coco:include=html/search.html]
+[coco:include=html/image.html]
+[coco:include=html/license.html]
 
 <script>
 document.getElementById( 'title' ).textContent = 'Loading';
 document.getElementById( 'title' ).className = '';
-</script>
 
-[coco:include=html/image.html]
-[coco:include=html/license.html]
-
-<script>//<![CDATA[
+</script><script>//<![CDATA[ // Split from loading to protect it from syntax error
 [coco:include=res/sparrow.min.js]
 [coco:include=res/inflate.min.js]
 [coco:include=res/core.js]
@@ -48,7 +46,6 @@ ufoal.inflate([
 "[coco:include=data/txt_trigger.js; trim=oneline; deflate]",
 "[coco:include=data/txt_weapon_origin.js; trim=oneline; deflate]"
 ]);
-_.time( 'Data loaded' );
 
 ufoal.init();
 
