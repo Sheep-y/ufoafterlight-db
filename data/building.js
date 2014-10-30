@@ -1,4 +1,3 @@
-//<![CDATA[
 ufoal.data.building = [
 {id:400,hour:60,name:"Training-m",prereq:{"T_MilitaryTraining":1,"Metal1":1}},
 {id:401,hour:60,name:"Training-s"},

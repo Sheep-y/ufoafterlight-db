@@ -26,6 +26,7 @@ event.txt_search_input = function txt_search_input( evt ) {
       return ui.show_panel( '#pnl_index' );
    }
 
+   _.time(); // Reset timer
    var name = val.toLowerCase();
    var target = ns.all.filter( function(e){
       return e.text.toLowerCase() === name;
@@ -34,6 +35,7 @@ event.txt_search_input = function txt_search_input( evt ) {
    if ( val !== ui.find_query() )
       history.pushState( null, '', '?query=' + val );
    ui.show_result( target );
+   _.time( 'Found and displayed: "' + name + '"' );
 };
 
 event.btn_reset_click = function btn_reset_click( evt ) {
@@ -71,7 +73,7 @@ event.btn_desc_click = function btn_desc_click( evt ) {
 
 event.lnk_license_click = function lnk_license_click( evt ) {
    evt.preventDefault();
-   if ( location.hash != '#license' )
+   if ( location.hash !== '#license' )
       history.pushState( null, '', '?#license' );
    event.window_popstate();
 };

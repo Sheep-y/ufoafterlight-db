@@ -161,7 +161,7 @@ ns.type = function ufoal_type( e ) {
    if ( e.type === 'training' && e.race ) return txt.race[ e.race ];
    if ( e.type === 'item' && e.typeIndex ) return txt.item_type[ e.typeIndex ];
    return '';
-}
+};
 
 /** Get an entity's prereq in array */
 ns.prereq = function ufoal_prereq( e ) {
@@ -176,10 +176,21 @@ ns.ucfirst = function ufoal_ucfirst( txt ) {
 
 ns.ucword = function ufoal_ucword( txt ) {
    return txt ? txt.split( /\b(?=[a-zA-Z])/g ).map( ns.ucfirst ).join( '' ) : txt;
-}
+};
 
 ns.uncamel = function ufoal_uncamel( txt ) {
    return txt.split( /(?=[A-Z0-9])/ ).join( ' ' ).trim();
+};
+
+ns.inflate = function ufoal_inflate( data ) {
+   _.ary( data ).forEach( function( e, i ){
+      try {
+         eval( _.inflate( atob( e ) ) );
+      } catch ( ex ) {
+         _.error( "Error running inflated code #" + i );
+         _.error( ex );
+      }
+   });
 };
 
 return ns;

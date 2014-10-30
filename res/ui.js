@@ -57,7 +57,7 @@ var ui = ns.ui = {
          if ( ! regx ) regx = new RegExp( '\\b' + _.escRegx( root.name ) + '\\b' );
          var enable = ns.all.filter( function( e ) { 
             return ( e.prereq && ns.prereq( e ).join( ' ' ).match( regx ) )
-                || ( e.upgrade && e.upgrade === root.name )
+                || ( e.upgrade && e.upgrade === root.name );
          });
 
          if ( enable.length > 0 ) {

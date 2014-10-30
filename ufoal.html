@@ -1,10 +1,10 @@
 <!DOCTYPE html><html lang="en" manifest="data:text/cache-manifest;CACHE%20MANIFEST%0A"><head><meta charset="UTF-8" />
-<meta http-equiv="P3P" content='CP="NID"' />
-<title>Sheepy's UFO: Afterlight database</title>
-<meta name="viewport" content="width=400,initial-scale=1" />
-<meta name="apple-mobile-web-app-capable" content="yes" />
-<link rel="icon" href="[coco:include=img/favicon-63c.gif;datauri=image/gif]" />
-<style>[coco:include=res/style.css]</style>
+  <meta http-equiv="P3P" content='CP="NID"' />
+  <title>Sheepy's UFO: Afterlight database</title>
+  <meta name="viewport" content="width=400,initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <link rel="icon" href="[coco:include=img/favicon-63c.gif;datauri=image/gif]" />
+  <style>[coco:include=res/style.css]</style>
 </head><body>
 
 [coco:include=html/above.html]
@@ -20,30 +20,40 @@ document.getElementById( 'title' ).className = '';
 
 <script>//<![CDATA[
 [coco:include=res/sparrow.min.js]
+[coco:include=res/inflate.min.js]
 [coco:include=res/core.js]
 [coco:include=res/ui.js]
 [coco:include=res/ui.builder.js]
 [coco:include=res/ui.event.js]
+_.time( 'Code loaded' );
 
-[coco:include=data/item.js]
-[coco:include=data/training.js]
-[coco:include=data/building.js]
-[coco:include=data/station.js]
-[coco:include=data/tech.js]
-[coco:include=data/txt_name.js]
-[coco:include=data/txt_building.js]
-[coco:include=data/txt_damage_type.js]
-[coco:include=data/txt_item_type.js]
-[coco:include=data/txt_item.js]
-[coco:include=data/txt_race.js]
-[coco:include=data/txt_station.js]
-[coco:include=data/txt_station_type.js]
-[coco:include=data/txt_tech.js]
-[coco:include=data/txt_tech_orig.js]
-[coco:include=data/txt_training.js]
-[coco:include=data/txt_trigger.js]
-[coco:include=data/txt_weapon_origin.js]
+ufoal.inflate([
+"[coco:include=data/item.js; trim=oneline; deflate]",
+"[coco:include=data/training.js; trim=oneline; deflate]",
+"[coco:include=data/building.js; trim=oneline; deflate]",
+"[coco:include=data/station.js; trim=oneline; deflate]",
+"[coco:include=data/tech.js; trim=oneline; deflate]",
+
+"[coco:include=data/txt_name.js; trim=oneline; deflate]",
+"[coco:include=data/txt_building.js; trim=oneline; deflate]",
+"[coco:include=data/txt_damage_type.js; trim=oneline; deflate]",
+"[coco:include=data/txt_item.js; trim=oneline; deflate]",
+"[coco:include=data/txt_item_type.js; trim=oneline; deflate]",
+"[coco:include=data/txt_race.js; trim=oneline; deflate]",
+"[coco:include=data/txt_station.js; trim=oneline; deflate]",
+"[coco:include=data/txt_station_type.js; trim=oneline; deflate]",
+"[coco:include=data/txt_tech.js; trim=oneline; deflate]",
+"[coco:include=data/txt_tech_orig.js; trim=oneline; deflate]",
+"[coco:include=data/txt_training.js; trim=oneline; deflate]",
+"[coco:include=data/txt_trigger.js; trim=oneline; deflate]",
+"[coco:include=data/txt_weapon_origin.js; trim=oneline; deflate]"
+]);
+_.time( 'Data loaded' );
+
 ufoal.init();
-//]]></script>
 
+// License can be loaded after switching to license page
+_('#lbl_license')[0].innerHTML = _.inflate( atob( "[coco:include=license_agpl.html; deflate]" ) );
+
+//]]></script>
 </body></html>
