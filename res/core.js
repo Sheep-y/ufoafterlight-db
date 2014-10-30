@@ -158,6 +158,12 @@ ns.special_req = {
    'AlienPowerUpgrade': /\bEnergy[6789]\b/
 };
 
+ns.type = function ufoal_type( e ) {
+   if ( e.type === 'training' && e.race ) return txt.race[ e.race ];
+   if ( e.type === 'item' && e.typeIndex ) return txt.item_type[ e.typeIndex ];
+   return '';
+}
+
 /** Get an entity's prereq in array */
 ns.prereq = function ufoal_prereq( e ) {
    if ( ! e.prereq ) return [];

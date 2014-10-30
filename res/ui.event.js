@@ -33,7 +33,7 @@ event.txt_search_input = function txt_search_input( evt ) {
    });
    if ( target.length <= 0 ) return _.show( '#lbl_not_found' );
    if ( val !== ui.find_query() )
-      history.pushState( {}, '', '?query=' + val );
+      history.pushState( null, '', '?query=' + val );
    ui.show_result( target );
 };
 
@@ -43,7 +43,7 @@ event.btn_reset_click = function btn_reset_click( evt ) {
 };
 
 event.lnk_block_title_click = function lnk_block_title_click( evt ) {
-   txt_search.value = evt.target.textContent.trim().replace( / *\([^)]\)$/ );
+   txt_search.value = evt.target.textContent.trim().replace( / *\([^)]*\)$/, '' );
    event.txt_search_input();
 };
 

@@ -12,13 +12,9 @@ ui.create_index = function ui_create_index() {
       var cat = _.create( 'li', { text: ns.ucfirst( type ), id: type } );
       var list = _.create( 'ul' );
       var data = ns.data[ type ];
-      var txtlist = [];
-      for ( var i in data ) {
-         if ( data[i].text ) txtlist.push( data[i].text );
-      }
-      txtlist = txtlist.sort();
+      var txtlist = _.col( ns.data[type], 'text' ).sort();
       txtlist.forEach( function create_index( e, i ) {
-         if ( txtlist.indexOf( e ) === i ) {
+         if ( e && txtlist.indexOf( e ) === i ) {
             var li = _.create( 'li' );
             li.appendChild( _.create( 'span', {
                class: 'title', text: ns.ucword( e ), onclick: event.lnk_block_title_click } ) );
@@ -57,7 +53,6 @@ ui.create_item_box = function ui_create_item_box( e ) {
 
 ui.create_training_box = function ui_create_training_box( e ) {
    var result = ui.create_base_box( e, 'training' );
-   _( result, '.title' )[0].appendChild( _.create( 'span', ' (' + txt.race[ e.race ] + ')' ) );
    return ui.create_help_buttons( result );
 };
 
@@ -101,6 +96,7 @@ ui.create_base_box = function ui_create_base_box( e, className, icon, alt ) {
    if ( ui.displayed.indexOf( e ) >= 0 ) result.className += ' collapsed';
    else ui.displayed.push( e );
    result.appendChild( _.create( 'a', { class: 'title', text: e.text, onclick: event.lnk_block_title_click } ) );
+   if ( ns.type( e ) ) result.appendChild( _.create( 'span', ' (' + ns.type( e ) + ')' ) );
    result.appendChild( _.create( 'img', { class: 'icon', src: _('#'+icon)[0].src, alt: alt } ) );
    if ( e.day )       result.appendChild( _.create( 'span', { class: 'manday', text: e.day + ' man-days' } ) );
    else if ( e.hour ) result.appendChild( _.create( 'span', { class: 'manhour', text: e.hour + ' man-hours' } ) );
