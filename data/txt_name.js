@@ -20,7 +20,7 @@ ufoal.txt.name = {
 19:"Martian armor",
 20:"Martian light suit",
 21:"Mistress’ armor",
-22:"Greatmistress’ armor",
+22:"Greatmistress' armor",
 23:"Nature forces armor",
 25:"Pistol",
 26:"Rifle",
