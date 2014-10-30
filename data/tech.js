@@ -62,7 +62,8 @@ ufoal.data.tech = [
 {id:263,day:18,name:"T_ReticulanRebelSoldierInterrogation",orig:8,prereq:{T_ReticulanAutopsy:0,Alien:0,RebelSoldierCaptive:1}},
 {id:264,day:18,name:"T_ReticulanRebelCommanderInterrogation",orig:8,prereq:{T_ReticulanAutopsy:0,Alien:0,RebelLeaderCaptive:1}},
 {id:265,day:30,name:"T_ReticulanExpeditionSoldierInterrogation",orig:8,prereq:{T_ReticulanAutopsy:0,Alien:0,ExpeditionSoldierCaptive:1}},
-{id:266,day:35,name:"T_PsiWeapons",orig:4,prereq:{PsionicWeapon:0.5,ReticulanRebelInterrogation:0.5}},
+/*{id:266,day:35,name:"T_PsiWeapons",orig:4,prereq:{PsionicWeapon:0.5,ReticulanRebelInterrogation:0.5}}, // Fix tech chain */
+{id:266,day:35,name:"T_PsiWeapons",orig:4,prereq:{PsionicWeapon:0.5,T_ReticulanRebelSoldierInterrogation:0.5,T_ReticulanExpeditionSoldierInterrogation:0.5}},
 {id:267,day:90,name:"T_PsiAbsorber",orig:4,prereq:{T_PsiWeapons:0.5,T_ReticulanTechnologies2:0.5}},
 {id:268,day:24,name:"T_CrystalMining",orig:4,prereq:{T_ReticulanTechnologies1:1}},
 {id:269,day:30,name:"T_LaserWeapons",orig:4,prereq:{T_ReticulanTechnologies1:1,Range:0}},
