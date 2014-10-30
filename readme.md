@@ -15,4 +15,4 @@ A custom build tool (a Java jar) is included in the [project root](https://githu
 All it does is merging files, so it should be easy to rewrite for your preferred build tool, or manually change to html links.
 
 This program is free and open, licensed under [AGPL v3](http://www.gnu.org/licenses/agpl-3.0.html).
-Most text and icons are copyrighted (2007) ATLAR games.
+Most text and all icons are copyrighted 2007 ATLAR games.

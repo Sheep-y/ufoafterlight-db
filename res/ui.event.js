@@ -7,16 +7,23 @@ var event = ui.event;
 var txt_search = _( '#txt_search')[0];
 
 event.window_popstate = function window_popstate( evt ) {
-   txt_search.value = ui.find_query();
-   event.txt_search_input( evt );
+   if ( location.hash === '#license' ) {
+      txt_search.value = '';
+      ui.show_panel( '#pnl_license' );
+   } else {
+      txt_search.value = ui.find_query();
+      event.txt_search_input( evt );
+   }
 };
 
 event.txt_search_input = function txt_search_input( evt ) {
    _.hide( '#lbl_not_found' );
    var val = txt_search.value.trim();
    if ( ! val ) {
-      if ( ui.find_query() )
-         history.pushState( {}, '', '?' );
+      if ( document.activeElement && document.activeElement === txt_search )
+         return; // Prevent reverting to index while user is still typing.
+      if ( ui.find_query() || location.hash )
+         history.pushState( null, '', '?' );
       return ui.show_panel( '#pnl_index' );
    }
 
@@ -36,7 +43,7 @@ event.btn_reset_click = function btn_reset_click( evt ) {
 };
 
 event.lnk_block_title_click = function lnk_block_title_click( evt ) {
-   txt_search.value = evt.target.textContent;
+   txt_search.value = evt.target.textContent.trim().replace( / *\([^)]\)$/ );
    event.txt_search_input();
 };
 
@@ -65,7 +72,9 @@ event.btn_desc_click = function btn_desc_click( evt ) {
 
 event.lnk_license_click = function lnk_license_click( evt ) {
    evt.preventDefault();
-   ui.show_panel( '#pnl_license' );
+   if ( location.hash != '#license' )
+      history.pushState( null, '', '?#license' );
+   event.window_popstate();
 };
 
 })( ufoal ); // ]]>

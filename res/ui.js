@@ -27,7 +27,7 @@ var ui = ns.ui = {
          if ( e && options.indexOf( e ) === i ) // Filter out empties and duplicates
             data_search.appendChild( _.create( 'option', { value: ns.ucword( e ) } ) );
       });
-      _.show( '#pnl_search, #pnl_footer' );
+      _.show( [ pnl_search, pnl_index ] );
 
       // Update query from url
       event.window_popstate();
