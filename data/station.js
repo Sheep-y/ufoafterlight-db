@@ -1,4 +1,3 @@
-//<![CDATA[
 ufoal.data.station = [
 {id:800,day:2.5,name:"Geosonde",type:5,resource:0,upgrade:0,prereq:[]},
 {id:801,day:3,name:"Excavations",type:4,resource:0,upgrade:0,prereq:[]},
@@ -16,4 +15,4 @@ ufoal.data.station = [
 {id:813,day:6,name:"MineNobleMajor",type:1,resource:4,upgrade:13,prereq:["T_AdvancedMining"]},
 {id:814,day:4,name:"MineCrystalMinor",type:1,resource:6,upgrade:0,prereq:["T_CrystalMining"]},
 {id:815,day:6,name:"MineCrystalMajor",type:1,resource:6,upgrade:15,prereq:["T_AdvancedMining"]},
-]; // ]]>
+];

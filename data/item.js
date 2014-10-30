@@ -1,4 +1,3 @@
-//<![CDATA[
 ufoal.data.item = [
 {id:1,
 startquantity:7,
@@ -7104,4 +7103,4 @@ armour:{
  permanenteffectIndex:214,
  protection:[0,0.25,0.25,0.25,0.7,0,0.25,0.25,0,1,1],
  normalslot:{"0":1,"1":1,"2":1,"7":1,"15":1}}}
-]; // ]]>
+];

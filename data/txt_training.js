@@ -1,4 +1,3 @@
-//<![CDATA[
 ufoal.txt.training = {
 "1":"The use of obstacles to provide cover is more effective with this training, i.e. enemies will have less chance of hitting a soldier if he or she is behind an object on the map.",
 "1_name":"Minor Cover",
@@ -266,4 +265,4 @@ ufoal.txt.training = {
 "136_name":"Extra accurate monitoring",
 "137":"Olga gains double the experience for all her activities and fulfilled tasks and her trainings take only half time as usual.",
 "137_name":"Fast learning"
-}; // ]]>
+};

@@ -1,4 +1,3 @@
-//<![CDATA[
 ufoal.txt.trigger = {
 'FirstAlienCorpse':'Any alien corpse',
 'FirstAlienCapture':'Any alien captive',
@@ -20,4 +19,4 @@ ufoal.txt.trigger = {
 'BeastmenArrivesForce':'Meet Natural Force',
 'LaputaIntroSeen':'Contacted Laputian',
 'MoonTravelRequest':'Moon travel suggested',
-}; // ]]>
+};

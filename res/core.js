@@ -1,4 +1,3 @@
-// <![CDATA[
 var ufoal = (function ufoal_core(){ 'use strict';
 
 var txt = {};
@@ -185,4 +184,4 @@ ns.uncamel = function ufoal_uncamel( txt ) {
 
 return ns;
 
-})(); // ]]>
+})();

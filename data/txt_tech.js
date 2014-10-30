@@ -1,4 +1,3 @@
-// <![CDATA[
 ufoal.txt.tech = {
 "200_done":"The easiest way to treat our soldiers whilst in their spacesuits on the battlefield, is to inject regenerative and analgesic substances into their blood. This treatment does not heal permanent damage, but it enables them to cope with temporary injuries.",
 "200_b4":"We need to extend our medical knowledge so that it can be used in battle.",
@@ -271,4 +270,4 @@ ufoal.txt.tech = {
 "342_b4":"No matter how careful our soldiers are, Beastmen always find them by their smell.",
 "343_done":"Although we call them matriarchs, it cannot be said that these creatures are female. They were biologically modified to be the perfect chiefs - strong,  skilful and cunning. If the normal Beastmen soldiers are a very dangerous enemy, this  is twice as true of the Beastmen’s matriarchs. She is very agile, dodging most of the attacks. When hit, she is not easily hurt, with the exception of laser damage and probably psionic attacks.",
 "343_b4":"The Beastmen’s rulers are our most impressive opponents. We can learn a bit more about them by studying their dead bodies.",
-}; // ]]>
+};

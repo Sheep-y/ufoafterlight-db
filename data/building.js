@@ -37,4 +37,4 @@ ufoal.data.building = [
 {id:442,hour:150,name:"StoreFuel",prereq:{"T_Warehouses":1,"Metal2":1,"Fuel4":1}},
 {id:443,hour:150,name:"StoreMetal",prereq:{"T_Warehouses":1,"Metal4":1}},
 {id:444,hour:150,name:"StoreMedical",prereq:{"T_Warehouses":1,"Metal2":1,"Chemicals4":1}},
-]; // ]]>
+];

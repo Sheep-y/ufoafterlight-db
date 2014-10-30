@@ -1,4 +1,3 @@
-// <![CDATA[
 (function ufoal_ui_builder( ns ) { 'use strict';
 
 var ui = ns.ui;
@@ -115,4 +114,4 @@ ui.create_help_buttons = function ui_create_help_buttons( e ) {
    return e;
 };
 
-})( ufoal ); // ]]>
+})( ufoal );

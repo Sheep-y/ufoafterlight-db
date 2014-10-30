@@ -1,4 +1,3 @@
-//<![CDATA[
 ufoal.txt.item = {
 1:"This suit offers only basic protection in combat and it is not possible to use it in areas with an excessively hostile environment.<br>This suit is always available to your troops. They will wear it if you assign them no other suit.",
 2:"This suit has similar characteristics to the basic one, but you can carry much larger items with you on missions. It also offers slightly better protection against a hostile environment.",
@@ -215,4 +214,4 @@ ufoal.txt.item = {
 991:"Martian artifact with unknown function.<br>Study of this artifact may advance our research on Martian civilization.",
 992:"Martian artifact with unknown function.<br>Study of this artifact may advance our research on Martian civilization.",
 993:"Reticulan computer containing all important information on actually unknown technologies.",
-}; // ]]>
+};

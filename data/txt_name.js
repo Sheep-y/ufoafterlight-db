@@ -1,4 +1,3 @@
-//<![CDATA[
 ufoal.txt.name = {
 1:"Basic suit",
 2:"Transport suit",
@@ -445,4 +444,4 @@ ufoal.txt.name = {
 992:"Martian artifact NE106",
 993:"Reticulan artifact N4C",
 995:"Fireball",
-}; // ]]>
+};

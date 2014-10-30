@@ -1,4 +1,3 @@
-//<![CDATA[
 ufoal.data.training = [
 {id:1,name:"CoverMinor",day:1,type:"soldier",effect:"CoverBonus",icon:"cCoverMinor",race:1,prereq:["T_SpecialMilitaryOperations"]},
 {id:2,"name":"CoverMajor",day:1,type:"soldier",effect:"FriendlyFireHitDecrease",icon:"cCoverMajor",upgrade:1,race:1,prereq:["T_SpecialMilitaryOperations"]},
@@ -133,4 +132,4 @@ ufoal.data.training = [
 {id:136,"name":"MonitorMajor",day:3,type:"soldier",effect:"MonitorMajorEffect",icon:"cMemoryMinor",upgrade:129,race:5,prereq:["T_MajorEnhancements"]},
 */
 {id:137,"name":"OlgaSpecial",day:0,type:"soldier",effect:"FastLearning",icon:"cOlgaSpecial",race:1},
-]; // ]]>
+];

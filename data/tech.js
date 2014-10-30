@@ -1,4 +1,3 @@
-//<![CDATA[
 ufoal.data.tech = [
 {id:200,day:8,name:"T_Medicine",orig:1},
 {id:201,day:31,name:"T_Stimulants",orig:1,prereq:{T_Medicine:1}},
@@ -126,4 +125,4 @@ ufoal.data.tech = [
 {id:341,day:45,name:"T_PowerLasers",orig:4,prereq:{T_LaserWeapons:0.5,T_ReticulanEnergySources:0.5}},
 {id:342,day:33,name:"T_SmellAbsorption",orig:5,prereq:{BeastmenSmellScanner:1}},
 {id:343,day:40,name:"T_MatriarchAutopsy",orig:7,prereq:{Autopsy:0,MatriarchCorpse:1}}
-]; // ]]>
+];

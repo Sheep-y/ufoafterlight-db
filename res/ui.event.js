@@ -1,4 +1,3 @@
-// <![CDATA[
 (function ufoal_ui( ns ) { 'use strict';
 
 var ui = ns.ui;
@@ -77,4 +76,4 @@ event.lnk_license_click = function lnk_license_click( evt ) {
    event.window_popstate();
 };
 
-})( ufoal ); // ]]>
+})( ufoal );

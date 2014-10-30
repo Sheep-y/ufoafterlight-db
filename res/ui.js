@@ -1,4 +1,3 @@
-// <![CDATA[
 (function ufoal_ui( ns ) { 'use strict';
 
 var event = {}; // Event handlers are stored here
@@ -105,4 +104,4 @@ var ui = ns.ui = {
    },
 };
 
-})( ufoal ); // ]]>
+})( ufoal );

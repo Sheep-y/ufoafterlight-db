@@ -1,4 +1,3 @@
-//<![CDATA[
 ufoal.txt.building = {
 "397":"Sometimes called the Mausoleum: this monumental building holds more than 10,000 people in cryogenic slumber, waiting for the time when Mars will be able to feed more than the few brave pioneers. People may survive for centuries in this state, but it takes more than a year to wake them up.",
 "397_tip":"Monument: thousands of people sleeping",
@@ -92,4 +91,4 @@ ufoal.txt.building = {
 "448_tip":"Civil engineering: technicians construct base buildings from here",
 "449":"Sometimes called the Mausoleum, this monumental building holds more than 10,000 people in cryogenic slumber, waiting for the time when Mars will be able to feed more than the few brave pioneers. People may survive for centuries in this state, but it takes more than a year to wake them up.",
 "449_tip":"Monument: thousands of people sleeping",
-}; // ]]>
+};

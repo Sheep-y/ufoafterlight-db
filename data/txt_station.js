@@ -1,4 +1,3 @@
-//<![CDATA[
 ufoal.txt.station = {
 800:"To occupy a territory you must build the geological probe there. The automated probe will start surveying the surrounding regions, reporting data about resources, archeological findings and enemy presence. <br>A geological probe is built by scientists.",
 801:"The excavation site is constructed on the ancient Martian ruins. The specialized robots will search the ground for any artifacts that may greatly speed up your research. <br>An excavation site is built by scientists.",
@@ -16,4 +15,4 @@ ufoal.txt.station = {
 813:"This is an upgrade of the basic noble metals mine, with this source then contributing double the volume to access to noble mines. <br>Advanced noble metals’ mines are upgraded from basic noble metals’ mines by technicians.",
 814:"Lasers and some optical devices require crystals in their production. The mine contributes to the access to the crystals according to the deposit’s size. <br>Crystal mines are built by technicians.",
 815:"This is an upgrade  of the basic crystal mine, with this source then contributing double the volume to access to crystals. <br>Advanced crystal mines are upgraded from basic crystal mines by technicians.",
-}; // ]]>
+};
