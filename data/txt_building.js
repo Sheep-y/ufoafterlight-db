@@ -35,7 +35,7 @@ ufoal.txt.building = {
 "414_tip":"Chemical plant: workshop add-on",
 "415":"The lenses are cut with high precision equipment and integrated into complex optical devices in the optical engineering hall. <br>The optical engineering  enables production of some items (see their prerequisites).",
 "415_tip":"Optical engineering: workshop add-on",
-"416":"The residential area is the place for Mars’ human inhabitants to rest and lead their “normal” lives . This is where they spend time when they are not assigned to other tasks. <br>The people not assigned to another building reside here. It is useful to place the members of your active tactical squad here.",
+"416":"The residential area is the place for Mars’ human inhabitants to rest and lead their \"normal\" lives . This is where they spend time when they are not assigned to other tasks. <br>The people not assigned to another building reside here. It is useful to place the members of your active tactical squad here.",
 "416_tip":"Residential sector: colonists live here",
 "419":"This is where the aqueduct bringing water from the North Pole reserves back to the Base terminates. It is Mars’ human colony’s only source of water .",
 "419_tip":"Aqueduct: brings water",
