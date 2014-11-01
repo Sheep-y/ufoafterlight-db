@@ -28,8 +28,11 @@ event.txt_search_input = function txt_search_input( evt ) {
 
    _.time(); // Reset timer
    var name = val.toLowerCase();
+   var id = val.match( /^\d+$/ ) ? +val : null;
    var target = ns.all.filter( function(e){
-      return e.text.toLowerCase() === name;
+      return e.text.toLowerCase() === name
+         || e.name.toLowerCase() === name
+         || e.id === id;
    });
    if ( target.length <= 0 ) return _.show( '#lbl_not_found' );
    if ( val !== ui.find_query() )
