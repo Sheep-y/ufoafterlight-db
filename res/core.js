@@ -110,7 +110,7 @@ ns.get_item_desc = function ufoal_get_item_desc( e ) {
       sub = e.weapon;
       add( '<hr/>' );
       // TODO: Replace with shapeIndex
-      add( 'Hands: ' + ( sub.righthandhelper === "parent_one-handed" ) ? '1' : '2' );
+      add( 'Hands: ' + ( ( sub.righthandhelper === "parent_one-handed" ) ? '1' : '2' ) );
       if ( sub.muzzleslotIndex ) slot.push( 'Muzzle' );
       if ( sub.visorslotIndex ) slot.push( 'Scope' );
       if ( sub.additionalslotIndex ) slot.push( 'Underbarrel' );
