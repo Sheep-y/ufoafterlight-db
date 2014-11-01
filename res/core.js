@@ -150,8 +150,22 @@ ns.get_item_desc = function ufoal_get_item_desc( e ) {
 
             if ( wam.radius ) {
                sub = wam.radius;
+               if ( sub.visiblitytypeid ) line += ' ' + sub.visiblitytypeid;
                if ( sub.radius ) line += ' radius ' + sub.radius + ' m';
                if ( sub.angle ) line += ' ∠' + sub.angle + 'º';
+            }
+
+            if ( wam.autonom ) {
+               sub = wam.autonom;
+               if ( sub.visibility ) {
+                  var vis = sub.visibility
+                  add( line + '<br/>' );
+                  line = [];
+                  for ( var v in vis ) {
+                     if ( vis[v] ) line.push( v + ': ' + percent( vis[ v ] ) );
+                  }
+                  line = 'Range: ' + line.join( ', ' );
+               }
             }
             add( line );
          });}

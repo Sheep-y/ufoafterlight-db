@@ -5352,7 +5352,6 @@ visiblitytypeid:"None"},
   autonom:{
 timetoactivate:150,
 ismine:false,
-ng_waveid:"fxExploFragHumanHi",
 visibility:{"Seeing":0.2,"Hearing":0.1,"Infra":1,"Psionic":0,"NightVision":0.1,"EMVision":0.2,"Hearthbeat":0,"Smell":1,"Movement":0}}}]},
  ]},
 ammo:{
@@ -5398,7 +5397,6 @@ visiblitytypeid:"None"},
   autonom:{
 timetoactivate:100,
 ismine:true,
-ng_waveid:"fxExploFragHuman",
 visibility:{"Seeing":0.1,"Hearing":0,"Infra":0.1,"Psionic":0,"NightVision":0.1,"EMVision":0.5,"Hearthbeat":0,"Smell":0.1,"Movement":0}}}]},
  ]},
 ammo:{
@@ -5443,7 +5441,6 @@ visiblitytypeid:"None"},
   autonom:{
 timetoactivate:100,
 ismine:true,
-ng_waveid:"fxExploFragBeastman",
 visibility:{"Seeing":0.1,"Hearing":0,"Infra":0.5,"Psionic":0,"NightVision":0.1,"EMVision":0.1,"Hearthbeat":0,"Smell":1,"Movement":0}}}]},
  ]},
 ammo:{
@@ -5484,7 +5481,6 @@ visiblitytypeid:"None"},
   autonom:{
 timetoactivate:100,
 ismine:true,
-ng_waveid:"fxExploFragReticulan",
 visibility:{"Seeing":0.1,"Hearing":0,"Infra":0.1,"Psionic":1,"NightVision":0.1,"EMVision":0.5,"Hearthbeat":0,"Smell":0.2,"Movement":0}}}]},
  ]},
 ammo:{
