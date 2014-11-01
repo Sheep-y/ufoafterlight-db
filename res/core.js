@@ -122,7 +122,7 @@ ns.get_item_desc = function ufoal_get_item_desc( e ) {
       if ( sub.ammo ) { sub.ammo.forEach( function( ammo ) {
          add( ' ' );
          var clip = ns.entity[ ammo.ammoIT ];
-         var line = clip.text;
+         var line = '<span class="title" onclick="ufoal.ui.event.lnk_block_title_click(event)">' + clip.text + '</span>';
          if ( clip.ammo.capacity ) line += ' (' + clip.ammo.capacity + ')';
          if ( ammo.reloadtime ) line +=' Reload ' + second( ammo.reloadtime );
          add( line );
