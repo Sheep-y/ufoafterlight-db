@@ -75,6 +75,9 @@ ns.get_general_desc = function ufoal_get_general_desc( e ) {
    return txt[ e.id ] ? txt[ e.id ] : '(Internal data; no description)';
 };
 
+function percent( v ) { return (v*100) + '%'; }
+function second( t ) { return (t/10) + '&thinsp;s.'; }
+
 ns.get_item_desc = function ufoal_get_item_desc( e ) {
    var sub, result = [ ns.get_general_desc( e ) + '<hr/>' ];
    function add( t ) { result.push( t ); }
@@ -86,7 +89,6 @@ ns.get_item_desc = function ufoal_get_item_desc( e ) {
       if ( sub.manufacturingtime ) add( 'Produce: ' + sub.manufacturingtime + ' man-days per piece' );
    }
 
-   function percent( v ) { return (v*100) + '%'; }
    if ( e.armour ) {
       sub = e.armour;
       add( '<hr/>' );
@@ -103,9 +105,24 @@ ns.get_item_desc = function ufoal_get_item_desc( e ) {
       add( '<hr/>' );
       if ( sub.capacity ) add( 'Ammo capaticy: ' + sub.capacity );
       if ( sub.isrechargable ) add( '(Recharge at base)' );
+      if ( ! e.weapon ) {
+         for ( var wid in ns.data.item ) {
+            var w = ns.data.item[ wid ];
+            if ( w.weapon && w.weapon.ammo ) {
+               w.weapon.ammo.forEach( function ammo_match_each( ammo ) {
+                  if ( ammo.ammoIT === e.name && ammo.wam ) {
+                     if ( w ) {
+                        add( '<br/><span class="title" onclick="ufoal.ui.event.lnk_block_title_click(event)">' + w.text + '</span>' );
+                        w = null;
+                     }
+                     add( ammo.wam.map( ns.get_ammo_desc ).join('<br/>') );
+                  }
+               });
+            }
+         }
+      }
    }
 
-   function second( t ) { return (t/10) + '&thinsp;s.'; }
    if ( e.weapon ) {
       var slot = [];
       sub = e.weapon;
@@ -126,53 +143,56 @@ ns.get_item_desc = function ufoal_get_item_desc( e ) {
          if ( clip.ammo.capacity ) line += ' (' + clip.ammo.capacity + ')';
          if ( ammo.reloadtime ) line +=' Reload ' + second( ammo.reloadtime );
          add( line );
-         if ( ammo.wam ) { ammo.wam.forEach( function( wam ) {
-            var line = wam.weaponmode ? ns.uncamel( wam.weaponmode ) : 'Attack';
-            if ( wam.rounds && wam.rounds > 1 ) line += ' (x' + wam.rounds + ')';
-            if ( wam.consumption && wam.consumption > 1 ) line += ' (' + wam.consumption + ' ammo per shot)';
-            if ( wam.timetofire && wam.timetofire > 1 ) line += ', ' + second( wam.timetofire ) + ' warm up';
-            add( line );
-            line = ' &nbsp; &nbsp;';
-            if ( wam.timeeffect ) {
-               add ( line + ' "' + wam.timeeffect + '" effect'
-                  + ( wam.effectprobability < 1 ? ' ' + percent( wam.effectprobability ) + ' chance' : '' ) );
-            }
-            if ( wam.strength && wam.dmgtype ) line += ' ' + wam.strength + ' ' + wam.dmgtype + ' damage';
-
-            sub = null;
-            if ( wam.ranged ) sub = wam.ranged;
-            else if ( wam.close ) sub = wam.close;
-            if ( sub ) {
-               if ( sub.range ) line += ' ' + sub.range + ' m';
-               if ( sub.aimingtime ) line += ' ' + second( sub.aimingtime );
-               if ( sub.accuracy && sub.accuracy < 10 ) line += ', accuracy x' + sub.accuracy;
-            }
-
-            if ( wam.radius ) {
-               sub = wam.radius;
-               if ( sub.visiblitytypeid ) line += ' ' + sub.visiblitytypeid;
-               if ( sub.radius ) line += ' radius ' + sub.radius + ' m';
-               if ( sub.angle ) line += ' ∠' + sub.angle + 'º';
-            }
-
-            if ( wam.autonom ) {
-               sub = wam.autonom;
-               if ( sub.visibility ) {
-                  var vis = sub.visibility
-                  add( line + '<br/>' );
-                  line = [];
-                  for ( var v in vis ) {
-                     if ( vis[v] ) line.push( v + ': ' + percent( vis[ v ] ) );
-                  }
-                  line = 'Range: ' + line.join( ', ' );
-               }
-            }
-            add( line );
-         });}
+         if ( ammo.wam ) { 
+            add( ammo.wam.map( ns.get_ammo_desc ).join('<br/>') );
+         }
       });}
    }
    return result.join( '<br/>' ).replace( /(<br\/>)*<hr\/>(<[bh]r\/>)+/g, '<hr/>' );
 };
+
+ns.get_ammo_desc = function ufoal_get_ammo_desc( wam ) {
+   var indent = '<br/> &nbsp; &nbsp;';
+   var line = wam.weaponmode ? ns.uncamel( wam.weaponmode ) : 'Attack';
+   if ( wam.rounds && wam.rounds > 1 ) line += ' (x' + wam.rounds + ')';
+   if ( wam.consumption && wam.consumption > 1 ) line += ' (' + wam.consumption + ' ammo per shot)';
+   if ( wam.timetofire && wam.timetofire > 1 ) line += ', ' + second( wam.timetofire ) + ' warm up';
+   if ( wam.timeeffect ) {
+      line += indent + ' "' + wam.timeeffect + '" effect'
+         + ( wam.effectprobability < 1 ? ' ' + percent( wam.effectprobability ) + ' chance' : '' );
+   }
+   line += indent;
+   if ( wam.strength && wam.dmgtype ) line += ' ' + wam.strength + ' ' + wam.dmgtype + ' damage';
+
+   var sub = null;
+   if ( wam.ranged ) sub = wam.ranged;
+   else if ( wam.close ) sub = wam.close;
+   if ( sub ) {
+      if ( sub.range ) line += ' ' + sub.range + ' m';
+      if ( sub.aimingtime ) line += ' ' + second( sub.aimingtime );
+      if ( sub.accuracy && sub.accuracy < 10 ) line += ', accuracy x' + sub.accuracy;
+   }
+
+   if ( wam.radius ) {
+      sub = wam.radius;
+      if ( sub.visiblitytypeid ) line += ' ' + sub.visiblitytypeid;
+      if ( sub.radius ) line += ' radius ' + sub.radius + ' m';
+      if ( sub.angle ) line += ' ∠' + sub.angle + 'º';
+   }
+
+   if ( wam.autonom ) {
+      sub = wam.autonom;
+      if ( sub.visibility ) {
+         var vis = sub.visibility
+         line += '<br/><br/>Range: ';
+         for ( var v in vis ) {
+            if ( vis[v] ) line += v + ': ' + percent( vis[ v ] ) + ', ';
+         }
+         line = line.substr( 0, line.length-2 );
+      }
+   }
+   return line;
+}
 
 ns.special_req = {
    'MineCrystalMinor': /\bCrystals\d\b/,
