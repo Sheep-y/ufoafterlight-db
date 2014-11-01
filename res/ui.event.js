@@ -46,6 +46,7 @@ event.btn_reset_click = function btn_reset_click( evt ) {
 event.lnk_block_title_click = function lnk_block_title_click( evt ) {
    txt_search.value = evt.target.textContent.trim().replace( / *\([^)]*\)$/, '' );
    event.txt_search_input();
+   _('#nav_top')[0].scrollIntoView(true);
 };
 
 event.btn_collapse_click = function btn_collapse_click( evt ) {
