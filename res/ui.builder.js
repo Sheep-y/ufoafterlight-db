@@ -63,19 +63,19 @@ ui.create_station_box = function ui_create_station_box( e ) {
 /* Create a general entity box */
 ui.create_entity_box = function ui_create_entity_box( e ) {
    var result = _.create( 'div', { 'class': 'entity treenode' } );
-   if ( e.match( /^[A-Z][a-z]+[1-7]$/ ) ) { // resource
-      for ( var r in ns.special_req ) {
-         // If special resources, add requirements
-         if ( e.match( ns.special_req[r] ) ) {
-            if ( ui.displayed.indexOf( r ) >= 0 ) result.className += ' collapsed';
-            else ui.displayed.push( r );
-            ui.create_fold_buttons( result );
-            result.appendChild( ui.box_recur( ns.entity[r] ) );
-            r = null;
-            break;
-         }
+   var has_prereq = false;
+   for ( var r in ns.special_req ) {
+      // If special resources, add requirements
+      if ( e.match( ns.special_req[r] ) ) {
+         if ( ui.displayed.indexOf( r ) >= 0 ) result.className += ' collapsed';
+         else ui.displayed.push( r );
+         ui.create_fold_buttons( result );
+         result.appendChild( ui.box_recur( ns.entity[r] ) );
+         has_prereq = true;
       }
-      if ( r ) _.addClass( result, 'resource' );
+   }
+   if ( e.match( /^[A-Z][a-z]+[1-7]$/ ) ) { // resource
+      if ( ! has_prereq ) _.addClass( result, 'resource' );
       e = "Lv. " + e.substr( e.length-1 ) + " " + e.substr( 0, e.length-1 );
    } else {
       if ( txt.trigger[ e ] )

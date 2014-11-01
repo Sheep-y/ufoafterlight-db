@@ -160,7 +160,10 @@ ns.special_req = {
    'MineCrystalMinor': /\bCrystals\d\b/,
    'MineNobleMinor': /\bNoble\d\b/,
    'FossilePowerUpgrade': /\bEnergy[45]\b/,
-   'AlienPowerUpgrade': /\bEnergy[6789]\b/
+   'AlienPowerUpgrade': /\bEnergy[6789]\b/,
+   'MartianArtifact1': /(One|Two)MartianArtifact/,
+   'MartianArtifact2': /(One|Two)MartianArtifact/,
+   'MartianArtifact3': /(One|Two)MartianArtifact/,
 };
 
 ns.type = function ufoal_type( e ) {

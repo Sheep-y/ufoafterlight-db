@@ -56,9 +56,10 @@ var ui = ns.ui = {
       ui.show_panel( pnl_result );
       roots.forEach( function( root ) {
          var regx = ns.special_req[ root.name ];
-         if ( ! regx ) regx = new RegExp( '\\b' + _.escRegx( root.name ) + '\\b' );
-         var enable = ns.all.filter( function( e ) { 
-            return ( e.prereq && ns.prereq( e ).join( ' ' ).match( regx ) )
+         var enable = ns.all.filter( function( e ) {
+            var req = ns.prereq( e );
+            return req.indexOf( root.name ) >= 0
+                || ( regx && req.join( ' ' ).match( regx ) )
                 || ( e.upgrade && e.upgrade === root.name );
          });
 
