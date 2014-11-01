@@ -86,6 +86,7 @@ ns.get_item_desc = function ufoal_get_item_desc( e ) {
       if ( sub.manufacturingtime ) add( 'Produce: ' + sub.manufacturingtime + ' man-days per piece' );
    }
 
+   function percent( v ) { return (v*100) + '%'; }
    if ( e.armour ) {
       sub = e.armour;
       add( '<hr/>' );
@@ -93,7 +94,7 @@ ns.get_item_desc = function ufoal_get_item_desc( e ) {
       else if ( sub.headslotIndex || sub.handslotIndex ) add( 'Addon slot: 1' );
       if ( sub.maxhostility ) add( 'Env. Resist: ' + sub.maxhostility );
       if ( sub.protection ) sub.protection.forEach( function( e, i ) {
-         if ( i ) add( txt.damage_type[i] + ': ' + (e*100) + '%' );
+         if ( i ) add( txt.damage_type[i] + ': ' + percent( e ) );
       });
    }
 
@@ -126,30 +127,33 @@ ns.get_item_desc = function ufoal_get_item_desc( e ) {
          if ( ammo.reloadtime ) line +=' Reload ' + second( ammo.reloadtime );
          add( line );
          if ( ammo.wam ) { ammo.wam.forEach( function( wam ) {
-             var line = wam.weaponmode ? ns.uncamel( wam.weaponmode ) : 'Attack';
-             if ( wam.rounds && wam.rounds > 1 ) line += ' (x' + wam.rounds + ')';
-             if ( wam.consumption && wam.consumption > 1 ) line += ' (' + wam.consumption + ' ammo per shot)';
-             if ( wam.timetofire && wam.timetofire > 1 ) line += ', ' + second( wam.timetofire ) + ' warm up';
-             add( line );
-             line = ' &nbsp; &nbsp;';
-             if ( wam.strength && wam.dmgtype ) line += ' ' + wam.strength + ' ' + wam.dmgtype + ' damage';
-             if ( wam.timeeffect ) line += ' "' + wam.timeeffect + '" temp effect';
+            var line = wam.weaponmode ? ns.uncamel( wam.weaponmode ) : 'Attack';
+            if ( wam.rounds && wam.rounds > 1 ) line += ' (x' + wam.rounds + ')';
+            if ( wam.consumption && wam.consumption > 1 ) line += ' (' + wam.consumption + ' ammo per shot)';
+            if ( wam.timetofire && wam.timetofire > 1 ) line += ', ' + second( wam.timetofire ) + ' warm up';
+            add( line );
+            line = ' &nbsp; &nbsp;';
+            if ( wam.timeeffect ) {
+               add ( line + ' "' + wam.timeeffect + '" effect'
+                  + ( wam.effectprobability < 1 ? ' ' + percent( wam.effectprobability ) + ' chance' : '' ) );
+            }
+            if ( wam.strength && wam.dmgtype ) line += ' ' + wam.strength + ' ' + wam.dmgtype + ' damage';
 
-             sub = null;
-             if ( wam.ranged ) sub = wam.ranged;
-             else if ( wam.close ) sub = wam.close;
-             if ( sub ) {
-                if ( sub.range ) line += ' ' + sub.range + ' m';
-                if ( sub.aimingtime ) line += ' ' + second( sub.aimingtime );
-                if ( sub.accuracy && sub.accuracy < 10 ) line += ', accuracy x' + sub.accuracy;
-             }
+            sub = null;
+            if ( wam.ranged ) sub = wam.ranged;
+            else if ( wam.close ) sub = wam.close;
+            if ( sub ) {
+               if ( sub.range ) line += ' ' + sub.range + ' m';
+               if ( sub.aimingtime ) line += ' ' + second( sub.aimingtime );
+               if ( sub.accuracy && sub.accuracy < 10 ) line += ', accuracy x' + sub.accuracy;
+            }
 
-             if ( wam.radius ) {
-                sub = wam.radius;
-                if ( sub.radius ) line += ' radius ' + sub.radius + ' m';
-                if ( sub.angle ) line += ' ∠' + sub.angle + 'º';
-             }
-             add( line );
+            if ( wam.radius ) {
+               sub = wam.radius;
+               if ( sub.radius ) line += ' radius ' + sub.radius + ' m';
+               if ( sub.angle ) line += ' ∠' + sub.angle + 'º';
+            }
+            add( line );
          });}
       });}
    }
