@@ -36,6 +36,12 @@ ns.init = function ufoal_init() {
             else e.prereq = [ e.allowentityid ];
          }
       }
+      if ( e.allowentityid ) {
+         if ( ! e.prereq )
+            e.prereq = [ e.allowentityid ];
+         else if ( e.prereq.indexOf( e.allowentityid ) < 0 )
+            e.prereq.push( e.allowentityid );
+      }
    });
    // Training processing. Training is different from other data.
    data.training.forEach( function each_training( e ) {
