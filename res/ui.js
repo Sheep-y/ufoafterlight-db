@@ -15,8 +15,9 @@ var ui = ns.ui = {
       _.hide( '.hide' );
       _.removeClass( '.hide' );
       _( '#title' )[0].textContent = document.title;
-      document.head.appendChild( _.create( 'meta', { rel: 'apple-touch-icon', href: _('link[rel="icon"]')[0].href } ) );
+      document.head.appendChild( _.create( 'meta', { rel: 'apple-touch-icon', href: _( '#favicon' )[0].href } ) );
       window.addEventListener( 'popstate', event.window_popstate );
+      _.attr( 'a[href^="?query="'], { onclick: event.lnk_internal_click } );
 
       // Initialise index and searchable data list
       ui.create_index();
