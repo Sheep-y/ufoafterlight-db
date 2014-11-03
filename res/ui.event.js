@@ -3,15 +3,31 @@
 var ui = ns.ui;
 var event = ui.event;
 
-var txt_search = _( '#txt_search')[0];
+var txt_search = _( '#txt_search' )[0];
 
 event.window_popstate = function window_popstate( evt ) {
-   if ( location.hash === '#license' ) {
+   if ( location.hash === '#license' || location.hash === '#help' ) {
       txt_search.value = '';
-      ui.show_panel( '#pnl_license' );
+      ui.show_panel( '#pnl_' + location.hash.substr( 1 ) );
    } else {
       txt_search.value = ui.find_query();
       event.txt_search_input( evt );
+   }
+};
+
+event.lnk_internal_click = function lnk_internal_click( evt ) {
+   if ( typeof( evt ) === 'string' ) {
+      evt = { target: { href: '?query=' + evt } };
+   }
+   if ( evt && evt.target && evt.target.href ) {
+      var destination = evt.target.href;
+      if ( destination.startsWith( '?query=' ) ) {
+         if ( evt.preventDefault ) evt.preventDefault();
+         txt_search.value = destination.substr( 6 );
+         event.txt_search_input();
+         _('#nav_top')[0].scrollIntoView( true );
+         return false;
+      }
    }
 };
 
@@ -29,7 +45,7 @@ event.txt_search_input = function txt_search_input( evt ) {
    _.time(); // Reset timer
    var name = val.toLowerCase();
    var id = val.match( /^\d+$/ ) ? +val : null;
-   var target = ns.all.filter( function(e){
+   var target = ns.all.filter( function( e ){
       return e.text.toLowerCase() === name
          || e.name.toLowerCase() === name
          || e.id === id;
@@ -47,9 +63,8 @@ event.btn_reset_click = function btn_reset_click( evt ) {
 };
 
 event.lnk_block_title_click = function lnk_block_title_click( evt ) {
-   txt_search.value = evt.target.textContent.trim().replace( / *\([^)]*\)$/, '' );
-   event.txt_search_input();
-   _('#nav_top')[0].scrollIntoView(true);
+   var name = evt.target.textContent.trim().replace( / *\([^)]*\)$/, '' );
+   return event.lnk_internal_click( name );
 };
 
 event.btn_collapse_click = function btn_collapse_click( evt ) {
@@ -73,6 +88,13 @@ event.btn_desc_click = function btn_desc_click( evt ) {
    var help = _.create( 'div', { class: 'help', html: ns.get_desc( e ) } );
    var firstdiv = box.querySelector( 'div' );
    box.insertBefore( help, firstdiv && firstdiv.parentNode === box ? firstdiv : undefined );
+};
+
+event.lnk_help_click = function lnk_help_click( evt ) {
+   evt.preventDefault();
+   if ( location.hash !== '#help' )
+      history.pushState( null, '', '?#help' );
+   event.window_popstate();
 };
 
 event.lnk_license_click = function lnk_license_click( evt ) {

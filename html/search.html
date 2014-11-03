@@ -1,13 +1,13 @@
 <div id="pnl_search" class="box hide">
    <label>
-      <u>S</u>earch:
       <input id="txt_search" type="search" accesskey="S" list="data_search" inputmode="latin" spellcheck="false"
          oninput='ufoal.ui.event.txt_search_input(event)' onblur='if(!this.value.trim())ufoal.ui.event.txt_search_input(event)'
-         placeholder="Click or press down arrow for full list" />
+         placeholder="Search" />
    </label>
-   <br/>
    <span id="lbl_not_found" class="error hide">Not found</span>
-   <input type='reset' value='Clear' accesskey='C' onclick='ufoal.ui.event.btn_reset_click(event)' />
+   <br/>
+   <button accesskey='C' onclick='ufoal.ui.event.btn_reset_click(event)' /><u>C</u>lear</button>
+   <a href="#help" onclick="ufoal.ui.event.lnk_help_click(event)" /><u>H</u>elp</a>
    <datalist id="data_search"></datalist>
 </div>
 
