@@ -5,6 +5,8 @@ var txt = ns.txt;
 /** Return the description of any entity */
 ns.get_desc = function ufoal_get_desc( e ) {
    var content = 'Id: ' + e.id + ', ' + e.name;
+   if ( e.unknown ) 
+      content += '<br/><b>This entry is unused in the final game</b>';
    content += '<hr/>';
    if ( e.type === 'tech' ) {
       content += txt.tech[ e.id + '_b4' ] + '<hr/>' + ns.txt.tech[ e.id + '_done' ];

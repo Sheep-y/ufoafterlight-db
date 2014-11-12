@@ -87,8 +87,6 @@ ufoal.txt.building = {
 "446_tip":"Technical bay: tTechnicians build planet stations from here",
 "447":"The vehicles and stores of field instruments and archeological findings are found in the scientific bay. Our scientists who explore Mars reside in this building as well. <br>Scientists may be assigned to the scientific bay. If they are working on tasks outside the Base, they will still be displayed, but they cannot be transferred to work in other buildings.",
 "447_tip":"Scientific bay: scientists build planet stations from here",
-"448":"The civil engineering yard acts as a support base to all technicians constructing buildings inside the Base. All construction materials, scaffolding and building machinery can be found here. <br>Technicians can be assigned to the civil engineering yard. If you start building a new construction inside the Base, technicians from the civil engineering yard will be assigned to this task.",
-"448_tip":"Civil engineering: technicians construct base buildings from here",
 "449":"Sometimes called the Mausoleum, this monumental building holds more than 10,000 people in cryogenic slumber, waiting for the time when Mars will be able to feed more than the few brave pioneers. People may survive for centuries in this state, but it takes more than a year to wake them up.",
 "449_tip":"Monument: thousands of people sleeping",
 };

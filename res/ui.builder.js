@@ -34,7 +34,8 @@ ui.create_box = function ui_create_box( e ) {
 
 ui.create_tech_box = function ui_create_tech_box( e ) {
    var orig = txt.tech_orig[ e.orig ];
-   var result = ui.create_base_box( e, 'tech', 'icon_tech_'+orig.toLowerCase(), orig );
+   var img = orig ? 'icon_tech_'+orig.toLowerCase() : 'icon_ui_desc';
+   var result = ui.create_base_box( e, 'tech', img, orig );
    return ui.create_help_buttons( result );
 };
 

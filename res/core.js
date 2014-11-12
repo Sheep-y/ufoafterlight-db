@@ -12,12 +12,14 @@ ns.init = function ufoal_init() {
    var ent = ns.entity;
    var data = ns.data;
    var all = ns.all = new Array(360);
+   var used_id = [];
    for ( var type in this.data ) {
       data[ type ].forEach( function each_data( e ) {
          e.type = type;
          if ( e.id ) {
             e.text = txt.name[ e.id ];
             if ( ! e.text ) e.text = ns.uncamel( e.name );
+            if ( type !== 'training' ) used_id.push( e.id );
          }
          if ( e.name ) {
             if ( ent[ e.name ] ) _.warn ( 'Duplicate entity "' + e.name + '"' );
@@ -26,6 +28,7 @@ ns.init = function ufoal_init() {
          all.push( e );
       });
    }
+   data.unused = ns.find_unused( used_id );
    // Item processing. Item data is too complicated to normalise at data conversion.
    data.item.forEach( function each_item( e ) {
       if ( e.manufacturable ) {
@@ -69,6 +72,38 @@ ns.get_desc = function ufoal_get_desc( e ) {
    return content;
 };
 
+ns.find_unused = function ufoal_find_unused( used ) {
+   var data = ns.data;
+   var result = [];
+   for ( var id in txt.name ) {
+      id = +id;
+      if ( used.indexOf( id ) < 0 ) {
+         var entry = {
+            id: id,
+            name: ""+id,
+            text: txt.name[ id ],
+            unknown: true,
+         };
+         if ( id < 200 ) entry.type = 'item';
+         else if ( id < 390 ) entry.type = 'tech';
+         else if ( id < 500 ) entry.type = 'building';
+         else if ( id < 800 ) entry.type = 'station';
+         else  entry.type = 'item';
+         if ( entry.type === 'item' ) entry.typeIndex = 0;
+         /*** Manual hard code ***/
+         if ( id === 902 ) entry.prereq = { "286":1 }; // Acid Mines -> Acid Mine
+         else if ( id === 99 ) entry.prereq = { "303":1 }; // EM Detection -> Magnetic Scanner
+         else if ( id === 210 ) entry.prereq = { "209":1 } // Beastman Elements Control -> Controlling Martian Elements
+         else if ( id === 94 ) entry.prereq = { "210":1 }; // Controlling Martian Elements -> Elements Control Device
+         ns.entity[ id ] = entry;
+         result.push( entry );
+         ns.all.push( entry );
+      }
+   }
+   _.log( result );
+   return result;
+};
+
 ns.special_req = {
    'MineCrystalMinor': /\bCrystals\d\b/,
    'MineNobleMinor': /\bNoble\d\b/,
@@ -80,6 +115,7 @@ ns.special_req = {
 };
 
 ns.type = function ufoal_type( e ) {
+   // if ( e.unknown ) return ns.ucfirst( e.type );
    if ( e.type === 'training' && e.race ) return txt.race[ e.race ];
    if ( e.type === 'item' && e.typeIndex ) return txt.item_type[ e.typeIndex ];
    return '';

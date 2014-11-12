@@ -1,3 +1,3 @@
-ufoal.txt.item_type = [,
-"Armour","AddOn","Handheld","Ammo","Handheld - ammoless","Corpse","Robotic"
+ufoal.txt.item_type = [
+"Unknown","Armour","AddOn","Handheld","Ammo","Handheld - ammoless","Corpse","Robotic"
 ];
