@@ -17,7 +17,7 @@ ns.init = function ufoal_init() {
       data[ type ].forEach( function each_data( e ) {
          e.type = type;
          if ( e.id ) {
-            e.text = txt.name[ e.id ];
+            e.text = ns.ucword( txt.name[ e.id ] );
             if ( ! e.text ) e.text = ns.uncamel( e.name );
             if ( type !== 'training' ) used_id.push( e.id );
          }
@@ -48,7 +48,7 @@ ns.init = function ufoal_init() {
    });
    // Training processing. Training is different from other data.
    data.training.forEach( function each_training( e ) {
-      e.text = ns.ucfirst( txt.training[ e.id + '_name' ].toLowerCase() );
+      e.text = ns.ucword( txt.training[ e.id + '_name' ] );
       if ( e.upgrade ) e.upgrade = data.training[ e.upgrade-1 ].name;
    });
    data.station.forEach( function each_station( e ) {
@@ -81,7 +81,7 @@ ns.find_unused = function ufoal_find_unused( used ) {
          var entry = {
             id: id,
             name: ""+id,
-            text: txt.name[ id ],
+            text: ns.ucword( txt.name[ id ] ),
             unknown: true,
          };
          if ( id < 200 ) entry.type = 'item';
@@ -94,14 +94,13 @@ ns.find_unused = function ufoal_find_unused( used ) {
          if ( id === 902 ) entry.prereq = { "286":1 }; // Acid Mines -> Acid Mine
          else if ( id === 99 ) entry.prereq = { "303":1 }; // EM Detection -> Magnetic Scanner
          else if ( id === 210 ) entry.prereq = { "209":1 } // Beastman Elements Control -> Controlling Martian Elements
-         else if ( id === 316 ) entry.prereq = { "944":1 }; // 340G -> 340G
-         else if ( id === 315 ) entry.prereq = { "943":1 }; // 376A -> 376A
+         else if ( id === 316 ) entry.prereq = { "944":1 }; // 376A -> 376A
+         else if ( id === 315 ) entry.prereq = { "943":1 }; // 340G -> 340G
          ns.entity[ id ] = entry;
          result.push( entry );
          ns.all.push( entry );
       }
    }
-   _.log( result );
    return result;
 };
 

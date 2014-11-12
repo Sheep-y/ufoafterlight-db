@@ -28,7 +28,7 @@ var ui = ns.ui = {
       var options = _.col( ns.all, 'text' ).sort();
       options.forEach( function each_option( e, i ) {
          if ( e && options.indexOf( e ) === i ) // Filter out empties and duplicates
-            data_search.appendChild( _.create( 'option', { value: ns.ucword( e ) } ) );
+            data_search.appendChild( _.create( 'option', { value: e } ) );
       });
       _.show( [ pnl_search, pnl_index ] );
 

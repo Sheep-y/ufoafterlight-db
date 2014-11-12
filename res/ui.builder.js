@@ -11,12 +11,11 @@ ui.create_index = function ui_create_index() {
       var cat = _.create( 'li', { text: ns.ucfirst( type ), id: type } );
       var list = _.create( 'ul' );
       var data = ns.data[ type ];
-      var txtlist = ns.data[type].map( function(e){ return ns.ucword( e.text ); } ).sort();
+      var txtlist = _.col( ns.data[type], 'text' ).sort();
       txtlist.forEach( function create_index( e, i ) {
          if ( e && txtlist.indexOf( e ) === i ) {
             var li = _.create( 'li' );
-            var name = ns.ucword( e );
-            li.appendChild( _.create( 'a', { class: 'title', text: name, onclick: event.lnk_block_title_click, href: '?query=' + name } ) );
+            li.appendChild( _.create( 'a', { class: 'title', text: e, onclick: event.lnk_block_title_click, href: '?query=' + e } ) );
             list.appendChild( li );
          }
       });
@@ -95,8 +94,7 @@ ui.create_base_box = function ui_create_base_box( e, className, icon, alt ) {
    if ( ! alt ) alt = ns.ucfirst( className );
    if ( ui.displayed.indexOf( e ) >= 0 ) result.className += ' collapsed';
    else ui.displayed.push( e );
-   var name = ns.ucword( e.text );
-   result.appendChild( _.create( 'a', { class: 'title', text: name, onclick: event.lnk_block_title_click, href: '?query=' + name } ) );
+   result.appendChild( _.create( 'a', { class: 'title', text: e.text, onclick: event.lnk_block_title_click, href: '?query=' + e.text } ) );
    if ( ns.type( e ) ) result.appendChild( _.create( 'span', ' (' + ns.type( e ) + ')' ) );
    result.appendChild( _.create( 'img', { class: 'icon', src: _('#'+icon)[0].src, alt: alt } ) );
    if ( e.day )       result.appendChild( _.create( 'span', { class: 'manday', text: e.day + ' man-days' } ) );
