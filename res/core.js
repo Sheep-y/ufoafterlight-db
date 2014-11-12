@@ -94,7 +94,8 @@ ns.find_unused = function ufoal_find_unused( used ) {
          if ( id === 902 ) entry.prereq = { "286":1 }; // Acid Mines -> Acid Mine
          else if ( id === 99 ) entry.prereq = { "303":1 }; // EM Detection -> Magnetic Scanner
          else if ( id === 210 ) entry.prereq = { "209":1 } // Beastman Elements Control -> Controlling Martian Elements
-         else if ( id === 94 ) entry.prereq = { "210":1 }; // Controlling Martian Elements -> Elements Control Device
+         else if ( id === 316 ) entry.prereq = { "944":1 }; // 340G -> 340G
+         else if ( id === 315 ) entry.prereq = { "943":1 }; // 376A -> 376A
          ns.entity[ id ] = entry;
          result.push( entry );
          ns.all.push( entry );
@@ -115,7 +116,7 @@ ns.special_req = {
 };
 
 ns.type = function ufoal_type( e ) {
-   // if ( e.unknown ) return ns.ucfirst( e.type );
+   if ( e.unknown ) return 'Unused';
    if ( e.type === 'training' && e.race ) return txt.race[ e.race ];
    if ( e.type === 'item' && e.typeIndex ) return txt.item_type[ e.typeIndex ];
    return '';

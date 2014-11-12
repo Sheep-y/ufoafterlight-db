@@ -11,7 +11,7 @@ ui.create_index = function ui_create_index() {
       var cat = _.create( 'li', { text: ns.ucfirst( type ), id: type } );
       var list = _.create( 'ul' );
       var data = ns.data[ type ];
-      var txtlist = _.col( ns.data[type], 'text' ).sort();
+      var txtlist = ns.data[type].map( function(e){ return ns.ucword( e.text ); } ).sort();
       txtlist.forEach( function create_index( e, i ) {
          if ( e && txtlist.indexOf( e ) === i ) {
             var li = _.create( 'li' );
