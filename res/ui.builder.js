@@ -15,8 +15,8 @@ ui.create_index = function ui_create_index() {
       txtlist.forEach( function create_index( e, i ) {
          if ( e && txtlist.indexOf( e ) === i ) {
             var li = _.create( 'li' );
-            li.appendChild( _.create( 'span', {
-               class: 'title', text: ns.ucword( e ), onclick: event.lnk_block_title_click } ) );
+            var name = ns.ucword( e );
+            li.appendChild( _.create( 'a', { class: 'title', text: name, onclick: event.lnk_block_title_click, href: '?query=' + name } ) );
             list.appendChild( li );
          }
       });
@@ -94,7 +94,8 @@ ui.create_base_box = function ui_create_base_box( e, className, icon, alt ) {
    if ( ! alt ) alt = ns.ucfirst( className );
    if ( ui.displayed.indexOf( e ) >= 0 ) result.className += ' collapsed';
    else ui.displayed.push( e );
-   result.appendChild( _.create( 'a', { class: 'title', text: e.text, onclick: event.lnk_block_title_click } ) );
+   var name = ns.ucword( e.text );
+   result.appendChild( _.create( 'a', { class: 'title', text: name, onclick: event.lnk_block_title_click, href: '?query=' + name } ) );
    if ( ns.type( e ) ) result.appendChild( _.create( 'span', ' (' + ns.type( e ) + ')' ) );
    result.appendChild( _.create( 'img', { class: 'icon', src: _('#'+icon)[0].src, alt: alt } ) );
    if ( e.day )       result.appendChild( _.create( 'span', { class: 'manday', text: e.day + ' man-days' } ) );

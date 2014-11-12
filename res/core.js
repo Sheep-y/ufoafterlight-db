@@ -112,7 +112,7 @@ ns.get_item_desc = function ufoal_get_item_desc( e ) {
                w.weapon.ammo.forEach( function ammo_match_each( ammo ) {
                   if ( ammo.ammoIT === e.name && ammo.wam ) {
                      if ( w ) {
-                        add( '<br/><span class="title" onclick="ufoal.ui.event.lnk_block_title_click(event)">' + w.text + '</span>' );
+                        add( '<br/><a class="title" href="?query=' + encodeURIComponent(w.text) + '" onclick="ufoal.ui.event.lnk_block_title_click(event)">' + w.text + '</a>' );
                         w = null;
                      }
                      add( ammo.wam.map( ns.get_ammo_desc ).join('<br/>') );
@@ -139,7 +139,7 @@ ns.get_item_desc = function ufoal_get_item_desc( e ) {
       if ( sub.ammo ) { sub.ammo.forEach( function( ammo ) {
          add( ' ' );
          var clip = ns.entity[ ammo.ammoIT ];
-         var line = '<span class="title" onclick="ufoal.ui.event.lnk_block_title_click(event)">' + clip.text + '</span>';
+         var line = '<a class="title" href="?query=' + encodeURIComponent(clip.text) + '" onclick="ufoal.ui.event.lnk_block_title_click(event)">' + clip.text + '</a>';
          if ( clip.ammo.capacity ) line += ' (' + clip.ammo.capacity + ')';
          if ( ammo.reloadtime ) line +=' Reload ' + second( ammo.reloadtime );
          add( line );

@@ -35,7 +35,7 @@ nav a, nav a:visited { color: #ddf; }
 }
 .treenode > div { margin-left: 25px }
 
-.title { font-weight: bold; cursor: pointer; }
+.title { font-weight: bold; cursor: pointer; text-decoration: none }
 .title, .title:visited { color: white }
 .title:hover { color: yellow }
 .icon { float: left; margin-right: 5px; vertical-align: text-bottom; }

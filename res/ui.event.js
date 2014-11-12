@@ -16,10 +16,12 @@ event.window_popstate = function window_popstate( evt ) {
 };
 
 event.lnk_internal_click = function lnk_internal_click( evt ) {
+   if ( ! evt ) return;
    if ( typeof( evt ) === 'string' ) {
       evt = { target: { href: '?query=' + evt } };
    }
-   if ( evt && evt.target && evt.target.href ) {
+   if ( evt.prevendDefault ) evt.preventDefault();
+   if ( evt.target && evt.target.href ) {
       var destination = evt.target.href;
       if ( destination.startsWith( '?query=' ) ) {
          if ( evt.preventDefault ) evt.preventDefault();
