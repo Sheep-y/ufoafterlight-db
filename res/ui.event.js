@@ -93,14 +93,14 @@ event.btn_desc_click = function btn_desc_click( evt ) {
 };
 
 event.lnk_help_click = function lnk_help_click( evt ) {
-   evt.preventDefault();
+   if ( evt ) evt.preventDefault();
    if ( location.hash !== '#help' )
       history.pushState( null, '', '?#help' );
    event.window_popstate();
 };
 
 event.lnk_license_click = function lnk_license_click( evt ) {
-   evt.preventDefault();
+   if ( evt ) evt.preventDefault();
    if ( location.hash !== '#license' )
       history.pushState( null, '', '?#license' );
    event.window_popstate();

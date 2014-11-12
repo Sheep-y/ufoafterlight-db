@@ -2,6 +2,7 @@
 
 var event = {}; // Event handlers are stored here
 
+var pnl_help = _( '#pnl_help' )[0];
 var pnl_index = _( '#pnl_index' )[0];
 var pnl_result = _( '#pnl_result' )[0];
 var pnl_enable = _( '#pnl_enable' )[0];
@@ -21,7 +22,7 @@ var ui = ns.ui = {
 
       // Initialise index and searchable data list
       ui.create_index();
-      _('#pnl_license')[0].appendChild( _.create( 'span', 'Data loaded in ' + _.time( 'Data loaded' )[1] + 'ms' ) );
+      pnl_help.appendChild( _.create( 'span', 'Data loaded in ' + _.time( 'Data loaded' )[1] + 'ms' ) );
 
       var data_search = _( '#data_search' )[0];
       var options = _.col( ns.all, 'text' ).sort();
@@ -32,7 +33,12 @@ var ui = ns.ui = {
       _.show( [ pnl_search, pnl_index ] );
 
       // Update query from url
-      event.window_popstate();
+      if ( ! window.localStorage || window.localStorage.getItem( 'sheepy.ufoal.ran' ) ) {
+         event.window_popstate();
+      } else {
+         event.lnk_help_click();
+         window.localStorage.setItem( 'sheepy.ufoal.ran', '1' );
+      }
 
       //_( '#txt_search' )[0].focus(); // Focus may cause browser to not trigger datalist dropdown.
       _( '#txt_search' )[0].select();
@@ -47,7 +53,7 @@ var ui = ns.ui = {
    },
 
    'show_panel' : function ui_show_panel( panel ) {
-      _.hide( [ pnl_index, pnl_result, pnl_enable, pnl_license ] );
+      _.hide( [ pnl_index, pnl_result, pnl_enable, pnl_license, pnl_help ] );
       pnl_enable.innerHTML = pnl_result.innerHTML = '';
       ui.displayed = []; // Reset display record
       if ( panel ) return _.show( panel );
