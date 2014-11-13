@@ -19,10 +19,17 @@ nav { padding: 0 5px; clear: both; }
 nav a, nav a:visited { color: #ddf; }
 #nav_top a { padding-right: 5px; }
 
-#pnl_index > ul > li { /* Main categories */
-  display: block;
-  float: left;
-  padding: 0 3px;
+#pnl_index {
+  -webkit-column-width: 300px;
+  -moz-column-width: 300px;
+  column-width: 300px;
+}
+#pnl_index > ul > li {
+  font-weight: bold;
+  margin: 5px 0;
+}
+#pnl_index > ul > li .title {
+  font-weight: normal;
 }
 :target { background: #448; }
 
