@@ -1,0 +1,90 @@
+<h1>Welcome</h1>
+<p>
+This is an interactive database of the game <a href="http://www.ufo-afterlight.com/">UFO: Afterlight</a>, a sci-fic strategic game published in 2007.
+As of Nov 2014, this should be the most complete and accurate Afterlight database on Internet.
+</p>
+<h2>Features</h2>
+<ul>
+  <li><b>Simple</b>: Easy to use both on desktop and on mobile</li>
+  <li><b>Complete</b>: Includes stations, items, trainings, and even unused entries.</li>
+  <li><b>Accurate</b>: Trace special sources, high energy, and special requirements.</li>
+  <li><b>Two way</b>: Can shows things that <a href="?query=Firearms">a technology</a> enables, or weapons that use <a href="?query=Beastman AP ammo">an ammo</a>.</li>
+  <li><b>Fast</b>: Whole database is contained in one small web page. Does not need server.</li>
+  <li><b>Open</b>: You can read and enhance the <a href="https://github.com/Sheep-y/ufoafterlight-db/tree/development/data/">data</a> and <a href="https://github.com/Sheep-y/ufoafterlight-db/tree/development/res/">code</a> if you <a href="http://www.codecademy.com/en/tracks/javascript">learned programming</a>.</li>
+</ul>
+<p>
+This database requires JavaScript and reasonably up to date browser to run.
+It is tested on Firefox 33, 35, and IE 11, and is designed to be forward compatible.
+</p>
+<p>
+You can report bugs or request enhancements using <a href="https://github.com/Sheep-y/ufoafterlight-db/issues">the issue tracker</a>.
+</p>
+<h2>How to use</h2>
+<p>
+At the top of the page is various external links.
+Below the links are main categories, such as buildings or items.
+Clicking them will bring you to the index of those data.
+Clicking the clear button will also brings you back to this index.
+</p>
+<p>
+You can click the item in the index, or type in the search box.
+Clicking the box will show you a list of all available items, and typing will narrow down the list.
+(In <a href="https://www.mozilla.org/firefox/">Firefox</a>, you can type any part of the term.)
+While at data index you can also use the browser's find function to search for part of terms.
+</p>
+<p>
+If you are a modder or otherwise working with game data, you can also type or paste the data's numeric id or internal name.
+</p>
+<p>
+When an entry is selected, either by clicking its name or by typing its name, a number of its data will be displayed:
+</p>
+<ul>
+  <li>An icon representing entry type or technology category</li>
+  <li>In-game name</li>
+  <li>Days or hours to produce, research, build, or train</li>
+  <li>Internal id and name</li>
+  <li>In-game description(s)</li>
+  <li>Important stats, such as an armor's protection, a weapon or ammo's  modes and damage, or a mine's detection type.</li>
+  <li>Requirements to research, produce, build, train, or use this entry.  It may be a mixture of some technologies, buildings, items, resources, or even in-game events.</li>
+  <li>Things that this entry will enables, such as new research, new item production, or new training.</li>
+</ul>
+<p>
+Clicking the title of requirements or enablements will bring you to that entry's view.
+You can use the browser's back and forward to navigate the history.
+To show or hide the description of an entry, click the question mark below and to the left of its name.
+To expand or collapse a requirement tree, click the plus and minus button to the right of its name.
+Each subtree is displayed only once by default to avoid redundancy.
+</p>
+<p>
+Keyboard hotkeys can also be used for some actions, displayed as underline.
+The exact key combination depends on browser; on Windows it is commonly <kbd>Alt+Shift+key</kbd>, e.g. <kbd>Alt+Shift+C</kbd> to clear and go back to index, or <kbd>Alt+Shift+E</kbd> to jump to the search box.
+Keyboard navigation within search result is currently limited to tabbing.
+</p>
+<h2>History</h2>
+<ul>
+<li><a href="https://cdn.rawgit.com/Sheep-y/ufoafterlight-db/r20141114/index.html"><time>2014-11-14</time></a>: Shows unused entries.  Adds about page. </li>
+<li><a href="https://cdn.rawgit.com/Sheep-y/ufoafterlight-db/r20141102/index.html"><time>2014-11-02</time></a>: Shows mine, scanner, and ammo stats.  Adds usable items to reverse lookup. </li>
+<li><a href="https://cdn.rawgit.com/Sheep-y/ufoafterlight-db/r20141028/index.html"><time>2014-10-28</time></a>: Shows item stats and improves reverse lookup with game relationships. </li>
+<li><a href="https://cdn.rawgit.com/Sheep-y/ufoafterlight-db/r20141026/index.html"><time>2014-10-26</time></a>: Adds trainings, stations, and data index. </li>
+<li><a href="https://cdn.rawgit.com/Sheep-y/ufoafterlight-db/r20141024/index.html"><time>2014-10-24</time></a>: Implements reverse lookup.  Adds items and game events. </li>
+<li><a href="https://cdn.rawgit.com/Sheep-y/ufoafterlight-db/r20141022/index.html"><time>2014-10-22</time></a>: Functional prototype, support tech and building searching. </li>
+</ul>
+<p>
+UFO:Afterlight is a pretty deep game, with a very complex tech tree that affects many parts of the game, while limited by these parts at the same time.
+Just look at <a href="?query=Advanced Terraforming Station">Advanced Terraforming Station</a>s, required to win the game.  But they <a href="?query=Magnetic Rifle">alone</a> <a href="?query=Power Shield">are</a> <a href="?query=Computerised Heavy Suit">insufficient</a> to win.
+</p>
+<p>
+This has frustrated many players.
+Often, even veterans cannot answer a question accurately - most knowledge and experience is lost after the official forum and wiki went down in 2009.
+Many tech trees have been created, with varying degree of success, from total failure to <a href="http://ufoafterblank.wikia.com/wiki/File:Al_techtree_laine.gif">barely usable</a> to <a href="http://ufoafterblank.wikia.com/wiki/File:Al_techtree_frenchman.gif">pretty pleasant</a>.
+</p>
+<p>
+In 2014, Kircket tried another approach.
+Instead of displaying the whole tree, it asks you select a node and shows its requirements, dramatically cutting down on what needs to be displayed.
+Not long after, Sheepy adopted the wiki on Wikia and started drafting a <a href="http://ufoafterblank.wikia.com/wiki/File:al_techtree_sheepy.jpg">new tech chart</a>.
+They had a <a href="http://steamcommunity.com/app/237950/discussions/0/616188677801999309/#c619568793974409287">discussion on Steam</a>, which prompted Sheepy to create this database as a proof that server is not required.
+</p>
+<p>
+Sheepy found that the database actually helped in constructing the wiki, and in playing the game, so developments continued on and off, and ultimately you have this database in your hands.
+Hope you enjoy it and find it useful.
+</p>
