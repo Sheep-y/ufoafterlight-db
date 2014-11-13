@@ -1,0 +1,316 @@
+;UFO2CFG
+;KEYWORDS g_iconid#
+Visibilitytype RECORD
+  ListOfVisibilitytype ARRAY 10
+    SubVisibilitytype RECORD
+      id INT 0
+      name STR "None"
+      rangeday FLT 0
+      rangenight FLT 0
+      angle INT 0
+      isthroughwall BOOL F
+      ismoveshinesensitive BOOL F
+      ispossibletarget BOOL F
+      ng_visualizationid INT 0
+      g_iconid STR ""
+      detectatomicskillIndex INT 0
+      hideatomicskillIndex INT 0
+      ListOfDetectionGroup ARRAY 0
+      END_OF_ListOfDetectionGroup
+    END_OF_SubVisibilitytype
+    SubVisibilitytype RECORD
+      id INT 1
+      name STR "Seeing"
+      rangeday FLT 20
+      rangenight FLT 12
+      angle INT 180
+      isthroughwall BOOL F
+      ismoveshinesensitive BOOL F
+      ispossibletarget BOOL T
+      ng_visualizationid INT 0
+      g_iconid STR "Interface/Models/Icons/VisiblityTypeIcon/cSeeing.txt"
+      detectatomicskillIndex INT 25
+      hideatomicskillIndex INT 21
+      ListOfDetectionGroup ARRAY 9
+        SubDetectionGroup RECORD
+          detectiongroupIndex INT 1 ; "Tool"
+          shining FLT 0.5
+          shiningduration INT 40
+        END_OF_SubDetectionGroup
+        SubDetectionGroup RECORD
+          detectiongroupIndex INT 2 ; "ProjectileGun"
+          shining FLT 1.5
+          shiningduration INT 40
+        END_OF_SubDetectionGroup
+        SubDetectionGroup RECORD
+          detectiongroupIndex INT 3 ; "NoisyProjectileGun"
+          shining FLT 1.5
+          shiningduration INT 40
+        END_OF_SubDetectionGroup
+        SubDetectionGroup RECORD
+          detectiongroupIndex INT 4 ; "Launcher"
+          shining FLT 0.75
+          shiningduration INT 40
+        END_OF_SubDetectionGroup
+        SubDetectionGroup RECORD
+          detectiongroupIndex INT 5 ; "Plasma"
+          shining FLT 1
+          shiningduration INT 40
+        END_OF_SubDetectionGroup
+        SubDetectionGroup RECORD
+          detectiongroupIndex INT 6 ; "Laser"
+          shining FLT 1
+          shiningduration INT 40
+        END_OF_SubDetectionGroup
+        SubDetectionGroup RECORD
+          detectiongroupIndex INT 7 ; "EMP"
+          shining FLT 1
+          shiningduration INT 40
+        END_OF_SubDetectionGroup
+        SubDetectionGroup RECORD
+          detectiongroupIndex INT 9 ; "Plastic"
+          shining FLT 2
+          shiningduration INT 40
+        END_OF_SubDetectionGroup
+        SubDetectionGroup RECORD
+          detectiongroupIndex INT 10 ; "Flamethrower"
+          shining FLT 2.5
+          shiningduration INT 60
+        END_OF_SubDetectionGroup
+      END_OF_ListOfDetectionGroup
+    END_OF_SubVisibilitytype
+    SubVisibilitytype RECORD
+      id INT 2
+      name STR "Hearing"
+      rangeday FLT 12
+      rangenight FLT 16
+      angle INT 999
+      isthroughwall BOOL T
+      ismoveshinesensitive BOOL T
+      ispossibletarget BOOL F
+      ng_visualizationid INT 0
+      g_iconid STR "Interface/Models/Icons/VisiblityTypeIcon/cHearing.txt"
+      detectatomicskillIndex INT 25
+      hideatomicskillIndex INT 21
+      ListOfDetectionGroup ARRAY 7
+        SubDetectionGroup RECORD
+          detectiongroupIndex INT 1 ; "Tool"
+          shining FLT 0.5
+          shiningduration INT 40
+        END_OF_SubDetectionGroup
+        SubDetectionGroup RECORD
+          detectiongroupIndex INT 2 ; "ProjectileGun"
+          shining FLT 1.75
+          shiningduration INT 40
+        END_OF_SubDetectionGroup
+        SubDetectionGroup RECORD
+          detectiongroupIndex INT 3 ; "NoisyProjectileGun"
+          shining FLT 2.5
+          shiningduration INT 40
+        END_OF_SubDetectionGroup
+        SubDetectionGroup RECORD
+          detectiongroupIndex INT 4 ; "Launcher"
+          shining FLT 0.75
+          shiningduration INT 40
+        END_OF_SubDetectionGroup
+        SubDetectionGroup RECORD
+          detectiongroupIndex INT 7 ; "EMP"
+          shining FLT 1.25
+          shiningduration INT 40
+        END_OF_SubDetectionGroup
+        SubDetectionGroup RECORD
+          detectiongroupIndex INT 9 ; "Plastic"
+          shining FLT 2
+          shiningduration INT 40
+        END_OF_SubDetectionGroup
+        SubDetectionGroup RECORD
+          detectiongroupIndex INT 10 ; "Flamethrower"
+          shining FLT 1
+          shiningduration INT 60
+        END_OF_SubDetectionGroup
+      END_OF_ListOfDetectionGroup
+    END_OF_SubVisibilitytype
+    SubVisibilitytype RECORD
+      id INT 3
+      name STR "Infra"
+      rangeday FLT 8
+      rangenight FLT 20
+      angle INT 180
+      isthroughwall BOOL F
+      ismoveshinesensitive BOOL F
+      ispossibletarget BOOL T
+      ng_visualizationid INT 0
+      g_iconid STR "Interface/Models/Icons/VisiblityTypeIcon/cInfra.txt"
+      detectatomicskillIndex INT 25
+      hideatomicskillIndex INT 21
+      ListOfDetectionGroup ARRAY 6
+        SubDetectionGroup RECORD
+          detectiongroupIndex INT 2 ; "ProjectileGun"
+          shining FLT 1
+          shiningduration INT 40
+        END_OF_SubDetectionGroup
+        SubDetectionGroup RECORD
+          detectiongroupIndex INT 3 ; "NoisyProjectileGun"
+          shining FLT 1.2
+          shiningduration INT 40
+        END_OF_SubDetectionGroup
+        SubDetectionGroup RECORD
+          detectiongroupIndex INT 4 ; "Launcher"
+          shining FLT 0.75
+          shiningduration INT 40
+        END_OF_SubDetectionGroup
+        SubDetectionGroup RECORD
+          detectiongroupIndex INT 5 ; "Plasma"
+          shining FLT 2
+          shiningduration INT 40
+        END_OF_SubDetectionGroup
+        SubDetectionGroup RECORD
+          detectiongroupIndex INT 6 ; "Laser"
+          shining FLT 0.5
+          shiningduration INT 40
+        END_OF_SubDetectionGroup
+        SubDetectionGroup RECORD
+          detectiongroupIndex INT 10 ; "Flamethrower"
+          shining FLT 2.5
+          shiningduration INT 60
+        END_OF_SubDetectionGroup
+      END_OF_ListOfDetectionGroup
+    END_OF_SubVisibilitytype
+    SubVisibilitytype RECORD
+      id INT 4
+      name STR "Psionic"
+      rangeday FLT 14
+      rangenight FLT 14
+      angle INT 999
+      isthroughwall BOOL T
+      ismoveshinesensitive BOOL F
+      ispossibletarget BOOL T
+      ng_visualizationid INT 0
+      g_iconid STR "Interface/Models/Icons/VisiblityTypeIcon/cPsionic.txt"
+      detectatomicskillIndex INT 26
+      hideatomicskillIndex INT 22
+      ListOfDetectionGroup ARRAY 1
+        SubDetectionGroup RECORD
+          detectiongroupIndex INT 8 ; "Psi"
+          shining FLT 2.5
+          shiningduration INT 60
+        END_OF_SubDetectionGroup
+      END_OF_ListOfDetectionGroup
+    END_OF_SubVisibilitytype
+    SubVisibilitytype RECORD
+      id INT 5
+      name STR "NightVision"
+      rangeday FLT 0
+      rangenight FLT 20
+      angle INT 180
+      isthroughwall BOOL F
+      ismoveshinesensitive BOOL F
+      ispossibletarget BOOL T
+      ng_visualizationid INT 0
+      g_iconid STR "Interface/Models/Icons/VisiblityTypeIcon/cNightVision.txt"
+      detectatomicskillIndex INT 25
+      hideatomicskillIndex INT 21
+      ListOfDetectionGroup ARRAY 7
+        SubDetectionGroup RECORD
+          detectiongroupIndex INT 2 ; "ProjectileGun"
+          shining FLT 1.5
+          shiningduration INT 40
+        END_OF_SubDetectionGroup
+        SubDetectionGroup RECORD
+          detectiongroupIndex INT 3 ; "NoisyProjectileGun"
+          shining FLT 1.5
+          shiningduration INT 40
+        END_OF_SubDetectionGroup
+        SubDetectionGroup RECORD
+          detectiongroupIndex INT 4 ; "Launcher"
+          shining FLT 0.75
+          shiningduration INT 40
+        END_OF_SubDetectionGroup
+        SubDetectionGroup RECORD
+          detectiongroupIndex INT 5 ; "Plasma"
+          shining FLT 1
+          shiningduration INT 40
+        END_OF_SubDetectionGroup
+        SubDetectionGroup RECORD
+          detectiongroupIndex INT 6 ; "Laser"
+          shining FLT 1
+          shiningduration INT 40
+        END_OF_SubDetectionGroup
+        SubDetectionGroup RECORD
+          detectiongroupIndex INT 7 ; "EMP"
+          shining FLT 1
+          shiningduration INT 40
+        END_OF_SubDetectionGroup
+        SubDetectionGroup RECORD
+          detectiongroupIndex INT 10 ; "Flamethrower"
+          shining FLT 2.5
+          shiningduration INT 60
+        END_OF_SubDetectionGroup
+      END_OF_ListOfDetectionGroup
+    END_OF_SubVisibilitytype
+    SubVisibilitytype RECORD
+      id INT 6
+      name STR "EMVision"
+      rangeday FLT 16
+      rangenight FLT 16
+      angle INT 180
+      isthroughwall BOOL F
+      ismoveshinesensitive BOOL F
+      ispossibletarget BOOL T
+      ng_visualizationid INT 0
+      g_iconid STR "Interface/Models/Icons/VisiblityTypeIcon/cEMVision.txt"
+      detectatomicskillIndex INT 27
+      hideatomicskillIndex INT 23
+      ListOfDetectionGroup ARRAY 0
+      END_OF_ListOfDetectionGroup
+    END_OF_SubVisibilitytype
+    SubVisibilitytype RECORD
+      id INT 7
+      name STR "Hearthbeat"
+      rangeday FLT 10
+      rangenight FLT 10
+      angle INT 999
+      isthroughwall BOOL T
+      ismoveshinesensitive BOOL F
+      ispossibletarget BOOL T
+      ng_visualizationid INT 0
+      g_iconid STR "Interface/Models/Icons/VisiblityTypeIcon/cHearthbeat.txt"
+      detectatomicskillIndex INT 25
+      hideatomicskillIndex INT 21
+      ListOfDetectionGroup ARRAY 0
+      END_OF_ListOfDetectionGroup
+    END_OF_SubVisibilitytype
+    SubVisibilitytype RECORD
+      id INT 8
+      name STR "Smell"
+      rangeday FLT 14
+      rangenight FLT 14
+      angle INT 999
+      isthroughwall BOOL T
+      ismoveshinesensitive BOOL F
+      ispossibletarget BOOL F
+      ng_visualizationid INT 0
+      g_iconid STR "Interface/Models/Icons/VisiblityTypeIcon/cSmell.txt"
+      detectatomicskillIndex INT 25
+      hideatomicskillIndex INT 21
+      ListOfDetectionGroup ARRAY 0
+      END_OF_ListOfDetectionGroup
+    END_OF_SubVisibilitytype
+    SubVisibilitytype RECORD
+      id INT 9
+      name STR "Movement"
+      rangeday FLT 8
+      rangenight FLT 8
+      angle INT 999
+      isthroughwall BOOL T
+      ismoveshinesensitive BOOL T
+      ispossibletarget BOOL T
+      ng_visualizationid INT 0
+      g_iconid STR "Interface/Models/Icons/VisiblityTypeIcon/cMovement.txt"
+      detectatomicskillIndex INT 25
+      hideatomicskillIndex INT 21
+      ListOfDetectionGroup ARRAY 0
+      END_OF_ListOfDetectionGroup
+    END_OF_SubVisibilitytype
+  END_OF_ListOfVisibilitytype
+END_OF_Visibilitytype
