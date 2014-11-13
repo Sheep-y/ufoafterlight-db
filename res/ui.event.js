@@ -6,34 +6,18 @@ var event = ui.event;
 var txt_search = _( '#txt_search' )[0];
 
 event.window_popstate = function window_popstate( evt ) {
-   var hash = location.hash;
-   if ( hash === '#license' || hash === '#help' ) {
-      txt_search.value = '';
-      ui.show_panel( '#pnl_' + hash.substr( 1 ) );
-   } else {
-      var val = txt_search.value = ui.find_query();
-      if ( ! val && _( hash ).length > 0 ) {
-         ui.show_panel( '#pnl_index' );
-         _( hash )[0].scrollIntoView();
-      } else {
-         event.txt_search_input( evt );
-      }
-   }
+   ui.update_state();
 };
 
 event.lnk_internal_click = function lnk_internal_click( evt ) {
    if ( ! evt ) return;
-   if ( typeof( evt ) === 'string' ) {
-      evt = { target: { href: '?query=' + evt } };
-   }
    if ( evt.prevendDefault ) evt.preventDefault();
    if ( evt.target && evt.target.href ) {
       var destination = evt.target.href;
       if ( destination.startsWith( '?query=' ) ) {
          if ( evt.preventDefault ) evt.preventDefault();
          txt_search.value = destination.substr( 6 );
-         event.txt_search_input();
-         _('#nav_top')[0].scrollIntoView( true );
+         ui.search( txt_search.value );
          return false;
       }
    }
@@ -45,34 +29,15 @@ event.txt_search_input = function txt_search_input( evt ) {
    if ( ! val ) {
       if ( document.activeElement && document.activeElement === txt_search )
          return; // Prevent reverting to index while user is still typing.
-      if ( ui.find_query() || location.hash )
-         history.pushState( null, '', '?' );
-      return ui.show_panel( '#pnl_index' );
+      ui.update_state();
+   } else {
+      ui.search( val );
    }
-
-   _.time(); // Reset timer
-   var name = val.toLowerCase();
-   var id = val.match( /^\d+$/ ) ? +val : null;
-   var target = ns.all.filter( function( e ){
-      return e.text.toLowerCase() === name
-         || e.name.toLowerCase() === name
-         || e.id === id;
-   });
-   if ( target.length <= 0 ) return _.show( '#lbl_not_found' );
-   if ( val !== ui.find_query() )
-      history.pushState( null, '', '?query=' + val );
-   ui.show_result( target );
-   _.time( 'Found and displayed: "' + name + '"' );
 };
 
 event.btn_reset_click = function btn_reset_click( evt ) {
    txt_search.value = '';
    event.window_popstate();
-};
-
-event.lnk_block_title_click = function lnk_block_title_click( evt ) {
-   var name = evt.target.textContent.trim().replace( / *\([^)]*\)$/, '' );
-   return event.lnk_internal_click( name );
 };
 
 event.btn_collapse_click = function btn_collapse_click( evt ) {

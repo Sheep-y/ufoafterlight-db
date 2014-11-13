@@ -52,11 +52,49 @@ var ui = ns.ui = {
       return "";
    },
 
+   'search' : function ui_search( val ) {
+      _.time(); // Reset timer
+      var name = val.toLowerCase();
+      var id = val.match( /^\d+$/ ) ? +val : null;
+      var target = ns.all.filter( function( e ){
+         return e.text.toLowerCase() === name
+            || e.name.toLowerCase() === name
+            || e.id === id;
+      });
+      if ( target.length <= 0 ) return _.show( '#lbl_not_found' );
+      if ( val !== ui.find_query() ) {
+         history.pushState( null, '', '?query=' + val );
+      }
+      ui.show_result( target );
+      _.time( 'Found and displayed: "' + name + '"' );
+   },
+
+   // Update display and uri to match current input / uri state
+   'update_state' : function ui_update_state() {
+      var hash = location.hash, e = hash ? _( hash ) : [];
+      if ( hash === '#license' || hash === '#help' || e.length > 0 ) {
+         txt_search.value = '';
+         if ( e.length ) {
+            ui.show_panel( '#pnl_index' );
+            _( hash )[0].scrollIntoView();
+         } else {
+            ui.show_panel( '#pnl_' + hash.substr( 1 ) );
+         }
+      } else {
+         var val = ui.find_query();
+         txt_search.value = val;
+         ui.search( val );
+      }
+   },
+
    'show_panel' : function ui_show_panel( panel ) {
       _.hide( [ pnl_index, pnl_result, pnl_enable, pnl_license, pnl_help ] );
       pnl_enable.innerHTML = pnl_result.innerHTML = '';
       ui.displayed = []; // Reset display record
-      if ( panel ) return _.show( panel );
+      if ( panel ) {
+         _('#nav_top')[0].scrollIntoView( true );
+         return _.show( panel );
+      }
    },
 
    'show_result' : function ui_show_result( roots ) {
