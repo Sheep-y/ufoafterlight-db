@@ -6,12 +6,18 @@ var event = ui.event;
 var txt_search = _( '#txt_search' )[0];
 
 event.window_popstate = function window_popstate( evt ) {
-   if ( location.hash === '#license' || location.hash === '#help' ) {
+   var hash = location.hash;
+   if ( hash === '#license' || hash === '#help' ) {
       txt_search.value = '';
-      ui.show_panel( '#pnl_' + location.hash.substr( 1 ) );
+      ui.show_panel( '#pnl_' + hash.substr( 1 ) );
    } else {
-      txt_search.value = ui.find_query();
-      event.txt_search_input( evt );
+      var val = txt_search.value = ui.find_query();
+      if ( ! val && _( hash ).length > 0 ) {
+         ui.show_panel( '#pnl_index' );
+         _( hash )[0].scrollIntoView();
+      } else {
+         event.txt_search_input( evt );
+      }
    }
 };
 
@@ -61,7 +67,7 @@ event.txt_search_input = function txt_search_input( evt ) {
 
 event.btn_reset_click = function btn_reset_click( evt ) {
    txt_search.value = '';
-   event.txt_search_input();
+   event.window_popstate();
 };
 
 event.lnk_block_title_click = function lnk_block_title_click( evt ) {
