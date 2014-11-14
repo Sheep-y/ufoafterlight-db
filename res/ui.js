@@ -7,6 +7,7 @@ var pnl_index = _( '#pnl_index' )[0];
 var pnl_result = _( '#pnl_result' )[0];
 var pnl_enable = _( '#pnl_enable' )[0];
 var pnl_license = _( '#pnl_license' )[0];
+var txt_search = _( '#txt_search' )[0];
 
 var ui = ns.ui = {
    'event' : event,
@@ -40,8 +41,8 @@ var ui = ns.ui = {
          window.localStorage.setItem( 'sheepy.ufoal.ran', '1' );
       }
 
-      //_( '#txt_search' )[0].focus(); // Focus may cause browser to not trigger datalist dropdown.
-      _( '#txt_search' )[0].select();
+      //txt_search.focus(); // Focus may cause browser to not trigger datalist dropdown.
+      txt_search.select();
    },
 
    'find_query' : function ui_find_query() {
@@ -50,6 +51,10 @@ var ui = ns.ui = {
          if ( match && match.length ) return decodeURIComponent( match[1] ).trim();
       }
       return "";
+   },
+
+   'is_typing' : function ui_is_typing() {
+      return document.activeElement && document.activeElement === txt_search;
    },
 
    'search' : function ui_search( val ) {
@@ -62,9 +67,6 @@ var ui = ns.ui = {
             || e.id === id;
       });
       if ( target.length <= 0 ) return _.show( '#lbl_not_found' );
-      if ( val !== ui.find_query() ) {
-         history.pushState( null, '', '?query=' + val );
-      }
       ui.show_result( target );
       _.time( 'Found and displayed: "' + name + '"' );
    },
@@ -99,6 +101,7 @@ var ui = ns.ui = {
 
    'show_result' : function ui_show_result( roots ) {
       ui.show_panel( pnl_result );
+      // Find enabled entries for each result
       roots.forEach( function( root ) {
          var regx = ns.special_req[ root.name ];
          var enable = ns.all.filter( function( e ) {
@@ -120,8 +123,8 @@ var ui = ns.ui = {
       });
       ui.displayed = [];
 
+      // Find requirements for each result
       roots.forEach( function( root ) {
-         // Find requirements
          if ( ui.displayed.indexOf( root ) >= 0 ) return;
          var result = ui.box_recur( root );
          event.btn_desc_click( { target: _( result, '.desc' )[0] } ); // Show top level descriptions
@@ -152,4 +155,4 @@ var ui = ns.ui = {
    },
 };
 
-})( ufoal );
+})( ufoal );   

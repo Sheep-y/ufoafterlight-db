@@ -27,11 +27,18 @@ event.txt_search_input = function txt_search_input( evt ) {
    _.hide( '#lbl_not_found' );
    var val = txt_search.value.trim();
    if ( ! val ) {
-      if ( document.activeElement && document.activeElement === txt_search )
+      if ( ui.is_typing() )
          return; // Prevent reverting to index while user is still typing.
       ui.update_state();
    } else {
       ui.search( val );
+   }
+};
+
+event.txt_search_blur = function txt_search_input( evt ) {
+   var val = txt_search.value.trim();
+   if ( ui.displayed && val != ui.find_query() ) {
+      history.pushState( null, '', '?query=' + val );
    }
 };
 
