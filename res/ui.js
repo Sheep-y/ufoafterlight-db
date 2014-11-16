@@ -34,7 +34,7 @@ var ui = ns.ui = {
       _.show( [ pnl_search, pnl_index ] );
 
       // Update query from url
-      if ( ! window.localStorage || window.localStorage.getItem( 'sheepy.ufoal.ran' ) ) {
+      if ( ! window.localStorage || localStorage.getItem( 'sheepy.ufoal.ran' ) ) {
          event.window_popstate();
       } else {
          event.lnk_help_click();
@@ -85,7 +85,7 @@ var ui = ns.ui = {
       } else {
          var val = ui.find_query();
          txt_search.value = val;
-         ui.search( val );
+         if ( val ) ui.search( val );
       }
    },
 

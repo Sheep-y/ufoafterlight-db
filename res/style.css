@@ -14,6 +14,7 @@ h1 { margin: 0; font-size: 24px; }
   padding: 10px; color: white;
   border: 3px solid #b8cbd1; background-color: #012f3e;
 }
+.box a { text-decoration: none; }
 
 nav { padding: 0 5px; clear: both; }
 nav a, nav a:visited { color: #ddf; }
