@@ -32,7 +32,7 @@ nav a, nav a:visited { color: #ddf; }
 #pnl_index > ul > li .title {
   font-weight: normal;
 }
-/* :target { background: #448; } */
+:target { background: #448; }
 
 .treenode {
   display: table;
@@ -54,14 +54,14 @@ nav a, nav a:visited { color: #ddf; }
 :not(.collapsed) > .expand { display: none }
 .collapsed > b { color: #999 }
 .collapsed > .collapse,
-  .collapsed > div,
+   .collapsed > div,
   .collapsed > .desc,
   .collapsed > .manday,
   .collapsed > .manhour  {
-    display: none
+   display: none
  }
 
-.leaf .collapse, .leaf .expand { display: none }
+/* .leaf .collapse, .leaf .expand { display: none } */
 #pnl_enable .desc,
 #pnl_enable .collapse,
 #pnl_enable .expand { display: none }

@@ -27,8 +27,7 @@ ui.create_index = function ui_create_index() {
       });
       cat.appendChild( list );
       top.appendChild( cat );
-      nav.appendChild( _.create( 'a', { href: '?#' + type,text: ns.ucfirst( type )
-         , class: 'f_left', onclick: event.btn_reset_click } ) );
+      nav.appendChild( _.create( 'a', { href: '?#' + type,text: ns.ucfirst( type ), class: 'f_left', onclick: event.btn_reset_click } ) );
    }
    _( '#pnl_index' )[0].appendChild( top );
 };
@@ -47,8 +46,7 @@ ui.create_tech_box = function ui_create_tech_box( e ) {
 ui.create_building_box = function ui_create_building_box( e ) {
    var result = ui.create_base_box( e, 'building' );
    _( result, '.title' )[0].title = txt.building[ e.id + '_tip' ];
-   ui.create_help_buttons( result );
-   return result;
+   return ui.create_help_buttons( result );
 };
 
 ui.create_item_box = function ui_create_item_box( e ) {
