@@ -62,7 +62,7 @@ ns.get_item_desc = function ufoal_get_item_desc( e ) {
                w.weapon.ammo.forEach( function ammo_match_each( ammo ) {
                   if ( ammo.ammoIT === e.name && ammo.wam ) {
                      if ( w ) {
-                        add( '<br/><a class="title" href="?query=' + encodeURIComponent(w.text) + '" onclick="ufoal.ui.event.lnk_block_title_click(event)">' + w.text + '</a>' );
+                        add( '<br/><a class="title" href="?query=' + encodeURIComponent(w.text) + '" onclick="ufoal.ui.event.lnk_internal_click(event)">' + w.text + '</a>' );
                         w = null;
                      }
                      add( ammo.wam.map( ns.get_ammo_desc ).join('<br/>') );
@@ -77,8 +77,7 @@ ns.get_item_desc = function ufoal_get_item_desc( e ) {
       var slot = [];
       sub = e.weapon;
       add( '<hr/>' );
-      // TODO: Replace with shapeIndex
-      add( 'Hands: ' + ( ( sub.righthandhelper === "parent_one-handed" ) ? '1' : '2' ) );
+      // TODO: Add shapeIndex
       if ( sub.muzzleslotIndex ) slot.push( 'Muzzle' );
       if ( sub.visorslotIndex ) slot.push( 'Scope' );
       if ( sub.additionalslotIndex ) slot.push( 'Underbarrel' );
@@ -89,7 +88,7 @@ ns.get_item_desc = function ufoal_get_item_desc( e ) {
       if ( sub.ammo ) { sub.ammo.forEach( function( ammo ) {
          add( ' ' );
          var clip = ns.entity[ ammo.ammoIT ];
-         var line = '<a class="title" href="?query=' + encodeURIComponent(clip.text) + '" onclick="ufoal.ui.event.lnk_block_title_click(event)">' + clip.text + '</a>';
+         var line = '<a class="title" href="?query=' + encodeURIComponent(clip.text) + '" onclick="ufoal.ui.event.lnk_internal_click(event)">' + clip.text + '</a>';
          if ( clip.ammo.capacity ) line += ' (' + clip.ammo.capacity + ')';
          if ( ammo.reloadtime ) line +=' Reload ' + second( ammo.reloadtime );
          add( line );
