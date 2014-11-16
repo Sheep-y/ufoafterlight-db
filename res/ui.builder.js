@@ -13,7 +13,8 @@ ui.create_index = function ui_create_index() {
    var nav = _( '#nav_top' )[0];
    var top = _.create( 'ul' );
    for ( var type in ns.data ) {
-      var cat = _.create( 'li', { text: ns.ucfirst( type ), id: type } );
+      var cat = _.create( 'li' );
+      cat.appendChild( _.create( 'span', { text: ns.ucfirst( type ), id: type } ) );
       var list = _.create( 'ul' );
       var data = ns.data[ type ];
       var txtlist = _.col( ns.data[type], 'text' ).sort();

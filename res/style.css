@@ -32,7 +32,7 @@ nav a, nav a:visited { color: #ddf; }
 #pnl_index > ul > li .title {
   font-weight: normal;
 }
-:target { background: #448; }
+/* :target { background: #448; } */
 
 .treenode {
   display: table;

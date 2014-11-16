@@ -34,11 +34,11 @@ var ui = ns.ui = {
       _.show( [ pnl_search, pnl_index ] );
 
       // Update query from url
-      if ( ! window.localStorage || localStorage.getItem( 'sheepy.ufoal.ran' ) ) {
+      if ( ! window.localStorage || localStorage.getItem( 'sheepy.ufoal.ran' )
+         || location.hash || location.search ) {
          event.window_popstate();
       } else {
          event.lnk_help_click();
-         window.localStorage.setItem( 'sheepy.ufoal.ran', '1' );
       }
 
       //txt_search.focus(); // Focus may cause browser to not trigger datalist dropdown.
@@ -71,9 +71,14 @@ var ui = ns.ui = {
       _.time( 'Found and displayed: "' + name + '"' );
    },
 
-   // Update display and uri to match current input / uri state
+   // Update display to match current input / uri state
    'update_state' : function ui_update_state() {
-      var hash = location.hash, e = hash ? _( hash ) : [];
+      var hash = location.hash, e = null;
+      var val = ui.find_query();
+      if ( hash === '#' ) hash = '';
+      if ( ! hash && ! val ) return ui.show_panel( pnl_index );
+
+      e = hash ? _( '#pnl_index ' + hash ) : [];
       if ( hash === '#license' || hash === '#help' || e.length > 0 ) {
          txt_search.value = '';
          if ( e.length ) {
@@ -83,7 +88,6 @@ var ui = ns.ui = {
             ui.show_panel( '#pnl_' + hash.substr( 1 ) );
          }
       } else {
-         var val = ui.find_query();
          txt_search.value = val;
          if ( val ) ui.search( val );
       }
