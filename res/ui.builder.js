@@ -14,14 +14,13 @@ ui.create_index = function ui_create_index() {
    var top = _.create( 'ul' );
 
    function createList( name, txtlist ) {
-      var cat = _.create( 'li' );
-      cat.appendChild( _.create( 'span', { text: ns.ucfirst( name ), id: name } ) );
+      var cat = _.create( 'li' ), created = _.Map();
       var list = _.create( 'ul' );
+      cat.appendChild( _.create( 'span', { text: ns.ucfirst( name ), id: name } ) );
       txtlist.forEach( function create_index( e, i ) {
-         if ( e && txtlist.indexOf( e ) === i ) {
-            var li = _.create( 'li' );
-            li.appendChild( ui.create_title( e ) );
-            list.appendChild( li );
+         if ( e && ! created[ e ] ) {
+            list.appendChild( ui.create_title( e ) );
+            created[ e ] = true;
          }
       });      
       cat.appendChild( list );

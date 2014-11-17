@@ -30,6 +30,7 @@ nav a, nav a:visited { color: #ddf; }
   margin: 5px 0;
 }
 #pnl_index > ul > li .title {
+  display: list-item;
   font-weight: normal;
 }
 :target { background: #448; }

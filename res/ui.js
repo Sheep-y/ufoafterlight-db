@@ -25,11 +25,13 @@ var ui = ns.ui = {
       ui.create_index();
       pnl_help.appendChild( _.create( 'span', 'Data loaded in ' + _.time( 'Data loaded' )[1] + 'ms' ) );
 
-      var frag = document.createDocumentFragment();
+      var frag = document.createDocumentFragment(), created = _.Map();
       var options = _.col( ns.all, 'text' ).sort();
       options.forEach( function each_option( e, i ) {
-         if ( e && options.indexOf( e ) === i ) // Filter out empties and duplicates
+         if ( e && ! created[ e ] ) { // Filter out empties and duplicates
             frag.appendChild( _.create( 'option', { value: e } ) );
+            created[ e ] = true;
+         }
       });
       _( '#data_search' )[0].appendChild( frag );
       _.show( [ pnl_search, pnl_index ] );
