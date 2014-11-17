@@ -11,7 +11,7 @@ var ns = { // Main namespace
 ns.init = function ufoal_init() {
    var ent = ns.entity;
    var data = ns.data;
-   var all = ns.all = new Array(360);
+   var all = ns.all = new Array(900);
    var used_id = [];
    for ( var type in this.data ) {
       data[ type ].forEach( function each_data( e ) {
@@ -141,7 +141,7 @@ ns.uncamel = function ufoal_uncamel( txt ) {
 };
 
 ns.inflate = function ufoal_inflate( data ) {
-   _.ary( data ).forEach( function( e, i ){
+   _.ary( data ).forEach( function each_inflate( e, i ){
       try {
          eval( _.inflate( atob( e ) ) );
       } catch ( ex ) {

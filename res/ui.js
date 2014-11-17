@@ -25,12 +25,13 @@ var ui = ns.ui = {
       ui.create_index();
       pnl_help.appendChild( _.create( 'span', 'Data loaded in ' + _.time( 'Data loaded' )[1] + 'ms' ) );
 
-      var data_search = _( '#data_search' )[0];
+      var frag = document.createDocumentFragment();
       var options = _.col( ns.all, 'text' ).sort();
       options.forEach( function each_option( e, i ) {
          if ( e && options.indexOf( e ) === i ) // Filter out empties and duplicates
-            data_search.appendChild( _.create( 'option', { value: e } ) );
+            frag.appendChild( _.create( 'option', { value: e } ) );
       });
+      _( '#data_search' )[0].appendChild( frag );
       _.show( [ pnl_search, pnl_index ] );
 
       // Update query from url
