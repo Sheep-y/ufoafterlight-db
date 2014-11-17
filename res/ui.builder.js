@@ -12,22 +12,25 @@ ui.create_title = function ui_create_title( name ) {
 ui.create_index = function ui_create_index() {
    var nav = _( '#nav_top' )[0];
    var top = _.create( 'ul' );
-   for ( var type in ns.data ) {
+
+   function createList( name, txtlist ) {
       var cat = _.create( 'li' );
-      cat.appendChild( _.create( 'span', { text: ns.ucfirst( type ), id: type } ) );
+      cat.appendChild( _.create( 'span', { text: ns.ucfirst( name ), id: name } ) );
       var list = _.create( 'ul' );
-      var data = ns.data[ type ];
-      var txtlist = _.col( ns.data[type], 'text' ).sort();
       txtlist.forEach( function create_index( e, i ) {
          if ( e && txtlist.indexOf( e ) === i ) {
             var li = _.create( 'li' );
             li.appendChild( ui.create_title( e ) );
             list.appendChild( li );
          }
-      });
+      });      
       cat.appendChild( list );
       top.appendChild( cat );
-      nav.appendChild( _.create( 'a', { href: '?#' + type,text: ns.ucfirst( type ), class: 'f_left', onclick: event.btn_reset_click } ) );
+      nav.appendChild( _.create( 'a', { href: '?#' + name, text: ns.ucfirst( name ), class: 'f_left', onclick: event.btn_reset_click } ) );
+   }
+
+   for ( var type in ns.data ) {
+      createList( type, _.col( ns.data[type], 'text' ).sort() );
    }
    _( '#pnl_index' )[0].appendChild( top );
 };
