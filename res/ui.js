@@ -66,9 +66,13 @@ var ui = ns.ui = {
             || e.name.toLowerCase() === name
             || e.id === id;
       });
-      if ( target.length <= 0 ) return _.show( '#lbl_not_found' );
+      if ( target.length <= 0 ) {
+         _.show( '#lbl_not_found' );
+         return false;
+      }
       ui.show_result( target );
       _.time( 'Found and displayed: "' + name + '"' );
+      return true;
    },
 
    // Update display to match current input / uri state

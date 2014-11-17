@@ -26,17 +26,23 @@ event.lnk_internal_click = function lnk_internal_click( evt ) {
 
 event.txt_search_input = function txt_search_input( evt ) {
    _.hide( '#lbl_not_found' );
+   if ( txt_search_input.timer ) clearTimeout( txt_search_input.timer );
+   txt_search_input.timer = 0;
+
    var val = txt_search.value.trim();
    if ( ! val ) {
       if ( ui.is_typing() )
          return; // Prevent reverting to index while user is still typing.
       ui.update_state();
    } else {
-      ui.search( val );
+      if ( ui.search( val ) ) {
+         txt_search_input.timer = setTimeout( event.txt_search_blur, 3000 );
+      }
    }
 };
+event.txt_search_input.timer = 0;
 
-event.txt_search_blur = function txt_search_input( evt ) {
+event.txt_search_blur = function txt_search_blur( evt ) {
    var val = txt_search.value.trim();
    if ( ui.displayed && val != ui.find_query() ) {
       history.pushState( null, '', '?query=' + val );
