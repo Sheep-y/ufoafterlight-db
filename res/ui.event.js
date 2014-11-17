@@ -83,8 +83,8 @@ event.lnk_help_click = function lnk_help_click( evt ) {
    if ( evt ) evt.preventDefault();
    if ( location.hash !== '#help' )
       history.pushState( null, '', '?#help' );
-   window.localStorage.setItem( 'sheepy.ufoal.ran', '1' );
    ui.update_state();
+   if ( window.localStorage ) localStorage.setItem( 'sheepy.ufoal.ran', '1' );
 };
 
 event.lnk_license_click = function lnk_license_click( evt ) {
