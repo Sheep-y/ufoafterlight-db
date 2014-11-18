@@ -63,7 +63,7 @@ ns.get_item_desc = function ufoal_get_item_desc( e ) {
                w.weapon.ammo.forEach( function ammo_match_each( ammo ) {
                   if ( ammo.ammoIT === e.name && ammo.wam ) {
                      if ( w ) {
-                        add( br + '<a class="title" href="?query=' + encodeURIComponent(w.text) + '" onclick="ufoal.ui.event.lnk_internal_click(event)">' + w.text + '</a>' );
+                        add( br + ns.ui.create_html_title( w.text ) );
                         w = null;
                      }
                      add( ammo.wam.map( ns.get_ammo_desc ).join( br ) );
@@ -89,7 +89,7 @@ ns.get_item_desc = function ufoal_get_item_desc( e ) {
       if ( sub.ammo ) { sub.ammo.forEach( function( ammo ) {
          add( ' ' );
          var clip = ns.entity[ ammo.ammoIT ];
-         var line = '<a class="title" href="?query=' + encodeURIComponent(clip.text) + '" onclick="ufoal.ui.event.lnk_internal_click(event)">' + clip.text + '</a>';
+         var line = ns.ui.create_html_title( clip.text );
          if ( clip.ammo.capacity ) line += ' (' + clip.ammo.capacity + ')';
          if ( ammo.reloadtime ) line +=' Reload ' + second( ammo.reloadtime );
          add( line );
@@ -145,8 +145,7 @@ ns.get_ammo_desc = function ufoal_get_ammo_desc( wam ) {
 }
 
 ns.get_race_desc = function ufoal_get_race_desc( e ) {
-   var profile = '', result = ns.get_general_desc( e ) + hr;
-   var tsenses = txt.sense;
+   var profile = '', result = '', tsenses = txt.sense;
    result += ( e.organic ? "O" : "Ino" ) + 'rganic race' + br + br + 'Senses:' + br;
    e.senses.forEach( function each_sense( e, i ) {
       if ( ! i || ! e.shine ) return;
@@ -157,12 +156,10 @@ ns.get_race_desc = function ufoal_get_race_desc( e ) {
          result += br;
       }
    });
-   if ( e.attributes.length > 1 ) {
-      result += br + 'Attributes:' + br;
-      e.attributes.forEach( function each_attr( e ) {
-         result += ' - ' + ns.uncamel( e ) + br;
-      });
-   }
+   result += br + 'Attributes:' + br;
+   e.attributes.forEach( function each_attr( e ) {
+      result += ' - ' + ns.uncamel( e ) + br;
+   });
    result += br + 'Visibility:' + br + profile;
    return result;
 }

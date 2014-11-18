@@ -113,7 +113,7 @@ var ui = ns.ui = {
       // Find enabled entries for each result
       roots.forEach( function( root ) {
          var regx = ns.special_req[ root.name ];
-         var enable = ns.all.filter( function( e ) {
+         var enable = ns.all.filter( function filter_enable( e ) {
             var req = ns.prereq( e );
             return req.indexOf( root.name ) >= 0
                 || ( regx && req.join( ' ' ).match( regx ) )
@@ -123,7 +123,7 @@ var ui = ns.ui = {
          if ( enable.length > 0 ) {
             var result = ui.create_box( root );
             result.appendChild( _.create( 'div', { class: 'help', text: 'This entity enables the following:' } ) );
-            enable.forEach( function(e) {
+            enable.forEach( function each_enable( e ) {
                result.appendChild( ui.create_box( e ) );
             });
             pnl_enable.appendChild( result );
@@ -133,7 +133,7 @@ var ui = ns.ui = {
       ui.displayed = [];
 
       // Find requirements for each result
-      roots.forEach( function( root ) {
+      roots.forEach( function each_result( root ) {
          if ( ui.displayed.indexOf( root ) >= 0 ) return;
          var result = ui.box_recur( root );
          event.btn_desc_click( { target: _( result, '.desc' )[0] } ); // Show top level descriptions

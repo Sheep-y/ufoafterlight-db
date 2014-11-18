@@ -11,7 +11,7 @@ var ns = { // Main namespace
 ns.init = function ufoal_init() {
    var ent = ns.entity;
    var data = ns.data;
-   var all = ns.all = new Array(900);
+   var all = ns.all = [];
    var used_id = [];
    var spec_names = ['race','subrace','unit','training'];
    for ( var type in this.data ) {
@@ -21,6 +21,7 @@ ns.init = function ufoal_init() {
          if ( set_name && e.id ) {
             e.text = ns.ucword( txt.name[ e.id ] );
             if ( ! e.text ) e.text = ns.uncamel( e.name );
+            used_id.push( e.id );
          }
          if ( e.name ) {
             var ename = e.name;
@@ -97,6 +98,7 @@ ns.find_unused = function ufoal_find_unused( used ) {
          else if ( id === 316 ) entry.prereq = { "944":1 }; // 376A -> 376A
          else if ( id === 315 ) entry.prereq = { "943":1 }; // 340G -> 340G
          ns.entity[ id ] = entry;
+         entry.allIndex = ns.all.length;
          result.push( entry );
          ns.all.push( entry );
       }
