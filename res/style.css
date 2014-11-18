@@ -35,6 +35,10 @@ nav a, nav a:visited { color: #ddf; }
 }
 :target { background: #448; }
 
+#pnl_license li { margin: 1ex 0; }
+#pnl_license .help,
+#pnl_help .help { max-width: 800px; }
+
 .treenode {
   display: table;
   border: 1px outset #3a635f; padding: 2px 5px; margin: 2px 0;
