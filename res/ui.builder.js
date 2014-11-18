@@ -18,18 +18,35 @@ ui.create_index = function ui_create_index() {
       var list = _.create( 'ul' );
       cat.appendChild( _.create( 'span', { text: ns.ucfirst( name ), id: name } ) );
       txtlist.forEach( function create_index( e, i ) {
-         if ( e && ! created[ e ] ) {
-            list.appendChild( ui.create_title( e ) );
-            created[ e ] = true;
-         }
-      });      
+         if ( e && ! created[ e ] )
+            created[ e ] = list.appendChild( ui.create_title( e ) ) || true;
+      });
       cat.appendChild( list );
       top.appendChild( cat );
       nav.appendChild( _.create( 'a', { href: '?#' + name, text: ns.ucfirst( name ), class: 'f_left', onclick: event.btn_reset_click } ) );
    }
 
+   // Create item index
+   var items = _.Map();
+   ns.data.item.forEach( function each_item_index( e ) {
+      var type = 'item';
+      if ( e.isvisible === false ) type = 'system';
+      else if ( e.weapon ) type = e.weapon.ammo ? 'weapon' : 'item';
+      else if ( e.armour ) type = 'armour';
+      else if ( e.ammo ) type = 'ammo';
+      else if ( e.addon ) type = 'addon';
+      if ( ! items[type] ) items[type] = [];
+      items[type].push( e );
+   });
+   // List items in this order
+   [ 'armour','weapon','ammo','addon','item','system' ].forEach( function each_item_type_index( type ) {
+      if ( items[type] ) createList( type, _.col( items[type], 'text' ) );
+   });
+
+   // Create other indexes
    for ( var type in ns.data ) {
-      createList( type, _.col( ns.data[type], 'text' ).sort() );
+      if ( type !== 'item' )
+         createList( type, _.col( ns.data[type], 'text' ).sort() );
    }
    _( '#pnl_index' )[0].appendChild( top );
 };

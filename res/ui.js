@@ -28,10 +28,8 @@ var ui = ns.ui = {
       var frag = document.createDocumentFragment(), created = _.Map();
       var options = _.col( ns.all, 'text' ).sort();
       options.forEach( function each_option( e, i ) {
-         if ( e && ! created[ e ] ) { // Filter out empties and duplicates
-            frag.appendChild( _.create( 'option', { value: e } ) );
-            created[ e ] = true;
-         }
+         if ( e && ! created[ e ] ) // Filter out empties and duplicates
+            created[ e ] = frag.appendChild( _.create( 'option', { value: e } ) ) || true;
       });
       _( '#data_search' )[0].appendChild( frag );
       _.show( [ pnl_search, pnl_index ] );
