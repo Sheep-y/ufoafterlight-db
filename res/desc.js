@@ -1,21 +1,21 @@
 (function ufoal_desc( ns ){ 'use strict';
 
-var txt = ns.txt;
+var txt = ns.txt, br = '<br/>', hr = '<hr/>';
 
 /** Return the description of any entity */
 ns.get_desc = function ufoal_get_desc( e ) {
    var content = 'Id: ' + e.id + ', ' + e.name;
    if ( e.unknown ) 
-      content += '<br/><b>This entry is unused in the final game</b>';
-   content += '<hr/>';
+      content += br + '<b>This entry is unused in the final game</b>';
+   content += hr;
    if ( e.type === 'tech' ) {
-      content += txt.tech[ e.id + '_b4' ] + '<hr/>' + ns.txt.tech[ e.id + '_done' ];
-   } else if ( e.type === 'item' ) {
-      content += ns.get_item_desc( e );
+      content += txt.tech[ e.id + '_b4' ] + hr + ns.txt.tech[ e.id + '_done' ];
    } else if ( e.type === 'training' ) {
-      content += txt.training[ e.id + "_desc" ] + '<hr/>Effect: ' + ns.uncamel( e.effect );
+      content += txt.training[ e.id + "_desc" ] + hr + 'Effect: ' + ns.uncamel( e.effect );
    } else {
-      content += ns.get_general_desc( e );
+      var method = 'get_' + e.type + '_desc';
+      if ( ! ns[ method ] ) method = 'get_general_desc';
+      content += ns[ method ]( e );
    }
    return content;
 };
@@ -26,11 +26,11 @@ ns.get_general_desc = function ufoal_get_general_desc( e ) {
    return txt && txt[ e.id ] ? txt[ e.id ] : '(Internal data; no description)';
 };
 
-function percent( v ) { return (v*100) + '%'; }
-function second( t ) { return (t/10) + '&thinsp;s.'; }
+function percent( v ) { return Math.round(v*100, 3) + '%'; }
+function second( t ) { return Math.round(t/10, 3) + '&thinsp;s.'; }
 
 ns.get_item_desc = function ufoal_get_item_desc( e ) {
-   var sub, result = [ ns.get_general_desc( e ) + '<hr/>' ];
+   var sub, result = [ ns.get_general_desc( e ) + hr ];
    function add( t ) { result.push( t ); }
    if ( e.weight ) add( 'Weight: ' + e.weight + ' kg' );
    if ( e.startquantity ) add( 'Starts game with: ' + e.startquantity + ' pieces' );
@@ -42,7 +42,7 @@ ns.get_item_desc = function ufoal_get_item_desc( e ) {
 
    if ( e.armour ) {
       sub = e.armour;
-      add( '<hr/>' );
+      add( hr );
       if ( sub.headslotIndex && sub.handslotIndex ) add( 'Addon slots: 2' );
       else if ( sub.headslotIndex || sub.handslotIndex ) add( 'Addon slot: 1' );
       if ( sub.maxhostility ) add( 'Env. Resist: ' + sub.maxhostility );
@@ -53,7 +53,7 @@ ns.get_item_desc = function ufoal_get_item_desc( e ) {
 
    if ( e.ammo ) {
       sub = e.ammo;
-      add( '<hr/>' );
+      add( hr );
       if ( sub.capacity ) add( 'Ammo capaticy: ' + sub.capacity );
       if ( sub.isrechargable ) add( '(Recharge at base)' );
       if ( ! e.weapon ) {
@@ -63,10 +63,10 @@ ns.get_item_desc = function ufoal_get_item_desc( e ) {
                w.weapon.ammo.forEach( function ammo_match_each( ammo ) {
                   if ( ammo.ammoIT === e.name && ammo.wam ) {
                      if ( w ) {
-                        add( '<br/><a class="title" href="?query=' + encodeURIComponent(w.text) + '" onclick="ufoal.ui.event.lnk_internal_click(event)">' + w.text + '</a>' );
+                        add( br + '<a class="title" href="?query=' + encodeURIComponent(w.text) + '" onclick="ufoal.ui.event.lnk_internal_click(event)">' + w.text + '</a>' );
                         w = null;
                      }
-                     add( ammo.wam.map( ns.get_ammo_desc ).join('<br/>') );
+                     add( ammo.wam.map( ns.get_ammo_desc ).join( br ) );
                   }
                });
             }
@@ -94,15 +94,15 @@ ns.get_item_desc = function ufoal_get_item_desc( e ) {
          if ( ammo.reloadtime ) line +=' Reload ' + second( ammo.reloadtime );
          add( line );
          if ( ammo.wam ) { 
-            add( ammo.wam.map( ns.get_ammo_desc ).join('<br/>') );
+            add( ammo.wam.map( ns.get_ammo_desc ).join( br ) );
          }
       });}
    }
-   return result.join( '<br/>' ).replace( /(<br\/>)*<hr\/>(<[bh]r\/>)+/g, '<hr/>' );
+   return result.join( br ).replace( /(<br\/>)*<hr\/>(<[bh]r\/>)+/g, hr );
 };
 
 ns.get_ammo_desc = function ufoal_get_ammo_desc( wam ) {
-   var indent = '<br/> &nbsp; &nbsp;';
+   var indent = br + ' &nbsp; &nbsp;';
    var line = wam.weaponmode ? ns.uncamel( wam.weaponmode ) : 'Attack';
    if ( wam.rounds && wam.rounds > 1 ) line += ' (x' + wam.rounds + ')';
    if ( wam.consumption && wam.consumption > 1 ) line += ' (' + wam.consumption + ' ammo per shot)';
@@ -134,7 +134,7 @@ ns.get_ammo_desc = function ufoal_get_ammo_desc( wam ) {
       sub = wam.autonom;
       if ( sub.visibility ) {
          var vis = sub.visibility
-         line += '<br/><br/>Range: ';
+         line += br + br + 'Range: ';
          for ( var v in vis ) {
             if ( vis[v] ) line += v + ': ' + percent( vis[ v ] ) + ', ';
          }
@@ -142,6 +142,29 @@ ns.get_ammo_desc = function ufoal_get_ammo_desc( wam ) {
       }
    }
    return line;
+}
+
+ns.get_race_desc = function ufoal_get_race_desc( e ) {
+   var profile = '', result = ns.get_general_desc( e ) + hr;
+   var tsenses = txt.sense;
+   result += ( e.organic ? "O" : "Ino" ) + 'rganic race' + br + br + 'Senses:' + br;
+   e.senses.forEach( function each_sense( e, i ) {
+      if ( ! i || ! e.shine ) return;
+      profile += ' - ' + tsenses[ i ] + ': ' + percent( e.shine ) + br;
+      if ( e.active ) {
+         result += ' - ' + tsenses[ i ] + ': ' + percent( e.active.range );
+         if ( e.active.angle !== 1 ) result += ' ∠ x'+ e.active.angle;
+         result += br;
+      }
+   });
+   if ( e.attributes.length > 1 ) {
+      result += br + 'Attributes:' + br;
+      e.attributes.forEach( function each_attr( e ) {
+         result += ' - ' + ns.uncamel( e ) + br;
+      });
+   }
+   result += br + 'Visibility:' + br + profile;
+   return result;
 }
 
 })( ufoal );
