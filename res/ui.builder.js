@@ -52,14 +52,14 @@ ui.create_index = function ui_create_index() {
 };
 
 ui.create_box = function ui_create_box( e ) {
-   return ui[ 'create_' + e.type + '_box' ]( e );
+   var method = 'create_' + e.type + '_box';
+   if ( ! ui[ method ] ) method = 'create_general_box';
+   return ui[ method ]( e , e.type );
 };
 
 ui.create_tech_box = function ui_create_tech_box( e ) {
-   var orig = txt.tech_orig[ e.orig ];
-   var img = orig ? 'icon_tech_'+orig.toLowerCase() : 'icon_ui_desc';
-   var result = ui.create_base_box( e, 'tech', img, orig );
-   return ui.create_help_buttons( result );
+   var orig = txt.tech_orig[ e.orig ].toLowerCase();
+   return ui.create_help_buttons( ui.create_base_box( e, 'tech', 'icon_tech_'+orig, orig ) );
 };
 
 ui.create_building_box = function ui_create_building_box( e ) {
@@ -68,20 +68,9 @@ ui.create_building_box = function ui_create_building_box( e ) {
    return ui.create_help_buttons( result );
 };
 
-ui.create_item_box = function ui_create_item_box( e ) {
-   var result = ui.create_base_box( e, 'item' );
-   return ui.create_help_buttons( result );
-};
-
-ui.create_training_box = function ui_create_training_box( e ) {
-   var result = ui.create_base_box( e, 'training' );
-   return ui.create_help_buttons( result );
-};
-
-ui.create_station_box = function ui_create_station_box( e ) {
-   var result = ui.create_base_box( e, 'station' );
-   return ui.create_help_buttons( result );
-};
+ui.create_general_box = function ui_create_general_box( e, icon ) {
+   return ui.create_help_buttons( ui.create_base_box( e, icon ) );
+}
 
 /* Create a general entity box */
 ui.create_entity_box = function ui_create_entity_box( e ) {
@@ -112,16 +101,21 @@ ui.create_entity_box = function ui_create_entity_box( e ) {
 
 /** Basic box with title, icon, expand/collapse buttons, man days, and relevant logic */
 ui.create_base_box = function ui_create_base_box( e, className, icon, alt ) {
-   var result = _.create( 'div', { 'class': className + ' treenode', 'data-name': e.name } );
    if ( ! icon ) icon = 'icon_ui_' + className;
+   icon = _('#'+icon);
+   icon = icon.length ? icon[0] : _('#icon_ui_desc')[0];
    if ( ! alt ) alt = ns.ucfirst( className );
-   if ( ui.displayed.indexOf( e ) >= 0 ) result.className += ' collapsed';
-   else ui.displayed.push( e );
+   var type = ns.type( e );
+
+   var result = _.create( 'div', { 'class': className + ' treenode', 'data-name': e.name } );
    result.appendChild( ui.create_title( e.text ) );
-   if ( ns.type( e ) ) result.appendChild( _.create( 'span', ' (' + ns.type( e ) + ')' ) );
-   result.appendChild( _.create( 'img', { class: 'icon', src: _('#'+icon)[0].src, alt: alt } ) );
+   if ( type ) result.appendChild( _.create( 'span', ' (' + type + ')' ) );
+   result.appendChild( _.create( 'img', { class: 'icon', src: icon.src, alt: alt } ) );
    if ( e.day )       result.appendChild( _.create( 'span', { class: 'manday', text: e.day + ' man-days' } ) );
    else if ( e.hour ) result.appendChild( _.create( 'span', { class: 'manhour', text: e.hour + ' man-hours' } ) );
+
+   if ( ui.displayed.indexOf( e ) >= 0 ) result.className += ' collapsed';
+   else ui.displayed.push( e );
    return result;
 };
 

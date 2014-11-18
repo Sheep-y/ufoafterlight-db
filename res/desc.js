@@ -12,9 +12,10 @@ ns.get_desc = function ufoal_get_desc( e ) {
       content += txt.tech[ e.id + '_b4' ] + '<hr/>' + ns.txt.tech[ e.id + '_done' ];
    } else if ( e.type === 'item' ) {
       content += ns.get_item_desc( e );
+   } else if ( e.type === 'training' ) {
+      content += txt.training[ e.id + "_desc" ] + '<hr/>Effect: ' + ns.uncamel( e.effect );
    } else {
       content += ns.get_general_desc( e );
-      if ( e.effect ) content += '<hr/>Effect: ' + ns.uncamel( e.effect ); // Training
    }
    return content;
 };

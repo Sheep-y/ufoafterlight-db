@@ -13,17 +13,18 @@ ns.init = function ufoal_init() {
    var data = ns.data;
    var all = ns.all = new Array(900);
    var used_id = [];
+   var spec_names = ['race','subrace','unit','training'];
    for ( var type in this.data ) {
+      var set_name = spec_names.indexOf( type ) < 0;
       data[ type ].forEach( function each_data( e ) {
          e.type = type;
-         if ( e.id ) {
+         if ( set_name && e.id ) {
             e.text = ns.ucword( txt.name[ e.id ] );
             if ( ! e.text ) e.text = ns.uncamel( e.name );
-            if ( type !== 'training' ) used_id.push( e.id );
          }
          if ( e.name ) {
             if ( ent[ e.name ] ) _.warn ( 'Duplicate entity "' + e.name + '"' );
-            else ent[ e.name ] = e;
+            ent[ e.name ] = e; // unit > subrace > race
          }
          all.push( e );
       });
@@ -46,30 +47,21 @@ ns.init = function ufoal_init() {
             e.prereq.push( e.allowentityid );
       }
    });
-   // Training processing. Training is different from other data.
-   data.training.forEach( function each_training( e ) {
-      e.text = ns.ucword( txt.training[ e.id + '_name' ] );
-      if ( e.upgrade ) e.upgrade = data.training[ e.upgrade-1 ].name;
+   // Special names.
+   spec_names.forEach( function each_name( type ) {
+      var t = txt[type];
+      data[type].forEach( function each_name_entry( e ) {
+         e.text = t && t[ e.id ] ? ns.ucword( t[ e.id ] ) : ns.uncamel( e.name );
+      });
    });
-   data.station.forEach( function each_station( e ) {
-      if ( e.upgrade ) e.upgrade = data.station[ e.upgrade-1 ].name;
+   // Convert upgrade index into entity name
+   ['training','station'].forEach( function each_upgrade( type ) {
+      type = data[type];
+      type.forEach( function each_upgrade_entry( e ) {
+         if ( e.upgrade ) e.upgrade = type[ e.upgrade-1 ].name;
+      });
    });
    ns.ui.init();
-};
-
-/** Return the description of any entity */
-ns.get_desc = function ufoal_get_desc( e ) {
-   var content = 'Id: ' + e.id + ', ' + e.name;
-   content += '<hr/>';
-   if ( e.type === 'tech' ) {
-      content += txt.tech[ e.id + '_b4' ] + '<hr/>' + ns.txt.tech[ e.id + '_done' ];
-   } else if ( e.type === 'item' ) {
-      content += ns.get_item_desc( e );
-   } else {
-      content += ns.get_general_desc( e );
-      if ( e.effect ) content += '<hr/>Effect: ' + ns.uncamel( e.effect ); // Training
-   }
-   return content;
 };
 
 ns.find_unused = function ufoal_find_unused( used ) {
@@ -137,7 +129,9 @@ ns.ucword = function ufoal_ucword( txt ) {
 };
 
 ns.uncamel = function ufoal_uncamel( txt ) {
-   return txt.split( /(?=[A-Z0-9])/ ).join( ' ' ).trim();
+   return txt
+      .replace( /[^A-Z0-9](?=[A-Z])|\D(?=\d)/g, '$& ' )
+      .replace( /[ _]+/g, ' ' ).trim();
 };
 
 ns.inflate = function ufoal_inflate( data ) {
