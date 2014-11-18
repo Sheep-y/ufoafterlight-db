@@ -16,7 +16,7 @@ event.lnk_internal_click = function lnk_internal_click( evt ) {
       var destination = evt.target.getAttribute( 'href' );
       if ( destination.indexOf( '?query=' ) === 0 ) {
          if ( evt.preventDefault ) evt.preventDefault();
-         txt_search.value = destination.substr( 7 );
+         txt_search.value = decodeURIComponent( destination.substr( 7 ) );
          ui.search( txt_search.value );
          event.txt_search_blur();
          return false;
