@@ -119,6 +119,11 @@ var ui = ns.ui = {
                 || ( regx && req.join( ' ' ).match( regx ) )
                 || ( e.upgrade && e.upgrade === root.name );
          });
+         if ( ! root.isvisible && root.type === 'item' && root.armour ) {
+            enable = enable.concat( ns.data.subrace.filter( function filter_subrace( e ) {
+               return _.col( e.armour, 'armour' ).indexOf( root.name ) >= 0;
+            }) );
+         }
 
          if ( enable.length > 0 ) {
             var result = ui.create_box( root );

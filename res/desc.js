@@ -164,4 +164,27 @@ ns.get_race_desc = function ufoal_get_race_desc( e ) {
    return result;
 }
 
+ns.get_subrace_desc = function ufoal_get_subrace_desc( e ) {
+   var result = '';
+   result += 'Exp award: ' + percent( e.exp ) + br + 'Size: ' + percent( e.size ) + br;
+   result += 'Speed: ' + percent( e.speed ) + br + 'Capacity: ' + e.capacity + ' kg' + br;
+   result += 'Stability:' + ( e.stability < 10 ? percent( e.stability ) : 'Stable' ) + br;
+   result += 'HP: ' + e.hp + br + 'Regenerate (Stun Damage): ' + e.stunregen + br;
+   if ( e.tempregen ) result += 'Regenerate (Temp Damage): ' + e.tempregen + br;
+   if ( e.resurrect ) result += 'Resurrectable' + br;
+   if ( e.manipulate ) result += 'Has hands' + br;
+   if ( e.snipeIndex ) result += 'Has body parts' + br;
+
+   result += br + 'Armours:' + br;
+   e.armour.forEach( function each_armour( e ) {
+      result += '(' + e.material + ' ' + e.size + 'x' + e.size + ') ';
+      result += ns.ui.create_html_title( ns.entity[ e.armour ].text ) + br;
+   });
+   result += br + 'Attribute Weights:' + br;
+   for ( var k in e.attributes ) {
+      result += e.attributes[ k ] + ' ' + ns.uncamel( k ) + br;
+   }
+   return result;
+}
+
 })( ufoal );
