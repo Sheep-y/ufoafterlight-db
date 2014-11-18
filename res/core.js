@@ -57,21 +57,6 @@ ns.init = function ufoal_init() {
    ns.ui.init();
 };
 
-/** Return the description of any entity */
-ns.get_desc = function ufoal_get_desc( e ) {
-   var content = 'Id: ' + e.id + ', ' + e.name;
-   content += '<hr/>';
-   if ( e.type === 'tech' ) {
-      content += txt.tech[ e.id + '_b4' ] + '<hr/>' + ns.txt.tech[ e.id + '_done' ];
-   } else if ( e.type === 'item' ) {
-      content += ns.get_item_desc( e );
-   } else {
-      content += ns.get_general_desc( e );
-      if ( e.effect ) content += '<hr/>Effect: ' + ns.uncamel( e.effect ); // Training
-   }
-   return content;
-};
-
 ns.find_unused = function ufoal_find_unused( used ) {
    var data = ns.data;
    var result = [];
@@ -109,9 +94,9 @@ ns.special_req = {
    'MineNobleMinor': /\bNoble\d\b/,
    'FossilePowerUpgrade': /\bEnergy[45]\b/,
    'AlienPowerUpgrade': /\bEnergy[6789]\b/,
-   'MartianArtifact1': /(One|Two)MartianArtifact/,
-   'MartianArtifact2': /(One|Two)MartianArtifact/,
-   'MartianArtifact3': /(One|Two)MartianArtifact/,
+   'MartianArtifact1': /\b(One|Two)MartianArtifact\b/,
+   'MartianArtifact2': /\b(One|Two)MartianArtifact\b/,
+   'MartianArtifact3': /\b(One|Two)MartianArtifact\b/,
 };
 
 ns.type = function ufoal_type( e ) {
@@ -137,7 +122,9 @@ ns.ucword = function ufoal_ucword( txt ) {
 };
 
 ns.uncamel = function ufoal_uncamel( txt ) {
-   return txt.split( /(?=[A-Z0-9])/ ).join( ' ' ).trim();
+   return txt
+      .replace( /[^A-Z0-9](?=[A-Z])|\D(?=\d)/g, '$& ' )
+      .replace( /[ _]+/g, ' ' ).trim();
 };
 
 ns.inflate = function ufoal_inflate( data ) {
