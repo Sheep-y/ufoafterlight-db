@@ -23,7 +23,7 @@ ns.get_desc = function ufoal_get_desc( e ) {
 /** Description for entities other then technologies */
 ns.get_general_desc = function ufoal_get_general_desc( e ) {
    var txt = ns.txt[ e.type ];
-   return txt[ e.id ] ? txt[ e.id ] : '(Internal data; no description)';
+   return txt && txt[ e.id ] ? txt[ e.id ] : '(Internal data; no description)';
 };
 
 function percent( v ) { return (v*100) + '%'; }

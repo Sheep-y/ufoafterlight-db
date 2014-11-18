@@ -23,9 +23,15 @@ ns.init = function ufoal_init() {
             if ( ! e.text ) e.text = ns.uncamel( e.name );
          }
          if ( e.name ) {
-            if ( ent[ e.name ] ) _.warn ( 'Duplicate entity "' + e.name + '"' );
-            ent[ e.name ] = e; // unit > subrace > race
+            var ename = e.name;
+            if ( type === 'race' || type === 'subrace' ) { // Races / subrace / units have same name with each other, need special entity id
+               ename = type + '_' + ename;
+               ns.special_req[ e.name ] = new RegExp( '\\b' + _.escRegx( ename ) + '\\b' );
+            }
+            if ( ent[ ename ] ) _.warn ( 'Duplicate entity "' + ename + '"' );
+            else ent[ ename ] = e;
          }
+         e.allIndex = all.length;
          all.push( e );
       });
    }
@@ -54,11 +60,13 @@ ns.init = function ufoal_init() {
          e.text = t && t[ e.id ] ? ns.ucword( t[ e.id ] ) : ns.uncamel( e.name );
       });
    });
-   // Convert upgrade index into entity name
-   ['training','station'].forEach( function each_upgrade( type ) {
+   // Dependency chain link-up
+   ['training','station','subrace','unit'].forEach( function each_upgrade( type ) {
       type = data[type];
       type.forEach( function each_upgrade_entry( e ) {
          if ( e.upgrade ) e.upgrade = type[ e.upgrade-1 ].name;
+         else if ( e.subrace ) e.prereq = [ 'subrace_' + ns.data.subrace[ e.subrace - 1 ].name ];
+         else if ( e.race ) e.prereq = [ 'race_' + e.race ];
       });
    });
    ns.ui.init();
@@ -101,15 +109,16 @@ ns.special_req = {
    'MineNobleMinor': /\bNoble\d\b/,
    'FossilePowerUpgrade': /\bEnergy[45]\b/,
    'AlienPowerUpgrade': /\bEnergy[6789]\b/,
-   'MartianArtifact1': /(One|Two)MartianArtifact/,
-   'MartianArtifact2': /(One|Two)MartianArtifact/,
-   'MartianArtifact3': /(One|Two)MartianArtifact/,
+   'MartianArtifact1': /\b(One|Two)MartianArtifact\b/,
+   'MartianArtifact2': /\b(One|Two)MartianArtifact\b/,
+   'MartianArtifact3': /\b(One|Two)MartianArtifact\b/,
 };
 
 ns.type = function ufoal_type( e ) {
    if ( e.unknown ) return 'Unused';
    if ( e.type === 'training' && e.race ) return txt.race[ e.race ];
    if ( e.type === 'item' && e.typeIndex ) return txt.item_type[ e.typeIndex ];
+   if ( e.name === 'Fireball' ) return e.type; // "Fireball" is race, subrace, unit, and weapon
    return '';
 };
 

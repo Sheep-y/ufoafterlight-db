@@ -107,7 +107,7 @@ ui.create_base_box = function ui_create_base_box( e, className, icon, alt ) {
    if ( ! alt ) alt = ns.ucfirst( className );
    var type = ns.type( e );
 
-   var result = _.create( 'div', { 'class': className + ' treenode', 'data-name': e.name } );
+   var result = _.create( 'div', { 'class': className + ' treenode', 'data-index': e.allIndex } );
    result.appendChild( ui.create_title( e.text ) );
    if ( type ) result.appendChild( _.create( 'span', ' (' + type + ')' ) );
    result.appendChild( _.create( 'img', { class: 'icon', src: icon.src, alt: alt } ) );

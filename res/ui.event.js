@@ -73,7 +73,7 @@ event.btn_desc_click = function btn_desc_click( evt ) {
       return box.removeChild( _( box, '.help' )[0] );
 
    // Create and insert description
-   var e = ns.entity[ box.dataset.name ];
+   var e = ns.all[ box.dataset.index ];
    var help = _.create( 'div', { class: 'help', html: ns.get_desc( e ) } );
    var firstdiv = box.querySelector( 'div' );
    box.insertBefore( help, firstdiv && firstdiv.parentNode === box ? firstdiv : undefined );
