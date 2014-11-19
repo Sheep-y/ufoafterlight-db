@@ -27,33 +27,7 @@ document.getElementById( 'title' ).className = '';
 [coco:include=res/ui.event.js]
 _.time( 'Code loaded' );
 
-ufoal.inflate([
-"[coco:include=data/item.js; trim=oneline; deflate]",
-"[coco:include=data/training.js; trim=oneline; deflate]",
-"[coco:include=data/building.js; trim=oneline; deflate]",
-"[coco:include=data/station.js; trim=oneline; deflate]",
-"[coco:include=data/tech.js; trim=oneline; deflate]",
-"[coco:include=data/unit.js; trim=oneline; deflate]",
-"[coco:include=data/subrace.js; trim=oneline; deflate]",
-"[coco:include=data/race.js; trim=oneline; deflate]",
-
-"[coco:include=data/txt_name.js; trim=oneline; deflate]",
-"[coco:include=data/txt_building.js; trim=oneline; deflate]",
-"[coco:include=data/txt_damage_type.js; trim=oneline; deflate]",
-"[coco:include=data/txt_item.js; trim=oneline; deflate]",
-"[coco:include=data/txt_item_type.js; trim=oneline; deflate]",
-"[coco:include=data/txt_race.js; trim=oneline; deflate]",
-"[coco:include=data/txt_sense.js; trim=oneline; deflate]",
-"[coco:include=data/txt_station.js; trim=oneline; deflate]",
-"[coco:include=data/txt_station_type.js; trim=oneline; deflate]",
-"[coco:include=data/txt_subrace.js; trim=oneline; deflate]",
-"[coco:include=data/txt_tech.js; trim=oneline; deflate]",
-"[coco:include=data/txt_tech_orig.js; trim=oneline; deflate]",
-"[coco:include=data/txt_training.js; trim=oneline; deflate]",
-"[coco:include=data/txt_trigger.js; trim=oneline; deflate]",
-"[coco:include=data/txt_unit_type.js; trim=oneline; deflate]",
-"[coco:include=data/txt_weapon_origin.js; trim=oneline; deflate]"
-]);
+ufoal.inflate(["[coco:include=data.js; trim=oneline; deflate]"]);
 
 ufoal.init();
 
