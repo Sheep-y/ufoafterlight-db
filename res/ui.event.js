@@ -9,8 +9,14 @@ event.window_popstate = function window_popstate( evt ) {
    ui.update_state();
 };
 
+event.body_click = function lnk_internal_click( evt ) {
+   if ( ! evt || ! evt.target ) return;
+   if ( ! evt.target.className ) return;
+   if ( evt.target.className === 'title' ) return event.lnk_internal_click( evt );
+}
+
 event.lnk_internal_click = function lnk_internal_click( evt ) {
-   if ( ! evt ) return;
+   if ( ! evt || ! evt.target ) return;
    if ( evt.target && evt.target.href ) {
       if ( evt.preventDefault ) evt.preventDefault();
       var destination = evt.target.getAttribute( 'href' );

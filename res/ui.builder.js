@@ -6,12 +6,12 @@ var txt = ns.txt;
 
 ui.create_title = function ui_create_title( name ) {
    var link = name.trim().replace( / *\([^)]*\)$/, '' )
-   return _.create( 'a', { class: 'title', text: name, onclick: event.lnk_internal_click, href: '?query=' + link } )
+   return _.create( 'a', { class: 'title', text: name, href: '?query=' + link } )
 }
 
 ui.create_html_title = function ui_create_html_title( name ) {
    var link = name.trim().replace( / *\([^)]*\)$/, '' )
-   return '<a class="title" href="?query=' + encodeURIComponent( link ) + '" onclick="ufoal.ui.event.lnk_internal_click(event)">' + _.escHtml( link ) + '</a>';
+   return '<a class="title" href="?query=' + encodeURIComponent( link ) + '">' + _.escHtml( link ) + '</a>';
 }
 
 ui.create_index = function ui_create_index() {
