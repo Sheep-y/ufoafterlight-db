@@ -10,6 +10,8 @@ ui.create_title = function ui_create_title( name ) {
 }
 
 ui.create_html_title = function ui_create_html_title( name ) {
+   if ( typeof( name ) === 'string' ) name = ns.entity[ name ];
+   name = name.text;
    var link = name.trim().replace( / *\([^)]*\)$/, '' )
    return '<a class="title" href="?query=' + encodeURIComponent( link ) + '">' + _.escHtml( link ) + '</a>';
 }

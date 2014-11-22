@@ -1,6 +1,6 @@
 (function ufoal_desc( ns ){ 'use strict';
 
-var txt = ns.txt, br = '<br/>', hr = '<hr/>';
+var txt = ns.txt, br = '<br/>', hr = '<hr/>', sp = ' &nbsp; &nbsp; ';
 
 /** Return the description of any entity */
 ns.get_desc = function ufoal_get_desc( e ) {
@@ -30,7 +30,7 @@ function percent( v ) { return Math.round(v*100, 3) + '%'; }
 function second( t ) { return Math.round(t/10, 3) + '&thinsp;s.'; }
 
 ns.get_item_desc = function ufoal_get_item_desc( e ) {
-   var sub, result = [ ns.get_general_desc( e ) + hr ];
+   var sub, result = [ ns.get_general_desc( e ) + hr ], ui = ns.ui;
    function add( t ) { result.push( t ); }
    if ( e.weight ) add( 'Weight: ' + e.weight + ' kg' );
    if ( e.startquantity ) add( 'Starts game with: ' + e.startquantity + ' pieces' );
@@ -63,7 +63,7 @@ ns.get_item_desc = function ufoal_get_item_desc( e ) {
                w.weapon.ammo.forEach( function ammo_match_each( ammo ) {
                   if ( ammo.ammoIT === e.name && ammo.wam ) {
                      if ( w ) {
-                        add( br + ns.ui.create_html_title( w.text ) );
+                        add( br + ui.create_html_title( w ) );
                         w = null;
                      }
                      add( ammo.wam.map( ns.get_ammo_desc ).join( br ) );
@@ -89,7 +89,7 @@ ns.get_item_desc = function ufoal_get_item_desc( e ) {
       if ( sub.ammo ) { sub.ammo.forEach( function( ammo ) {
          add( ' ' );
          var clip = ns.entity[ ammo.ammoIT ];
-         var line = ns.ui.create_html_title( clip.text );
+         var line = ui.create_html_title( clip );
          if ( clip.ammo.capacity ) line += ' (' + clip.ammo.capacity + ')';
          if ( ammo.reloadtime ) line +=' Reload ' + second( ammo.reloadtime );
          add( line );
@@ -102,7 +102,7 @@ ns.get_item_desc = function ufoal_get_item_desc( e ) {
 };
 
 ns.get_ammo_desc = function ufoal_get_ammo_desc( wam ) {
-   var indent = br + ' &nbsp; &nbsp;';
+   var indent = br + sp;
    var line = wam.weaponmode ? ns.uncamel( wam.weaponmode ) : 'Attack';
    if ( wam.rounds && wam.rounds > 1 ) line += ' (x' + wam.rounds + ')';
    if ( wam.consumption && wam.consumption > 1 ) line += ' (' + wam.consumption + ' ammo per shot)';
@@ -146,26 +146,26 @@ ns.get_ammo_desc = function ufoal_get_ammo_desc( wam ) {
 
 ns.get_race_desc = function ufoal_get_race_desc( e ) {
    var profile = '', result = '', tsenses = txt.sense;
-   result += ( e.organic ? "O" : "Ino" ) + 'rganic race' + br + br + 'Senses:' + br;
+   result += ( e.organic ? "O" : "Ino" ) + 'rganic race' + br + br + 'Senses' + br;
    e.senses.forEach( function each_sense( e, i ) {
       if ( ! i || ! e.shine ) return;
-      profile += ' - ' + tsenses[ i ] + ': ' + percent( e.shine ) + br;
+      profile += sp + tsenses[ i ] + ': ' + percent( e.shine ) + br;
       if ( e.active ) {
-         result += ' - ' + tsenses[ i ] + ': ' + percent( e.active.range );
+         result += sp + tsenses[ i ] + ': ' + percent( e.active.range );
          if ( e.active.angle !== 1 ) result += ' ∠ x'+ e.active.angle;
          result += br;
       }
    });
-   result += br + 'Attributes:' + br;
+   result += br + 'Attributes' + br;
    e.attributes.forEach( function each_attr( e ) {
-      result += ' - ' + ns.uncamel( e ) + br;
+      result += sp + ns.uncamel( e ) + br;
    });
-   result += br + 'Visibility:' + br + profile;
+   result += br + 'Visibility' + br + profile;
    return result;
 }
 
 ns.get_subrace_desc = function ufoal_get_subrace_desc( e ) {
-   var result = '';
+   var result = '', ui = ns.ui;
    result += 'Exp award: ' + percent( e.exp ) + br + 'Size: ' + percent( e.size ) + br;
    result += 'Speed: ' + percent( e.speed ) + br + 'Capacity: ' + e.capacity + ' kg' + br;
    result += 'Stability:' + ( e.stability < 10 ? percent( e.stability ) : 'Stable' ) + br;
@@ -175,14 +175,58 @@ ns.get_subrace_desc = function ufoal_get_subrace_desc( e ) {
    if ( e.manipulate ) result += 'Has hands' + br;
    if ( e.snipeIndex ) result += 'Has body parts' + br;
 
-   result += br + 'Armours:' + br;
+   result += br + 'Armours' + br;
    e.armour.forEach( function each_armour( e ) {
       result += '(' + e.material + ' ' + e.size + 'x' + e.size + ') ';
-      result += ns.ui.create_html_title( ns.entity[ e.armour ].text ) + br;
+      result += ui.create_html_title( e.armour ) + br;
+      if ( e.corpse ) {
+         result += sp + ui.create_html_title( e.corpse ) + br;
+      }
    });
-   result += br + 'Attribute Weights:' + br;
+   result += br + 'Attribute Weights' + br;
    for ( var k in e.attributes ) {
-      result += e.attributes[ k ] + ' ' + ns.uncamel( k ) + br;
+      result += sp + e.attributes[ k ] + ' ' + ns.uncamel( k ) + br;
+   }
+   return result;
+}
+
+ns.get_unit_desc = function ufoal_get_unit_desc( e ) {
+   var result = '', ui = ns.ui;
+   if ( e.typeIndex ) result += txt.unit_type[ e.typeIndex ] + br;
+   if ( e.level ) result += 'Level: ' + e.level + br;
+   if ( e.training ) {
+      result += br + 'Training' + br;
+      e.training.forEach( function each_training( e ) {
+         result += sp + ui.create_html_title( e ) + br;
+      });
+   }
+   if ( e.armour ) result += br + 'Armour' + br + sp + ui.create_html_title( e.armour ) + br;
+   if ( e.equipment ) {
+      e.equipment.forEach( function each_equipment( e ) {
+         var last = '';
+         result += br + e.slot;
+         for ( var type in e ) {
+            switch ( type ) {
+               case 'slot': break;
+               case 'count':
+                  result += ' x' + e[ type ];
+                  break;
+               default:
+                  var eq = ns.entity[ e[ type ] ];
+                  result += br + sp;
+                  if ( type === 'ammo' && last === 'weapon' ) result += sp + ' with ';
+                  result += eq ? ui.create_html_title( eq ) : e[ type ];
+            }
+            last = type;
+         }
+         result += br;
+      });
+   }
+   if ( e.attributes.length ) {
+      result += br + 'Attribute Weights' + br;
+      for ( var k in e.attributes ) {
+         result += e.attributes[ k ] + ' ' + ns.uncamel( k ) + br;
+      }
    }
    return result;
 }
