@@ -9,7 +9,6 @@
 
 [coco:include=html/above.html]
 [coco:include=html/search.html]
-[coco:include=html/image.html]
 [coco:include=html/help.html]
 [coco:include=html/license.html]
 
@@ -17,7 +16,8 @@
 document.getElementById( 'title' ).textContent = 'Loading';
 document.getElementById( 'title' ).className = '';
 
-</script><script>//<![CDATA[ // Split from loading to protect it from syntax error
+</script><script>'use strict'; //<![CDATA[ // Split from loading to protect it from syntax error
+
 [coco:include=res/sparrow.min.js]
 [coco:include=res/inflate.min.js]
 [coco:include=res/core.js]
@@ -27,34 +27,11 @@ document.getElementById( 'title' ).className = '';
 [coco:include=res/ui.event.js]
 ufoal.ui.log_time( 'Code parsed' );
 
-ufoal.inflate([
-"[coco:include=data/item.js; trim=oneline; deflate]",
-"[coco:include=data/training.js; trim=oneline; deflate]",
-"[coco:include=data/building.js; trim=oneline; deflate]",
-"[coco:include=data/station.js; trim=oneline; deflate]",
-"[coco:include=data/tech.js; trim=oneline; deflate]",
-"[coco:include=data/unit.js; trim=oneline; deflate]",
-"[coco:include=data/subrace.js; trim=oneline; deflate]",
-"[coco:include=data/race.js; trim=oneline; deflate]",
+// Code part is done; compressed data starts ]]></script>
+[coco:include=html/image.html]
+<script>(function(){ 'use strict'; //<![CDATA[
 
-"[coco:include=data/txt_name.js; trim=oneline; deflate]",
-"[coco:include=data/txt_building.js; trim=oneline; deflate]",
-"[coco:include=data/txt_damage_type.js; trim=oneline; deflate]",
-"[coco:include=data/txt_item.js; trim=oneline; deflate]",
-"[coco:include=data/txt_item_type.js; trim=oneline; deflate]",
-"[coco:include=data/txt_race.js; trim=oneline; deflate]",
-"[coco:include=data/txt_sense.js; trim=oneline; deflate]",
-"[coco:include=data/txt_station.js; trim=oneline; deflate]",
-"[coco:include=data/txt_station_type.js; trim=oneline; deflate]",
-"[coco:include=data/txt_subrace.js; trim=oneline; deflate]",
-"[coco:include=data/txt_tech.js; trim=oneline; deflate]",
-"[coco:include=data/txt_tech_orig.js; trim=oneline; deflate]",
-"[coco:include=data/txt_training.js; trim=oneline; deflate]",
-"[coco:include=data/txt_trigger.js; trim=oneline; deflate]",
-"[coco:include=data/txt_unit_type.js; trim=oneline; deflate]",
-"[coco:include=data/txt_weapon_origin.js; trim=oneline; deflate]"
-]);
-
+eval( _.inflate( atob( "[coco:include=data/data.js; trim=oneline; deflate]" ) ) ); // Generated from html/data.html
 ufoal.ui.log_time( 'Data decompressed' );
 ufoal.init();
 
@@ -62,5 +39,5 @@ ufoal.init();
 _('#lbl_about')[0].innerHTML = _.inflate( atob( "[coco:include=html/help_content.html; deflate]" ) );
 _('#lbl_license_agpl')[0].innerHTML = _.inflate( atob( "[coco:include=license_agpl.html; deflate]" ) );
 
-//]]></script>
+})() //]]></script>
 </body></html>

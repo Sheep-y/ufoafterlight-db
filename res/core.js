@@ -202,17 +202,6 @@ ns.uncamel = function ufoal_uncamel( txt ) {
       .replace( /[ _]+/g, ' ' ).trim();
 };
 
-ns.inflate = function ufoal_inflate( data ) {
-   _.ary( data ).forEach( function each_inflate( e, i ){
-      try {
-         eval( _.inflate( atob( e ) ) );
-      } catch ( ex ) {
-         _.error( "Error running inflated code #" + i );
-         _.error( ex );
-      }
-   });
-};
-
 return ns;
 
 })();
