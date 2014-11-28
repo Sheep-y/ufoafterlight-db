@@ -55,12 +55,12 @@ ns.init = function ufoal_init() {
       if ( e.manufacturable ) {
          e.day = e.manufacturable.assemblytime + "\u202F+\u202F" + e.manufacturable.manufacturingtime;
          e.prereq = makePrereq( e ).concat( e.manufacturable.prereq );
-         if ( e.allowentityid ) makePrereq( e ).unshift( e.allowentityid );
+         if ( e.manufacturable.prereq.indexOf( 'T_Cloaking' ) >= 0 ) e.prereq.push( 'StalkingMajor' );
       }
       if ( e.allowentityid ) {
          var prereq = makePrereq( e );
          if ( prereq.indexOf( e.allowentityid ) < 0 )
-            prereq.push( e.allowentityid );
+            prereq.unshift( e.allowentityid );
       }
       if ( e.weapon && e.weapon.ammo ) {
          e.weapon.ammo.forEach( function each_weapon_init( ammo ) {
