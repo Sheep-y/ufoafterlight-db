@@ -106,6 +106,7 @@ ns.init = function ufoal_init() {
          e.text = t && t[ e.id ] ? ns.ucword( t[ e.id ] ) : ns.uncamel( e.name );
       });
    });
+   ns.ui.log_time( 'Data initialised' );
    ns.ui.init();
 };
 

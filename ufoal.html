@@ -25,7 +25,7 @@ document.getElementById( 'title' ).className = '';
 [coco:include=res/ui.js]
 [coco:include=res/ui.builder.js]
 [coco:include=res/ui.event.js]
-_.time( 'Code loaded' );
+ufoal.ui.log_time( 'Code parsed' );
 
 ufoal.inflate([
 "[coco:include=data/item.js; trim=oneline; deflate]",
@@ -55,6 +55,7 @@ ufoal.inflate([
 "[coco:include=data/txt_weapon_origin.js; trim=oneline; deflate]"
 ]);
 
+ufoal.ui.log_time( 'Data decompressed' );
 ufoal.init();
 
 // License and about page content can be loaded after initialisation

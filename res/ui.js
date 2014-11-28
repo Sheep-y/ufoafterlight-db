@@ -27,6 +27,7 @@ var ui = ns.ui = {
          html += '<option value="' + _.escHtml( e ) + '/>';
       });
       _( '#data_search' ).innerHTML = html;
+      ui.log_time( 'UI built' );
       _.show( pnl_search );
 
       // Update query from url
@@ -38,6 +39,11 @@ var ui = ns.ui = {
 
       //txt_search.focus(); // Focus may cause browser to not trigger datalist dropdown.
       txt_search.select();
+      ui.log_time( 'UI displayed' );
+   },
+
+   'log_time' : function ui_log_time( msg ) {
+      pnl_help.appendChild( _.create( 'p', msg + ' in ' + _.time( msg )[0] + 'ms' ) );
    },
 
    'find_query' : function ui_find_query() {
