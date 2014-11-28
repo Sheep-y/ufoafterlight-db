@@ -62,18 +62,26 @@ ns.init = function ufoal_init() {
          if ( prereq.indexOf( e.allowentityid ) < 0 )
             prereq.unshift( e.allowentityid );
       }
-      if ( e.weapon && e.weapon.ammo ) {
-         e.weapon.ammo.forEach( function each_weapon_init( ammo ) {
-            if ( ! ammo.wam || ! ammo.ammoIT ) return;
-            var wam = ammo.wam[0], ammo = ns.entity[ ammo.ammoIT ];
-            if ( ns.ammo_req[ wam.weaponmode ] ) {
-               makePrereq( ammo ).unshift( ns.ammo_req[ wam.weaponmode ] );
-            } else if ( ns.weapon_req[ wam.weaponmode ] )
-               makePrereq( e ).unshift( ns.weapon_req[ wam.weaponmode ] );
+      if ( e.weapon || e.armour ) {
+         var slots = [];
+         if ( e.weapon && e.weapon.ammo ) {
+            e.weapon.ammo.forEach( function each_weapon_init( ammo ) {
+               if ( ! ammo.wam || ! ammo.ammoIT ) return;
+               var wam = ammo.wam[0], ammo = ns.entity[ ammo.ammoIT ];
+               if ( ns.ammo_req[ wam.weaponmode ] ) {
+                  makePrereq( ammo ).unshift( ns.ammo_req[ wam.weaponmode ] );
+               } else if ( ns.weapon_req[ wam.weaponmode ] )
+                  makePrereq( e ).unshift( ns.weapon_req[ wam.weaponmode ] );
+            });
+         } else if ( e.armour && e.manufacturable && e.weight >= 20 && e.id < 900 ) {
+            // Not the "correct" check per se, but good and simple enough.
+            makePrereq( e ).unshift( 'SuitWearingMajor' );
+         }
+         [ 'visorslotIndex', 'muzzleslotIndex', 'additionalslotIndex', 'headslotIndex', 'handslotIndex' ].forEach( function each_slot( slot ) {
+            if ( e.weapon && e.weapon[ slot ] ) slots.push( e.weapon[ slot ] );
+            else if ( e.armour && e.armour[ slot ] ) slots.push( e.armour[ slot ] );
          });
-      } else if ( e.armour && e.manufacturable && e.weight >= 20 && e.id < 900 ) {
-         // Not the "correct" check per se, but good and simple enough.
-         makePrereq( e ).unshift( 'SuitWearingMajor' );
+         if ( slots.length ) e.slots = slots;
       }
    });
    // Flatter unit's equipment and training list

@@ -110,42 +110,55 @@ var ui = ns.ui = {
 
    'show_result' : function ui_show_result( roots ) {
       ui.show_panel( pnl_result );
-      // Find enabled / used entries for each result
+      // Reverse lookup
       roots.forEach( function( root ) {
-         var regx = ns.special_req[ root.name ];
-         var enable = ns.all.filter( function filter_enable( e ) {
+         var regx = ns.special_req[ root.name ], data = ns.data;
+         var lookup = { enable: [], used: [], addons: [] };
+         lookup.enable = ns.all.filter( function filter_enable( e ) {
             var req = ns.prereq( e );
             return req.indexOf( root.name ) >= 0
                 || ( regx && req.join( ' ' ).match( regx ) )
                 || ( e.upgrade && e.upgrade === root.name );
          });
-         var used = [];
          if ( root.type === 'item' || root.type === 'training' ) {
+            // Find subraces with armour
             if ( root.armour ) {
-               used = used.concat( ns.data.subrace.filter( function filter_used_subrace( e ) {
+               lookup.used = lookup.used.concat( data.subrace.filter( function filter_used_subrace( e ) {
                   return _.col( e.armour, 'armour' ).indexOf( root.name ) >= 0;
                }) );
             }
-            used = used.concat( ns.data.unit.filter( function filter_used_unit( e ) {
+            // Find units with equipment
+            lookup.used = lookup.used.concat( data.unit.filter( function filter_used_unit( e ) {
                return e.hasEntity.indexOf( root.name ) >= 0;
             }) );
-         }
-
-         if ( enable.length || used.length ) {
-            var result = ui.create_box( root ), div ;
-            if ( enable.length ) {
-               div = _.create( 'div', { class: 'help', text: 'Enables:' } )
-               result.appendChild( div );
-               enable.forEach( function each_enable( e ) {
-                  div.appendChild( ui.create_box( e ) );
+            if ( root.slots ) {
+               // Find usable addons
+               lookup.addons = data.item.filter( function filter_addon( e ) {
+                  return e.addon && e.addon.addonslot.some( function( slot ) {
+                     return root.slots.indexOf( slot ) >= 0;
+                  });
+               });
+            } else if ( root.addon ) {
+               // Find usable weapon / armour
+               lookup.addons = data.item.filter( function filter_addon_reverse( e ) {
+                  return e.slots && e.slots.some( function( slot ) {
+                     return root.addon.addonslot.indexOf( slot ) >= 0;
+                  });
                });
             }
-            if ( used.length ) {
-               div = _.create( 'div', { class: 'help', text: 'Used by:' } )
-               result.appendChild( div );
-               used.forEach( function each_used( e ) {
-                  div.appendChild( ui.create_box( e ) );
-               });
+         }
+
+         if ( lookup.enable.length || lookup.used.length || lookup.addons.length ) {
+            var desc = { 'enable': 'Enables', 'used': 'Used by:', 'addons': 'Add-ons:' };
+            var result = ui.create_box( root );
+            for ( var type in desc ) {
+               if ( lookup[ type ].length ) {
+                  var div = _.create( 'div', { class: 'help', text: desc[ type ] } )
+                  result.appendChild( div );
+                  lookup[ type ].forEach( function each_enable( e ) {
+                     div.appendChild( ui.create_box( e ) );
+                  });
+               }
             }
             pnl_enable.appendChild( result );
             _.show( pnl_enable );
@@ -185,4 +198,4 @@ var ui = ns.ui = {
    },
 };
 
-})( ufoal );   
+})( ufoal );
