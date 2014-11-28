@@ -37,21 +37,34 @@ ns.init = function ufoal_init() {
       });
    }
    data.unused = ns.find_unused( used_id );
+
+   // ns.entity has been fully mapped at this stage.
+
    // Item processing. Item data is too complicated to normalise at data conversion.
    data.item.forEach( function each_item( e ) {
+      function makePrereq( e ) { return e.prereq ? e.prereq : e.prereq = []; }
       if ( e.manufacturable ) {
          e.day = e.manufacturable.assemblytime + "\u202F+\u202F" + e.manufacturable.manufacturingtime;
-         e.prereq = e.manufacturable.prereq;
-         if ( e.allowentityid ) {
-            if ( e.prereq ) e.prereq.unshift( e.allowentityid );
-            else e.prereq = [ e.allowentityid ];
-         }
+         e.prereq = makePrereq( e ).concat( e.manufacturable.prereq );
+         if ( e.allowentityid ) makePrereq( e ).unshift( e.allowentityid );
       }
       if ( e.allowentityid ) {
-         if ( ! e.prereq )
-            e.prereq = [ e.allowentityid ];
-         else if ( e.prereq.indexOf( e.allowentityid ) < 0 )
-            e.prereq.push( e.allowentityid );
+         var prereq = makePrereq( e );
+         if ( prereq.indexOf( e.allowentityid ) < 0 )
+            prereq.push( e.allowentityid );
+      }
+      if ( e.weapon && e.weapon.ammo ) {
+         e.weapon.ammo.forEach( function each_weapon_init( ammo ) {
+            if ( ! ammo.wam || ! ammo.ammoIT ) return;
+            var wam = ammo.wam[0], ammo = ns.entity[ ammo.ammoIT ];
+            if ( ns.ammo_req[ wam.weaponmode ] ) {
+               makePrereq( ammo ).unshift( ns.ammo_req[ wam.weaponmode ] );
+            } else if ( ns.weapon_req[ wam.weaponmode ] )
+               makePrereq( e ).unshift( ns.weapon_req[ wam.weaponmode ] );
+         });
+      } else if ( e.armour && e.manufacturable && e.weight >= 20 && e.id < 900 ) {
+         // Not the "correct" check per se, but good and simple enough.
+         makePrereq( e ).unshift( 'SuitWearingMajor' );
       }
    });
    // Special names.
@@ -106,6 +119,7 @@ ns.find_unused = function ufoal_find_unused( used ) {
    return result;
 };
 
+/** Entity relationship mappings */
 ns.special_req = {
    'MineCrystalMinor': /\bCrystals\d\b/,
    'MineNobleMinor': /\bNoble\d\b/,
@@ -114,6 +128,25 @@ ns.special_req = {
    'MartianArtifact1': /\b(One|Two)MartianArtifact\b/,
    'MartianArtifact2': /\b(One|Two)MartianArtifact\b/,
    'MartianArtifact3': /\b(One|Two)MartianArtifact\b/,
+};
+
+/** Ammo training mapping */
+ns.ammo_req = {
+   'Heal': 'MedicineMinor', // Include human training only to keep it simple
+   'HealAdvanced': 'MedicineMajor',
+   'DefuseMine': 'SurveyingMinor',
+   'RepairSuit': 'SuitManipulationMinor',
+   'RepairRobot': 'AutomationMinor'
+};
+
+/** Weapon/Device training mapping */
+ns.weapon_req = {
+   'RobotControl': 'AutomationMinor',
+   'Homing': 'DrivingMinor',
+   'EMP': 'EMEquipmentMinor',
+   'PlasmaShot': 'PlasmaWeaponsMinor',
+   'PsiHeal': 'PsionicEquipmentMinor',
+   'PsiControll': 'PsionicEquipmentMajor'
 };
 
 ns.type = function ufoal_type( e ) {
