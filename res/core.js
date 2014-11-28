@@ -40,6 +40,15 @@ ns.init = function ufoal_init() {
 
    // ns.entity has been fully mapped at this stage.
 
+   // Dependency chain link-up
+   ['training','station','subrace','unit'].forEach( function each_upgrade( type ) {
+      type = data[type];
+      type.forEach( function each_upgrade_entry( e ) {
+         if ( e.upgrade ) e.upgrade = type[ e.upgrade-1 ].name;
+         else if ( e.subrace ) e.prereq = [ 'subrace_' + ns.data.subrace[ e.subrace - 1 ].name ];
+         else if ( e.race ) e.prereq = [ 'race_' + e.race ];
+      });
+   });
    // Item processing. Item data is too complicated to normalise at data conversion.
    data.item.forEach( function each_item( e ) {
       function makePrereq( e ) { return e.prereq ? e.prereq : e.prereq = []; }
@@ -72,15 +81,6 @@ ns.init = function ufoal_init() {
       var t = txt[type];
       data[type].forEach( function each_name_entry( e ) {
          e.text = t && t[ e.id ] ? ns.ucword( t[ e.id ] ) : ns.uncamel( e.name );
-      });
-   });
-   // Dependency chain link-up
-   ['training','station','subrace','unit'].forEach( function each_upgrade( type ) {
-      type = data[type];
-      type.forEach( function each_upgrade_entry( e ) {
-         if ( e.upgrade ) e.upgrade = type[ e.upgrade-1 ].name;
-         else if ( e.subrace ) e.prereq = [ 'subrace_' + ns.data.subrace[ e.subrace - 1 ].name ];
-         else if ( e.race ) e.prereq = [ 'race_' + e.race ];
       });
    });
    ns.ui.init();
