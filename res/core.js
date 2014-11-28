@@ -76,6 +76,20 @@ ns.init = function ufoal_init() {
          makePrereq( e ).unshift( 'SuitWearingMajor' );
       }
    });
+   // Flatter unit's equipment and training list
+   data.unit.forEach( function each_unit( e ) {
+      var eq = e.hasEntity = [];
+      if ( e.equipment ) {
+         e.equipment.forEach( function each_equipment( e ) {
+            for ( var type in e ) {
+               if ( type === 'slot' || type === 'count' ) continue;
+               if ( eq.indexOf( type ) < 0 ) eq.push( e[ type ] );
+            }
+         });
+      }
+      if ( e.armour ) eq.push( e.armour );
+      if ( e.training ) eq.push.apply( eq, e.training );
+   });
    // Special names.
    spec_names.forEach( function each_name( type ) {
       var t = txt[type];

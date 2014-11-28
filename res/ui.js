@@ -28,7 +28,7 @@ var ui = ns.ui = {
       var frag = document.createDocumentFragment(), created = _.Map();
       var options = _.col( ns.all, 'text' ).sort();
       options.forEach( function each_option( e, i ) {
-         if ( e && ! created[ e ] ) // Filter out empties and duplicates
+         if ( e && ! created[ e ] ) // Filter out empties and duplicate names
             created[ e ] = frag.appendChild( _.create( 'option', { value: e } ) ) || true;
       });
       _( '#data_search' )[0].appendChild( frag );
@@ -110,7 +110,7 @@ var ui = ns.ui = {
 
    'show_result' : function ui_show_result( roots ) {
       ui.show_panel( pnl_result );
-      // Find enabled entries for each result
+      // Find enabled / used entries for each result
       roots.forEach( function( root ) {
          var regx = ns.special_req[ root.name ];
          var enable = ns.all.filter( function filter_enable( e ) {
@@ -119,18 +119,34 @@ var ui = ns.ui = {
                 || ( regx && req.join( ' ' ).match( regx ) )
                 || ( e.upgrade && e.upgrade === root.name );
          });
-         if ( ! root.isvisible && root.type === 'item' && root.armour ) {
-            enable = enable.concat( ns.data.subrace.filter( function filter_subrace( e ) {
-               return _.col( e.armour, 'armour' ).indexOf( root.name ) >= 0;
+         var used = [];
+         if ( root.type === 'item' || root.type === 'training' ) {
+            if ( root.armour ) {
+               used = used.concat( ns.data.subrace.filter( function filter_used_subrace( e ) {
+                  return _.col( e.armour, 'armour' ).indexOf( root.name ) >= 0;
+               }) );
+            }
+            used = used.concat( ns.data.unit.filter( function filter_used_unit( e ) {
+               return e.hasEntity.indexOf( root.name ) >= 0;
             }) );
          }
 
-         if ( enable.length > 0 ) {
-            var result = ui.create_box( root );
-            result.appendChild( _.create( 'div', { class: 'help', text: 'This entity enables the following:' } ) );
-            enable.forEach( function each_enable( e ) {
-               result.appendChild( ui.create_box( e ) );
-            });
+         if ( enable.length || used.length ) {
+            var result = ui.create_box( root ), div ;
+            if ( enable.length ) {
+               div = _.create( 'div', { class: 'help', text: 'Enables:' } )
+               result.appendChild( div );
+               enable.forEach( function each_enable( e ) {
+                  div.appendChild( ui.create_box( e ) );
+               });
+            }
+            if ( used.length ) {
+               div = _.create( 'div', { class: 'help', text: 'Used by:' } )
+               result.appendChild( div );
+               used.forEach( function each_used( e ) {
+                  div.appendChild( ui.create_box( e ) );
+               });
+            }
             pnl_enable.appendChild( result );
             _.show( pnl_enable );
          }
