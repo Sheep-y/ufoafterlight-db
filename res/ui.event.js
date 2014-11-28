@@ -10,18 +10,15 @@ event.window_popstate = function window_popstate( evt ) {
 };
 
 event.body_click = function lnk_internal_click( evt ) {
-   if ( ! evt || ! evt.target ) return;
-   if ( ! evt.target.className ) return;
+   if ( ! evt || ! evt.target || ! evt.target.className ) return;
    if ( evt.target.className === 'title' ) return event.lnk_internal_click( evt );
 }
 
 event.lnk_internal_click = function lnk_internal_click( evt ) {
-   if ( ! evt || ! evt.target ) return;
-   if ( evt.target && evt.target.href ) {
-      if ( evt.preventDefault ) evt.preventDefault();
+   if ( evt && evt.target && evt.target.href ) {
+      _.noDef( evt );
       var destination = evt.target.getAttribute( 'href' );
       if ( destination.indexOf( '?query=' ) === 0 ) {
-         if ( evt.preventDefault ) evt.preventDefault();
          txt_search.value = decodeURIComponent( destination.substr( 7 ) );
          ui.search( txt_search.value );
          event.txt_search_blur();
@@ -58,7 +55,7 @@ event.txt_search_blur = function txt_search_blur( evt ) {
 event.btn_reset_click = function btn_reset_click( evt ) {
    txt_search.value = '';
    history.pushState( null, '', evt.target.getAttribute( 'href' ) || '?#' );
-   evt.preventDefault();
+   _.noDef( evt );
    ui.update_state();
 };
 
@@ -81,12 +78,12 @@ event.btn_desc_click = function btn_desc_click( evt ) {
    // Create and insert description
    var e = ns.all[ box.dataset.index ];
    var help = _.create( 'div', { class: 'help', html: ns.get_desc( e ) } );
-   var firstdiv = box.querySelector( 'div' );
+   var firstdiv = _( box, 'div' )[0];
    box.insertBefore( help, firstdiv && firstdiv.parentNode === box ? firstdiv : undefined );
 };
 
 event.lnk_help_click = function lnk_help_click( evt ) {
-   if ( evt ) evt.preventDefault();
+   _.noDef( evt );
    if ( location.hash !== '#help' )
       history.pushState( null, '', '?#help' );
    ui.update_state();
@@ -94,7 +91,7 @@ event.lnk_help_click = function lnk_help_click( evt ) {
 };
 
 event.lnk_license_click = function lnk_license_click( evt ) {
-   if ( evt ) evt.preventDefault();
+   _.noDef( evt );
    if ( location.hash !== '#license' )
       history.pushState( null, '', '?#license' );
    ui.update_state();
