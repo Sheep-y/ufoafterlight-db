@@ -12,7 +12,7 @@ event.window_popstate = function window_popstate( evt ) {
 event.body_click = function lnk_internal_click( evt ) {
    if ( ! evt || ! evt.target || ! evt.target.className ) return;
    if ( evt.target.className === 'title' ) return event.lnk_internal_click( evt );
-}
+};
 
 event.lnk_internal_click = function lnk_internal_click( evt ) {
    if ( evt && evt.target && evt.target.href ) {

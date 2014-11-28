@@ -14,6 +14,7 @@ ns.init = function ufoal_init() {
    var all = ns.all = [];
    var used_id = [];
    var spec_names = ['race','subrace','unit','training'];
+
    for ( var type in this.data ) {
       var set_name = spec_names.indexOf( type ) < 0;
       data[ type ].forEach( function each_data( e ) {

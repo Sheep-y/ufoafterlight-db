@@ -22,21 +22,15 @@ var ui = ns.ui = {
       _.attr( 'a[href^="?query="]', { onclick: event.lnk_internal_click } );
 
       // Initialise index and searchable data list
-      ui.create_index();
-      pnl_help.appendChild( _.create( 'span', 'Data loaded in ' + _.time( 'Data loaded' )[1] + 'ms' ) );
-
-      var frag = document.createDocumentFragment(), created = _.Map();
-      var options = _.col( ns.all, 'text' ).sort();
-      options.forEach( function each_option( e, i ) {
-         if ( e && ! created[ e ] ) // Filter out empties and duplicate names
-            created[ e ] = frag.appendChild( _.create( 'option', { value: e } ) ) || true;
+      var options = ui.create_index(), html = '';
+      options.forEach( function each_option( e ) {
+         html += '<option value="' + _.escHtml( e ) + '/>';
       });
-      _( '#data_search' )[0].appendChild( frag );
-      _.show( [ pnl_search, pnl_index ] );
+      _( '#data_search' ).innerHTML = html;
+      _.show( pnl_search );
 
       // Update query from url
-      if ( ! window.localStorage || localStorage.getItem( 'sheepy.ufoal.ran' )
-         || location.hash || location.search ) {
+      if ( ! window.localStorage || localStorage.getItem( 'sheepy.ufoal.ran' ) || location.hash || location.search ) {
          event.window_popstate();
       } else {
          event.lnk_help_click();
@@ -87,7 +81,7 @@ var ui = ns.ui = {
       if ( hash === '#license' || hash === '#help' || e.length > 0 ) {
          txt_search.value = '';
          if ( e.length ) {
-            ui.show_panel( '#pnl_index' );
+            ui.show_panel( pnl_index );
             _( hash )[0].scrollIntoView();
          } else {
             ui.show_panel( '#pnl_' + hash.substr( 1 ) );

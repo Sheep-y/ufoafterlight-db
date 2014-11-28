@@ -11,23 +11,30 @@ ui.create_title = function ui_create_title( name ) {
 
 ui.create_html_title = function ui_create_html_title( name ) {
    if ( typeof( name ) === 'string' ) name = ns.entity[ name ];
-   name = name.text;
-   var link = name.trim().replace( / *\([^)]*\)$/, '' )
-   return '<a class="title" href="?query=' + encodeURIComponent( link ) + '">' + _.escHtml( link ) + '</a>';
+   return ui.create_plain_title( name.text.trim().replace( / *\([^)]*\)$/, '' ) );
+}
+
+ui.create_plain_title = function ui_create_html_title( name ) {
+   return '<a class="title" href="?query=' + encodeURIComponent( name ) + '">' + _.escHtml( name ) + '</a>';
 }
 
 ui.create_index = function ui_create_index() {
    var nav = _( '#nav_top' )[0];
    var top = _.create( 'ul' );
+   var options = [];
 
    function createList( name, txtlist ) {
-      var cat = _.create( 'li' ), created = _.Map();
+      var cat = _.create( 'li' ), created = _.Map(), html = '';
       var list = _.create( 'ul' );
       cat.appendChild( _.create( 'span', { text: ns.ucfirst( name ), id: name } ) );
       txtlist.forEach( function create_index( e, i ) {
-         if ( e && ! created[ e ] )
-            created[ e ] = list.appendChild( ui.create_title( e ) ) || true;
+         if ( e && ! created[ e ] ) {
+            html += ui.create_plain_title( e );
+            options.push( e );
+            created[ e ] = true;
+         }
       });
+      list.innerHTML += html;
       cat.appendChild( list );
       top.appendChild( cat );
       nav.appendChild( _.create( 'a', { href: '?#' + name, text: ns.ucfirst( name ), class: 'f_left', onclick: event.btn_reset_click } ) );
@@ -56,6 +63,7 @@ ui.create_index = function ui_create_index() {
          createList( type, _.col( ns.data[type], 'text' ).sort() );
    }
    _( '#pnl_index' )[0].appendChild( top );
+   return options;
 };
 
 ui.create_box = function ui_create_box( e ) {
