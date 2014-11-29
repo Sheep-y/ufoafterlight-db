@@ -43,7 +43,8 @@ var ui = ns.ui = {
    },
 
    'log_time' : function ui_log_time( msg ) {
-      pnl_help.appendChild( _.create( 'p', msg + ' in ' + _.time( msg )[0] + 'ms' ) );
+      var time = _.time( msg )
+      pnl_help.appendChild( _.create( 'p', msg + ' in ' + Math.min( time[0], time[1] ) + 'ms' ) );
    },
 
    'find_query' : function ui_find_query() {
