@@ -13,8 +13,12 @@
 [coco:include=html/license.html]
 
 <script>
-document.getElementById( 'title' ).textContent = 'Loading';
-document.getElementById( 'title' ).className = '';
+var msg = document.getElementById( 'title' );
+msg.textContent = 'Loading';
+msg.className = '';
+var errTimeout = setTimeout( function(){
+  msg.textContent = 'Error when loading code';
+}, 10000 );
 
 </script><script>'use strict'; //<![CDATA[ // Split from loading to protect it from syntax error
 
@@ -26,6 +30,12 @@ document.getElementById( 'title' ).className = '';
 [coco:include=res/ui.builder.js]
 [coco:include=res/ui.event.js]
 ufoal.ui.log_time( 'Code parsed' );
+
+msg.textContent = 'Loading data';
+clearTimeout( errTimeout );
+errTimeout = setTimeout( function(){
+  msg.textContent = 'Error when loading data';
+}, 20000 );
 
 // Code part is done; compressed data starts ]]></script>
 [coco:include=html/image.html]
@@ -39,6 +49,8 @@ ufoal.init();
 // License and about page content can be loaded after initialisation
 _('#lbl_about')[0].innerHTML = _.inflate( atob( "[coco:include=html/help_content.html; deflate]" ) );
 _('#lbl_license_agpl')[0].innerHTML = _.inflate( atob( "[coco:include=license_agpl.html; deflate]" ) );
+
+clearTimeout( errTimeout );
 
 })() //]]></script>
 </body></html>
