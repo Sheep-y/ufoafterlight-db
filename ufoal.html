@@ -39,10 +39,12 @@ errTimeout = setTimeout( function(){
 
 // Code part is done; compressed data starts ]]></script>
 [coco:include=html/image.html]
-<script>(function(){ 'use strict'; //<![CDATA[
+<script>'use strict'; //<![CDATA[
 
 eval( _.inflate( atob( "[coco:include=data/data1.js; trim=oneline; deflate]" ) ) ); // Generated from html/data1.html
+msg.textContent = 'Loading text';
 eval( _.inflate( atob( "[coco:include=data/data2.js; trim=oneline; deflate]" ) ) ); // Generated from html/data2.html
+msg.textContent = 'Initialising';
 ufoal.ui.log_time( 'Data decompressed' );
 ufoal.init();
 
@@ -52,5 +54,5 @@ _('#lbl_license_agpl')[0].innerHTML = _.inflate( atob( "[coco:include=license_ag
 
 clearTimeout( errTimeout );
 
-})() //]]></script>
+//]]></script>
 </body></html>
