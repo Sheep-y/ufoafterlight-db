@@ -48,7 +48,7 @@ ns.init = function ufoal_init() {
          if ( e.upgrade ) e.upgrade = type[ e.upgrade-1 ].name; // training, station
          else if ( e.subrace ) e.prereq = [ 'subrace_' + ns.data.subrace[ e.subrace - 1 ].name ]; // Unit
          else if ( ~~e.race ) e.prereq = [ 'race_' + ns.data.race[ e.race - 1 ].name ]; // Trainings
-         else if ( e.race ) e.prereq = [ 'race_' + e.race .name ]; // Subraces
+         else if ( e.race ) e.prereq = [ 'race_' + e.race ]; // Subraces
       });
    });
    // Item processing. Item data is too complicated to normalise at data conversion.

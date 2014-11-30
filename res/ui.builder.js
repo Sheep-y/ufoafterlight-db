@@ -69,13 +69,21 @@ ui.create_index = function ui_create_index() {
 ui.create_box = function ui_create_box( e ) {
    var method = 'create_' + e.type + '_box';
    if ( ! ui[ method ] ) method = 'create_general_box';
-   return ui[ method ]( e , e.type );
+   return ui[ method ]( e, e.type );
 };
 
 ui.create_tech_box = function ui_create_tech_box( e ) {
-   var orig = txt.tech_orig[ e.orig ].toLowerCase();
+   var orig = txt.tech_orig[ ~~e.orig ].toLowerCase();
    return ui.create_help_buttons( ui.create_base_box( e, 'tech', 'icon_tech_'+orig, orig ) );
 };
+
+ui.create_item_box = function ui_create_item_box( e ) {
+   return ui.create_help_buttons( ui.create_base_box( e, 'item', 'icon_item_general' ) );
+}
+
+ui.create_subrace_box = function ui_create_subrace_box( e ) {
+   return ui.create_help_buttons( ui.create_base_box( e, 'subrace', 'icon_data_race' ) );
+}
 
 ui.create_building_box = function ui_create_building_box( e ) {
    var result = ui.create_base_box( e, 'building' );
@@ -116,8 +124,8 @@ ui.create_entity_box = function ui_create_entity_box( e ) {
 
 /** Basic box with title, icon, expand/collapse buttons, man days, and relevant logic */
 ui.create_base_box = function ui_create_base_box( e, className, icon, alt ) {
-   if ( ! icon ) icon = 'icon_ui_' + className;
-   icon = _('#'+icon);
+   if ( ! icon ) icon = 'icon_data_' + className;
+   icon = _( '#'+icon );
    icon = icon.length ? icon[0] : _('#icon_ui_desc')[0];
    if ( ! alt ) alt = ns.ucfirst( className );
    var type = ns.type( e );
