@@ -75,6 +75,8 @@ ns.init = function ufoal_init() {
                } else if ( ns.weapon_req[ wam.weaponmode ] )
                   makePrereq( e ).unshift( ns.weapon_req[ wam.weaponmode ] );
             });
+            if ( e.weight > 10 ) makePrereq( e ).unshift( 'HeavyEquipmentMinor' );
+
          } else if ( e.armour && e.manufacturable && e.weight >= 20 && e.id < 900 ) {
             // Not the "correct" check per se, but good and simple enough.
             makePrereq( e ).unshift( 'SuitWearingMajor' );
