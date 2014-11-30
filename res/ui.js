@@ -24,9 +24,9 @@ var ui = ns.ui = {
       // Initialise index and searchable data list
       var options = ui.create_index(), html = '';
       options.forEach( function each_option( e ) {
-         html += '<option value="' + _.escHtml( e ) + '/>';
+         html += '<option value="' + _.escHtml( e ) + '"/>';
       });
-      _( '#data_search' ).innerHTML = html;
+      _( '#data_search' )[0].innerHTML = html;
       ui.log_time( 'UI built' );
       _.show( pnl_search );
 
