@@ -20,7 +20,7 @@ var errTimeout = setTimeout( function(){
   msg.textContent = 'Error when loading code';
 }, 10000 );
 
-</script><script>'use strict'; //<![CDATA[ // Split from loading to protect it from syntax error
+</script><script>'use strict'; //<![CDATA[
 
 [coco:include=res/sparrow.min.js]
 [coco:include=res/inflate.min.js]
@@ -29,23 +29,35 @@ var errTimeout = setTimeout( function(){
 [coco:include=res/ui.js]
 [coco:include=res/ui.builder.js]
 [coco:include=res/ui.event.js]
-ufoal.ui.log_time( 'Code parsed' );
 
 msg.textContent = 'Loading data';
 clearTimeout( errTimeout );
 errTimeout = setTimeout( function(){
   msg.textContent = 'Error when loading data';
 }, 20000 );
+ufoal.ui.log_time( 'Code loaded' );
 
-// Code part is done; compressed data starts ]]></script>
+// Code part done; compressed part follows
+// ]]></script>
+
 [coco:include=html/image.html]
-<script>'use strict'; //<![CDATA[
+<script>ufoal.ui.log_time( 'Images loaded' );</script>
 
-eval( _.inflate( atob( "[coco:include=data/data1.js; trim=oneline; deflate]" ) ) ); // Generated from html/data1.html
-msg.textContent = 'Loading text';
-eval( _.inflate( atob( "[coco:include=data/data2.js; trim=oneline; deflate]" ) ) ); // Generated from html/data2.html
+<script>(function(){'use strict'; //<![CDATA[
+
+var data1 = "[coco:include=data/data1.js; trim=oneline; deflate]"; // Created from html/data1.html
+var data2 = "[coco:include=data/data2.js; trim=oneline; deflate]"; // Created from html/data2.html
+
+msg.textContent = 'Decompressing';
+ufoal.ui.log_time( 'Data loaded' );
+
+eval( _.inflate( atob( data1 ) ) );
+eval( _.inflate( atob( data2 ) ) );
+data1 = data2 = null;
+
 msg.textContent = 'Initialising';
 ufoal.ui.log_time( 'Data decompressed' );
+
 ufoal.init();
 
 // License and about page content can be loaded after initialisation
@@ -54,5 +66,5 @@ _('#lbl_license_agpl')[0].innerHTML = _.inflate( atob( "[coco:include=license_ag
 
 clearTimeout( errTimeout );
 
-//]]></script>
+})(); //]]></script>
 </body></html>

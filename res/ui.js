@@ -8,6 +8,7 @@ var pnl_result = _( '#pnl_result' )[0];
 var pnl_enable = _( '#pnl_enable' )[0];
 var pnl_license = _( '#pnl_license' )[0];
 var txt_search = _( '#txt_search' )[0];
+var time_log = _( '#lbl_time_log' )[0];
 
 var ui = ns.ui = {
    'event' : event,
@@ -44,7 +45,8 @@ var ui = ns.ui = {
 
    'log_time' : function ui_log_time( msg ) {
       var time = _.time( msg )
-      pnl_help.appendChild( _.create( 'p', msg + ' in ' + Math.min( time[0], time[1] ) + 'ms' ) );
+      time_log.appendChild( _.create( 'span', msg + ' in ' + Math.min( time[0], time[1] ) + 'ms' ) );
+      time_log.appendChild( _.create( 'br' ) );
    },
 
    'find_query' : function ui_find_query() {
@@ -72,8 +74,8 @@ var ui = ns.ui = {
          _.show( '#lbl_not_found' );
          return false;
       }
+      ui.log_time( 'Matched: "' + name + '"' );
       ui.show_result( target );
-      _.time( 'Found and displayed: "' + name + '"' );
       return true;
    },
 
@@ -111,7 +113,18 @@ var ui = ns.ui = {
 
    'show_result' : function ui_show_result( roots ) {
       ui.show_panel( pnl_result );
+
+      // Find requirements for each result
+      roots.forEach( function each_result( root ) {
+         if ( ui.displayed.indexOf( root ) >= 0 ) return;
+         var result = ui.box_recur( root );
+         event.btn_desc_click( { target: _( result, '.desc' )[0] } ); // Show top level descriptions
+         pnl_result.appendChild( result );
+      });
+      ui.log_time( 'Requirement tree built' );
+
       // Reverse lookup
+      ui.displayed = [];
       roots.forEach( function( root ) {
          var regx = ns.special_req[ root.name ], data = ns.data;
          var lookup = { enable: [], used: [], addons: [] };
@@ -165,15 +178,7 @@ var ui = ns.ui = {
             _.show( pnl_enable );
          }
       });
-      ui.displayed = [];
-
-      // Find requirements for each result
-      roots.forEach( function each_result( root ) {
-         if ( ui.displayed.indexOf( root ) >= 0 ) return;
-         var result = ui.box_recur( root );
-         event.btn_desc_click( { target: _( result, '.desc' )[0] } ); // Show top level descriptions
-         pnl_result.appendChild( result );
-      });
+      ui.log_time( 'Dependency tree built' );
    },
 
    'box_recur' : function ui_box_recur( root ) {
