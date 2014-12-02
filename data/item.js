@@ -312,7 +312,6 @@ name:"HumanPistol",
 weapon:{
  ng_handlingid:"pistol",
  deploytime:3,
- righthandhelper:"parent_one-handed",
  shapeIndex:6,
  originIndex:5,
  muzzleslotIndex:3,
@@ -429,7 +428,6 @@ name:"HumanRifle",
 weapon:{
  ng_handlingid:"rifle",
  deploytime:5,
- righthandhelper:"parent_double-handed",
  shapeIndex:5,
  originIndex:1,
  visorslotIndex:1,
@@ -600,7 +598,6 @@ name:"ReticulanLaserRifle",
 weapon:{
  ng_handlingid:"rifle",
  deploytime:5,
- righthandhelper:"parent_double-handed",
  shapeIndex:5,
  originIndex:2,
  ammo:[{
@@ -666,7 +663,6 @@ name:"BeastmenRifle",
 weapon:{
  ng_handlingid:"rifle",
  deploytime:5,
- righthandhelper:"parent_double-handed",
  shapeIndex:5,
  originIndex:4,
  ammo:[{
@@ -1014,7 +1010,6 @@ name:"BeastmenPistol",
 weapon:{
  ng_handlingid:"pistol",
  deploytime:3,
- righthandhelper:"parent_one-handed",
  shapeIndex:6,
  originIndex:11,
  ammo:[{
@@ -1253,7 +1248,6 @@ name:"HumanSniperRifle",
 weapon:{
  ng_handlingid:"rifle",
  deploytime:15,
- righthandhelper:"parent_double-handed",
  shapeIndex:5,
  originIndex:1,
  visorslotIndex:10,
@@ -1377,7 +1371,6 @@ name:"AncientRifle",
 weapon:{
  ng_handlingid:"rifle",
  deploytime:5,
- righthandhelper:"parent_double-handed",
  shapeIndex:5,
  originIndex:1,
  muzzleslotIndex:3,
@@ -1438,7 +1431,6 @@ name:"AncientPistol",
 weapon:{
  ng_handlingid:"pistol",
  deploytime:3,
- righthandhelper:"parent_one-handed",
  shapeIndex:6,
  originIndex:5,
  muzzleslotIndex:3,
@@ -1484,7 +1476,6 @@ name:"AncientColt",
 weapon:{
  ng_handlingid:"pistol",
  deploytime:3,
- righthandhelper:"parent_one-handed",
  shapeIndex:6,
  originIndex:5,
  ammo:[{
@@ -1531,7 +1522,6 @@ name:"BeastmenBigRifle",
 weapon:{
  ng_handlingid:"rifle",
  deploytime:10,
- righthandhelper:"parent_double-handed",
  shapeIndex:5,
  originIndex:4,
  ammo:[{
@@ -1879,7 +1869,6 @@ name:"BeastmenCannon",
 weapon:{
  ng_handlingid:"rifle",
  deploytime:5,
- righthandhelper:"parent_double-handed",
  shapeIndex:5,
  originIndex:4,
  ammo:[{
@@ -2026,7 +2015,6 @@ name:"HumanShotgun",
 weapon:{
  ng_handlingid:"rifle",
  deploytime:5,
- righthandhelper:"parent_double-handed",
  shapeIndex:5,
  originIndex:1,
  additionalslotIndex:4,
@@ -2097,7 +2085,6 @@ name:"HumanGatling",
 weapon:{
  ng_handlingid:"rifle",
  deploytime:10,
- righthandhelper:"parent_double-handed",
  shapeIndex:5,
  originIndex:1,
  ammo:[{
@@ -2148,7 +2135,6 @@ name:"ReticulanLaserPistol",
 weapon:{
  ng_handlingid:"pistol",
  deploytime:3,
- righthandhelper:"parent_one-handed",
  shapeIndex:6,
  originIndex:8,
  ammo:[{
@@ -2197,7 +2183,6 @@ name:"HumanArcheologicalLaser",
 weapon:{
  ng_handlingid:"rifle",
  deploytime:5,
- righthandhelper:"parent_double-handed",
  shapeIndex:5,
  originIndex:1,
  ammo:[{
@@ -2253,7 +2238,6 @@ name:"HumanLaserRifle",
 weapon:{
  ng_handlingid:"rifle",
  deploytime:5,
- righthandhelper:"parent_double-handed",
  shapeIndex:5,
  originIndex:1,
  visorslotIndex:2,
@@ -2412,7 +2396,6 @@ name:"HumanLaserCannon",
 weapon:{
  ng_handlingid:"rifle",
  deploytime:5,
- righthandhelper:"parent_double-handed",
  shapeIndex:5,
  originIndex:1,
  additionalslotIndex:5,
@@ -2570,7 +2553,6 @@ name:"MartianPlasmaCannon",
 weapon:{
  ng_handlingid:"rifle",
  deploytime:30,
- righthandhelper:"parent_double-handed",
  shapeIndex:5,
  originIndex:9,
  ammo:[{
@@ -2628,7 +2610,6 @@ name:"Annihilator",
 weapon:{
  ng_handlingid:"rocketlauncher",
  deploytime:20,
- righthandhelper:"parent_bazooka",
  shapeIndex:5,
  originIndex:1,
  ammo:[{
@@ -2681,7 +2662,6 @@ name:"MartianEMPpistol",
 weapon:{
  ng_handlingid:"pistol",
  deploytime:3,
- righthandhelper:"parent_one-handed",
  shapeIndex:6,
  originIndex:12,
  ammo:[{
@@ -2713,7 +2693,6 @@ name:"LightningThrower",
 weapon:{
  ng_handlingid:"rifle",
  deploytime:5,
- righthandhelper:"parent_double-handed",
  shapeIndex:5,
  originIndex:10,
  ammo:[{
@@ -2745,7 +2724,6 @@ name:"HumanEMPRifle",
 weapon:{
  ng_handlingid:"rifle",
  deploytime:5,
- righthandhelper:"parent_double-handed",
  shapeIndex:5,
  originIndex:7,
  ammo:[{
@@ -2836,7 +2814,6 @@ name:"FireballThrower",
 weapon:{
  ng_handlingid:"rifle",
  deploytime:5,
- righthandhelper:"parent_double-handed",
  shapeIndex:5,
  originIndex:7,
  ammo:[{
@@ -2889,7 +2866,6 @@ name:"ReticulanLauncher",
 weapon:{
  ng_handlingid:"rifle",
  deploytime:10,
- righthandhelper:"parent_double-handed",
  shapeIndex:5,
  originIndex:2,
  ammo:[{
@@ -2959,7 +2935,6 @@ name:"HumanRocketLauncher",
 weapon:{
  ng_handlingid:"rocketlauncher",
  deploytime:10,
- righthandhelper:"parent_bazooka",
  shapeIndex:5,
  originIndex:1,
  ammo:[{
@@ -3034,7 +3009,6 @@ name:"HumanGrenadeLauncher",
 weapon:{
  ng_handlingid:"rifle",
  deploytime:5,
- righthandhelper:"parent_double-handed",
  shapeIndex:5,
  originIndex:1,
  permanenteffectIndex:288,
@@ -3189,7 +3163,6 @@ name:"BeastmenGrenadeLauncher",
 weapon:{
  ng_handlingid:"rifle",
  deploytime:5,
- righthandhelper:"parent_double-handed",
  shapeIndex:5,
  originIndex:1,
  ammo:[{
@@ -3285,7 +3258,6 @@ name:"WarpCannon",
 weapon:{
  ng_handlingid:"rocketlauncher",
  deploytime:15,
- righthandhelper:"parent_bazooka",
  shapeIndex:5,
  originIndex:1,
  ammo:[{
@@ -3319,7 +3291,6 @@ name:"BuzzSawCrossbow",
 weapon:{
  ng_handlingid:"buzzSaw",
  deploytime:3,
- righthandhelper:"parent_double-handed",
  shapeIndex:5,
  originIndex:1,
  ammo:[{
@@ -3395,7 +3366,6 @@ name:"ToolKit",
 weapon:{
  ng_handlingid:"pistol",
  deploytime:3,
- righthandhelper:"parent_one-handed",
  shapeIndex:6,
  originIndex:1,
  ammo:[{
@@ -3466,7 +3436,6 @@ name:"BasicMediKit",
 weapon:{
  ng_handlingid:"pistol",
  deploytime:3,
- righthandhelper:"parent_one-handed",
  shapeIndex:6,
  originIndex:1,
  ammo:[{
@@ -3628,7 +3597,6 @@ name:"BuzzSaw",
 weapon:{
  ng_handlingid:"buzzSaw",
  deploytime:3,
- righthandhelper:"parent_double-handed",
  shapeIndex:5,
  originIndex:1,
  ammo:[{
@@ -3672,7 +3640,6 @@ name:"BeastmanMedkit",
 weapon:{
  ng_handlingid:"pistol",
  deploytime:3,
- righthandhelper:"parent_one-handed",
  shapeIndex:6,
  originIndex:4,
  ammo:[{
@@ -3704,7 +3671,6 @@ name:"MindControll",
 weapon:{
  ng_handlingid:"pistol",
  deploytime:3,
- righthandhelper:"parent_one-handed",
  shapeIndex:6,
  originIndex:2,
  ammo:[{
@@ -3741,7 +3707,6 @@ name:"PsionicWeapon",
 weapon:{
  ng_handlingid:"rifle",
  deploytime:5,
- righthandhelper:"parent_double-handed",
  shapeIndex:5,
  originIndex:2,
  permanenteffectIndex:289,
@@ -3817,7 +3782,6 @@ name:"PsionicHealing",
 weapon:{
  ng_handlingid:"pistol",
  deploytime:3,
- righthandhelper:"parent_one-handed",
  shapeIndex:6,
  originIndex:2,
  ammo:[{
@@ -3854,7 +3818,6 @@ name:"HumanKnife",
 weapon:{
  ng_handlingid:"meleeWeapon",
  deploytime:1,
- righthandhelper:"parent_one-handed",
  shapeIndex:2,
  originIndex:1,
  ammo:[{
@@ -3907,7 +3870,6 @@ name:"MartianWeirdKnife",
 weapon:{
  ng_handlingid:"meleeWeapon",
  deploytime:1,
- righthandhelper:"parent_one-handed",
  shapeIndex:6,
  originIndex:3,
  ammo:[{
@@ -3937,7 +3899,6 @@ name:"Katana",
 weapon:{
  ng_handlingid:"meleeWeapon",
  deploytime:1,
- righthandhelper:"parent_one-handed",
  shapeIndex:13,
  originIndex:1,
  ammo:[{
@@ -3972,7 +3933,6 @@ name:"LightSword",
 weapon:{
  ng_handlingid:"meleeWeapon",
  deploytime:1,
- righthandhelper:"parent_one-handed",
  shapeIndex:13,
  originIndex:3,
  ammo:[{
@@ -4002,7 +3962,6 @@ name:"HumanDefenceGrenade",
 weapon:{
  ng_handlingid:"throwingWeapon",
  deploytime:3,
- righthandhelper:"parent_grenade",
  shapeIndex:1,
  originIndex:1,
  ammo:[{
@@ -4047,7 +4006,6 @@ name:"HumanAcidGrenade",
 weapon:{
  ng_handlingid:"throwingWeapon",
  deploytime:3,
- righthandhelper:"parent_grenade",
  shapeIndex:1,
  originIndex:1,
  ammo:[{
@@ -4094,7 +4052,6 @@ name:"HumanAttackGrenade",
 weapon:{
  ng_handlingid:"throwingWeapon",
  deploytime:3,
- righthandhelper:"parent_grenade",
  shapeIndex:1,
  originIndex:1,
  ammo:[{
@@ -4139,7 +4096,6 @@ name:"HumanEMGrenade",
 weapon:{
  ng_handlingid:"throwingWeapon",
  deploytime:3,
- righthandhelper:"parent_grenade",
  shapeIndex:1,
  originIndex:1,
  ammo:[{
@@ -4185,7 +4141,6 @@ name:"HumanStunGrenade",
 weapon:{
  ng_handlingid:"throwingWeapon",
  deploytime:3,
- righthandhelper:"parent_grenade",
  shapeIndex:1,
  originIndex:1,
  permanenteffectIndex:288,
@@ -4232,7 +4187,6 @@ name:"BeastmenGrenade",
 weapon:{
  ng_handlingid:"throwingWeapon",
  deploytime:3,
- righthandhelper:"parent_grenade",
  shapeIndex:2,
  originIndex:4,
  ammo:[{
@@ -4274,7 +4228,6 @@ name:"BeastmenAntiarmorGrenade",
 weapon:{
  ng_handlingid:"throwingWeapon",
  deploytime:3,
- righthandhelper:"parent_grenade",
  shapeIndex:2,
  originIndex:4,
  ammo:[{
@@ -4318,7 +4271,6 @@ name:"BeastmenAcidGrenade",
 weapon:{
  ng_handlingid:"throwingWeapon",
  deploytime:3,
- righthandhelper:"parent_grenade",
  shapeIndex:2,
  originIndex:4,
  ammo:[{
@@ -4362,7 +4314,6 @@ name:"MartianEMGrenade",
 weapon:{
  ng_handlingid:"throwingWeapon",
  deploytime:3,
- righthandhelper:"parent_grenade",
  shapeIndex:1,
  originIndex:3,
  ammo:[{
@@ -4403,7 +4354,6 @@ name:"RobotControl",
 weapon:{
  ng_handlingid:"pistol",
  deploytime:3,
- righthandhelper:"parent_one-handed",
  shapeIndex:6,
  originIndex:1,
  ammo:[{
@@ -4458,7 +4408,6 @@ name:"MartianRobotControl",
 weapon:{
  ng_handlingid:"pistol",
  deploytime:3,
- righthandhelper:"parent_one-handed",
  shapeIndex:6,
  originIndex:3,
  ammo:[{
@@ -4494,7 +4443,6 @@ name:"MovementScanner",
 weapon:{
  ng_handlingid:"pistol",
  deploytime:3,
- righthandhelper:"parent_one-handed",
  shapeIndex:6,
  originIndex:1,
  ammo:[{
@@ -4536,7 +4484,6 @@ name:"MetalScanner",
 weapon:{
  ng_handlingid:"pistol",
  deploytime:3,
- righthandhelper:"parent_one-handed",
  shapeIndex:6,
  originIndex:1,
  ammo:[{
@@ -5299,7 +5246,6 @@ name:"Dynamite",
 weapon:{
  ng_handlingid:"throwingWeapon",
  deploytime:3,
- righthandhelper:"parent_grenade",
  shapeIndex:6,
  originIndex:1,
  ammo:[{
@@ -5343,7 +5289,6 @@ name:"ContactMine",
 weapon:{
  ng_handlingid:"throwingWeapon",
  deploytime:3,
- righthandhelper:"parent_grenade",
  shapeIndex:6,
  originIndex:1,
  ammo:[{
@@ -5386,7 +5331,6 @@ name:"PlasticMine",
 weapon:{
  ng_handlingid:"throwingWeapon",
  deploytime:3,
- righthandhelper:"parent_grenade",
  shapeIndex:6,
  originIndex:4,
  ammo:[{
@@ -5425,7 +5369,6 @@ name:"ReticulanMine",
 weapon:{
  ng_handlingid:"pistol",
  deploytime:3,
- righthandhelper:"parent_grenade",
  shapeIndex:6,
  originIndex:2,
  ammo:[{
@@ -5464,7 +5407,6 @@ name:"EMCloaker",
 weapon:{
  ng_handlingid:"pistol",
  deploytime:3,
- righthandhelper:"parent_one-handed",
  shapeIndex:6,
  originIndex:3,
  ammo:[{
@@ -5506,7 +5448,6 @@ name:"BeastmenSmellScanner",
 weapon:{
  ng_handlingid:"pistol",
  deploytime:3,
- righthandhelper:"parent_one-handed",
  shapeIndex:6,
  originIndex:4,
  ammo:[{
@@ -5545,7 +5486,6 @@ name:"BeastmenHeartbeatScanner",
 weapon:{
  ng_handlingid:"pistol",
  deploytime:3,
- righthandhelper:"parent_one-handed",
  shapeIndex:6,
  originIndex:4,
  ammo:[{
@@ -6121,7 +6061,6 @@ name:"BeastmanArtifact1",
 weapon:{
  ng_handlingid:"throwingWeapon",
  deploytime:3,
- righthandhelper:"parent_grenade",
  shapeIndex:6,
  originIndex:4,
  }},
@@ -6132,7 +6071,6 @@ name:"BeastmanArtifact2",
 weapon:{
  ng_handlingid:"throwingWeapon",
  deploytime:3,
- righthandhelper:"parent_grenade",
  shapeIndex:6,
  originIndex:4,
  }},
@@ -6912,7 +6850,6 @@ name:"MartianArtifact1",
 weapon:{
  ng_handlingid:"throwingWeapon",
  deploytime:3,
- righthandhelper:"parent_grenade",
  shapeIndex:2,
  originIndex:3,
  }},
@@ -6923,7 +6860,6 @@ name:"MartianArtifact2",
 weapon:{
  ng_handlingid:"throwingWeapon",
  deploytime:3,
- righthandhelper:"parent_grenade",
  shapeIndex:2,
  originIndex:3,
  }},
@@ -6934,7 +6870,6 @@ name:"MartianArtifact3",
 weapon:{
  ng_handlingid:"throwingWeapon",
  deploytime:3,
- righthandhelper:"parent_grenade",
  shapeIndex:2,
  originIndex:3,
  }},
@@ -6945,7 +6880,6 @@ name:"ReticulanArtifact",
 weapon:{
  ng_handlingid:"throwingWeapon",
  deploytime:3,
- righthandhelper:"parent_grenade",
  shapeIndex:6,
  originIndex:2,
  }},
@@ -6965,7 +6899,6 @@ typeIndex:5,
 name:"FireballWeapon",
 weapon:{
  ng_handlingid:"rifle",
- righthandhelper:"parent_double-handed",
  shapeIndex:6,
  originIndex:7,
  ammo:[{
@@ -6998,7 +6931,6 @@ name:"MartianxCrystal1",
 weapon:{
  ng_handlingid:"throwingWeapon",
  deploytime:5,
- righthandhelper:"parent_grenade",
  shapeIndex:2,
  originIndex:3,
  }},
@@ -7009,7 +6941,6 @@ name:"MartianxCrystal2",
 weapon:{
  ng_handlingid:"throwingWeapon",
  deploytime:5,
- righthandhelper:"parent_grenade",
  shapeIndex:2,
  originIndex:3,
  }},
