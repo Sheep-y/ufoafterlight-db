@@ -8,12 +8,14 @@ var ns = { // Main namespace
    entity: {}, // Name to Entity map
 };
 
+function makePrereq( e ) { return e.prereq ? e.prereq : e.prereq = []; }
+
 ns.init = function ufoal_init() {
    var ent = ns.entity;
    var data = ns.data;
    var all = ns.all = [];
    var used_id = [];
-   var spec_names = ['race','subrace','unit','people','training'];
+   var spec_names = ['race','subrace','unit','squad','people','training'];
 
    for ( var type in this.data ) {
       var set_name = spec_names.indexOf( type ) < 0;
@@ -46,14 +48,13 @@ ns.init = function ufoal_init() {
       type = data[type];
       type.forEach( function each_upgrade_entry( e ) {
          if ( e.upgrade ) e.upgrade = type[ e.upgrade-1 ].name; // training, station
-         else if ( e.subrace ) e.prereq = [ 'subrace_' + ns.data.subrace[ e.subrace ].name ]; // Unit
-         else if ( ~~e.race ) e.prereq = [ 'race_' + ns.data.race[ e.race ].name ]; // Trainings
-         else if ( e.race ) e.prereq = [ 'race_' + e.race ]; // Subraces
+         else if ( e.subrace ) makePrereq( e ).unshift( 'subrace_' + data.subrace[ e.subrace ].name ); // Unit
+         else if ( ~~e.race ) makePrereq( e ).unshift( 'race_' + data.race[ e.race ].name ); // Trainings
+         else if ( e.race ) makePrereq( e ).unshift( 'race_' + e.race ); // Subraces
       });
    });
    // Item processing. Item data is too complicated to normalise at data conversion.
    data.item.forEach( function each_item( e ) {
-      function makePrereq( e ) { return e.prereq ? e.prereq : e.prereq = []; }
       if ( e.manufacturable ) {
          e.day = e.manufacturable.assemblytime + "\u202F+\u202F" + e.manufacturable.manufacturingtime;
          e.prereq = makePrereq( e ).concat( e.manufacturable.prereq );
@@ -102,8 +103,11 @@ ns.init = function ufoal_init() {
       if ( e.armour ) eq.push( e.armour );
       if ( e.training ) eq.push.apply( eq, e.training );
    });
+   data.squad.forEach( function each_squad( e ) {
+      e.prereq = makePrereq( e ).concat( Object.keys( e.units ) );
+   });
    data.people.forEach( function each_people( e ) {
-      if ( e.subrace ) e.prereq = [ data.subrace[ e.subrace ].name ];
+      if ( e.subrace ) makePrereq( e ).unshift( 'subrace_' + data.subrace[ e.subrace ].name );
    });
    // Special names.
    spec_names.forEach( function each_name( type ) {

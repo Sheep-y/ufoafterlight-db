@@ -235,6 +235,25 @@ ns.get_unit_desc = function ufoal_get_unit_desc( e ) {
    return result;
 }
 
+ns.get_squad_desc = function ufoal_get_squad_desc( e ) {
+   var result = '', ui = ns.ui;
+   result += e.faction + ' ' + ns.uncamel( ns.ucfirst( txt.squad_type[ e.typeIndex ] ) ) + br ;
+   result += 'Strength: ' + e.strength + br;
+   result += 'Members: ' + e.min_mem;
+   if ( e.max_mem != e.min_mem ) result += ' to ' + e.max_mem;
+   result += br;
+
+   var count = [], chance = [];
+   for ( var id in e.units ) {
+      var u = e.units[ id ];
+      if ( u.count ) count.push( sp + ui.create_html_title( id ) );
+      if ( u.chance ) chance.push( sp + ui.create_html_title( id ) + ' ' + percent( u.chance ) );
+   }
+   if ( count.length ) result += br + 'Fixed members' + br + count.join( br ) + br;
+   if ( chance.length ) result += br + 'Random members' + br + chance.join( br ) + br;
+   return result;
+}
+
 ns.get_people_desc = function ufoal_get_people_desc( e ) {
    var result = '', ui = ns.ui;
    if ( e.family ) result += ns.txt.family[ e.family ] + ' Family' + br + br;
@@ -248,7 +267,7 @@ ns.get_people_desc = function ufoal_get_people_desc( e ) {
       result += br + 'Joins after special event' + br;
    else if ( e.trigger === 'UnreachableTrigger' )
       result += br + 'Joins when ' + ns.uncamel( e.trigger ) + br;
-   
+
    if ( e.training ) {
       for ( var i in ns.data.training ) {
          if ( ns.data.training[ i ].id === e.training[0] ) {
@@ -259,7 +278,7 @@ ns.get_people_desc = function ufoal_get_people_desc( e ) {
    if ( e.attributes ) {
       result += br + 'Starting Attributes' + br;
       for ( var k in e.attributes ) {
-         result += sp + ns.uncamel( txt.attribute[ k ] ) + ' Level ' + ns.uncamel( k ) + br;
+         result += sp + ns.uncamel( txt.attribute[ k ] ) + ' Level ' + e.attributes[ k ] + br;
       }
    }
    return result;
