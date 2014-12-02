@@ -88,11 +88,13 @@ ns.get_item_desc = function ufoal_get_item_desc( e ) {
 
       if ( sub.ammo ) { sub.ammo.forEach( function( ammo ) {
          add( ' ' );
-         var clip = ns.entity[ ammo.ammoIT ];
-         var line = ui.create_html_title( clip );
-         if ( clip.ammo.capacity ) line += ' (' + clip.ammo.capacity + ')';
-         if ( ammo.reloadtime ) line +=' Reload ' + second( ammo.reloadtime );
-         add( line );
+         if ( ammo.ammoIT !== e.name ) {
+            var clip = ns.entity[ ammo.ammoIT ];
+            var line = ui.create_html_title( clip );
+            if ( clip.ammo.capacity ) line += ' (' + clip.ammo.capacity + ')';
+            if ( ammo.reloadtime ) line +=' Reload ' + second( ammo.reloadtime );
+            add( line );
+         }
          if ( ammo.wam ) { 
             add( ammo.wam.map( ns.get_ammo_desc ).join( br ) );
          }
