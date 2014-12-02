@@ -32,6 +32,10 @@ function second( t ) { return Math.round(t/10, 3) + '&thinsp;s.'; }
 ns.get_item_desc = function ufoal_get_item_desc( e ) {
    var sub, result = [ ns.get_general_desc( e ) + hr ], ui = ns.ui;
    function add( t ) { result.push( t ); }
+   if ( e.weapon || e.ammo ) {
+      var sub = e.weapon || e.ammo;
+      add( txt.shape[ sub.shapeIndex ] + ' ' + ( sub.originIndex ? txt.item_orig[ sub.originIndex ] : '' ) );
+   }
    if ( e.weight ) add( 'Weight: ' + e.weight + ' kg' );
    if ( e.startquantity ) add( 'Starts game with: ' + e.startquantity + ' pieces' );
    if ( e.manufacturable ) {
@@ -51,7 +55,7 @@ ns.get_item_desc = function ufoal_get_item_desc( e ) {
       });
    }
 
-   if ( e.ammo ) {
+   if ( e.ammo && ( ! e.weapon || e.ammo.capacity !== 1 ) ) {
       sub = e.ammo;
       add( hr );
       if ( sub.capacity ) add( 'Ammo capaticy: ' + sub.capacity );
@@ -78,11 +82,9 @@ ns.get_item_desc = function ufoal_get_item_desc( e ) {
       var slot = [];
       sub = e.weapon;
       add( '<hr/>' );
-      // TODO: Add shapeIndex
       if ( sub.muzzleslotIndex ) slot.push( 'Muzzle' );
       if ( sub.visorslotIndex ) slot.push( 'Scope' );
       if ( sub.additionalslotIndex ) slot.push( 'Underbarrel' );
-      if ( sub.origin ) add( 'Type: ' + ns.uncamel( txt.weapon_origin[ sub.origin ] ) ) ;
       if ( slot.length ) add( 'Addons: ' + slot.join( ', ' ) );
       if ( sub.deploytime ) add( 'Deploy: ' + second( sub.deploytime ) );
 
