@@ -13,7 +13,7 @@ ns.init = function ufoal_init() {
    var data = ns.data;
    var all = ns.all = [];
    var used_id = [];
-   var spec_names = ['race','subrace','unit','training'];
+   var spec_names = ['race','subrace','unit','people','training'];
 
    for ( var type in this.data ) {
       var set_name = spec_names.indexOf( type ) < 0;
@@ -46,8 +46,8 @@ ns.init = function ufoal_init() {
       type = data[type];
       type.forEach( function each_upgrade_entry( e ) {
          if ( e.upgrade ) e.upgrade = type[ e.upgrade-1 ].name; // training, station
-         else if ( e.subrace ) e.prereq = [ 'subrace_' + ns.data.subrace[ e.subrace - 1 ].name ]; // Unit
-         else if ( ~~e.race ) e.prereq = [ 'race_' + ns.data.race[ e.race - 1 ].name ]; // Trainings
+         else if ( e.subrace ) e.prereq = [ 'subrace_' + ns.data.subrace[ e.subrace ].name ]; // Unit
+         else if ( ~~e.race ) e.prereq = [ 'race_' + ns.data.race[ e.race ].name ]; // Trainings
          else if ( e.race ) e.prereq = [ 'race_' + e.race ]; // Subraces
       });
    });
@@ -101,6 +101,9 @@ ns.init = function ufoal_init() {
       }
       if ( e.armour ) eq.push( e.armour );
       if ( e.training ) eq.push.apply( eq, e.training );
+   });
+   data.people.forEach( function each_people( e ) {
+      if ( e.subrace ) e.prereq = [ data.subrace[ e.subrace ].name ];
    });
    // Special names.
    spec_names.forEach( function each_name( type ) {

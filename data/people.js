@@ -1,4 +1,4 @@
-ufoal.data.pc = [,
+ufoal.data.people = [,
 {id:1,name:"Ute Heinemann",nick:"Ute",trigger:"StartEvent",training:[25],soldier:5,subrace:2,tempeffect:"Concentration",creepywalk:1,family:5,attributes:{1:3,2:4,3:2,4:4,5:3}},
 {id:2,name:"Harald Zamyatin",nick:"Harald",trigger:"StartEvent",training:[7],soldier:4,subrace:1,tempeffect:"Anger",creepywalk:1,family:0,attributes:{1:5,2:2,3:4,4:2,5:2}},
 {id:3,name:"Diego Ramirez",nick:"Diego",trigger:"StartEvent",training:[15],soldier:4,subrace:1,tempeffect:"Strengthening",creepywalk:1,family:4,attributes:{1:4,2:4,3:2,4:3,5:2}},
@@ -36,10 +36,5 @@ ufoal.data.pc = [,
 {id:35,name:"Shoo*m!",trigger:"UnreachableTrigger",soldier:4,scientist:4,subrace:13,tempeffect:"MartianAnger",creepywalk:0,family:9,attributes:{16:3,17:2,18:2,19:3,20:5}},
 {id:36,name:"Cai%m!",trigger:"UnreachableTrigger",soldier:1,scientist:8,subrace:13,tempeffect:"MartianAnger",creepywalk:0,family:9,attributes:{16:1,17:2,18:2,19:4,20:3}},
 {id:37,name:"Robot Trpa",trigger:"HumanRobotControlled",soldier:1,subrace:9,tempeffect:"None",creepywalk:0,family:7,attributes:{6:3,7:3,8:3,9:3,10:3}},
-{id:38,name:"Robot Angry",trigger:"HumanRobotControlled",soldier:1,subrace:8,tempeffect:"None",creepywalk:0,family:7,attributes:{6:3,7:3,8:3,9:3,10:3}},
-{id:40,name:"Diplomacy Rebels",trigger:"UnreachableTrigger",subrace:0},
-{id:41,name:"Diplomacy Martians",trigger:"UnreachableTrigger",subrace:0},
-{id:42,name:"Diplomacy Expedition",trigger:"UnreachableTrigger",subrace:0},
-{id:43,name:"Diplomacy Laputa",trigger:"UnreachableTrigger",subrace:0},
-{id:44,name:"Diplomacy Cultists",trigger:"UnreachableTrigger",subrace:0},
+{id:38,name:"Robot Angry",trigger:"HumanRobotControlled",soldier:1,subrace:8,tempeffect:"None",creepywalk:0,family:7,attributes:{6:3,7:3,8:3,9:3,10:3}}
 ];

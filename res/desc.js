@@ -235,4 +235,34 @@ ns.get_unit_desc = function ufoal_get_unit_desc( e ) {
    return result;
 }
 
+ns.get_people_desc = function ufoal_get_people_desc( e ) {
+   var result = '', ui = ns.ui;
+   if ( e.family ) result += ns.txt.family[ e.family ] + ' Family' + br + br;
+   result += 'Level' + br;
+   if ( e.soldier ) result += sp + 'Soldier ' + e.soldier + br;
+   if ( e.scientist ) result += sp + 'Scientist ' + e.scientist + br;
+   if ( e.technician ) result += sp + 'Technician ' + e.technician + br;
+   if ( e.trigger === 'StartEvent' )
+      result += br + 'Joined since game starts' + br;
+   else if ( e.trigger === 'UnreachableTrigger' )
+      result += br + 'Joins after special event' + br;
+   else if ( e.trigger === 'UnreachableTrigger' )
+      result += br + 'Joins when ' + ns.uncamel( e.trigger ) + br;
+   
+   if ( e.training ) {
+      for ( var i in ns.data.training ) {
+         if ( ns.data.training[ i ].id === e.training[0] ) {
+            result += br + 'Training: ' + ui.create_html_title( ns.data.training[ i ] ) + br;
+         }
+      }
+   }
+   if ( e.attributes ) {
+      result += br + 'Starting Attributes' + br;
+      for ( var k in e.attributes ) {
+         result += sp + ns.uncamel( txt.attribute[ k ] ) + ' Level ' + ns.uncamel( k ) + br;
+      }
+   }
+   return result;
+}
+
 })( ufoal );

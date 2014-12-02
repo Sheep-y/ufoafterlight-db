@@ -1,0 +1,3 @@
+ufoal.txt.attribute = [,
+"HumanStrength","HumanAgility","HumanDexterity","HumanWillpower","HumanIntuition","RobotGearControl","RobotAimingControl","RobotReception","RobotAI","RobotAdaptability","RetStrength","RetAgility","RetDexterity","RetPsi","RetMental","MartBody","MartMobility","MartAdaptation","MartConcentration","MartSensitivity","BeastmanAttribute","PlantPetAttribute","WormAttribute","RollerAttribute","SpiderAttribute","BossAttribute","ElementsAttribute","FireballAttribute"
+];
