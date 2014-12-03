@@ -161,7 +161,7 @@ manufacturable:{
  prereq:["T_ArmoredSuit","Technics","Energy5","Metal4","Noble3"]}},
 {id:11,
 weight:50,
-isvisible:false,
+isvisible:0,
 typeIndex:1,
 name:"BeastmanPrivateArmour",
 armour:{
@@ -172,7 +172,7 @@ armour:{
  normalslot:{"0":1,"1":1,"2":1,"7":1,"15":1}}},
 {id:12,
 weight:45,
-isvisible:false,
+isvisible:0,
 typeIndex:1,
 name:"BeastmanShamanArmour",
 armour:{
@@ -184,7 +184,7 @@ armour:{
  normalslot:{"0":1,"1":1,"2":1,"7":1,"15":1}}},
 {id:13,
 weight:45,
-isvisible:false,
+isvisible:0,
 typeIndex:1,
 name:"BeastmanCaptainArmour",
 armour:{
@@ -196,7 +196,7 @@ armour:{
  normalslot:{"0":1,"1":1,"2":1,"7":1,"15":1}}},
 {id:14,
 weight:45,
-isvisible:false,
+isvisible:0,
 typeIndex:1,
 name:"BeastmenAlchemistArmour",
 armour:{
@@ -273,7 +273,7 @@ armour:{
  normalslot:{"0":1,"1":1,"2":1,"4":1,"19":1}}},
 {id:21,
 weight:35,
-isvisible:false,
+isvisible:0,
 typeIndex:1,
 name:"BeastmenDomina1",
 armour:{
@@ -285,7 +285,7 @@ armour:{
  normalslot:{"0":1,"1":1,"2":1,"6":1,"14":1}}},
 {id:22,
 weight:35,
-isvisible:false,
+isvisible:0,
 typeIndex:1,
 name:"BeastmenDomina2",
 armour:{
@@ -296,7 +296,7 @@ armour:{
  protection:[0,0.92,0.7,0.85,0.85,0.25,0.75,0.15,0,1,1],
  normalslot:{"0":1,"1":1,"2":1,"6":1,"14":1}}},
 {id:23,
-isvisible:false,
+isvisible:0,
 typeIndex:1,
 name:"ElementsArmour",
 armour:{
@@ -2072,7 +2072,7 @@ accuracy:1},
   radius:{
 radius:4.5,
 angle:75,
-isfragment:true}}]},
+isfragment:1}}]},
  ]},
 manufacturable:{
  manufacturingtime:3,
@@ -2121,7 +2121,7 @@ accuracy:1},
   radius:{
 radius:14,
 angle:45,
-isfragment:true}}]},
+isfragment:1}}]},
  ]},
 manufacturable:{
  manufacturingtime:9,
@@ -2581,8 +2581,8 @@ launched:{
   radius:{
 radius:1.4,
 angle:360,
-isfragment:true,
-isepicenterhit:true}},
+isfragment:1,
+isepicenterhit:1}},
  {
   timetoready:15,
   rounds:1,
@@ -2600,8 +2600,8 @@ accuracy:0.8},
   radius:{
 radius:5,
 angle:30,
-isfragment:true,
-isepicenterhit:true}}]},
+isfragment:1,
+isepicenterhit:1}}]},
  ]}},
 {id:47,
 weight:25,
@@ -2895,8 +2895,8 @@ launched:{
   radius:{
 radius:4.2,
 angle:360,
-isfragment:true,
-isepicenterhit:true}}]},
+isfragment:1,
+isepicenterhit:1}}]},
   {
 ammoIT:"ReticulanPsiRockets",
 reloadtime:40,
@@ -2924,8 +2924,8 @@ launched:{
   radius:{
 radius:6.5,
 angle:360,
-isfragment:true,
-isepicenterhit:true,
+isfragment:1,
+isepicenterhit:1,
 isthroughwall:true}}]},
  ]}},
 {id:53,
@@ -2964,8 +2964,8 @@ launched:{
   radius:{
 radius:5.8,
 angle:360,
-isfragment:true,
-isepicenterhit:true}}]},
+isfragment:1,
+isepicenterhit:1}}]},
   {
 ammoIT:"HumanPhosphorusRockets",
 reloadtime:50,
@@ -2995,8 +2995,8 @@ launched:{
   radius:{
 radius:5,
 angle:360,
-isfragment:true,
-isepicenterhit:true}}]},
+isfragment:1,
+isepicenterhit:1}}]},
  ]},
 manufacturable:{
  manufacturingtime:3,
@@ -3037,8 +3037,8 @@ launched:{
   radius:{
 radius:3.4,
 angle:360,
-isfragment:true,
-isepicenterhit:true}}]},
+isfragment:1,
+isepicenterhit:1}}]},
   {
 ammoIT:"HumanAcidGrenade",
 reloadtime:30,
@@ -3066,8 +3066,8 @@ launched:{
   radius:{
 radius:1.5,
 angle:360,
-isfragment:true,
-isepicenterhit:true}}]},
+isfragment:1,
+isepicenterhit:1}}]},
   {
 ammoIT:"HumanAttackGrenade",
 reloadtime:30,
@@ -3093,8 +3093,8 @@ launched:{
   radius:{
 radius:2.8,
 angle:360,
-isfragment:true,
-isepicenterhit:true}}]},
+isfragment:1,
+isepicenterhit:1}}]},
   {
 ammoIT:"HumanEMGrenade",
 reloadtime:30,
@@ -3121,8 +3121,8 @@ launched:{
   radius:{
 radius:5,
 angle:360,
-isfragment:true,
-isepicenterhit:true}}]},
+isfragment:1,
+isepicenterhit:1}}]},
   {
 ammoIT:"HumanStunGrenade",
 reloadtime:30,
@@ -3148,8 +3148,8 @@ launched:{
   radius:{
 radius:2.8,
 angle:360,
-isfragment:true,
-isepicenterhit:true}}]},
+isfragment:1,
+isepicenterhit:1}}]},
  ]},
 manufacturable:{
  manufacturingtime:3,
@@ -3190,8 +3190,8 @@ launched:{
   radius:{
 radius:2.8,
 angle:360,
-isfragment:true,
-isepicenterhit:true}}]},
+isfragment:1,
+isepicenterhit:1}}]},
   {
 ammoIT:"BeastmenAntiarmorGrenade",
 reloadtime:40,
@@ -3219,8 +3219,8 @@ launched:{
   radius:{
 radius:4,
 angle:360,
-isfragment:true,
-isepicenterhit:true}}]},
+isfragment:1,
+isepicenterhit:1}}]},
   {
 ammoIT:"BeastmenAcidGrenade",
 reloadtime:40,
@@ -3248,8 +3248,8 @@ launched:{
   radius:{
 radius:1.5,
 angle:360,
-isfragment:true,
-isepicenterhit:true}}]},
+isfragment:1,
+isepicenterhit:1}}]},
  ]}},
 {id:60,
 weight:22,
@@ -3988,8 +3988,8 @@ launched:{
   radius:{
 radius:3.4,
 angle:360,
-isfragment:true,
-isepicenterhit:true}}]},
+isfragment:1,
+isepicenterhit:1}}]},
  ]},
 ammo:{
  capacity:1,
@@ -4034,8 +4034,8 @@ launched:{
   radius:{
 radius:2,
 angle:360,
-isfragment:true,
-isepicenterhit:true}}]},
+isfragment:1,
+isepicenterhit:1}}]},
  ]},
 ammo:{
  capacity:1,
@@ -4078,8 +4078,8 @@ launched:{
   radius:{
 radius:2.8,
 angle:360,
-isfragment:true,
-isepicenterhit:true}}]},
+isfragment:1,
+isepicenterhit:1}}]},
  ]},
 ammo:{
  capacity:1,
@@ -4123,8 +4123,8 @@ launched:{
   radius:{
 radius:5,
 angle:360,
-isfragment:true,
-isepicenterhit:true}}]},
+isfragment:1,
+isepicenterhit:1}}]},
  ]},
 ammo:{
  capacity:1,
@@ -4168,8 +4168,8 @@ launched:{
   radius:{
 radius:3,
 angle:360,
-isfragment:true,
-isepicenterhit:true}}]},
+isfragment:1,
+isepicenterhit:1}}]},
  ]},
 ammo:{
  capacity:1,
@@ -4213,8 +4213,8 @@ launched:{
   radius:{
 radius:2.8,
 angle:360,
-isfragment:true,
-isepicenterhit:true}}]},
+isfragment:1,
+isepicenterhit:1}}]},
  ]},
 ammo:{
  capacity:1,
@@ -4256,8 +4256,8 @@ launched:{
   radius:{
 radius:2,
 angle:360,
-isfragment:true,
-isepicenterhit:true}}]},
+isfragment:1,
+isepicenterhit:1}}]},
  ]},
 ammo:{
  capacity:1,
@@ -4299,8 +4299,8 @@ launched:{
   radius:{
 radius:1.5,
 angle:360,
-isfragment:true,
-isepicenterhit:true}}]},
+isfragment:1,
+isepicenterhit:1}}]},
  ]},
 ammo:{
  capacity:1,
@@ -4341,8 +4341,8 @@ launched:{
   radius:{
 radius:6,
 angle:360,
-isfragment:true,
-isepicenterhit:true}}]},
+isfragment:1,
+isepicenterhit:1}}]},
  ]},
 ammo:{
  capacity:1,
@@ -5266,8 +5266,8 @@ accuracy:10},
   radius:{
 radius:7,
 angle:360,
-isfragment:true,
-isepicenterhit:true},
+isfragment:1,
+isepicenterhit:1},
   autonom:{
 timetoactivate:150,
 ismine:false,
@@ -5309,8 +5309,8 @@ accuracy:10},
   radius:{
 radius:6.5,
 angle:360,
-isfragment:true,
-isepicenterhit:true},
+isfragment:1,
+isepicenterhit:1},
   autonom:{
 timetoactivate:100,
 ismine:true,
@@ -5351,8 +5351,8 @@ accuracy:10},
   radius:{
 radius:5.5,
 angle:360,
-isfragment:true,
-isepicenterhit:true},
+isfragment:1,
+isepicenterhit:1},
   autonom:{
 timetoactivate:100,
 ismine:true,
@@ -5389,8 +5389,8 @@ accuracy:10},
   radius:{
 radius:5,
 angle:360,
-isfragment:true,
-isepicenterhit:true},
+isfragment:1,
+isepicenterhit:1},
   autonom:{
 timetoactivate:100,
 ismine:true,
@@ -5430,7 +5430,7 @@ attackspeedskill:"ToolSpeed"},
   radius:{
 radius:2,
 angle:360,
-isepicenterhit:true}}]},
+isepicenterhit:1}}]},
  ]},
 ammo:{
  capacity:7,
@@ -5878,8 +5878,8 @@ launched:{
   radius:{
 radius:4.6,
 angle:360,
-isfragment:true,
-isepicenterhit:true}}]},
+isfragment:1,
+isepicenterhit:1}}]},
  ]},
 manufacturable:{
  manufacturingtime:4.5,
@@ -6139,7 +6139,7 @@ manufacturable:{
  prereq:["T_ArmoredDecking","Robotics","Metal5"]}},
 {id:953,
 weight:4,
-isvisible:false,
+isvisible:0,
 typeIndex:3,
 name:"RobotEMPPistol",
 weapon:{
@@ -6171,7 +6171,7 @@ rangeskill:"EMP Strength"}}]},
  ]}},
 {id:954,
 weight:4,
-isvisible:false,
+isvisible:0,
 typeIndex:3,
 name:"RobotEMPRifleMartian",
 weapon:{
@@ -6203,7 +6203,7 @@ rangeskill:"EMP Strength"}}]},
  ]}},
 {id:955,
 weight:4,
-isvisible:false,
+isvisible:0,
 typeIndex:4,
 name:"RobotMartianEnergyCell",
 ammo:{
@@ -6211,7 +6211,7 @@ ammo:{
  isrechargable:false,
  shapeIndex:6}},
 {id:956,
-isvisible:false,
+isvisible:0,
 typeIndex:5,
 name:"PetAttackMartianPlant",
 weapon:{
@@ -6242,7 +6242,7 @@ ammo:{
  isrechargable:false,
  shapeIndex:5}},
 {id:957,
-isvisible:false,
+isvisible:0,
 typeIndex:5,
 name:"PetAttackWorm",
 weapon:{
@@ -6273,7 +6273,7 @@ ammo:{
  isrechargable:false,
  shapeIndex:5}},
 {id:958,
-isvisible:false,
+isvisible:0,
 typeIndex:5,
 name:"PetAttackSpiderLegOrange",
 weapon:{
@@ -6300,7 +6300,7 @@ ammo:{
  isrechargable:false,
  shapeIndex:5}},
 {id:959,
-isvisible:false,
+isvisible:0,
 typeIndex:5,
 name:"PetAttackSpiderFlushOrange",
 weapon:{
@@ -6316,7 +6316,7 @@ ammo:{
  isrechargable:false,
  shapeIndex:5}},
 {id:960,
-isvisible:false,
+isvisible:0,
 typeIndex:5,
 name:"PetAttackBoss",
 weapon:{
@@ -6349,15 +6349,15 @@ launched:{
   radius:{
 radius:1,
 angle:360,
-isfragment:true,
-isepicenterhit:true}}]},
+isfragment:1,
+isepicenterhit:1}}]},
  ]},
 ammo:{
  capacity:1,
  isrechargable:false,
  shapeIndex:5}},
 {id:961,
-isvisible:false,
+isvisible:0,
 typeIndex:5,
 name:"PetAttackElements",
 weapon:{
@@ -6385,7 +6385,7 @@ ammo:{
  isrechargable:false,
  shapeIndex:5}},
 {id:962,
-isvisible:false,
+isvisible:0,
 typeIndex:5,
 name:"PetattackRoller",
 weapon:{
@@ -6416,7 +6416,7 @@ ammo:{
  isrechargable:false,
  shapeIndex:5}},
 {id:963,
-isvisible:false,
+isvisible:0,
 typeIndex:3,
 name:"RobotPlasmaCannonMartian",
 weapon:{
@@ -6450,11 +6450,11 @@ launched:{
   radius:{
 radius:1.4,
 angle:360,
-isfragment:true,
-isepicenterhit:true}}]},
+isfragment:1,
+isepicenterhit:1}}]},
  ]}},
 {id:964,
-isvisible:false,
+isvisible:0,
 typeIndex:3,
 name:"MechPlasmaCannon",
 weapon:{
@@ -6488,11 +6488,11 @@ launched:{
   radius:{
 radius:1.4,
 angle:360,
-isfragment:true,
-isepicenterhit:true}}]},
+isfragment:1,
+isepicenterhit:1}}]},
  ]}},
 {id:965,
-isvisible:false,
+isvisible:0,
 typeIndex:3,
 name:"MechEMPRifle",
 weapon:{
@@ -6522,7 +6522,7 @@ aimingspeedskill:"Aimed",
 rangeskill:"EMP Strength"}}]},
  ]}},
 {id:966,
-isvisible:false,
+isvisible:0,
 typeIndex:3,
 name:"BossPlasmaCannon",
 weapon:{
@@ -6556,11 +6556,11 @@ launched:{
   radius:{
 radius:1.4,
 angle:360,
-isfragment:true,
-isepicenterhit:true}}]},
+isfragment:1,
+isepicenterhit:1}}]},
  ]}},
 {id:967,
-isvisible:false,
+isvisible:0,
 typeIndex:3,
 name:"BossEMPRifle",
 weapon:{
@@ -6592,7 +6592,7 @@ rangeskill:"EMP Strength"}}]},
  ]}},
 {id:968,
 weight:100,
-isvisible:false,
+isvisible:0,
 typeIndex:1,
 name:"MartianMechArmour",
 armour:{
@@ -6604,7 +6604,7 @@ armour:{
  normalslot:{"7":1,"17":2}}},
 {id:969,
 weight:100,
-isvisible:false,
+isvisible:0,
 typeIndex:1,
 name:"MartianBossArmour",
 armour:{
@@ -6616,7 +6616,7 @@ armour:{
  normalslot:{"7":1,"17":1}}},
 {id:970,
 weight:30,
-isvisible:false,
+isvisible:0,
 typeIndex:1,
 name:"PetArmourWormBlack",
 armour:{
@@ -6627,7 +6627,7 @@ armour:{
  normalslot:{"0":1}}},
 {id:971,
 weight:30,
-isvisible:false,
+isvisible:0,
 typeIndex:1,
 name:"PetArmourSpiderOrange",
 armour:{
@@ -6638,7 +6638,7 @@ armour:{
  normalslot:{"0":1,"1":1}}},
 {id:972,
 weight:30,
-isvisible:false,
+isvisible:0,
 typeIndex:1,
 name:"PetArmourRoller",
 armour:{
@@ -6649,7 +6649,7 @@ armour:{
  normalslot:{"0":1}}},
 {id:973,
 weight:100,
-isvisible:false,
+isvisible:0,
 typeIndex:1,
 name:"PetArmourBoss",
 armour:{
@@ -6660,7 +6660,7 @@ armour:{
  normalslot:{"0":1}}},
 {id:974,
 weight:30,
-isvisible:false,
+isvisible:0,
 typeIndex:1,
 name:"PetArmourMartianPlant",
 armour:{
@@ -6671,7 +6671,7 @@ armour:{
  normalslot:{"0":1}}},
 {id:975,
 weight:30,
-isvisible:false,
+isvisible:0,
 typeIndex:1,
 name:"PetArmourWormClear",
 armour:{
@@ -6683,7 +6683,7 @@ armour:{
  normalslot:{"0":1}}},
 {id:976,
 weight:30,
-isvisible:false,
+isvisible:0,
 typeIndex:1,
 name:"PetArmourSpiderPurple",
 armour:{
@@ -6693,7 +6693,7 @@ armour:{
  protection:[0,0.3,0.1,0.2,0.8,0.9,0.2,0.3,0,1,1],
  normalslot:{"0":1,"1":1}}},
 {id:977,
-isvisible:false,
+isvisible:0,
 typeIndex:5,
 name:"PetAttackSpiderLegPurple",
 weapon:{
@@ -6720,7 +6720,7 @@ ammo:{
  isrechargable:false,
  shapeIndex:5}},
 {id:978,
-isvisible:false,
+isvisible:0,
 typeIndex:5,
 name:"PetAttackSpiderFlushPurple",
 weapon:{
@@ -6885,7 +6885,7 @@ weapon:{
  }},
 {id:994,
 weight:5,
-isvisible:false,
+isvisible:0,
 typeIndex:1,
 name:"FireballArmour",
 armour:{
@@ -6918,7 +6918,7 @@ accuracy:1},
   radius:{
 radius:2.5,
 angle:360,
-isepicenterhit:true}}]},
+isepicenterhit:1}}]},
  ]},
 ammo:{
  capacity:1,
@@ -6946,7 +6946,7 @@ weapon:{
  }},
 {id:1003,
 weight:50,
-isvisible:false,
+isvisible:0,
 typeIndex:1,
 name:"BeastmanSergeantArmour",
 armour:{
