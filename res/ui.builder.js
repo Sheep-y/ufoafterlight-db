@@ -4,18 +4,17 @@ var ui = ns.ui;
 var event = ui.event;
 var txt = ns.txt;
 
-ui.create_title = function ui_create_title( name ) {
-   var link = name.trim().replace( / *\([^)]*\)$/, '' )
-   return _.create( 'a', { class: 'title', text: name, href: '?query=' + link } )
+ui.create_title = function ui_create_title( e ) {
+   var div = _.create( 'div', { html: ui.create_html_title( e ) } );
+   return div.removeChild( div.firstChild );
 }
 
-ui.create_html_title = function ui_create_html_title( name ) {
-   if ( typeof( name ) === 'string' ) name = ns.entity[ name ];
-   return ui.create_plain_title( name.text.trim().replace( / *\([^)]*\)$/, '' ) );
-}
-
-ui.create_plain_title = function ui_create_html_title( name ) {
-   return '<a class="title" href="?query=' + encodeURIComponent( name ) + '">' + _.escHtml( name ) + '</a>';
+ui.create_html_title = function ui_create_html_title( e ) {
+   var iname = '';
+   if ( typeof( e ) === 'string' ) e = ns.entity[ e ];
+   else if ( e.isvisible === 0 || e.unknown ) iname = ' data-iname="' + _.escHtml( ns.iname( e.name ) ) + '"';
+   var name = e.text.trim().replace( / *\([^)]*\)$/, '' );
+   return '<a class="title" href="?query=' + encodeURIComponent( name ) + '" ' + iname + '>' + _.escHtml( name ) + '</a>';
 }
 
 ui.create_index = function ui_create_index() {
@@ -23,18 +22,20 @@ ui.create_index = function ui_create_index() {
    var top = _.create( 'ul' );
    var options = [];
 
-   function createList( name, txtlist ) {
-      var cat = _.create( 'li' ), created = _.Map(), html = '';
-      var list = _.create( 'ul' );
-      cat.appendChild( _.create( 'span', { text: ns.ucfirst( name ), id: name } ) );
-      txtlist.forEach( function create_index( e, i ) {
-         if ( e && ! created[ e ] ) {
-            html += ui.create_plain_title( e );
-            options.push( e );
-            created[ e ] = true;
+   function createList( name, items, sort ) {
+      var cat = _.create( 'li' ), list = _.create( 'ul' ), created = _.Map(), html = '';
+      items = items.filter( function( e ){ return e; } );
+      if ( sort ) items.sort();
+      items.forEach( function create_index( e ) {
+         var txt = e.text;
+         if ( ! created[ txt ] ) {
+            html += ui.create_html_title( e );
+            options.push( txt );
+            created[ txt ] = true;
          }
       });
-      list.innerHTML += html;
+      list.innerHTML = html;
+      cat.appendChild( _.create( 'span', { text: ns.ucfirst( name ), id: name } ) );
       cat.appendChild( list );
       top.appendChild( cat );
       nav.appendChild( _.create( 'a', { href: '?#' + name, text: ns.ucfirst( name ), class: 'f_left', onclick: event.btn_reset_click } ) );
@@ -44,7 +45,7 @@ ui.create_index = function ui_create_index() {
    var items = _.Map();
    ns.data.item.forEach( function each_item_index( e ) {
       var type = 'item';
-      if ( e.isvisible === false ) type = 'system';
+      if ( e.isvisible === 0 ) type = 'system';
       else if ( e.weapon ) type = e.weapon.ammo ? 'weapon' : 'item';
       else if ( e.armour ) type = 'armour';
       else if ( e.ammo ) type = 'ammo';
@@ -54,13 +55,13 @@ ui.create_index = function ui_create_index() {
    });
    // List items in this order
    [ 'armour','weapon','ammo','addon','item','system' ].forEach( function each_item_type_index( type ) {
-      if ( items[type] ) createList( type, _.col( items[type], 'text' ) );
+      if ( items[type] ) createList( type, items[type] );
    });
 
    // Create other indexes
    for ( var type in ns.data ) {
       if ( type !== 'item' )
-         createList( type, _.col( ns.data[type], 'text' ).sort() );
+         createList( type, ns.data[type], 'sort' );
    }
    _( '#pnl_index' )[0].appendChild( top );
    return options;
@@ -135,7 +136,7 @@ ui.create_base_box = function ui_create_base_box( e, className, icon, alt ) {
    var type = ns.type( e );
 
    var result = _.create( 'div', { 'class': className + ' treenode', 'data-index': e.allIndex } );
-   result.appendChild( ui.create_title( e.text ) );
+   result.appendChild( ui.create_title( e ) );
    if ( type ) result.appendChild( _.create( 'span', ' (' + type + ')' ) );
    result.appendChild( _.create( 'img', { class: 'icon', src: icon.src, alt: alt } ) );
    if ( e.day )       result.appendChild( _.create( 'span', { class: 'manday', text: e.day + ' man-days' } ) );
