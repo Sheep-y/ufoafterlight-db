@@ -12,7 +12,7 @@ ui.create_title = function ui_create_title( e ) {
 ui.create_html_title = function ui_create_html_title( e ) {
    var iname = '';
    if ( typeof( e ) === 'string' ) e = ns.entity[ e ];
-   else if ( e.isvisible === 0 || e.unknown ) iname = ' data-iname="' + _.escHtml( ns.iname( e.name ) ) + '"';
+   else if ( ! ns.maindata( e ) ) iname = ' data-iname="' + _.escHtml( ns.iname( e ) ) + '"';
    var name = e.text.trim().replace( / *\([^)]*\)$/, '' );
    return '<a class="title" href="?query=' + encodeURIComponent( name ) + '" ' + iname + '>' + _.escHtml( name ) + '</a>';
 }
@@ -25,7 +25,7 @@ ui.create_index = function ui_create_index() {
    function createList( name, items, sort ) {
       var cat = _.create( 'li' ), list = _.create( 'ul' ), created = _.Map(), html = '';
       items = items.filter( function( e ){ return e; } );
-      if ( sort ) items.sort();
+      if ( sort ) items.sort( _.sorter( 'text' ) );
       items.forEach( function create_index( e ) {
          var txt = e.text;
          if ( ! created[ txt ] ) {

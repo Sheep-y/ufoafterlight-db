@@ -19,7 +19,7 @@ event.lnk_internal_click = function lnk_internal_click( evt ) {
       _.noDef( evt );
       var destination = evt.target.getAttribute( 'href' );
       if ( destination.indexOf( '?query=' ) === 0 ) {
-         txt_search.value = decodeURIComponent( destination.substr( 7 ) );
+         txt_search.value = evt.target.dataset.iname || decodeURIComponent( destination.substr( 7 ) );
          ui.search( txt_search.value );
          event.txt_search_blur();
          return false;

@@ -63,18 +63,30 @@ var ui = ns.ui = {
 
    'search' : function ui_search( val ) {
       _.time(); // Reset timer
-      var name = val.toLowerCase();
-      var id = val.match( /^\d+$/ ) ? +val : null;
-      var target = ns.all.filter( function( e ){
-         return e.text.toLowerCase() === name
-            || e.name.toLowerCase() === name
-            || e.id === id;
-      });
-      if ( target.length <= 0 ) {
-         _.show( '#lbl_not_found' );
-         return false;
+      var target = [], sys = [];
+      if ( ns.entity[ val ] ) {
+         target = [ ns.entity[ val ] ];
+      } else {
+         // Match id first
+         if ( val.match( /^\d+$/ ) ) {
+            val = +val;
+            target = ns.all.filter( function( e ){ return e.id === id; } );
+         }
+         // If no match, try to match names of normal entities
+         if ( target.length <= 0 ) {
+            var name = val.toLowerCase()
+            target = ns.all.filter( function( e ){ 
+               if ( e.text.toLowerCase() === name ) {
+                  if ( ns.maindata( e ) ) return true;
+                  sys.push( e );
+               }
+            } );
+         }
+         // Show system entites if there are no other matches
+         if ( target.length <= 0 ) target = sys;
+         if ( target.length <= 0 ) return _.show( '#lbl_not_found' ) && false;
       }
-      ui.log_time( 'Matched: "' + name + '"' );
+      ui.log_time( target.length + ' row(s) matched "' + val + '"' );
       ui.show_result( target );
       return true;
    },

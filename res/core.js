@@ -198,11 +198,15 @@ ns.prereq = function ufoal_prereq( e ) {
    return e.prereq;
 };
 
-ns.iname = function ufoal_uncamel( e ) {
+ns.iname = function ufoal_iname( e ) {
    if ( e.type === 'race' ) return 'race_' + e.name;
    else if ( e.type === 'subrace' ) return 'subrace_' + e.name;
    return e.name;
 };
+
+ns.maindata = function ufoal_maindata( e ) {
+   return ! ( e.isvisible === 0 || e.unknown || e.type === 'unit' || e.type === 'squad' );
+}
 
 ns.ucfirst = function ufoal_ucfirst( txt ) {
    return txt ? txt.substr(0,1).toUpperCase() + txt.substr(1) : txt;
