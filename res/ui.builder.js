@@ -30,7 +30,8 @@ ui.create_index = function ui_create_index() {
          var txt = e.text;
          if ( ! created[ txt ] ) {
             html += ui.create_html_title( e );
-            options.push( txt );
+            if ( e.type !== 'unit' && e.type !== 'squad' && options.indexOf( txt ) < 0 )
+               options.push( txt );
             created[ txt ] = true;
          }
       });
