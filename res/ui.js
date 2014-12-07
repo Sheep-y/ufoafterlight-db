@@ -193,13 +193,16 @@ var ui = ns.ui = {
       ui.log_time( 'Dependency tree built' );
    },
 
-   'box_recur' : function ui_box_recur( root ) {
+   'box_recur' : function ui_box_recur( root, stack ) {
+      if ( ! stack ) stack = [];
       var result = ui.create_box( root );
       if ( root.prereq ) {
          ns.prereq( root ).forEach( function recur_prereq( t ) {
+            if ( stack.indexOf( t ) >= 0 ) return;
+            else stack.push( t );
             var e = ns.entity[ t ];
             if ( e ) {
-               result.appendChild( ui.box_recur( e ) );
+               result.appendChild( ui.box_recur( e, stack ) );
             } else {
                result.appendChild( ui.create_entity_box( t ) );
             }
@@ -210,7 +213,7 @@ var ui = ns.ui = {
       }
       if ( root.upgrade ) { // Add lower tier entity as requirement
          var from = ns.entity[ root.upgrade ];
-         if ( from ) result.appendChild( ui.box_recur( from ) );
+         if ( from ) result.appendChild( ui.box_recur( from, stack ) );
       }
       return result;
    },
