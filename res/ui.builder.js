@@ -83,14 +83,6 @@ ui.create_item_box = function ui_create_item_box( e ) {
    return ui.create_help_buttons( ui.create_base_box( e, 'item', 'icon_item_general' ) );
 }
 
-ui.create_subrace_box = function ui_create_subrace_box( e ) {
-   return ui.create_help_buttons( ui.create_base_box( e, 'subrace', 'icon_data_race' ) );
-}
-
-ui.create_squad_box = function ui_create_subrace_box( e ) {
-   return ui.create_help_buttons( ui.create_base_box( e, 'squad', 'icon_data_people' ) );
-}
-
 ui.create_building_box = function ui_create_building_box( e ) {
    var result = ui.create_base_box( e, 'building' );
    _( result, '.title' )[0].title = txt.building[ e.id + '_tip' ];
