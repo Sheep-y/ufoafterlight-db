@@ -13,6 +13,7 @@ var time_log = _( '#lbl_time_log' )[0];
 var ui = ns.ui = {
    'event' : event,
    'displayed' : [], // Displayed entity stack; cleared with each new result
+   'is_tech' : false,
 
    'init' : function ui_init() {
       _.hide( '.hide' );
@@ -197,16 +198,21 @@ var ui = ns.ui = {
       if ( ! stack ) stack = [];
       var result = ui.create_box( root );
       if ( root.prereq ) {
+         var orig_is_tech = ui.is_tech;
+         if ( root.type === 'tech' ) ui.is_tech = true;
          ns.prereq( root ).forEach( function recur_prereq( t ) {
             if ( stack.indexOf( t ) >= 0 ) return;
             else stack.push( t );
             var e = ns.entity[ t ];
             if ( e ) {
+               // Do not show trainings for items in tech tree.
+               if ( ui.is_tech && e.type === 'training' ) return;
                result.appendChild( ui.box_recur( e, stack ) );
             } else {
                result.appendChild( ui.create_entity_box( t ) );
             }
          });
+         ui.is_tech = orig_is_tech;
       } else {
          if ( _( result, '.treenode' ).length <= 0 )
             _.addClass( result, 'leaf' );
