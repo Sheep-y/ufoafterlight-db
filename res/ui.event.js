@@ -15,7 +15,7 @@ event.body_click = function lnk_internal_click( evt ) {
 };
 
 event.lnk_internal_click = function lnk_internal_click( evt ) {
-   if ( evt && evt.target && evt.target.href ) {
+   if ( evt && evt.target && evt.target.href && ! evt.ctrlKey && evt.button == 0 ) {
       _.noDef( evt );
       var destination = evt.target.getAttribute( 'href' );
       if ( destination.indexOf( '?query=' ) === 0 ) {
@@ -53,6 +53,7 @@ event.txt_search_blur = function txt_search_blur( evt ) {
 };
 
 event.btn_reset_click = function btn_reset_click( evt ) {
+   if ( evt && evt.target && evt.target.href && ( evt.ctrlKey || evt.button != 0 ) ) return;
    txt_search.value = '';
    history.pushState( null, '', evt.target.getAttribute( 'href' ) || '?#' );
    _.noDef( evt );
