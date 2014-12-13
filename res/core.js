@@ -115,6 +115,7 @@ ns.init = function ufoal_init() {
       var t = txt[type];
       data[type].forEach( function each_name_entry( e ) {
          e.text = t && t[ e.id ] ? ns.ucword( t[ e.id ] ) : ns.uncamel( e.name );
+         if ( type === 'squad' ) e.text = e.text.replace( /, /, '.' ).replace( /- S /, ' S' );
       });
    });
    ns.ui.log_time( 'Data initialised' );
