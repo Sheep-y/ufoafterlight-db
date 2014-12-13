@@ -125,6 +125,7 @@ ns.get_ammo_desc = function ufoal_get_ammo_desc( wam ) {
       if ( sub.range ) line += ' ' + sub.range + ' m';
       if ( sub.aimingtime ) line += ' ' + second( sub.aimingtime );
       if ( sub.accuracy && sub.accuracy < 10 ) line += ', accuracy x' + sub.accuracy;
+	  if ( sub.launched && sub.launched.animationspeed ) line += " speed " + sub.launched.animationspeed + ", ";
    }
 
    if ( wam.radius ) {
