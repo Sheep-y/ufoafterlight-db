@@ -13,7 +13,7 @@ var time_log = _( '#lbl_time_log' )[0];
 var ui = ns.ui = {
    'event' : event,
    'displayed' : [], // Displayed entity stack; cleared with each new result
-   'is_tech' : false,
+   'is_tech' : false, // Whether current stack contains technology, hide trainings if so.
 
    'init' : function ui_init() {
       _.hide( '.hide' );
@@ -44,10 +44,14 @@ var ui = ns.ui = {
       ui.log_time( 'UI displayed' );
    },
 
-   'log_time' : function ui_log_time( msg ) {
+   'log_time' : function ui_log_time( msg, err, time ) {
       var time = _.time( msg )
       time_log.appendChild( _.create( 'span', msg + ' in ' + Math.min( time[0], time[1] ) + 'ms' ) );
       time_log.appendChild( _.create( 'br' ) );
+      if ( err ) {
+         clearTimeout( errTimeout );
+         if ( time ) errTimeout = setTimeout( function(){ msg.textContent = 'Error when ' + err; }, time * 1000 );
+      }
    },
 
    'find_query' : function ui_find_query() {
