@@ -215,6 +215,7 @@ var ui = ns.ui = {
             } else {
                result.appendChild( ui.create_entity_box( t ) );
             }
+            --stack.length;
          });
          ui.is_tech = orig_is_tech;
       } else {

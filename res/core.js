@@ -48,9 +48,9 @@ ns.init = function ufoal_init() {
       type = data[type];
       type.forEach( function each_upgrade_entry( e ) {
          if ( e.upgrade ) e.upgrade = type[ e.upgrade-1 ].name; // training, station
-         else if ( e.subrace ) makePrereq( e ).unshift( 'subrace_' + data.subrace[ e.subrace ].name ); // Unit
-         else if ( ~~e.race ) makePrereq( e ).unshift( 'race_' + data.race[ e.race ].name ); // Trainings
-         else if ( e.race ) makePrereq( e ).unshift( 'race_' + e.race ); // Subraces
+         else if ( e.subrace ) makePrereq( e ).push( 'subrace_' + data.subrace[ e.subrace ].name ); // Unit
+         else if ( ~~e.race ) makePrereq( e ).push( 'race_' + data.race[ e.race ].name ); // Trainings
+         else if ( e.race ) makePrereq( e ).push( 'race_' + e.race ); // Subraces
       });
    });
    // Item processing. Item data is too complicated to normalise at data conversion.
@@ -68,6 +68,7 @@ ns.init = function ufoal_init() {
       if ( e.weapon || e.armour ) {
          var slots = [];
          if ( e.weapon && e.weapon.ammo ) {
+			// Map ammos and weapons to relevant trainings
             e.weapon.ammo.forEach( function each_weapon_init( ammo ) {
                if ( ! ammo.wam || ! ammo.ammoIT ) return;
                var wam = ammo.wam[0], ammo = ns.entity[ ammo.ammoIT ];
