@@ -67,8 +67,9 @@ ns.init = function ufoal_init() {
       }
       if ( e.weapon || e.armour ) {
          var slots = [];
+         if ( e.isvisible === 0 ) return;
          if ( e.weapon && e.weapon.ammo ) {
-			// Map ammos and weapons to relevant trainings
+            // Map ammos and weapons to relevant trainings
             e.weapon.ammo.forEach( function each_weapon_init( ammo ) {
                if ( ! ammo.wam || ! ammo.ammoIT ) return;
                var wam = ammo.wam[0], ammo = ns.entity[ ammo.ammoIT ];
@@ -166,7 +167,7 @@ ns.special_req = {
    'MartianArtifact3': /\b(One|Two)MartianArtifact\b/,
 };
 
-/** Ammo training mapping */
+/** Ammo training mapping by attack mode */
 ns.ammo_req = {
    'Heal': 'MedicineMinor', // Include human training only to keep it simple
    'HealAdvanced': 'MedicineMajor',
@@ -175,7 +176,7 @@ ns.ammo_req = {
    'RepairRobot': 'AutomationMinor'
 };
 
-/** Weapon/Device training mapping */
+/** Weapon/Device training mapping by attack mode */
 ns.weapon_req = {
    'RobotControl': 'AutomationMinor',
    'Homing': 'DrivingMinor',
