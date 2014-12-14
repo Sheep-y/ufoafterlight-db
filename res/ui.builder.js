@@ -21,11 +21,18 @@ ui.create_index = function ui_create_index() {
    var nav = _( '#nav_top' )[0];
    var top = _.create( 'ul' );
    var options = [];
+   
+   function MinorMajorAdvSorter( a, b ) {
+      var aa = a.text.replace( /^Minor|^Major|^Advanced /, '' );
+      var bb = b.text.replace( /^Minor|^Major|^Advanced /, '' );
+      if ( aa === bb ) return _.sorter( 'text', 'reverse' )( a, b );
+      return _.sorter()( aa, bb );
+   }
 
-   function createList( name, items, sort ) {
+   function createList( name, items, sorter ) {
       var cat = _.create( 'li' ), list = _.create( 'ul' ), created = _.Map(), html = '';
       items = items.filter( function( e ){ return e; } );
-      if ( sort ) items.sort( _.sorter( 'text' ) );
+      if ( sorter ) items.sort( sorter );
       items.forEach( function create_index( e ) {
          var txt = e.text;
          if ( ! created[ txt ] ) {
@@ -61,8 +68,12 @@ ui.create_index = function ui_create_index() {
 
    // Create other indexes
    for ( var type in ns.data ) {
-      if ( type !== 'item' )
-         createList( type, ns.data[type], 'sort' );
+      if ( type !== 'item' ) {
+         var sorter = _.sorter( 'text' );
+         if ( type === 'people' ) sorter = null;
+         else if ( type === 'training' || type === 'station' ) sorter = MinorMajorAdvSorter;
+         createList( type, ns.data[type], sorter );
+      }
    }
    _( '#pnl_index' )[0].appendChild( top );
    return options;
