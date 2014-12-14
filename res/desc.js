@@ -5,7 +5,7 @@ var txt = ns.txt, br = '<br/>', hr = '<hr/>', sp = ' &nbsp; &nbsp; ';
 /** Return the description of any entity */
 ns.get_desc = function ufoal_get_desc( e ) {
    var content = 'Id: ' + e.id;
-   if ( +e.name === e.Id ) content += ', ' + e.name;
+   if ( +e.name !== e.id ) content += ', ' + e.name;
    if ( e.unknown ) 
       content += br + '<b>This entry is unused in the final game</b>';
    content += hr;

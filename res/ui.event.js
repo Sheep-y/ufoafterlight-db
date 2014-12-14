@@ -28,12 +28,12 @@ event.lnk_internal_click = function lnk_internal_click( evt ) {
 };
 
 event.txt_search_input = function txt_search_input( evt ) {
-   _.hide( '#lbl_not_found' );
    if ( txt_search_input.timer ) clearTimeout( txt_search_input.timer );
    txt_search_input.timer = 0;
 
    var val = txt_search.value.trim();
    if ( ! val ) {
+      _.hide( '#lbl_not_found' );
       if ( ui.is_typing() )
          return; // Prevent reverting to index while user is still typing.
       ui.update_state();

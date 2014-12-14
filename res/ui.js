@@ -67,6 +67,7 @@ var ui = ns.ui = {
    },
 
    'search' : function ui_search( val ) {
+      _.hide( '#lbl_not_found' );
       _.time(); // Reset timer
       var target = [], sys = [];
       if ( ns.entity[ val ] ) {
