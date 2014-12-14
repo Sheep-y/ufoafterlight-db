@@ -76,17 +76,13 @@ ns.init = function ufoal_init() {
                   makePrereq( ammo ).unshift( ns.ammo_req[ wam.weaponmode ] );
                } else if ( ns.weapon_req[ wam.weaponmode ] ) {
                   makePrereq( e ).unshift( ns.weapon_req[ wam.weaponmode ] );
+               } else if ( wam.weaponmode === 'Melee' || wam.weaponmode === 'Throw' ) {
+                  makePrereq( e ).unshift( 'HumanCombat' + ( e.weapon.shapeIndex <= 2 ? 'Minor' : 'Major' ) );
                } else if ( wam.damageskill === "EMP Strength" ) {
                   makePrereq( e ).unshift( 'EMEquipmentMinor' );
                }
             });
             if ( e.weight > 10 ) makePrereq( e ).unshift( 'HeavyEquipmentMinor' );
-            /*
-            for ( var training in ns.training_req ) {
-               if ( ns.training_req[ training ].test( e.name ) )
-                  makePrereq( e ).unshift( training );
-            }
-            */
 
          } else if ( e.armour && e.manufacturable && e.weight >= 20 && e.id < 900 ) {
             // Not the "correct" check per se, but good and simple enough.
@@ -191,10 +187,8 @@ ns.weapon_req = {
    'EMP': 'EMEquipmentMinor',
    'PlasmaShot': 'PlasmaWeaponsMinor',
    'PsiHeal': 'PsionicEquipmentMinor',
-   'PsiControll': 'PsionicEquipmentMajor'
+   'PsiControll': 'PsionicEquipmentMajor',
 };
-
-// ns.training_req = {   'EMEquipmentMinor': /^LightSword$|EMGrenade$/, }; // unused
 
 ns.type = function ufoal_type( e ) {
    if ( e.unknown ) return 'Unused';
