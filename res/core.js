@@ -65,9 +65,8 @@ ns.init = function ufoal_init() {
          if ( prereq.indexOf( e.allowentityid ) < 0 )
             prereq.unshift( e.allowentityid );
       }
-      if ( e.weapon || e.armour ) {
+      if ( ( e.weapon || e.armour ) && e.isvisible !== 0 && e.id < 908 ) { // 908+ = robots
          var slots = [];
-         if ( e.isvisible === 0 ) return;
          if ( e.weapon && e.weapon.ammo ) {
             // Map ammos and weapons to relevant trainings
             e.weapon.ammo.forEach( function each_weapon_init( ammo ) {
@@ -75,10 +74,19 @@ ns.init = function ufoal_init() {
                var wam = ammo.wam[0], ammo = ns.entity[ ammo.ammoIT ];
                if ( ns.ammo_req[ wam.weaponmode ] ) {
                   makePrereq( ammo ).unshift( ns.ammo_req[ wam.weaponmode ] );
-               } else if ( ns.weapon_req[ wam.weaponmode ] )
+               } else if ( ns.weapon_req[ wam.weaponmode ] ) {
                   makePrereq( e ).unshift( ns.weapon_req[ wam.weaponmode ] );
+               } else if ( wam.damageskill === "EMP Strength" ) {
+                  makePrereq( e ).unshift( 'EMEquipmentMinor' );
+               }
             });
             if ( e.weight > 10 ) makePrereq( e ).unshift( 'HeavyEquipmentMinor' );
+            /*
+            for ( var training in ns.training_req ) {
+               if ( ns.training_req[ training ].test( e.name ) )
+                  makePrereq( e ).unshift( training );
+            }
+            */
 
          } else if ( e.armour && e.manufacturable && e.weight >= 20 && e.id < 900 ) {
             // Not the "correct" check per se, but good and simple enough.
@@ -185,6 +193,8 @@ ns.weapon_req = {
    'PsiHeal': 'PsionicEquipmentMinor',
    'PsiControll': 'PsionicEquipmentMajor'
 };
+
+// ns.training_req = {   'EMEquipmentMinor': /^LightSword$|EMGrenade$/, }; // unused
 
 ns.type = function ufoal_type( e ) {
    if ( e.unknown ) return 'Unused';
