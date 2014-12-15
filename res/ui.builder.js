@@ -4,11 +4,6 @@ var ui = ns.ui;
 var event = ui.event;
 var txt = ns.txt;
 
-ui.create_title = function ui_create_title( e ) {
-   var div = _.create( 'div', { html: ui.create_html_title( e ) } );
-   return div.removeChild( div.firstChild );
-}
-
 ui.create_html_title = function ui_create_html_title( e ) {
    var iname = '';
    if ( typeof( e ) === 'string' ) e = ns.entity[ e ];
@@ -106,48 +101,45 @@ ui.create_general_box = function ui_create_general_box( e, icon ) {
 
 /* Create a general entity box */
 ui.create_entity_box = function ui_create_entity_box( e ) {
-   var result = _.create( 'div', { 'class': 'entity treenode' } );
-   var has_prereq = false;
+   var result = _.create( 'div' ), className = 'entity treenode';
+   var is_resource = e.match( /^[A-Z][a-z]+[1-7]$/ ), name;
+   if ( is_resource ) { // resource
+      name = "Lv. " + e.substr( e.length-1 ) + " " + e.substr( 0, e.length-1 );
+   } else {
+      name = txt.trigger[ e ] || ns.uncamel( e );
+   }
+   result.innerHTML = '<b>' + _.escHtml( name ) + '</b>';
    for ( var r in ns.special_req ) {
       // If special resources, add requirements
       if ( e.match( ns.special_req[r] ) ) {
-         if ( ui.displayed.indexOf( r ) >= 0 ) result.className += ' collapsed';
+         if ( ui.displayed.indexOf( r ) >= 0 ) className += ' collapsed';
          else ui.displayed.push( r );
          ui.create_fold_buttons( result );
          result.appendChild( ui.box_recur( ns.entity[r] ) );
-         has_prereq = true;
+         is_resource = false; // Do not float like a resource
       }
    }
-   if ( e.match( /^[A-Z][a-z]+[1-7]$/ ) ) { // resource
-      if ( ! has_prereq ) _.addClass( result, 'resource' );
-      e = "Lv. " + e.substr( e.length-1 ) + " " + e.substr( 0, e.length-1 );
-   } else {
-      if ( txt.trigger[ e ] )
-         e = txt.trigger[ e ];
-      else
-         e = ns.uncamel( e );
-   }
-   result.insertBefore( _.create( 'b', e ), result.firstChild );
+   if ( is_resource ) className += ' resource';
+   result.className = className;
    return result;
 };
 
 /** Basic box with title, icon, expand/collapse buttons, man days, and relevant logic */
 ui.create_base_box = function ui_create_base_box( e, className, icon, alt ) {
    if ( ! icon ) icon = 'icon_data_' + className;
-   icon = _( '#'+icon );
-   icon = icon.length ? icon[0] : _('#icon_ui_desc')[0];
+   icon = _( '#'+icon )[0];
    if ( ! alt ) alt = ns.ucfirst( className );
-   var type = ns.type( e );
+   var type = ns.type( e ), html = ui.create_html_title( e );
+   if ( ui.displayed.indexOf( e ) >= 0 ) className += ' collapsed';
 
    var result = _.create( 'div', { 'class': className + ' treenode', 'data-index': e.allIndex } );
-   result.appendChild( ui.create_title( e ) );
-   if ( type ) result.appendChild( _.create( 'span', ' (' + type + ')' ) );
-   result.appendChild( _.create( 'img', { class: 'icon', src: icon.src, alt: alt } ) );
-   if ( e.day )       result.appendChild( _.create( 'span', { class: 'manday', text: e.day + ' man-days' } ) );
-   else if ( e.hour ) result.appendChild( _.create( 'span', { class: 'manhour', text: e.hour + ' man-hours' } ) );
+   if ( type )  html += ' (' + type + ')';
+   html += '<img class="icon" src="' + _.escHtml( icon.src ) + '" alt="' + _.escHtml( alt ) + '"/>';
+   if ( e.day ) html += '<span class="manday">' + _.escHtml( e.day + ' man-days' ) + "</span>";
+   else if ( e.hour ) html += '<span class="manhour">' + _.escHtml( e.hour + ' man-hours' ) + "</span>";
+   result.innerHTML = html;
 
-   if ( ui.displayed.indexOf( e ) >= 0 ) result.className += ' collapsed';
-   else ui.displayed.push( e );
+   if ( ui.displayed.indexOf( e ) < 0 ) ui.displayed.push( e );
    return result;
 };
 
