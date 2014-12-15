@@ -68,7 +68,7 @@ ns.get_item_desc = function ufoal_get_item_desc( e ) {
                w.weapon.ammo.forEach( function ammo_match_each( ammo ) {
                   if ( ammo.ammoIT === e.name && ammo.wam ) {
                      if ( w ) {
-                        add( br + ui.create_html_title( w ) );
+                        add( br + ui.create_title( w ) );
                         w = null;
                      }
                      add( ammo.wam.map( ns.get_ammo_desc ).join( br ) );
@@ -93,7 +93,7 @@ ns.get_item_desc = function ufoal_get_item_desc( e ) {
          add( ' ' );
          if ( ammo.ammoIT !== e.name ) {
             var clip = ns.entity[ ammo.ammoIT ];
-            var line = ui.create_html_title( clip );
+            var line = ui.create_title( clip );
             if ( clip.ammo.capacity ) line += ' (' + clip.ammo.capacity + ')';
             if ( ammo.reloadtime ) line +=' Reload ' + second( ammo.reloadtime );
             add( line );
@@ -184,9 +184,9 @@ ns.get_subrace_desc = function ufoal_get_subrace_desc( e ) {
    result += br + 'Armours' + br;
    e.armour.forEach( function each_armour( e ) {
       result += '(' + e.material + ' ' + e.size + 'x' + e.size + ') ';
-      result += ui.create_html_title( e.armour ) + br;
+      result += ui.create_title( e.armour ) + br;
       if ( e.corpse ) {
-         result += sp + ui.create_html_title( e.corpse ) + br;
+         result += sp + ui.create_title( e.corpse ) + br;
       }
    });
    result += br + 'Attribute Weights' + br;
@@ -203,10 +203,10 @@ ns.get_unit_desc = function ufoal_get_unit_desc( e ) {
    if ( e.training ) {
       result += br + 'Training' + br;
       e.training.forEach( function each_training( e ) {
-         result += sp + ui.create_html_title( e ) + br;
+         result += sp + ui.create_title( e ) + br;
       });
    }
-   if ( e.armour ) result += br + 'Armour' + br + sp + ui.create_html_title( e.armour ) + br;
+   if ( e.armour ) result += br + 'Armour' + br + sp + ui.create_title( e.armour ) + br;
    if ( e.equipment ) {
       e.equipment.forEach( function each_equipment( e ) {
          var last = '';
@@ -221,7 +221,7 @@ ns.get_unit_desc = function ufoal_get_unit_desc( e ) {
                   var eq = ns.entity[ e[ type ] ];
                   result += br + sp;
                   if ( type === 'ammo' && last === 'weapon' ) result += sp + ' with ';
-                  result += eq ? ui.create_html_title( eq ) : e[ type ];
+                  result += eq ? ui.create_title( eq ) : e[ type ];
             }
             last = type;
          }
@@ -248,8 +248,8 @@ ns.get_squad_desc = function ufoal_get_squad_desc( e ) {
    var count = [], chance = [];
    for ( var id in e.units ) {
       var u = e.units[ id ];
-      if ( u.count ) count.push( sp + ui.create_html_title( id ) );
-      if ( u.chance ) chance.push( sp + ui.create_html_title( id ) + ' ' + percent( u.chance ) );
+      if ( u.count ) count.push( sp + ui.create_title( id ) );
+      if ( u.chance ) chance.push( sp + ui.create_title( id ) + ' ' + percent( u.chance ) );
    }
    if ( count.length ) result += br + 'Fixed members' + br + count.join( br ) + br;
    if ( chance.length ) result += br + 'Random members' + br + chance.join( br ) + br;
@@ -273,7 +273,7 @@ ns.get_people_desc = function ufoal_get_people_desc( e ) {
    if ( e.training ) {
       for ( var i in ns.data.training ) {
          if ( ns.data.training[ i ].id === e.training[0] ) {
-            result += br + 'Training: ' + ui.create_html_title( ns.data.training[ i ] ) + br;
+            result += br + 'Training: ' + ui.create_title( ns.data.training[ i ] ) + br;
          }
       }
    }

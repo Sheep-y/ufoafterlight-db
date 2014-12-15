@@ -4,7 +4,7 @@ var ui = ns.ui;
 var event = ui.event;
 var txt = ns.txt;
 
-ui.create_html_title = function ui_create_html_title( e ) {
+ui.create_title = function ui_create_title( e ) {
    var iname = '';
    if ( typeof( e ) === 'string' ) e = ns.entity[ e ];
    else if ( ! ns.maindata( e ) ) iname = ' data-iname="' + _.escHtml( ns.iname( e ) ) + '"';
@@ -31,7 +31,7 @@ ui.create_index = function ui_create_index() {
       items.forEach( function create_index( e ) {
          var txt = e.text;
          if ( ! created[ txt ] ) {
-            html += ui.create_html_title( e );
+            html += ui.create_title( e );
             if ( e.type !== 'unit' && e.type !== 'squad' && options.indexOf( txt ) < 0 )
                options.push( txt );
             created[ txt ] = true;
@@ -64,9 +64,9 @@ ui.create_index = function ui_create_index() {
    // Create other indexes
    for ( var type in ns.data ) {
       if ( type !== 'item' ) {
-         var sorter = _.sorter( 'text' );
-         if ( type === 'people' ) sorter = null;
-         else if ( type === 'training' || type === 'station' ) sorter = MinorMajorAdvSorter;
+         var sorter = ( type === 'people' ) ? sorter = null
+            : ( ( type === 'training' || type === 'station' ) ? sorter = MinorMajorAdvSorter
+               : _.sorter( 'text' ) );
          createList( type, ns.data[type], sorter );
       }
    }
@@ -82,21 +82,21 @@ ui.create_box = function ui_create_box( e ) {
 
 ui.create_tech_box = function ui_create_tech_box( e ) {
    var orig = txt.tech_orig[ ~~e.orig ].toLowerCase();
-   return ui.create_help_buttons( ui.create_base_box( e, 'tech', 'icon_tech_'+orig, orig ) );
+   return create_help_buttons( create_base_box( e, 'tech', 'icon_tech_'+orig, orig ) );
 };
 
 ui.create_item_box = function ui_create_item_box( e ) {
-   return ui.create_help_buttons( ui.create_base_box( e, 'item', 'icon_item_general' ) );
+   return create_help_buttons( create_base_box( e, 'item', 'icon_item_general' ) );
 }
 
 ui.create_building_box = function ui_create_building_box( e ) {
-   var result = ui.create_base_box( e, 'building' );
+   var result = create_base_box( e, 'building' );
    _( result, '.title' )[0].title = txt.building[ e.id + '_tip' ];
-   return ui.create_help_buttons( result );
+   return create_help_buttons( result );
 };
 
 ui.create_general_box = function ui_create_general_box( e, icon ) {
-   return ui.create_help_buttons( ui.create_base_box( e, icon ) );
+   return create_help_buttons( create_base_box( e, icon ) );
 }
 
 /* Create a general entity box */
@@ -114,7 +114,7 @@ ui.create_entity_box = function ui_create_entity_box( e ) {
       if ( e.match( ns.special_req[r] ) ) {
          if ( ui.displayed.indexOf( r ) >= 0 ) className += ' collapsed';
          else ui.displayed.push( r );
-         ui.create_fold_buttons( result );
+         create_fold_buttons( result );
          result.appendChild( ui.box_recur( ns.entity[r] ) );
          is_resource = false; // Do not float like a resource
       }
@@ -125,11 +125,11 @@ ui.create_entity_box = function ui_create_entity_box( e ) {
 };
 
 /** Basic box with title, icon, expand/collapse buttons, man days, and relevant logic */
-ui.create_base_box = function ui_create_base_box( e, className, icon, alt ) {
+function create_base_box( e, className, icon, alt ) {
    if ( ! icon ) icon = 'icon_data_' + className;
    icon = _( '#'+icon )[0];
    if ( ! alt ) alt = ns.ucfirst( className );
-   var type = ns.type( e ), html = ui.create_html_title( e );
+   var type = ns.type( e ), html = ui.create_title( e );
    if ( ui.displayed.indexOf( e ) >= 0 ) className += ' collapsed';
 
    var result = _.create( 'div', { 'class': className + ' treenode', 'data-index': e.allIndex } );
@@ -143,16 +143,16 @@ ui.create_base_box = function ui_create_base_box( e, className, icon, alt ) {
    return result;
 };
 
-ui.create_fold_buttons = function ui_create_help_buttons( e ) {
+function create_fold_buttons( e ) {
    e.appendChild( _.create( 'img', { class: 'collapse', src: _('#icon_ui_minus')[0].src, alt: 'Expand', tabindex: 0, 'aria-role': 'button', onclick: event.btn_collapse_click } ) );
    e.appendChild( _.create( 'img', { class: 'expand', src: _('#icon_ui_plus')[0].src, alt: 'Collapse', tabindex: 0, 'aria-role': 'button', onclick: event.btn_expand_click } ) );
    return e;
 };
 
-ui.create_help_buttons = function ui_create_help_buttons( e ) {
-   ui.create_fold_buttons( e );
+function create_help_buttons( e ) {
+   create_fold_buttons( e );
    e.appendChild( _.create( 'img', { class: 'desc', src: _('#icon_ui_desc')[0].src, alt: 'Descriptions', tabindex: 0, 'aria-role': 'button', onclick: event.btn_desc_click } ) );
    return e;
-};
+}
 
 })( ufoal );
