@@ -82,45 +82,43 @@ ui.create_box = function ui_create_box( e ) {
 
 ui.create_tech_box = function ui_create_tech_box( e ) {
    var orig = txt.tech_orig[ ~~e.orig ].toLowerCase();
-   return create_help_buttons( create_base_box( e, 'tech', 'icon_tech_'+orig, orig ) );
+   return create_base_box( e, 'tech', 'icon_tech_'+orig, orig );
 };
 
 ui.create_item_box = function ui_create_item_box( e ) {
-   return create_help_buttons( create_base_box( e, 'item', 'icon_item_general' ) );
+   return create_base_box( e, 'item', 'icon_item_general' );
 }
 
 ui.create_building_box = function ui_create_building_box( e ) {
-   var result = create_base_box( e, 'building' );
-   _( result, '.title' )[0].title = txt.building[ e.id + '_tip' ];
-   return create_help_buttons( result );
+   return create_base_box( e, 'building' );
 };
 
 ui.create_general_box = function ui_create_general_box( e, icon ) {
-   return create_help_buttons( create_base_box( e, icon ) );
+   return create_base_box( e, icon );
 }
 
 /* Create a general entity box */
 ui.create_entity_box = function ui_create_entity_box( e ) {
-   var result = _.create( 'div' ), className = 'entity treenode';
+   var className = 'entity treenode';
    var is_resource = e.match( /^[A-Z][a-z]+[1-7]$/ ), name;
    if ( is_resource ) { // resource
       name = "Lv. " + e.substr( e.length-1 ) + " " + e.substr( 0, e.length-1 );
    } else {
       name = txt.trigger[ e ] || ns.uncamel( e );
    }
-   result.innerHTML = '<b>' + _.escHtml( name ) + '</b>';
+   var result = '<b>' + _.escHtml( name ) + '</b>';
    for ( var r in ns.special_req ) {
       // If special resources, add requirements
       if ( e.match( ns.special_req[r] ) ) {
          if ( ui.displayed.indexOf( r ) >= 0 ) className += ' collapsed';
          else ui.displayed.push( r );
-         create_fold_buttons( result );
-         result.appendChild( ui.box_recur( ns.entity[r] ) );
+         result += create_fold_buttons();
+         result += ui.box_recur( ns.entity[r] );
          is_resource = false; // Do not float like a resource
       }
    }
    if ( is_resource ) className += ' resource';
-   result.className = className;
+   result = '<div class="' + className + '">' + result + '</div>';
    return result;
 };
 
@@ -129,30 +127,33 @@ function create_base_box( e, className, icon, alt ) {
    if ( ! icon ) icon = 'icon_data_' + className;
    icon = _( '#'+icon )[0];
    if ( ! alt ) alt = ns.ucfirst( className );
-   var type = ns.type( e ), html = ui.create_title( e );
+   var type = ns.type( e );
    if ( ui.displayed.indexOf( e ) >= 0 ) className += ' collapsed';
 
-   var result = _.create( 'div', { 'class': className + ' treenode', 'data-index': e.allIndex } );
-   if ( type )  html += ' (' + type + ')';
-   html += '<img class="icon" src="' + _.escHtml( icon.src ) + '" alt="' + _.escHtml( alt ) + '"/>';
-   if ( e.day ) html += '<span class="manday">' + _.escHtml( e.day + ' man-days' ) + "</span>";
-   else if ( e.hour ) html += '<span class="manhour">' + _.escHtml( e.hour + ' man-hours' ) + "</span>";
-   result.innerHTML = html;
+   var result = '<div class="' + className + ' treenode" data-index="' + e.allIndex + '">';
+   result += ui.create_title( e );
+   if ( type )  result += ' (' + type + ')';
+   result += '<img class="icon" src="' + _.escHtml( icon.src ) + '" alt="' + _.escHtml( alt ) + '"/>';
+   if ( e.day ) result += '<span class="manday">' + _.escHtml( e.day + ' man-days' ) + "</span>";
+   else if ( e.hour ) result += '<span class="manhour">' + _.escHtml( e.hour + ' man-hours' ) + "</span>";
+   result += create_help_buttons();
+   result += '</div>';
 
    if ( ui.displayed.indexOf( e ) < 0 ) ui.displayed.push( e );
    return result;
-};
+}
 
-function create_fold_buttons( e ) {
-   e.appendChild( _.create( 'img', { class: 'collapse', src: _('#icon_ui_minus')[0].src, alt: 'Expand', tabindex: 0, 'aria-role': 'button', onclick: event.btn_collapse_click } ) );
-   e.appendChild( _.create( 'img', { class: 'expand', src: _('#icon_ui_plus')[0].src, alt: 'Collapse', tabindex: 0, 'aria-role': 'button', onclick: event.btn_expand_click } ) );
-   return e;
-};
+ui.res = {}; // Filled by ui.init
+var aria_button = 'tabindex="0" aria-role="button"';
 
-function create_help_buttons( e ) {
-   create_fold_buttons( e );
-   e.appendChild( _.create( 'img', { class: 'desc', src: _('#icon_ui_desc')[0].src, alt: 'Descriptions', tabindex: 0, 'aria-role': 'button', onclick: event.btn_desc_click } ) );
-   return e;
+function create_fold_buttons() {
+   return '<img class="collapse" src="' + ui.res.uri_minus + '" alt="Expand" '+aria_button+' onclick="ufoal.ui.event.btn_collapse_click(event)"/>'
+     + '<img class="expand" src="' + ui.res.uri_plus + '" alt="Collapse" '+aria_button+' onclick="ufoal.ui.event.btn_expand_click(event)"/>';
+}
+
+function create_help_buttons() {
+   return create_fold_buttons()
+      + '<img class="desc" src="' + ui.res.uri_desc + '" alt="Descriptions" '+aria_button+' onclick="ufoal.ui.event.btn_desc_click(event)"/>';
 }
 
 })( ufoal );

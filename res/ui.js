@@ -23,6 +23,10 @@ var ui = ns.ui = {
       window.addEventListener( 'popstate', event.window_popstate );
       _.attr( 'a[href^="?query="]', { onclick: event.lnk_internal_click } );
 
+      ui.res.uri_minus = _.escHtml( _('#icon_ui_minus')[0].src );
+      ui.res.uri_plus  = _.escHtml( _('#icon_ui_plus' )[0].src );
+      ui.res.uri_desc  = _.escHtml( _('#icon_ui_desc' )[0].src );
+
       // Initialise index and searchable data list
       var options = ui.create_index(), html = '';
       options.forEach( function each_option( e ) {
@@ -132,10 +136,14 @@ var ui = ns.ui = {
    'show_result' : function ui_show_result( roots ) {
       ui.show_panel( pnl_result );
 
+      var range = document.createRange();
+      range.selectNode( document.body );
+
       // Find requirements for each result
       roots.forEach( function each_result( root ) {
          if ( ui.displayed.indexOf( root ) >= 0 ) return;
          var result = ui.box_recur( root );
+         result = range.createContextualFragment( result ).firstElementChild;
          event.btn_desc_click( { target: _( result, '.desc' )[0] } ); // Show top level descriptions
          pnl_result.appendChild( result );
       });
@@ -182,17 +190,17 @@ var ui = ns.ui = {
 
          if ( lookup.enable.length || lookup.used.length || lookup.addons.length ) {
             var desc = { 'enable': 'Enables', 'used': 'Used by:', 'addons': 'Add-ons:' };
-            var result = ui.create_box( root );
+            var result = ui.create_box( root ).replace( /<\/div>$/, '' );
             for ( var type in desc ) {
                if ( lookup[ type ].length ) {
-                  var div = _.create( 'div', { class: 'help', text: desc[ type ] } )
-                  result.appendChild( div );
+                  result += '<div class="help">' + _.escHtml( desc[ type ] ) + '</div>';
                   lookup[ type ].forEach( function each_enable( e ) {
-                     div.appendChild( ui.create_box( e ) );
+                     result += ui.create_box( e );
                   });
                }
             }
-            pnl_enable.appendChild( result );
+            result += '</div>';
+            pnl_enable.appendChild( range.createContextualFragment( result ).firstElementChild );
             _.show( pnl_enable );
          }
       });
@@ -201,7 +209,7 @@ var ui = ns.ui = {
 
    'box_recur' : function ui_box_recur( root, stack ) {
       if ( ! stack ) stack = [];
-      var result = ui.create_box( root );
+      var result = ui.create_box( root ).replace( /<\/div>$/, '' );
       if ( root.prereq ) {
          var orig_is_tech = ui.is_tech;
          if ( root.type === 'tech' ) ui.is_tech = true;
@@ -212,22 +220,19 @@ var ui = ns.ui = {
             if ( e ) {
                // Do not show trainings for items in tech tree.
                if ( ui.is_tech && e.type === 'training' ) return;
-               result.appendChild( ui.box_recur( e, stack ) );
+               result += ui.box_recur( e, stack );
             } else {
-               result.appendChild( ui.create_entity_box( t ) );
+               result += ui.create_entity_box( t );
             }
             --stack.length;
          });
          ui.is_tech = orig_is_tech;
-      } else {
-         if ( _( result, '.treenode' ).length <= 0 )
-            _.addClass( result, 'leaf' );
       }
       if ( root.upgrade ) { // Add lower tier entity as requirement
          var from = ns.entity[ root.upgrade ];
-         if ( from ) result.appendChild( ui.box_recur( from, stack ) );
+         if ( from ) result += ui.box_recur( from, stack );
       }
-      return result;
+      return result + '</div>';
    },
 };
 
