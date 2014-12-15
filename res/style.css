@@ -46,32 +46,31 @@ nav a, nav a:visited { color: #ddf; }
   background: linear-gradient(to bottom, #083035 0%, #0d555d 60%, #082f36 100%);
   margin-right: 5px;
 }
-.treenode > div { margin-left: 25px }
+.treenode > div:not(.icon) { margin-left: 25px }
 
 .title { font-weight: bold; cursor: pointer; text-decoration: none }
 .title, .title:visited { color: white }
 .title:hover { color: yellow }
-.icon { float: left; margin-right: 5px; vertical-align: text-bottom; }
 .desc { clear: left; float: left; cursor: help; margin-top: 3px; }
 .help { display: block; border: 2px ridge #b8cbd1; padding: 3px; background-color: black; font-size: smaller; max-width: 500px; }
 
-.collapse, .expand { float: right; cursor: pointer; margin-left: 5px }
-:not(.collapsed) > .expand { display: none }
+.icon.collapse, .icon.expand { float: right; cursor: pointer; margin-left: 5px }
+:not( .collapsed ) > .icon.expand { display: none }
 .collapsed > b { color: #999 }
 .collapsed > .collapse,
-   .collapsed > div,
+   .collapsed > div:not(.icon),
   .collapsed > .desc,
   .collapsed > .manday,
   .collapsed > .manhour  {
    display: none
  }
 
-#pnl_enable .desc,
-#pnl_enable .collapse,
-#pnl_enable .expand { display: none }
+#pnl_enable .icon.desc,
+#pnl_enable .icon.collapse,
+#pnl_enable .icon.expand { display: none }
 
 .treenode > .resource { margin-left: 0; float: left; } /* Resources will float onto one line */
-.treenode > img + .resource:last-child { margin-left: 25px; float: none; } /* Contains only one resource? Un-float to keep box tight */
+.treenode > div.icon + .resource:last-child { margin-left: 25px; float: none; } /* Contains only one resource? Un-float to keep box tight */
 .treenode > div:not(.resource) + .resource { margin-left: 25px; } /* Align with previous block */
 .resource + div:not(.resource) { clear: left } /* Normal blocks do not stick after previous resource */
 .manday, .manhour { font-size: smaller; color: yellow }
@@ -82,3 +81,28 @@ nav a, nav a:visited { color: #ddf; }
 }
 #pnl_result { padding: 0; float: left; }
 #pnl_enable { padding: 0; float: right; }
+
+.icon { background-repeat: no-repeat; width: 20px; height: 20px; float: left; margin-right: 5px; }
+.icon_data_building { background-position: 0 0 }
+.icon_data_people { background-position: -20px 0 }
+.icon_data_race { background-position: -40px 0 }
+.icon_data_squad { background-position: -60px 0 }
+.icon_data_station { background-position: -80px 0 }
+.icon_data_subrace { background-position: -100px 0 }
+.icon_data_training { background-position: -120px 0 }
+.icon_data_unit { background-position: -140px 0 }
+.icon_data_vision { background-position: -160px 0 }
+.icon_item_general { background-position: -180px 0 }
+.icon_tech_autopsy { background-position: -200px 0 }
+.icon_tech_beastmen { background-position: -220px 0 }
+.icon_tech_earth { background-position: -240px 0 }
+.icon_tech_general { background-position: -260px 0 }
+.icon_tech_interrogation { background-position: -280px 0 }
+.icon_tech_martian { background-position: -300px 0 }
+.icon_tech_medicine { background-position: -320px 0 }
+.icon_tech_planetology { background-position: -340px 0 }
+.icon_tech_reticulan { background-position: -360px 0 }
+.icon_ui_clipboard { background-position: -380px 0 }
+.icon_ui_desc { background-position: -400px 0 }
+.icon_ui_minus { background-position: -420px 0 }
+.icon_ui_plus { background-position: -440px 0 }

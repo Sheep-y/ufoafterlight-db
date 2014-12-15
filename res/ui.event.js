@@ -79,8 +79,8 @@ event.btn_desc_click = function btn_desc_click( evt ) {
    // Create and insert description
    var e = ns.all[ box.dataset.index ];
    var help = _.create( 'div', { class: 'help', html: ns.get_desc( e ) } );
-   var firstdiv = _( box, 'div' )[0];
-   box.insertBefore( help, firstdiv && firstdiv.parentNode === box ? firstdiv : undefined );
+   var btn_desc = box.querySelector( '.desc' );
+   box.insertBefore( help, btn_desc.nextSibling );
 };
 
 event.lnk_help_click = function lnk_help_click( evt ) {

@@ -127,14 +127,13 @@ ui.create_entity_box = function ui_create_entity_box( e ) {
 /** Basic box with title, icon, expand/collapse buttons, man days, and relevant logic */
 function create_base_box( e, className, icon, alt ) {
    if ( ! icon ) icon = 'icon_data_' + className;
-   icon = _( '#'+icon )[0];
    if ( ! alt ) alt = ns.ucfirst( className );
-   var type = ns.type( e ), html = ui.create_title( e );
    if ( ui.displayed.indexOf( e ) >= 0 ) className += ' collapsed';
 
    var result = _.create( 'div', { 'class': className + ' treenode', 'data-index': e.allIndex } );
+   var html = '<div class="icon ' + icon + '" alt="' + _.escHtml( alt ) + '"></div>' + ui.create_title( e );
+   var type = ns.type( e );
    if ( type )  html += ' (' + type + ')';
-   html += '<img class="icon" src="' + _.escHtml( icon.src ) + '" alt="' + _.escHtml( alt ) + '"/>';
    if ( e.day ) html += '<span class="manday">' + _.escHtml( e.day + ' man-days' ) + "</span>";
    else if ( e.hour ) html += '<span class="manhour">' + _.escHtml( e.hour + ' man-hours' ) + "</span>";
    result.innerHTML = html;
@@ -144,14 +143,14 @@ function create_base_box( e, className, icon, alt ) {
 };
 
 function create_fold_buttons( e ) {
-   e.appendChild( _.create( 'img', { class: 'collapse', src: _('#icon_ui_minus')[0].src, alt: 'Expand', tabindex: 0, 'aria-role': 'button', onclick: event.btn_collapse_click } ) );
-   e.appendChild( _.create( 'img', { class: 'expand', src: _('#icon_ui_plus')[0].src, alt: 'Collapse', tabindex: 0, 'aria-role': 'button', onclick: event.btn_expand_click } ) );
+   e.appendChild( _.create( 'div', { class: 'collapse icon icon_ui_minus', alt: 'Expand', tabindex: 0, 'aria-role': 'button', onclick: event.btn_collapse_click } ) );
+   e.appendChild( _.create( 'div', { class: 'expand icon icon_ui_plus', alt: 'Collapse', tabindex: 0, 'aria-role': 'button', onclick: event.btn_expand_click } ) );
    return e;
 };
 
 function create_help_buttons( e ) {
    create_fold_buttons( e );
-   e.appendChild( _.create( 'img', { class: 'desc', src: _('#icon_ui_desc')[0].src, alt: 'Descriptions', tabindex: 0, 'aria-role': 'button', onclick: event.btn_desc_click } ) );
+   e.appendChild( _.create( 'div', { class: 'desc icon icon_ui_desc', alt: 'Descriptions', tabindex: 0, 'aria-role': 'button', onclick: event.btn_desc_click } ) );
    return e;
 }
 
