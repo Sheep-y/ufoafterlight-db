@@ -219,9 +219,6 @@ var ui = ns.ui = {
             --stack.length;
          });
          ui.is_tech = orig_is_tech;
-      } else {
-         if ( _( result, '.treenode' ).length <= 0 )
-            _.addClass( result, 'leaf' );
       }
       if ( root.upgrade ) { // Add lower tier entity as requirement
          var from = ns.entity[ root.upgrade ];

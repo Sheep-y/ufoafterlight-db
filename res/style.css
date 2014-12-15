@@ -66,7 +66,6 @@ nav a, nav a:visited { color: #ddf; }
    display: none
  }
 
-/* .leaf .collapse, .leaf .expand { display: none } */
 #pnl_enable .desc,
 #pnl_enable .collapse,
 #pnl_enable .expand { display: none }
