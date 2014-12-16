@@ -4,25 +4,28 @@ var txt = ns.txt, br = '<br/>', hr = '<hr/>', sp = ' &nbsp; &nbsp; ';
 
 /** Return the description of any entity */
 ns.get_desc = function ufoal_get_desc( e ) {
-   var content = 'Id: ' + e.id;
-   if ( +e.name !== e.id ) content += ', ' + e.name;
-   if ( e.unknown ) 
-      content += br + '<b>This entry is unused in the final game</b>';
-   content += hr;
-   if ( e.type === 'tech' ) {
-      content += txt.tech[ e.id + '_b4' ] + hr + ns.txt.tech[ e.id + '_done' ];
-   } else if ( e.type === 'training' ) {
-      content += txt.training[ e.id + "_desc" ] + hr + 'Effect: ' + ns.uncamel( e.effect );
-   } else {
-      var method = 'get_' + e.type + '_desc';
-      if ( ! ns[ method ] ) method = 'get_general_desc';
-      content += ns[ method ]( e );
+   var method = 'get_' + e.type + '_desc', content = '';
+   if ( ns.ui.want_desc ) {
+      content += 'Id: ' + e.id;
+      if ( +e.name !== e.id ) content += ', ' + e.name;
+      if ( e.unknown )
+         content += br + '<b>This entry is unused in the final game</b>';
+      content += hr;
+      if ( e.type === 'tech' ) {
+         content += txt.tech[ e.id + '_b4' ] + hr + ns.txt.tech[ e.id + '_done' ];
+      } else if ( e.type === 'training' ) {
+         content += txt.training[ e.id + "_desc" ] + hr + 'Effect: ' + ns.uncamel( e.effect );
+      } else {
+         if ( ! ns[ method ] ) method = 'get_general_desc';
+      }
    }
+   if ( ns[ method ] )
+      content += ns[ method ]( e );
    return content;
 };
 
 /** Description for entities other then technologies */
-ns.get_general_desc = function ufoal_get_general_desc( e ) {
+ns.get_general_desc = function ufoal_get_general_desc( e, hr ) {
    var txt = ns.txt[ e.type ];
    return txt && txt[ e.id ] ? txt[ e.id ] : '(Internal data; no description)';
 };
@@ -31,8 +34,10 @@ function percent( v ) { return Math.round(v*100, 3) + '%'; }
 function second( t ) { return Math.round(t/10, 3) + '&thinsp;s.'; }
 
 ns.get_item_desc = function ufoal_get_item_desc( e ) {
-   var sub, result = [ ns.get_general_desc( e ) + hr ], ui = ns.ui;
+   var sub, result = [], ui = ns.ui;
    function add( t ) { result.push( t ); }
+
+   if ( ns.ui.want_desc ) result.push( ns.get_general_desc( e ) + hr );
    if ( e.weapon || e.ammo ) {
       var sub = e.weapon || e.ammo;
       add( txt.shape[ sub.shapeIndex ] + ' ' + ( sub.originIndex ? txt.item_orig[ sub.originIndex ] : '' ) );

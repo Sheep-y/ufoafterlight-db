@@ -156,7 +156,7 @@ function create_help_buttons( e ) {
 
 ui.create_desc = function ui_create_desc( e ) {
    var result = _.create( 'div', { class: 'help', html: ns.get_desc( e ) } );
-   var clipboard = _.create( 'div', { class: 'icon icon_ui_clipboard', title: 'Add to compare', tabindex: 0, 'aria-role': 'button', onclick: event.btn_add_clipboard_click } );
+   var clipboard = _.create( 'div', { class: 'icon icon_ui_clipboard', style: 'float:right', title: 'Add to compare', tabindex: 0, 'aria-role': 'button', onclick: event.btn_add_clipboard_click } );
    result.insertBefore( clipboard, result.firstChild );
    return result;
 };
