@@ -18,13 +18,19 @@ event.lnk_internal_click = function lnk_internal_click( evt ) {
    if ( evt && evt.target && evt.target.href && ! evt.ctrlKey && evt.button == 0 ) {
       _.noDef( evt );
       var destination = evt.target.getAttribute( 'href' );
+
       if ( destination.indexOf( '?query=' ) === 0 ) {
          txt_search.value = evt.target.dataset.iname || decodeURIComponent( destination.substr( 7 ) );
          ui.search( txt_search.value );
          event.txt_search_blur();
          return false;
+
       } else if ( destination.indexOf( '?compare=' ) === 0 ) {
-         alert( 'Not implemented' );
+         var comp = destination.replace( /\?compare=/, '' );
+         if ( comp !== ui.find_compare() )
+            history.pushState( null, '', '?compare=' + comp );
+         ui.compare( comp );
+         return false;
       }
    }
 };
@@ -85,10 +91,9 @@ event.btn_desc_click = function btn_desc_click( evt ) {
 
 event.btn_add_clipboard_click = function lnk_btn_add_clipboard_click( evt ) {
    var clicked = ns.all[ evt.target.parentNode.parentNode.dataset.index ];
-   _.log( clicked );
-   var pos = ui.compare.indexOf( clicked );
-   if ( pos >= 0 ) ui.compare.splice( pos, 1 );
-   else ui.compare.push( clicked );
+   var pos = ui.compared.indexOf( clicked );
+   if ( pos >= 0 ) ui.compared.splice( pos, 1 );
+   else ui.compared.push( clicked );
    ui.update_compare();
 };
 

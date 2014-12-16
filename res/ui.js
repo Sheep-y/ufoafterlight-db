@@ -4,6 +4,7 @@ var event = {}; // Event handlers are stored here
 
 var pnl_help = _( '#pnl_help' )[0];
 var pnl_index = _( '#pnl_index' )[0];
+var pnl_compare = _( '#pnl_compare' )[0];
 var pnl_result = _( '#pnl_result' )[0];
 var pnl_enable = _( '#pnl_enable' )[0];
 var pnl_license = _( '#pnl_license' )[0];
@@ -14,7 +15,7 @@ var ui = ns.ui = {
    'event' : event,
    'displayed' : [],  // Displayed entity stack; cleared with each new result
    'is_tech' : false, // Whether current stack contains technology, hide trainings if so.
-   'compare' : [],    // List of entities being compared.
+   'compared' : [],    // List of entities being compared.
 
    'init' : function ui_init() {
       _.hide( '.hide' );
@@ -55,13 +56,8 @@ var ui = ns.ui = {
       }
    },
 
-   'find_query' : function ui_find_query() {
-      if ( location.search ) {
-         var match = location.search.match( /\bquery=([^&]*)/ );
-         if ( match && match.length ) return decodeURIComponent( match[1] ).trim();
-      }
-      return "";
-   },
+   'find_query'   : function ui_find_query()   { return find_url_param( /[?&]query=([^&]*)/   ); },
+   'find_compare' : function ui_find_compare() { return find_url_param( /[?&]compare=([^&]*)/ ); },
 
    'is_typing' : function ui_is_typing() {
       return document.activeElement && document.activeElement === txt_search;
@@ -101,9 +97,10 @@ var ui = ns.ui = {
    // Update display to match current input / uri state
    'update_state' : function ui_update_state() {
       var hash = location.hash, e = null;
-      var val = ui.find_query();
+      var query = ui.find_query();
+      var comp = ui.find_compare();
       if ( hash === '#' ) hash = '';
-      if ( ! hash && ! val ) return ui.show_panel( pnl_index );
+      if ( ! hash && ! query && ! comp ) return ui.show_panel( pnl_index );
 
       e = hash ? _( '#pnl_index ' + hash ) : [];
       if ( hash === '#license' || hash === '#help' || e.length > 0 ) {
@@ -114,14 +111,16 @@ var ui = ns.ui = {
          } else {
             ui.show_panel( '#pnl_' + hash.substr( 1 ) );
          }
+      } else if ( comp ) {
+         ui.compare( comp );
       } else {
-         txt_search.value = val;
-         if ( val ) ui.search( val );
+         txt_search.value = query;
+         if ( query ) ui.search( query );
       }
    },
 
    'show_panel' : function ui_show_panel( panel ) {
-      _.hide( [ pnl_index, pnl_result, pnl_enable, pnl_license, pnl_help ] );
+      _.hide( [ pnl_index, pnl_result, pnl_compare, pnl_enable, pnl_license, pnl_help ] );
       pnl_enable.innerHTML = pnl_result.innerHTML = '';
       ui.displayed = []; // Reset display record
       if ( panel ) {
@@ -229,16 +228,39 @@ var ui = ns.ui = {
    },
 
    'update_compare' : function ui_update_compare() {
-      var len = ui.compare.length;
+      var len = ui.compared.length;
       var lnk_compare = _( '#lnk_compare' )[0];
       if ( len ) {
          _( '#lbl_compare_count' )[0].textContent = len;
-         lnk_compare.href = "?compare=" + _.col( ui.compare, 'name' ).join( ';' );
+         lnk_compare.href = "?compare=" + _.col( ui.compared, 'name' ).join( ';' );
          _.show( lnk_compare );
       } else {
          _.hide( lnk_compare );
       }
-   }
+   },
+
+   'compare' : function ui_compare( list ) {
+      if ( typeof( list ) === 'string' ) list = list.split( /;/ );
+      _.time(); // Reset timer
+      pnl_compare.innerHTML = '';
+      list.forEach( function each_compared( e ) {
+         var box = ui.create_box( ns.entity[ e ] );
+         box.classList.add( 'f_left' );
+         event.btn_desc_click( { target: _( box, '.desc' )[0] } ); // Show top level descriptions
+         pnl_compare.appendChild( box );
+      });
+      ui.show_panel( pnl_compare );
+      ui.log_time( list.length + ' entites compared' );
+      return true;
+   },   
 };
+
+function find_url_param( regx ) {
+   if ( location.search ) {
+      var match = location.search.match( regx );
+      if ( match && match.length ) return decodeURIComponent( match[1] ).trim();
+   }
+   return "";
+}
 
 })( ufoal );
