@@ -5,11 +5,13 @@ var event = ui.event;
 var txt = ns.txt;
 
 ui.create_title = function ui_create_title( e ) {
-   var iname = '';
+   var attr = '';
    if ( typeof( e ) === 'string' ) e = ns.entity[ e ];
-   else if ( ! ns.maindata( e ) ) iname = ' data-iname="' + _.escHtml( ns.iname( e ) ) + '"';
+   var title = ns.get_hint( e );
    var name = e.text.trim().replace( / *\([^)]*\)$/, '' );
-   return '<a class="title" href="?query=' + encodeURIComponent( name ) + '" ' + iname + '>' + _.escHtml( name ) + '</a>';
+   if ( title ) attr += ' title="' + _.escHtml( title ) + '"';
+   if ( ! ns.maindata( e ) ) attr += ' data-iname="' + _.escHtml( ns.iname( e ) ) + '"';
+   return '<a class="title" href="?query=' + encodeURIComponent( name ) + '" ' + attr + '>' + _.escHtml( name ) + '</a>';
 }
 
 ui.create_index = function ui_create_index() {
@@ -88,12 +90,6 @@ ui.create_tech_box = function ui_create_tech_box( e ) {
 ui.create_item_box = function ui_create_item_box( e ) {
    return create_help_buttons( create_base_box( e, 'item', 'icon_item_general' ) );
 }
-
-ui.create_building_box = function ui_create_building_box( e ) {
-   var result = create_base_box( e, 'building' );
-   _( result, '.title' )[0].title = txt.building[ e.id + '_tip' ];
-   return create_help_buttons( result );
-};
 
 ui.create_general_box = function ui_create_general_box( e, icon ) {
    return create_help_buttons( create_base_box( e, icon ) );

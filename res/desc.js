@@ -21,6 +21,10 @@ ns.get_desc = function ufoal_get_desc( e ) {
    return content;
 };
 
+ns.get_hint = function ufoal_get_hint( e ) {
+   if ( e.type === 'building' ) return txt.building[ e.id + '_tip' ];
+}
+
 /** Description for entities other then technologies */
 ns.get_general_desc = function ufoal_get_general_desc( e ) {
    var txt = ns.txt[ e.type ];
