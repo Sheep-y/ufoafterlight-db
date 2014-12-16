@@ -84,15 +84,15 @@ ui.create_box = function ui_create_box( e ) {
 
 ui.create_tech_box = function ui_create_tech_box( e ) {
    var orig = txt.tech_orig[ ~~e.orig ].toLowerCase();
-   return create_help_buttons( create_base_box( e, 'tech', 'icon_tech_'+orig, orig ) );
+   return create_base_box( e, 'tech', 'icon_tech_'+orig, orig );
 };
 
 ui.create_item_box = function ui_create_item_box( e ) {
-   return create_help_buttons( create_base_box( e, 'item', 'icon_item_general' ) );
+   return create_base_box( e, 'item', 'icon_item_general' );
 }
 
 ui.create_general_box = function ui_create_general_box( e, icon ) {
-   return create_help_buttons( create_base_box( e, icon ) );
+   return create_base_box( e, icon );
 }
 
 /* Create a general entity box */
@@ -110,9 +110,10 @@ ui.create_entity_box = function ui_create_entity_box( e ) {
       if ( e.match( ns.special_req[r] ) ) {
          if ( ui.displayed.indexOf( r ) >= 0 ) className += ' collapsed';
          else ui.displayed.push( r );
-         create_fold_buttons( result );
+         result.innerHTML += create_fold_buttons( result );
          result.appendChild( ui.box_recur( ns.entity[r] ) );
          is_resource = false; // Do not float like a resource
+         break;
       }
    }
    if ( is_resource ) className += ' resource';
@@ -132,6 +133,8 @@ function create_base_box( e, className, icon, alt ) {
    if ( type )  html += ' (' + type + ')';
    if ( e.day ) html += '<span class="manday">' + _.escHtml( e.day + ' man-days' ) + "</span>";
    else if ( e.hour ) html += '<span class="manhour">' + _.escHtml( e.hour + ' man-hours' ) + "</span>";
+   html += create_fold_buttons( result );
+   html += '<div class="desc icon icon_ui_desc" title="Descriptions" tabindex="0" aria-role="button" onclick="ufoal.ui.event.btn_desc_click(event)"></div>';
    result.innerHTML = html;
 
    if ( ui.displayed.indexOf( e ) < 0 ) ui.displayed.push( e );
@@ -139,15 +142,8 @@ function create_base_box( e, className, icon, alt ) {
 };
 
 function create_fold_buttons( e ) {
-   e.appendChild( _.create( 'div', { class: 'collapse icon icon_ui_minus', title: 'Expand', tabindex: 0, 'aria-role': 'button', onclick: event.btn_collapse_click } ) );
-   e.appendChild( _.create( 'div', { class: 'expand icon icon_ui_plus', title: 'Collapse', tabindex: 0, 'aria-role': 'button', onclick: event.btn_expand_click } ) );
-   return e;
+   return '<div class="collapse icon icon_ui_minus" title="Collapse" tabindex="0" aria-role="button" onclick="ufoal.ui.event.btn_collapse_click(event)"></div>' +
+          '<div class="expand   icon icon_ui_plus " title="Expand"   tabindex="0" aria-role="button" onclick="ufoal.ui.event.btn_expand_click(event)"  ></div>' ;
 };
-
-function create_help_buttons( e ) {
-   create_fold_buttons( e );
-   e.appendChild( _.create( 'div', { class: 'desc icon icon_ui_desc', title: 'Descriptions', tabindex: 0, 'aria-role': 'button', onclick: event.btn_desc_click } ) );
-   return e;
-}
 
 })( ufoal );
