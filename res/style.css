@@ -1,8 +1,8 @@
 * { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; width: 100%; background-color: black; color: white; font-family: sans-serif; }
-a { color: #bbf; }
+a { color: #bbf; text-decoration: none; }
 a:visited { color: #88f; }
-a:hover { color: yellow; }
+a:hover { color: yellow; text-decoration: underline; }
 .hide { display: none; }
 .error { color: #f44; }
 .f_left { float: left; }
@@ -14,7 +14,6 @@ h1 { margin: 0; font-size: 24px; }
   padding: 10px; color: white;
   border: 3px solid #b8cbd1; background-color: #012f3e;
 }
-.box a { text-decoration: none; }
 
 nav { padding: 0 5px; clear: both; }
 nav a, nav a:visited { color: #ddf; }
