@@ -131,7 +131,7 @@ function create_base_box( e, className, icon, alt ) {
    if ( ui.displayed.indexOf( e ) >= 0 ) className += ' collapsed';
 
    var result = _.create( 'div', { 'class': className + ' treenode', 'data-index': e.allIndex } );
-   var html = '<div class="icon ' + icon + '" alt="' + _.escHtml( alt ) + '"></div>' + ui.create_title( e );
+   var html = '<div class="icon ' + icon + '" title="' + _.escHtml( alt ) + '"></div>' + ui.create_title( e );
    var type = ns.type( e );
    if ( type )  html += ' (' + type + ')';
    if ( e.day ) html += '<span class="manday">' + _.escHtml( e.day + ' man-days' ) + "</span>";
@@ -143,14 +143,14 @@ function create_base_box( e, className, icon, alt ) {
 };
 
 function create_fold_buttons( e ) {
-   e.appendChild( _.create( 'div', { class: 'collapse icon icon_ui_minus', alt: 'Expand', tabindex: 0, 'aria-role': 'button', onclick: event.btn_collapse_click } ) );
-   e.appendChild( _.create( 'div', { class: 'expand icon icon_ui_plus', alt: 'Collapse', tabindex: 0, 'aria-role': 'button', onclick: event.btn_expand_click } ) );
+   e.appendChild( _.create( 'div', { class: 'collapse icon icon_ui_minus', title: 'Expand', tabindex: 0, 'aria-role': 'button', onclick: event.btn_collapse_click } ) );
+   e.appendChild( _.create( 'div', { class: 'expand icon icon_ui_plus', title: 'Collapse', tabindex: 0, 'aria-role': 'button', onclick: event.btn_expand_click } ) );
    return e;
 };
 
 function create_help_buttons( e ) {
    create_fold_buttons( e );
-   e.appendChild( _.create( 'div', { class: 'desc icon icon_ui_desc', alt: 'Descriptions', tabindex: 0, 'aria-role': 'button', onclick: event.btn_desc_click } ) );
+   e.appendChild( _.create( 'div', { class: 'desc icon icon_ui_desc', title: 'Descriptions', tabindex: 0, 'aria-role': 'button', onclick: event.btn_desc_click } ) );
    return e;
 }
 
