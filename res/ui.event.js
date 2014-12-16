@@ -23,6 +23,8 @@ event.lnk_internal_click = function lnk_internal_click( evt ) {
          ui.search( txt_search.value );
          event.txt_search_blur();
          return false;
+      } else if ( destination.indexOf( '?compare=' ) === 0 ) {
+         alert( 'Not implemented' );
       }
    }
 };
@@ -77,10 +79,17 @@ event.btn_desc_click = function btn_desc_click( evt ) {
       return box.removeChild( _( box, '.help' )[0] );
 
    // Create and insert description
-   var e = ns.all[ box.dataset.index ];
-   var help = _.create( 'div', { class: 'help', html: ns.get_desc( e ) } );
-   var btn_desc = box.querySelector( '.desc' );
-   box.insertBefore( help, btn_desc.nextSibling );
+   var help = ui.create_desc( ns.all[ box.dataset.index ] );
+   box.insertBefore( help, box.querySelector( '.desc' ).nextSibling );
+};
+
+event.btn_add_clipboard_click = function lnk_btn_add_clipboard_click( evt ) {
+   var clicked = ns.all[ evt.target.parentNode.parentNode.dataset.index ];
+   _.log( clicked );
+   var pos = ui.compare.indexOf( clicked );
+   if ( pos >= 0 ) ui.compare.splice( pos, 1 );
+   else ui.compare.push( clicked );
+   ui.update_compare();
 };
 
 event.lnk_help_click = function lnk_help_click( evt ) {

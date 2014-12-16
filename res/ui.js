@@ -12,8 +12,9 @@ var time_log = _( '#lbl_time_log' )[0];
 
 var ui = ns.ui = {
    'event' : event,
-   'displayed' : [], // Displayed entity stack; cleared with each new result
+   'displayed' : [],  // Displayed entity stack; cleared with each new result
    'is_tech' : false, // Whether current stack contains technology, hide trainings if so.
+   'compare' : [],    // List of entities being compared.
 
    'init' : function ui_init() {
       _.hide( '.hide' );
@@ -226,6 +227,18 @@ var ui = ns.ui = {
       }
       return result;
    },
+
+   'update_compare' : function ui_update_compare() {
+      var len = ui.compare.length;
+      var lnk_compare = _( '#lnk_compare' )[0];
+      if ( len ) {
+         _( '#lbl_compare_count' )[0].textContent = len;
+         lnk_compare.href = "?compare=" + _.col( ui.compare, 'name' ).join( ';' );
+         _.show( lnk_compare );
+      } else {
+         _.hide( lnk_compare );
+      }
+   }
 };
 
 })( ufoal );
