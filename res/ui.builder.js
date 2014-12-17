@@ -5,11 +5,13 @@ var event = ui.event;
 var txt = ns.txt;
 
 ui.create_title = function ui_create_title( e ) {
-   var iname = '';
+   var attr = '';
    if ( typeof( e ) === 'string' ) e = ns.entity[ e ];
-   else if ( ! ns.maindata( e ) ) iname = ' data-iname="' + _.escHtml( ns.iname( e ) ) + '"';
+   var title = ns.get_hint( e );
    var name = e.text.trim().replace( / *\([^)]*\)$/, '' );
-   return '<a class="title" href="?query=' + encodeURIComponent( name ) + '" ' + iname + '>' + _.escHtml( name ) + '</a>';
+   if ( title ) attr += ' title="' + _.escHtml( title ) + '"';
+   if ( ! ns.maindata( e ) ) attr += ' data-iname="' + _.escHtml( ns.iname( e ) ) + '"';
+   return '<a class="title" href="?query=' + encodeURIComponent( name ) + '" ' + attr + '>' + _.escHtml( name ) + '</a>';
 }
 
 ui.create_index = function ui_create_index() {
@@ -82,21 +84,15 @@ ui.create_box = function ui_create_box( e ) {
 
 ui.create_tech_box = function ui_create_tech_box( e ) {
    var orig = txt.tech_orig[ ~~e.orig ].toLowerCase();
-   return create_help_buttons( create_base_box( e, 'tech', 'icon_tech_'+orig, orig ) );
+   return create_base_box( e, 'tech', 'icon_tech_'+orig, orig );
 };
 
 ui.create_item_box = function ui_create_item_box( e ) {
-   return create_help_buttons( create_base_box( e, 'item', 'icon_item_general' ) );
+   return create_base_box( e, 'item', 'icon_item_general' );
 }
 
-ui.create_building_box = function ui_create_building_box( e ) {
-   var result = create_base_box( e, 'building' );
-   _( result, '.title' )[0].title = txt.building[ e.id + '_tip' ];
-   return create_help_buttons( result );
-};
-
 ui.create_general_box = function ui_create_general_box( e, icon ) {
-   return create_help_buttons( create_base_box( e, icon ) );
+   return create_base_box( e, icon );
 }
 
 /* Create a general entity box */
@@ -114,9 +110,10 @@ ui.create_entity_box = function ui_create_entity_box( e ) {
       if ( e.match( ns.special_req[r] ) ) {
          if ( ui.displayed.indexOf( r ) >= 0 ) className += ' collapsed';
          else ui.displayed.push( r );
-         create_fold_buttons( result );
+         result.innerHTML += create_fold_buttons();
          result.appendChild( ui.box_recur( ns.entity[r] ) );
          is_resource = false; // Do not float like a resource
+         break;
       }
    }
    if ( is_resource ) className += ' resource';
@@ -131,40 +128,35 @@ function create_base_box( e, className, icon, alt ) {
    if ( ui.displayed.indexOf( e ) >= 0 ) className += ' collapsed';
 
    var html = '<div class="' + _.escHtml( className ) + ' treenode" data-index="' + e.allIndex + '">';
-   html += '<div class="icon ' + icon + '" alt="' + _.escHtml( alt ) + '"></div>' + ui.create_title( e );
+   html += '<div class="icon ' + icon + '" title="' + _.escHtml( alt ) + '"></div>' + ui.create_title( e );
    var type = ns.type( e );
    if ( type )  html += ' (' + type + ')';
    if ( e.day ) html += '<span class="manday">' + _.escHtml( e.day + ' man-days' ) + "</span>";
    else if ( e.hour ) html += '<span class="manhour">' + _.escHtml( e.hour + ' man-hours' ) + "</span>";
-   html += '</div>'
+   html += create_fold_buttons();
+   html += '<div class="desc icon icon_ui_desc" title="Descriptions" tabindex="0" aria-role="button" onclick="ufoal.ui.event.btn_desc_click(event)"></div>';
+   html += '</div>';
 
    if ( ui.displayed.indexOf( e ) < 0 ) ui.displayed.push( e );
    return ui.to_dom( html );
 };
 
-function create_fold_buttons( e ) {
-   e.appendChild( _.create( 'div', { class: 'collapse icon icon_ui_minus', alt: 'Expand', tabindex: 0, 'aria-role': 'button', onclick: event.btn_collapse_click } ) );
-   e.appendChild( _.create( 'div', { class: 'expand icon icon_ui_plus', alt: 'Collapse', tabindex: 0, 'aria-role': 'button', onclick: event.btn_expand_click } ) );
-   return e;
+function create_fold_buttons() {
+   return '<div class="collapse icon icon_ui_minus" title="Collapse" tabindex="0" aria-role="button" onclick="ufoal.ui.event.btn_collapse_click(event)"></div>' +
+          '<div class="expand   icon icon_ui_plus " title="Expand"   tabindex="0" aria-role="button" onclick="ufoal.ui.event.btn_expand_click(event)"  ></div>' ;
 };
 
-function create_help_buttons( e ) {
-   create_fold_buttons( e );
-   e.appendChild( _.create( 'div', { class: 'desc icon icon_ui_desc', alt: 'Descriptions', tabindex: 0, 'aria-role': 'button', onclick: event.btn_desc_click } ) );
-   return e;
-}
-
 ui.create_desc = function ui_create_desc( e ) {
-   var result = '<div class="help">';
+   var html = '<div class="help">';
    if ( ui.compared.indexOf( e.name ) < 0 ) {
-      result += '<div class="icon icon_ui_plus clipicon" title="Add to compare"';
+      html += '<div class="icon icon_ui_plus clipicon" title="Add to compare"';
    } else {
-      result += '<div class="icon icon_ui_minus clipicon" title="Remove from compare"';
+      html += '<div class="icon icon_ui_minus clipicon" title="Remove from compare"';
    }
-   result += ' tabindex="0" aria-role="button" onclick="ufoal.ui.event.btn_clipboard_click(event)"></div>';
-   result += '<div class="icon icon_ui_clipboard" style="float:right"></div>';
-   result += ns.get_desc( e );
-   return ui.to_dom( result + '</div>' );
+   html += ' tabindex="0" aria-role="button" onclick="ufoal.ui.event.btn_clipboard_click(event)"></div>';
+   html += '<div class="icon icon_ui_clipboard" style="float:right"></div>';
+   html += ns.get_desc( e );
+   return ui.to_dom( html + '</div>' );
 };
 
 })( ufoal );

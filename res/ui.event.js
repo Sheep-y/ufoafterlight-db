@@ -69,11 +69,11 @@ event.btn_reset_click = function btn_reset_click( evt ) {
 };
 
 event.btn_collapse_click = function btn_collapse_click( evt ) {
-   _.addClass( evt.target.parentNode, 'collapsed' );
+   evt.target.parentNode.classList.add( 'collapsed' );
 };
 
 event.btn_expand_click = function btn_expand_click( evt ) {
-   _.removeClass( evt.target.parentNode, 'collapsed' );
+   evt.target.parentNode.classList.remove( 'collapsed' );
 };
 
 event.btn_desc_click = function btn_desc_click( evt ) {
