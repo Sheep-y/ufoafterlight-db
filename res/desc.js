@@ -4,9 +4,9 @@ var txt = ns.txt, br = '<br/>', hr = '<hr/>', sp = ' &nbsp; &nbsp; ';
 
 /** Return the description of any entity */
 ns.get_desc = function ufoal_get_desc( e ) {
-   var method = 'get_' + e.type + '_desc', content = '';
+   var method = 'get_' + e.type + '_desc';
+   var content = 'Id: ' + e.id;
    if ( ns.ui.want_desc ) {
-      content += 'Id: ' + e.id;
       if ( +e.name !== e.id ) content += ', ' + e.name;
       if ( e.unknown )
          content += br + '<b>This entry is unused in the final game</b>';
@@ -29,7 +29,7 @@ ns.get_hint = function ufoal_get_hint( e ) {
 }
 
 /** Description for entities other then technologies */
-ns.get_general_desc = function ufoal_get_general_desc( e, hr ) {
+ns.get_general_desc = function ufoal_get_general_desc( e ) {
    var txt = ns.txt[ e.type ];
    return txt && txt[ e.id ] ? txt[ e.id ] : '(Internal data; no description)';
 };
@@ -273,10 +273,10 @@ ns.get_people_desc = function ufoal_get_people_desc( e ) {
    if ( e.scientist ) result += sp + 'Scientist ' + e.scientist + br;
    if ( e.technician ) result += sp + 'Technician ' + e.technician + br;
    if ( e.trigger === 'StartEvent' )
-      result += br + 'Joined since game starts' + br;
+      result += br + 'On the team since game starts' + br;
    else if ( e.trigger === 'UnreachableTrigger' )
       result += br + 'Joins after special event' + br;
-   else if ( e.trigger === 'UnreachableTrigger' )
+   else
       result += br + 'Joins when ' + ns.uncamel( e.trigger ) + br;
 
    if ( e.training ) {
