@@ -21,6 +21,18 @@ ns.get_desc = function ufoal_get_desc( e ) {
    return content;
 };
 
+ns.get_building_desc = function ufoal_get_building_desc( e ) {
+   var result = ns.get_general_desc( e ) + hr, people = [];
+   result += ( e.inner ? 'Internal' : 'External' ) + ' building (' + e.size + 'x' + e.size + ')' + br;
+   if ( e.capacity ) {
+      result += "Capacity: " + e.capacity + ' ';
+      result += ['soldier','scientist','technician'].filter( function(i){ return e[i]; } ).map( ns.ucfirst ).join( '/' ) + br;
+   }
+   result += ( e.destroyable ? 'D' : 'Non-d' ) + "estructible.";
+   if ( e.max ) result += " Max. 1 can be built.";
+   return result;
+}
+
 /** Description for entities other then technologies */
 ns.get_general_desc = function ufoal_get_general_desc( e ) {
    var txt = ns.txt[ e.type ];
