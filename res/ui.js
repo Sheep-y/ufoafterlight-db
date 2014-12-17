@@ -64,6 +64,10 @@ var ui = ns.ui = {
       return document.activeElement && document.activeElement === txt_search;
    },
 
+   'to_dom' : function ui_html( html ) {
+      return document.createRange().createContextualFragment( html ).firstElementChild;
+   },
+
    'search' : function ui_search( val ) {
       _.hide( '#lbl_not_found' );
       _.time(); // Reset timer

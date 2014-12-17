@@ -51,9 +51,9 @@ nav a, nav a:visited { color: #ddf; }
 .title, .title:visited { color: white }
 .title:hover { color: yellow }
 .desc { clear: left; float: left; cursor: help; margin-top: 3px; }
-.help { display: block; border: 2px ridge #b8cbd1; padding: 3px; background-color: black; font-size: smaller; max-width: 500px; }
+.help { display: block; position: relative; border: 2px ridge #b8cbd1; padding: 3px; background-color: black; font-size: smaller; max-width: 500px; }
 
-.icon.collapse, .icon.expand { float: right; cursor: pointer; margin-left: 5px }
+.icon.collapse, .icon.expand { float: right; margin-left: 5px }
 :not( .collapsed ) > .icon.expand { display: none }
 .collapsed > b { color: #999 }
 .collapsed > .collapse,
@@ -82,6 +82,8 @@ nav a, nav a:visited { color: #ddf; }
 #pnl_enable { padding: 0; float: right; }
 
 .icon { background-repeat: no-repeat; width: 20px; height: 20px; float: left; margin-right: 5px; }
+.icon[tabindex] { cursor: pointer; }
+.clipicon { position:absolute; right: 4px; }
 .icon_data_building { background-position: 0 0 }
 .icon_data_people { background-position: -20px 0 }
 .icon_data_race { background-position: -40px 0 }

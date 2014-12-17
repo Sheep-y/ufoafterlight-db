@@ -130,16 +130,16 @@ function create_base_box( e, className, icon, alt ) {
    if ( ! alt ) alt = ns.ucfirst( className );
    if ( ui.displayed.indexOf( e ) >= 0 ) className += ' collapsed';
 
-   var result = _.create( 'div', { 'class': className + ' treenode', 'data-index': e.allIndex } );
-   var html = '<div class="icon ' + icon + '" alt="' + _.escHtml( alt ) + '"></div>' + ui.create_title( e );
+   var html = '<div class="' + _.escHtml( className ) + ' treenode" data-index="' + e.allIndex + '">';
+   html += '<div class="icon ' + icon + '" alt="' + _.escHtml( alt ) + '"></div>' + ui.create_title( e );
    var type = ns.type( e );
    if ( type )  html += ' (' + type + ')';
    if ( e.day ) html += '<span class="manday">' + _.escHtml( e.day + ' man-days' ) + "</span>";
    else if ( e.hour ) html += '<span class="manhour">' + _.escHtml( e.hour + ' man-hours' ) + "</span>";
-   result.innerHTML = html;
+   html += '</div>'
 
    if ( ui.displayed.indexOf( e ) < 0 ) ui.displayed.push( e );
-   return result;
+   return ui.to_dom( html );
 };
 
 function create_fold_buttons( e ) {
@@ -155,10 +155,16 @@ function create_help_buttons( e ) {
 }
 
 ui.create_desc = function ui_create_desc( e ) {
-   var result = _.create( 'div', { class: 'help', html: ns.get_desc( e ) } );
-   var clipboard = _.create( 'div', { class: 'icon icon_ui_clipboard', style: 'float:right', title: 'Add to compare', tabindex: 0, 'aria-role': 'button', onclick: event.btn_add_clipboard_click } );
-   result.insertBefore( clipboard, result.firstChild );
-   return result;
+   var result = '<div class="help">';
+   if ( ui.compared.indexOf( e.name ) < 0 ) {
+      result += '<div class="icon icon_ui_plus clipicon" title="Add to compare"';
+   } else {
+      result += '<div class="icon icon_ui_minus clipicon" title="Remove from compare"';
+   }
+   result += ' tabindex="0" aria-role="button" onclick="ufoal.ui.event.btn_clipboard_click(event)"></div>';
+   result += '<div class="icon icon_ui_clipboard" style="float:right"></div>';
+   result += ns.get_desc( e );
+   return ui.to_dom( result + '</div>' );
 };
 
 })( ufoal );

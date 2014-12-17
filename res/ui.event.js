@@ -89,11 +89,18 @@ event.btn_desc_click = function btn_desc_click( evt ) {
    box.insertBefore( help, box.querySelector( '.desc' ).nextSibling );
 };
 
-event.btn_add_clipboard_click = function lnk_btn_add_clipboard_click( evt ) {
+event.btn_clipboard_click = function lnk_btn_clipboard_click( evt ) {
    var clicked = ns.all[ evt.target.parentNode.parentNode.dataset.index ];
    var pos = ui.compared.indexOf( clicked );
-   if ( pos >= 0 ) ui.compared.splice( pos, 1 );
-   else ui.compared.push( clicked );
+   if ( pos >= 0 ) {
+      ui.compared.splice( pos, 1 );
+      evt.target.classList.remove( 'icon_ui_minus' );
+      evt.target.classList.add( 'icon_ui_plus' );
+   } else {
+      ui.compared.push( clicked );
+      evt.target.classList.remove( 'icon_ui_plus' );
+      evt.target.classList.add( 'icon_ui_minus' );
+   }
    ui.update_compare();
 };
 
