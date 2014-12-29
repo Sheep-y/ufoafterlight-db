@@ -6,8 +6,10 @@ var txt = ns.txt, br = '<br/>', hr = '<hr/>', sp = ' &nbsp; &nbsp; ';
 ns.get_desc = function ufoal_get_desc( e ) {
    var method = 'get_' + e.type + '_desc';
    var content = 'Id: ' + e.id;
-   if ( ns.ui.want_desc ) {
-      if ( +e.name !== e.id ) content += ', ' + e.name;
+   if ( +e.name !== e.id ) content += ', ' + e.name;
+   if ( ns.ui.comparing ) {
+      content += br;
+   } else {
       if ( e.unknown )
          content += br + '<b>This entry is unused in the final game</b>';
       content += hr;
@@ -18,7 +20,7 @@ ns.get_desc = function ufoal_get_desc( e ) {
       } else {
          if ( ! ns[ method ] ) method = 'get_general_desc';
       }
-   }
+   }   
    if ( ns[ method ] )
       content += ns[ method ]( e );
    return content;
@@ -29,7 +31,7 @@ ns.get_hint = function ufoal_get_hint( e ) {
 }
 
 ns.get_building_desc = function ufoal_get_building_desc( e ) {
-   var result = ns.ui.want_desc ? ns.get_general_desc( e ) + hr : '', people = [];
+   var result = ns.ui.comparing ? '' : ns.get_general_desc( e ) + hr, people = [];
    result += ( e.inner ? 'Internal' : 'External' ) + ' building (' + e.size + 'x' + e.size + ')' + br;
    if ( e.capacity ) {
       result += "Capacity: " + e.capacity + ' ';
@@ -53,7 +55,7 @@ ns.get_item_desc = function ufoal_get_item_desc( e ) {
    var sub, result = [], ui = ns.ui;
    function add( t ) { result.push( t ); }
 
-   if ( ns.ui.want_desc ) result.push( ns.get_general_desc( e ) + hr );
+   if ( ! ns.ui.comparing ) result.push( ns.get_general_desc( e ) + hr );
    if ( e.weapon || e.ammo ) {
       var sub = e.weapon || e.ammo;
       add( txt.shape[ sub.shapeIndex ] + ' ' + ( sub.originIndex ? txt.item_orig[ sub.originIndex ] : '' ) );
@@ -64,6 +66,8 @@ ns.get_item_desc = function ufoal_get_item_desc( e ) {
       sub = e.manufacturable;
       if ( sub.assemblytime ) add( 'Assembly line: ' + sub.assemblytime + ' man-days to setup' );
       if ( sub.manufacturingtime ) add( 'Produce: ' + sub.manufacturingtime + ' man-days per piece' );
+   } else if ( ns.ui.comparing ) {
+      add( br + ' ' + br + ' ' + br ); // consistent layout
    }
 
    if ( e.armour ) {
@@ -71,7 +75,9 @@ ns.get_item_desc = function ufoal_get_item_desc( e ) {
       add( hr );
       if ( sub.headslotIndex && sub.handslotIndex ) add( 'Addon slots: 2' );
       else if ( sub.headslotIndex || sub.handslotIndex ) add( 'Addon slot: 1' );
+      else if ( ns.ui.comparing ) add( 'No addon slot' );
       if ( sub.maxhostility ) add( 'Env. Resist: ' + sub.maxhostility );
+      else if ( ns.ui.comparing ) add( 'Env. Resist: 15' );
       if ( sub.protection ) sub.protection.forEach( function( e, i ) {
          if ( i ) add( txt.damage_type[i] + ': ' + percent( e ) );
       });
@@ -108,7 +114,9 @@ ns.get_item_desc = function ufoal_get_item_desc( e ) {
       if ( sub.visorslotIndex ) slot.push( 'Scope' );
       if ( sub.additionalslotIndex ) slot.push( 'Underbarrel' );
       if ( slot.length ) add( 'Addons: ' + slot.join( ', ' ) );
+      else if ( ns.ui.comparing ) add( 'Addons: (None)' );
       if ( sub.deploytime ) add( 'Deploy: ' + second( sub.deploytime ) );
+      else if ( ns.ui.comparing ) add( 'Deploy: 0s' );
 
       if ( sub.ammo ) { sub.ammo.forEach( function( ammo ) {
          add( ' ' );

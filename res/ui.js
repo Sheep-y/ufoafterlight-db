@@ -13,7 +13,7 @@ var time_log = _( '#lbl_time_log' )[0];
 
 var ui = ns.ui = {
    'event' : event,
-   'want_desc' : true, // True if want textual (in-game) description, which is not displayed when comparing.
+   'comparing' : true, // True if comparing, false if individual.
    'is_tech' : false, // Whether current stack contains technology, hide trainings if so.
    'displayed' : [], // Displayed entity stack; cleared with each new result
    'compared' : [], // List of entities being compared.
@@ -135,7 +135,7 @@ var ui = ns.ui = {
    },
 
    'show_result' : function ui_show_result( roots ) {
-      ui.want_desc = true;
+      ui.comparing = false;
       ui.show_panel( pnl_result );
 
       // Find requirements for each result
@@ -248,7 +248,7 @@ var ui = ns.ui = {
    'compare' : function ui_compare( list ) {
       if ( typeof( list ) === 'string' ) list = list.split( /;/ );
       _.time(); // Reset timer
-      ui.want_desc = false;
+      ui.comparing = true;
       ui.displayed.length = 0;
       pnl_compare.innerHTML = '';
       list.forEach( function each_compared( e ) {
