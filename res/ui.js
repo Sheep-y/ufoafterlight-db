@@ -5,6 +5,7 @@ var event = {}; // Event handlers are stored here
 var pnl_help = _( '#pnl_help' )[0];
 var pnl_index = _( '#pnl_index' )[0];
 var pnl_compare = _( '#pnl_compare' )[0];
+var pnl_compare_content = _( '#pnl_compare_content' )[0];
 var pnl_result = _( '#pnl_result' )[0];
 var pnl_enable = _( '#pnl_enable' )[0];
 var pnl_license = _( '#pnl_license' )[0];
@@ -253,14 +254,14 @@ var ui = ns.ui = {
       ui.comparing = true;
       ui.compared = []; // Keeping one compare state is simpler and more reliable
       ui.displayed.length = 0;
-      _.clear( pnl_compare );
+      _.clear( pnl_compare_content );
       list.forEach( function each_compared( e ) {
          e = ns.entity[ e ];
          ui.compared.push( e );
          var box = ui.create_box( e );
          box.classList.add( 'f_left' );
          event.btn_desc_click( { target: _( box, '.desc' )[0] } ); // Show top level descriptions
-         pnl_compare.appendChild( box );
+         pnl_compare_content.appendChild( box );
       });
       ui.show_panel( pnl_compare );
       ui.update_compare();

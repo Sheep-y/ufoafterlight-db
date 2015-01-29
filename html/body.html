@@ -12,5 +12,10 @@
 
 <div id="pnl_index" class="box hide"></div>
 <div id="pnl_result" class="box hide"></div>
-<div id="pnl_compare" class="box hide cf"></div>
+<div id="pnl_compare" class="box hide cf">
+   <button onclick='ufoal.ui.event.btn_clear_compare_click(event)'>Clear</button>
+   <button accesskey='U' onclick='ufoal.ui.event.btn_undo_compare_click(event)'><u>U</u>ndo</button>
+   <button accesskey='R' onclick='ufoal.ui.event.btn_redo_compare_click(event)'><u>R</u>edo</button>
+   <div id="pnl_compare_content"></div>
+</div>
 <div id="pnl_enable" class="box hide f_right"></div>

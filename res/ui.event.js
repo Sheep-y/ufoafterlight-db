@@ -130,4 +130,13 @@ event.lnk_license_click = function lnk_license_click( evt ) {
    ui.update_state();
 };
 
+event.btn_clear_compare_click = function btn_clear_compare_click( evt ) {
+}
+
+event.btn_undo_compare_click = function btn_undo_compare_click( evt ) {
+}
+
+event.btn_redo_compare_click = function btn_redo_compare_click( evt ) {
+}
+
 })( ufoal );
