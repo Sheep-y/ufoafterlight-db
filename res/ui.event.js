@@ -65,7 +65,7 @@ event.txt_search_input.timer = 0;
 
 event.txt_search_blur = function txt_search_blur( evt ) {
    var val = txt_search.value.trim();
-   if ( ui.displayed && val != ui.find_query() ) {
+   if ( ui.displayed && val != ui.find_query() && ui.find_compare() === null ) {
       history.pushState( null, '', '?query=' + val );
    }
 };
@@ -102,6 +102,7 @@ event.btn_desc_click = function btn_desc_click( evt ) {
 event.btn_clipboard_click = function lnk_btn_clipboard_click( evt ) {
    var clicked = ns.all[ evt.target.parentNode.parentNode.dataset.index ];
    var pos = ui.compared.indexOf( clicked );
+   ui.save_compare();
    if ( pos >= 0 ) {
       ui.compared.splice( pos, 1 );
       evt.target.classList.remove( 'icon_ui_minus' );
@@ -112,7 +113,6 @@ event.btn_clipboard_click = function lnk_btn_clipboard_click( evt ) {
       evt.target.classList.add( 'icon_ui_minus' );
    }
    ui.update_compare();
-   if ( ui.find_compare() ) _('#lnk_compare')[0].click();
 };
 
 event.lnk_help_click = function lnk_help_click( evt ) {
@@ -131,12 +131,17 @@ event.lnk_license_click = function lnk_license_click( evt ) {
 };
 
 event.btn_clear_compare_click = function btn_clear_compare_click( evt ) {
+   ui.save_compare();
+   ui.compared = [];
+   ui.update_compare();
 }
 
 event.btn_undo_compare_click = function btn_undo_compare_click( evt ) {
+   ui.undo_compare();
 }
 
 event.btn_redo_compare_click = function btn_redo_compare_click( evt ) {
+   ui.redo_compare();
 }
 
 })( ufoal );

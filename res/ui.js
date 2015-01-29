@@ -14,10 +14,12 @@ var time_log = _( '#lbl_time_log' )[0];
 
 var ui = ns.ui = {
    'event' : event,
-   'comparing' : true, // True if comparing, false if individual.
+   'comparing' : true, // True if building compare screen.
    'is_tech' : false, // Whether current stack contains technology, hide trainings if so.
    'displayed' : [], // Displayed entity stack; cleared with each new result
    'compared' : [], // List of entities being compared.
+   'compare_undo' : [], // Undo state, just snapshots of compared.
+   'compare_redo' : [], // Redo state, just snapshots of compared.
 
    'init' : function ui_init() {
       _.hide( '.hide' );
@@ -127,7 +129,7 @@ var ui = ns.ui = {
 
    'show_panel' : function ui_show_panel( panel ) {
       _.hide( [ pnl_index, pnl_result, pnl_compare, pnl_enable, pnl_license, pnl_help ] );
-      _.clear( [ pnl_enable, pnl_result ] );
+      _.clear( [ pnl_enable, pnl_result, pnl_compare_content ] );
       ui.displayed.length = 0; // Reset display record
       if ( panel ) {
          _('#nav_top')[0].scrollIntoView( true );
@@ -241,20 +243,24 @@ var ui = ns.ui = {
          _( '#lbl_compare_count' )[0].textContent = len;
          lnk_compare.href = "?compare=" + _.col( ui.compared, 'name' ).join( ';' );
          lnk_compare.title =  _.col( ui.compared, 'text' ).join( ', ' );
-         _.show( lnk_compare );
       } else {
-         lnk_compare.href = lnk_compare.title = '';
-         _.hide( lnk_compare );
+         lnk_compare.href = "?compare=";
+         lnk_compare.title = '';
       }
+      _.attr( '#btn_compare_clear', { 'disabled' : len ? undefined : 'disabled' } );
+      _.attr( '#btn_compare_undo' , { 'disabled' : ui.compare_undo.length ? undefined : 'disabled' } );
+      _.attr( '#btn_compare_redo' , { 'disabled' : ui.compare_redo.length ? undefined : 'disabled' } );
+      if ( ( ! ui.comparing ) && ui.find_compare() !== null ) _('#lnk_compare')[0].click();
    },
 
    'compare' : function ui_compare( list ) {
-      if ( typeof( list ) === 'string' ) list = list.split( /;/ );
       _.time(); // Reset timer
+      ui.show_panel( pnl_compare );
+      if ( list === '' ) return pnl_compare_content.textContent = 'You can add entries for comparison by clicking the clipboard button in entry description.';
+      if ( typeof( list ) === 'string' ) list = list.split( /;/ );
       ui.comparing = true;
-      ui.compared = []; // Keeping one compare state is simpler and more reliable
+      ui.compared = []; // Keeping one compare state is simpler and more reliable. Should not affect undo/redo.
       ui.displayed.length = 0;
-      _.clear( pnl_compare_content );
       list.forEach( function each_compared( e ) {
          e = ns.entity[ e ];
          ui.compared.push( e );
@@ -263,11 +269,31 @@ var ui = ns.ui = {
          event.btn_desc_click( { target: _( box, '.desc' )[0] } ); // Show top level descriptions
          pnl_compare_content.appendChild( box );
       });
-      ui.show_panel( pnl_compare );
       ui.update_compare();
+      ui.comparing = false;
       ui.log_time( list.length + ' entites compared' );
-      return true;
-   },   
+   },
+
+   'save_compare' : function ui_save_compare() {
+      ui.compare_redo = [];
+      ui.compare_undo.push( ui.compared.concat() );
+   },
+
+   'undo_compare' : function ui_undo_compare() {
+      if ( ui.compare_undo.length ) {
+         ui.compare_redo.push( ui.compared );
+         ui.compared = ui.compare_undo.pop();
+      }
+      ui.update_compare();
+   },
+
+   'redo_compare' : function ui_redo_compare() {
+      if ( ui.compare_redo.length ) {
+         ui.compare_undo.push( ui.compared );
+         ui.compared = ui.compare_redo.pop();
+      }
+      ui.update_compare();
+   },
 };
 
 function find_url_param( regx ) {
@@ -275,7 +301,7 @@ function find_url_param( regx ) {
       var match = location.search.match( regx );
       if ( match && match.length ) return decodeURIComponent( match[1] ).trim();
    }
-   return "";
+   return null;
 }
 
 })( ufoal );
