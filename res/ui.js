@@ -4,6 +4,8 @@ var event = {}; // Event handlers are stored here
 
 var pnl_help = _( '#pnl_help' )[0];
 var pnl_index = _( '#pnl_index' )[0];
+var pnl_compare = _( '#pnl_compare' )[0];
+var pnl_compare_content = _( '#pnl_compare_content' )[0];
 var pnl_result = _( '#pnl_result' )[0];
 var pnl_enable = _( '#pnl_enable' )[0];
 var pnl_license = _( '#pnl_license' )[0];
@@ -12,8 +14,12 @@ var time_log = _( '#lbl_time_log' )[0];
 
 var ui = ns.ui = {
    'event' : event,
-   'displayed' : [], // Displayed entity stack; cleared with each new result
+   'comparing' : true, // True if building compare screen.
    'is_tech' : false, // Whether current stack contains technology, hide trainings if so.
+   'displayed' : [], // Displayed entity stack; cleared with each new result
+   'compared' : [], // List of entities being compared.
+   'compare_undo' : [], // Undo state, just snapshots of compared.
+   'compare_redo' : [], // Redo state, just snapshots of compared.
 
    'init' : function ui_init() {
       _.hide( '.hide' );
@@ -54,16 +60,15 @@ var ui = ns.ui = {
       }
    },
 
-   'find_query' : function ui_find_query() {
-      if ( location.search ) {
-         var match = location.search.match( /\bquery=([^&]*)/ );
-         if ( match && match.length ) return decodeURIComponent( match[1] ).trim();
-      }
-      return "";
-   },
+   'find_query'   : function ui_find_query()   { return find_url_param( /[?&]query=([^&]*)/   ); },
+   'find_compare' : function ui_find_compare() { return find_url_param( /[?&]compare=([^&]*)/ ); },
 
    'is_typing' : function ui_is_typing() {
       return document.activeElement && document.activeElement === txt_search;
+   },
+
+   'to_dom' : function ui_html( html ) {
+      return document.createRange().createContextualFragment( html ).firstElementChild;
    },
 
    'search' : function ui_search( val ) {
@@ -100,9 +105,10 @@ var ui = ns.ui = {
    // Update display to match current input / uri state
    'update_state' : function ui_update_state() {
       var hash = location.hash, e = null;
-      var val = ui.find_query();
+      var query = ui.find_query();
+      var comp = ui.find_compare();
       if ( hash === '#' ) hash = '';
-      if ( ! hash && ! val ) return ui.show_panel( pnl_index );
+      if ( ! hash && ! query && ! comp ) return ui.show_panel( pnl_index );
 
       e = hash ? _( '#pnl_index ' + hash ) : [];
       if ( hash === '#license' || hash === '#help' || e.length > 0 ) {
@@ -113,16 +119,18 @@ var ui = ns.ui = {
          } else {
             ui.show_panel( '#pnl_' + hash.substr( 1 ) );
          }
+      } else if ( comp ) {
+         ui.compare( comp );
       } else {
-         txt_search.value = val;
-         if ( val ) ui.search( val );
+         txt_search.value = query;
+         if ( query ) ui.search( query );
       }
    },
 
    'show_panel' : function ui_show_panel( panel ) {
-      _.hide( [ pnl_index, pnl_result, pnl_enable, pnl_license, pnl_help ] );
-      _.clear( [ pnl_enable, pnl_result ] );
-      ui.displayed = []; // Reset display record
+      _.hide( [ pnl_index, pnl_result, pnl_compare, pnl_enable, pnl_license, pnl_help ] );
+      _.clear( [ pnl_enable, pnl_result, pnl_compare_content ] );
+      ui.displayed.length = 0; // Reset display record
       if ( panel ) {
          _('#nav_top')[0].scrollIntoView( true );
          return _.show( panel );
@@ -130,6 +138,7 @@ var ui = ns.ui = {
    },
 
    'show_result' : function ui_show_result( roots ) {
+      ui.comparing = false;
       ui.show_panel( pnl_result );
 
       // Find requirements for each result
@@ -142,7 +151,7 @@ var ui = ns.ui = {
       ui.log_time( 'Requirement tree built' );
 
       // Reverse lookup
-      ui.displayed = [];
+      ui.displayed.length = 0;
       roots.forEach( function( root ) {
          var regx = ns.special_req[ root.name ], data = ns.data;
          var lookup = { enable: [], used: [], addons: [] };
@@ -226,6 +235,80 @@ var ui = ns.ui = {
       }
       return result;
    },
+
+   'update_compare' : function ui_update_compare() {
+      var len = ui.compared.length;
+      var lnk_compare = _( '#lnk_compare' )[0];
+      if ( len ) {
+         _( '#lbl_compare_count' )[0].textContent = len;
+         lnk_compare.href = "?compare=" + _.col( ui.compared, 'name' ).join( ';' );
+         lnk_compare.title =  _.col( ui.compared, 'text' ).join( ', ' );
+      } else {
+         lnk_compare.href = "?compare=";
+         lnk_compare.title = '';
+      }
+      _.attr( '#btn_compare_clear', { 'disabled' : len ? undefined : 'disabled' } );
+      _.attr( '#btn_compare_undo' , { 'disabled' : ui.compare_undo.length ? undefined : 'disabled' } );
+      _.attr( '#btn_compare_redo' , { 'disabled' : ui.compare_redo.length ? undefined : 'disabled' } );
+      if ( ( ! ui.comparing ) && ui.find_compare() !== null ) _('#lnk_compare')[0].click();
+   },
+
+   'compare' : function ui_compare( list ) {
+      _.time(); // Reset timer
+      ui.show_panel( pnl_compare );
+      if ( list === '' ) return pnl_compare_content.textContent = 'You can add entries for comparison by clicking the clipboard button in entry description.';
+      if ( typeof( list ) === 'string' ) list = list.split( /;/ );
+      ui.comparing = true;
+      ui.compared = []; // Keeping one compare state is simpler and more reliable. Should not affect undo/redo.
+      ui.displayed.length = 0;
+      list.forEach( function each_compared( e ) {
+         e = ns.entity[ e ];
+         ui.compared.push( e );
+         var box = ui.create_box( e );
+         box.classList.add( 'f_left' );
+         event.btn_desc_click( { target: _( box, '.desc' )[0] } ); // Show top level descriptions
+         pnl_compare_content.appendChild( box );
+      });
+      ui.update_compare();
+      ui.comparing = false;
+      ui.log_time( list.length + ' entites compared' );
+   },
+
+   'save_compare' : function ui_save_compare() {
+      ui.compare_redo = [];
+      ui.compare_undo.push( ui.compared.concat() );
+   },
+
+   'undo_compare' : function ui_undo_compare() {
+      if ( ui.compare_undo.length ) {
+         ui.compare_redo.push( ui.compared );
+         ui.compared = ui.compare_undo.pop();
+      }
+      ui.update_compare();
+   },
+
+   'redo_compare' : function ui_redo_compare() {
+      if ( ui.compare_redo.length ) {
+         ui.compare_undo.push( ui.compared );
+         ui.compared = ui.compare_redo.pop();
+      }
+      ui.update_compare();
+   },
 };
 
+function find_url_param( regx ) {
+   if ( location.search ) {
+      var match = location.search.match( regx );
+      if ( match && match.length ) return decodeURIComponent( match[1] ).trim();
+   }
+   return null;
+}
+
 })( ufoal );
+
+/* This is supposed to catch unintended page refesh.  Unfortunately that never happens in debug mode!
+window.onbeforeunload = function(e) {
+  debugger;
+  return 'stop!';
+};
+*/

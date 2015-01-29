@@ -4,25 +4,32 @@ var txt = ns.txt, br = '<br/>', hr = '<hr/>', sp = ' &nbsp; &nbsp; ';
 
 /** Return the description of any entity */
 ns.get_desc = function ufoal_get_desc( e ) {
-   var content = 'Id: ' + e.id;
-   if ( +e.name !== e.id ) content += ', ' + e.name;
-   if ( e.unknown ) 
-      content += br + '<b>This entry is unused in the final game</b>';
-   content += hr;
-   if ( e.type === 'tech' ) {
-      content += txt.tech[ e.id + '_b4' ] + hr + ns.txt.tech[ e.id + '_done' ];
-   } else if ( e.type === 'training' ) {
-      content += txt.training[ e.id + "_desc" ] + hr + 'Effect: ' + ns.uncamel( e.effect );
-   } else {
-      var method = 'get_' + e.type + '_desc';
-      if ( ! ns[ method ] ) method = 'get_general_desc';
+   var method = 'get_' + e.type + '_desc', content = '';
+   if ( ! ns.ui.comparing ) {
+      content += 'Id: ' + e.id;
+      if ( +e.name !== e.id ) content += ', ' + e.name;
+      if ( e.unknown )
+         content += br + '<b>This entry is unused in the final game</b>';
+      content += hr;
+      if ( e.type === 'tech' ) {
+         content += txt.tech[ e.id + '_b4' ] + hr + ns.txt.tech[ e.id + '_done' ];
+      } else if ( e.type === 'training' ) {
+         content += txt.training[ e.id + "_desc" ] + hr + 'Effect: ' + ns.uncamel( e.effect );
+      } else {
+         if ( ! ns[ method ] ) method = 'get_general_desc';
+      }
+   }   
+   if ( ns[ method ] )
       content += ns[ method ]( e );
-   }
    return content;
 };
 
+ns.get_hint = function ufoal_get_hint( e ) {
+   if ( e.type === 'building' ) return txt.building[ e.id + '_tip' ];
+}
+
 ns.get_building_desc = function ufoal_get_building_desc( e ) {
-   var result = ns.get_general_desc( e ) + hr, people = [];
+   var result = ns.ui.comparing ? '' : ns.get_general_desc( e ) + hr, people = [];
    result += ( e.inner ? 'Internal' : 'External' ) + ' building (' + e.size + 'x' + e.size + ')' + br;
    if ( e.capacity ) {
       result += "Capacity: " + e.capacity + ' ';
@@ -43,18 +50,24 @@ function percent( v ) { return Math.round(v*100, 3) + '%'; }
 function second( t ) { return Math.round(t/10, 3) + '&thinsp;s.'; }
 
 ns.get_item_desc = function ufoal_get_item_desc( e ) {
-   var sub, result = [ ns.get_general_desc( e ) + hr ], ui = ns.ui;
+   var sub, result = [], ui = ns.ui;
    function add( t ) { result.push( t ); }
+
+   if ( ! ns.ui.comparing ) result.push( ns.get_general_desc( e ) + hr );
    if ( e.weapon || e.ammo ) {
       var sub = e.weapon || e.ammo;
       add( txt.shape[ sub.shapeIndex ] + ' ' + ( sub.originIndex ? txt.item_orig[ sub.originIndex ] : '' ) );
    }
    if ( e.weight ) add( 'Weight: ' + e.weight + ' kg' );
-   if ( e.startquantity ) add( 'Starts game with: ' + e.startquantity + ' pieces' );
+
+   if ( ! ns.ui.comparing && e.startquantity ) add( 'Starts game with: ' + e.startquantity + ' pieces' );
+
    if ( e.manufacturable ) {
       sub = e.manufacturable;
-      if ( sub.assemblytime ) add( 'Assembly line: ' + sub.assemblytime + ' man-days to setup' );
-      if ( sub.manufacturingtime ) add( 'Produce: ' + sub.manufacturingtime + ' man-days per piece' );
+      if ( sub.assemblytime ) add( 'Assembly line: ' + sub.assemblytime + ( ns.ui.comparing ? ' days' : ' man-days to setup' ) );
+      if ( sub.manufacturingtime ) add( 'Produce: ' + sub.manufacturingtime + ( ns.ui.comparing ? ' days' : ' man-days per piece' ) );
+   } else if ( ns.ui.comparing ) {
+      add( sp ); add( sp );
    }
 
    if ( e.armour ) {
@@ -62,7 +75,9 @@ ns.get_item_desc = function ufoal_get_item_desc( e ) {
       add( hr );
       if ( sub.headslotIndex && sub.handslotIndex ) add( 'Addon slots: 2' );
       else if ( sub.headslotIndex || sub.handslotIndex ) add( 'Addon slot: 1' );
+      else if ( ns.ui.comparing ) add( 'No addon slot' );
       if ( sub.maxhostility ) add( 'Env. Resist: ' + sub.maxhostility );
+      else if ( ns.ui.comparing ) add( 'Env. Resist: 15' );
       if ( sub.protection ) sub.protection.forEach( function( e, i ) {
          if ( i ) add( txt.damage_type[i] + ': ' + percent( e ) );
       });
@@ -99,7 +114,9 @@ ns.get_item_desc = function ufoal_get_item_desc( e ) {
       if ( sub.visorslotIndex ) slot.push( 'Scope' );
       if ( sub.additionalslotIndex ) slot.push( 'Underbarrel' );
       if ( slot.length ) add( 'Addons: ' + slot.join( ', ' ) );
+      else if ( ns.ui.comparing ) add( 'Addons: (None)' );
       if ( sub.deploytime ) add( 'Deploy: ' + second( sub.deploytime ) );
+      else if ( ns.ui.comparing ) add( 'Deploy: 0s' );
 
       if ( sub.ammo ) { sub.ammo.forEach( function( ammo ) {
          add( ' ' );
@@ -276,10 +293,10 @@ ns.get_people_desc = function ufoal_get_people_desc( e ) {
    if ( e.scientist ) result += sp + 'Scientist ' + e.scientist + br;
    if ( e.technician ) result += sp + 'Technician ' + e.technician + br;
    if ( e.trigger === 'StartEvent' )
-      result += br + 'Joined since game starts' + br;
+      result += br + 'On the team since game starts' + br;
    else if ( e.trigger === 'UnreachableTrigger' )
       result += br + 'Joins after special event' + br;
-   else if ( e.trigger === 'UnreachableTrigger' )
+   else
       result += br + 'Joins when ' + ns.uncamel( e.trigger ) + br;
 
    if ( e.training ) {
