@@ -67,7 +67,7 @@ ns.get_item_desc = function ufoal_get_item_desc( e ) {
       if ( sub.assemblytime ) add( 'Assembly line: ' + sub.assemblytime + ' man-days to setup' );
       if ( sub.manufacturingtime ) add( 'Produce: ' + sub.manufacturingtime + ' man-days per piece' );
    } else if ( ns.ui.comparing ) {
-      add( br + ' ' + br + ' ' + br ); // consistent layout
+      add( br + ' ' + br ); // consistent layout
    }
 
    if ( e.armour ) {
