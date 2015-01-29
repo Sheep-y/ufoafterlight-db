@@ -4,12 +4,10 @@ var txt = ns.txt, br = '<br/>', hr = '<hr/>', sp = ' &nbsp; &nbsp; ';
 
 /** Return the description of any entity */
 ns.get_desc = function ufoal_get_desc( e ) {
-   var method = 'get_' + e.type + '_desc';
-   var content = 'Id: ' + e.id;
-   if ( +e.name !== e.id ) content += ', ' + e.name;
-   if ( ns.ui.comparing ) {
-      content += br;
-   } else {
+   var method = 'get_' + e.type + '_desc', content = '';
+   if ( ! ns.ui.comparing ) {
+      content += 'Id: ' + e.id;
+      if ( +e.name !== e.id ) content += ', ' + e.name;
       if ( e.unknown )
          content += br + '<b>This entry is unused in the final game</b>';
       content += hr;
@@ -61,13 +59,15 @@ ns.get_item_desc = function ufoal_get_item_desc( e ) {
       add( txt.shape[ sub.shapeIndex ] + ' ' + ( sub.originIndex ? txt.item_orig[ sub.originIndex ] : '' ) );
    }
    if ( e.weight ) add( 'Weight: ' + e.weight + ' kg' );
-   if ( e.startquantity ) add( 'Starts game with: ' + e.startquantity + ' pieces' );
+
+   if ( ! ns.ui.comparing && e.startquantity ) add( 'Starts game with: ' + e.startquantity + ' pieces' );
+
    if ( e.manufacturable ) {
       sub = e.manufacturable;
-      if ( sub.assemblytime ) add( 'Assembly line: ' + sub.assemblytime + ' man-days to setup' );
-      if ( sub.manufacturingtime ) add( 'Produce: ' + sub.manufacturingtime + ' man-days per piece' );
+      if ( sub.assemblytime ) add( 'Assembly line: ' + sub.assemblytime + ( ns.ui.comparing ? ' days' : ' man-days to setup' ) );
+      if ( sub.manufacturingtime ) add( 'Produce: ' + sub.manufacturingtime + ( ns.ui.comparing ? ' days' : ' man-days per piece' ) );
    } else if ( ns.ui.comparing ) {
-      add( br + ' ' + br ); // consistent layout
+      add( sp ); add( sp );
    }
 
    if ( e.armour ) {

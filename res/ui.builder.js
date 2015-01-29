@@ -131,9 +131,11 @@ function create_base_box( e, className, icon, alt ) {
    html += '<div class="icon ' + icon + '" title="' + _.escHtml( alt ) + '"></div>' + ui.create_title( e );
    var type = ns.type( e );
    if ( type )  html += ' (' + type + ')';
-   if ( e.day ) html += '<span class="manday">' + _.escHtml( e.day + ' man-days' ) + "</span>";
-   else if ( e.hour ) html += '<span class="manhour">' + _.escHtml( e.hour + ' man-hours' ) + "</span>";
-   html += create_fold_buttons();
+   if ( ! ui.comparing ) {
+      if ( e.day ) html += '<span class="manday">' + _.escHtml( e.day + ' man-days' ) + "</span>";
+      else if ( e.hour ) html += '<span class="manhour">' + _.escHtml( e.hour + ' man-hours' ) + "</span>";
+      html += create_fold_buttons();
+   }
    html += '<div class="desc icon icon_ui_desc" title="Descriptions" tabindex="0" aria-role="button" onclick="ufoal.ui.event.btn_desc_click(event)"></div>';
    html += '</div>';
 
@@ -148,7 +150,7 @@ function create_fold_buttons() {
 
 ui.create_desc = function ui_create_desc( e ) {
    var html = '<div class="help">';
-   if ( ui.compared.indexOf( e.name ) < 0 ) {
+   if ( ui.compared.indexOf( e ) < 0 ) {
       html += '<div class="icon icon_ui_plus clipicon" title="Add to compare"';
    } else {
       html += '<div class="icon icon_ui_minus clipicon" title="Remove from compare"';

@@ -251,15 +251,19 @@ var ui = ns.ui = {
       if ( typeof( list ) === 'string' ) list = list.split( /;/ );
       _.time(); // Reset timer
       ui.comparing = true;
+      ui.compared = []; // Keeping one compare state is simpler and more reliable
       ui.displayed.length = 0;
       _.clear( pnl_compare );
       list.forEach( function each_compared( e ) {
-         var box = ui.create_box( ns.entity[ e ] );
+         e = ns.entity[ e ];
+         ui.compared.push( e );
+         var box = ui.create_box( e );
          box.classList.add( 'f_left' );
          event.btn_desc_click( { target: _( box, '.desc' )[0] } ); // Show top level descriptions
          pnl_compare.appendChild( box );
       });
       ui.show_panel( pnl_compare );
+      ui.update_compare();
       ui.log_time( list.length + ' entites compared' );
       return true;
    },   
