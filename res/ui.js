@@ -274,3 +274,10 @@ function find_url_param( regx ) {
 }
 
 })( ufoal );
+
+/* This is supposed to catch unintended page refesh.  Unfortunately that never happens in debug mode!
+window.onbeforeunload = function(e) {
+  debugger;
+  return 'stop!';
+};
+*/

@@ -31,7 +31,17 @@ event.lnk_internal_click = function lnk_internal_click( evt ) {
             history.pushState( null, '', '?compare=' + comp );
          ui.compare( comp );
          return false;
+
+      } else {
+         _.warn( 'Ignoring unknown destination: ' + destination );
       }
+
+   } else {
+      if ( ! evt ) _.warn( 'lnk_internal_click without event' );
+      else if ( ! evt.target ) _.warn( 'lnk_internal_click without target' );
+      else if ( ! evt.target.href ) _.warn( 'lnk_internal_click without target href' );
+      if ( evt.ctrlKey ) _.log( 'Ignoring ctrl-click' );
+      else if ( evt.button !== 0 ) _.log( 'Ignoring non-left click' );
    }
 };
 
@@ -102,6 +112,7 @@ event.btn_clipboard_click = function lnk_btn_clipboard_click( evt ) {
       evt.target.classList.add( 'icon_ui_minus' );
    }
    ui.update_compare();
+   if ( ui.find_compare() ) _('#lnk_compare')[0].click();
 };
 
 event.lnk_help_click = function lnk_help_click( evt ) {
