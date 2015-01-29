@@ -78,11 +78,9 @@ ns.init = function ufoal_init() {
                   makePrereq( e ).unshift( ns.weapon_req[ wam.weaponmode ] );
                } else if ( wam.weaponmode === 'Melee' || wam.weaponmode === 'Throw' ) {
                   makePrereq( e ).unshift( 'HumanCombat' + ( e.weapon.shapeIndex <= 2 ? 'Minor' : 'Major' ) );
-               } else if ( wam.damageskill === "EMP Strength" ) {
-                  makePrereq( e ).unshift( 'EMEquipmentMinor' );
                }
             });
-            if ( e.weight > 10 ) makePrereq( e ).unshift( 'HeavyEquipmentMinor' );
+            if ( ns.heavy_weapon[ e.name ] ) makePrereq( e ).unshift( 'HeavyEquipmentMinor' );
 
          } else if ( e.armour && e.manufacturable && e.weight >= 20 && e.id < 900 ) {
             // Not the "correct" check per se, but good and simple enough.
@@ -188,6 +186,17 @@ ns.weapon_req = {
    'PlasmaShot': 'PlasmaWeaponsMinor',
    'PsiHeal': 'PsionicEquipmentMinor',
    'PsiControll': 'PsionicEquipmentMajor',
+};
+
+/** Heavy weapons. Let me know if you can detect them correctly without using a name list. */
+ns.heavy_weapon = {
+   'BeastmenBigRifle': 1,
+   'BeastmenCannon': 1,
+   'BeastmenGrenadeLauncher': 1,
+   'HumanGatling': 1,
+   'HumanLaserCannon': 1,
+   'HumanRocketLauncher': 1,
+   'WarpCannon': 1,
 };
 
 ns.type = function ufoal_type( e ) {

@@ -126,7 +126,7 @@ var ui = ns.ui = {
 
    'show_panel' : function ui_show_panel( panel ) {
       _.hide( [ pnl_index, pnl_result, pnl_compare, pnl_enable, pnl_license, pnl_help ] );
-      pnl_enable.innerHTML = pnl_result.innerHTML = '';
+      _.clear( [ pnl_enable, pnl_result ] );
       ui.displayed.length = 0; // Reset display record
       if ( panel ) {
          _('#nav_top')[0].scrollIntoView( true );
@@ -252,7 +252,7 @@ var ui = ns.ui = {
       _.time(); // Reset timer
       ui.comparing = true;
       ui.displayed.length = 0;
-      pnl_compare.innerHTML = '';
+      _.clear( pnl_compare );
       list.forEach( function each_compared( e ) {
          var box = ui.create_box( ns.entity[ e ] );
          box.classList.add( 'f_left' );
