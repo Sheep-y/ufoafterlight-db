@@ -239,8 +239,10 @@ var ui = ns.ui = {
       if ( len ) {
          _( '#lbl_compare_count' )[0].textContent = len;
          lnk_compare.href = "?compare=" + _.col( ui.compared, 'name' ).join( ';' );
+         lnk_compare.title =  _.col( ui.compared, 'text' ).join( ', ' );
          _.show( lnk_compare );
       } else {
+         lnk_compare.href = lnk_compare.title = '';
          _.hide( lnk_compare );
       }
    },

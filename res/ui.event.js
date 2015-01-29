@@ -9,7 +9,7 @@ event.window_popstate = function window_popstate( evt ) {
    ui.update_state();
 };
 
-event.body_click = function lnk_internal_click( evt ) {
+event.body_click = function body_click( evt ) {
    if ( ! evt || ! evt.target || ! evt.target.className ) return;
    if ( evt.target.className === 'title' ) return event.lnk_internal_click( evt );
 };
