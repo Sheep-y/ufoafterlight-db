@@ -184,7 +184,7 @@ ns.iname = function ufoal_iname( e ) {
    return e.name;
 };
 
-ns.maindata = function ufoal_maindata( e ) { // Entry that returns true will be included in auto completion suggestion
+ns.maindata = function ufoal_maindata( e ) { // Non-main data has lower match priority than main data, and use iname for searching instead of name.
    return ! ( e.unknown || e.type === 'unit' || e.type === 'squad' || ( e.isvisible !== undefined && e.isvisible === 0 ) );
 };
 

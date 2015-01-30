@@ -17,7 +17,7 @@ ui.create_title = function ui_create_title( e ) {
 ui.create_index = function ui_create_index() {
    var nav = _( '#nav_top' )[0];
    var body = _.create( 'ul' );
-   var options = [];
+   var options = []; // Auto complete list
    var plain_sorter = _.sorter(), rev_text_sorter = _.sorter( 'text', 'reverse' );
 
    function MinorMajorAdvSorter( a, b ) { // Sort *after* discarding leading major/minor.
@@ -28,7 +28,13 @@ ui.create_index = function ui_create_index() {
    }
 
    function createList( name, items, sorter ) {
-      var cat = _.create( 'li' ), list = _.create( 'ul' ), created = _.Map(), html = '';
+      var cat = _.create( 'li' ), list = _.create( 'ul' );
+      var html = '', created = _.Map(), map = ns.maps.compare[ name ];
+      if ( map ) {
+         for ( var title in map ) {
+            html += '<a class="title" href="?compare=' + map[ title ] + '">(' + _.escHtml( title ) + ')</a>';
+         }
+      }
       items = items.filter( function( e ){ return e; } );
       if ( sorter ) items.sort( sorter );
       items.forEach( function create_index( e ) {

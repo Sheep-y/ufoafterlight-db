@@ -7,7 +7,7 @@ special_req : { /* Entity relationship mappings */
    'AlienPowerUpgrade': /\bEnergy[6789]\b/,
    'MartianArtifact1': /\b(One|Two)MartianArtifact\b/,
    'MartianArtifact2': /\b(One|Two)MartianArtifact\b/,
-   'MartianArtifact3': /\b(One|Two)MartianArtifact\b/
+   'MartianArtifact3': /\b(One|Two)MartianArtifact\b/,
 },
 
 ammo_req : { /* Ammo training mapping by attack mode */
@@ -15,7 +15,7 @@ ammo_req : { /* Ammo training mapping by attack mode */
    'HealAdvanced': 'MedicineMajor',
    'DefuseMine': 'SurveyingMinor',
    'RepairSuit': 'SuitManipulationMinor',
-   'RepairRobot': 'AutomationMinor'
+   'RepairRobot': 'AutomationMinor',
 },
 
 weapon_req : { /* Weapon/Device training mapping by attack mode */
@@ -24,7 +24,7 @@ weapon_req : { /* Weapon/Device training mapping by attack mode */
    'EMP': 'EMEquipmentMinor',
    'PlasmaShot': 'PlasmaWeaponsMinor',
    'PsiHeal': 'PsionicEquipmentMinor',
-   'PsiControll': 'PsionicEquipmentMajor'
+   'PsiControll': 'PsionicEquipmentMajor',
 },
 
 heavy_weapon : { /* Heavy weapons. Let me know if you can detect them correctly without using a name list. */
@@ -34,7 +34,47 @@ heavy_weapon : { /* Heavy weapons. Let me know if you can detect them correctly 
    'HumanGatling': 1,
    'HumanLaserCannon': 1,
    'HumanRocketLauncher': 1,
-   'WarpCannon': 1
+   'WarpCannon': 1,
+},
+
+compare : {
+   'armour' : {
+      'Human' : '',
+      'Robot' : '',
+      'Alien' : '',
+   },
+   'weapon' : {
+      'Firearm' : '',
+      'Laser' : '',
+      'EM' : '',
+      'Heavy' : '',
+      'Explosive' : '',
+      'Mines' : '',
+   },
+   'ammo' : {
+      'Firearm' : '',
+   },
+   'building' : {
+      'Resource' : '',
+      'Research' : '',
+      'Production' : '',
+   },
+   'station' : {},
+   'tech' : {},
+   'people' : {
+      'Human' : '',
+      'Alien' : '',
+   },
+   /*
+   'addon' : {},
+   'item' : {},
+   'system' : {},
+   'training' : {},
+   'squad' : {},
+   'unit' : {},
+   'subrace' : {},
+   'race' : {},
+   */
 }
 
 };
