@@ -18,7 +18,7 @@ ns.get_desc = function ufoal_get_desc( e ) {
       } else {
          if ( ! ns[ method ] ) method = 'get_general_desc';
       }
-   }   
+   }
    if ( ns[ method ] )
       content += ns[ method ]( e );
    return content;
@@ -38,7 +38,7 @@ ns.get_building_desc = function ufoal_get_building_desc( e ) {
    result += ( e.destroyable ? 'D' : 'Non-d' ) + "estructible.";
    if ( e.max ) result += " Max. 1 can be built.";
    return result;
-}
+};
 
 /** Description for entities other then technologies */
 ns.get_general_desc = function ufoal_get_general_desc( e ) {
@@ -127,7 +127,7 @@ ns.get_item_desc = function ufoal_get_item_desc( e ) {
             if ( ammo.reloadtime ) line +=' Reload ' + second( ammo.reloadtime );
             add( line );
          }
-         if ( ammo.wam ) { 
+         if ( ammo.wam ) {
             add( ammo.wam.map( ns.get_ammo_desc ).join( br ) );
          }
       });}
@@ -168,7 +168,7 @@ ns.get_ammo_desc = function ufoal_get_ammo_desc( wam ) {
    if ( wam.autonom ) {
       sub = wam.autonom;
       if ( sub.visibility ) {
-         var vis = sub.visibility
+         var vis = sub.visibility;
          line += br + br + 'Range: ';
          for ( var v in vis ) {
             if ( vis[v] ) line += v + ': ' + percent( vis[ v ] ) + ', ';
@@ -177,7 +177,7 @@ ns.get_ammo_desc = function ufoal_get_ammo_desc( wam ) {
       }
    }
    return line;
-}
+};
 
 ns.get_race_desc = function ufoal_get_race_desc( e ) {
    var profile = '', result = '', tsenses = txt.sense;
@@ -197,7 +197,7 @@ ns.get_race_desc = function ufoal_get_race_desc( e ) {
    });
    result += br + 'Visibility' + br + profile;
    return result;
-}
+};
 
 ns.get_subrace_desc = function ufoal_get_subrace_desc( e ) {
    var result = '', ui = ns.ui;
@@ -223,7 +223,7 @@ ns.get_subrace_desc = function ufoal_get_subrace_desc( e ) {
       result += sp + e.attributes[ k ] + ' ' + ns.uncamel( k ) + br;
    }
    return result;
-}
+};
 
 ns.get_unit_desc = function ufoal_get_unit_desc( e ) {
    var result = '', ui = ns.ui;
@@ -264,14 +264,14 @@ ns.get_unit_desc = function ufoal_get_unit_desc( e ) {
       }
    }
    return result;
-}
+};
 
 ns.get_squad_desc = function ufoal_get_squad_desc( e ) {
    var result = '', ui = ns.ui;
    result += e.faction + ' ' + ns.uncamel( ns.ucfirst( txt.squad_type[ e.typeIndex ] ) ) + br ;
    result += 'Strength: ' + e.strength + br;
    result += 'Members: ' + e.min_mem;
-   if ( e.max_mem != e.min_mem ) result += ' to ' + e.max_mem;
+   if ( e.max_mem !== e.min_mem ) result += ' to ' + e.max_mem;
    result += br;
 
    var count = [], chance = [];
@@ -283,7 +283,7 @@ ns.get_squad_desc = function ufoal_get_squad_desc( e ) {
    if ( count.length ) result += br + 'Fixed members' + br + count.join( br ) + br;
    if ( chance.length ) result += br + 'Random members' + br + chance.join( br ) + br;
    return result;
-}
+};
 
 ns.get_people_desc = function ufoal_get_people_desc( e ) {
    var result = '', ui = ns.ui;
@@ -313,6 +313,6 @@ ns.get_people_desc = function ufoal_get_people_desc( e ) {
       }
    }
    return result;
-}
+};
 
 })( ufoal );

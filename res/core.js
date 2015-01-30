@@ -22,8 +22,7 @@ ns.init = function ufoal_init() {
       data[ type ].forEach( function each_data( e ) {
          e.type = type;
          if ( set_name && e.id ) {
-            e.text = ns.ucword( txt.name[ e.id ] );
-            if ( ! e.text ) e.text = ns.uncamel( e.name );
+            e.text = ns.ucword( txt.name[ e.id ] || ns.uncamel( e.name ) );
             used_id.push( e.id );
          }
          if ( e.name ) {
@@ -49,8 +48,10 @@ ns.init = function ufoal_init() {
       type.forEach( function each_upgrade_entry( e ) {
          if ( e.upgrade ) e.upgrade = type[ e.upgrade-1 ].name; // training, station
          else if ( e.subrace ) makePrereq( e ).push( 'subrace_' + data.subrace[ e.subrace ].name ); // Unit
-         else if ( ~~e.race ) makePrereq( e ).push( 'race_' + data.race[ e.race ].name ); // Trainings
-         else if ( e.race ) makePrereq( e ).push( 'race_' + e.race ); // Subraces
+         else if ( e.race !== undefined ) {
+            if ( ~~e.race ) makePrereq( e ).push( 'race_' + data.race[ e.race ].name ); // Trainings
+            else if ( e.race ) makePrereq( e ).push( 'race_' + e.race ); // Subraces
+         }
       });
    });
    // Item processing. Item data is too complicated to normalise at data conversion.
@@ -65,13 +66,15 @@ ns.init = function ufoal_init() {
          if ( prereq.indexOf( e.allowentityid ) < 0 )
             prereq.unshift( e.allowentityid );
       }
+      if ( ! e.hasOwnProperty( 'isvisible' ) ) e.isvisible = 1;
       if ( ( e.weapon || e.armour ) && e.isvisible !== 0 && e.id < 908 ) { // 908+ = robots
          var slots = [];
          if ( e.weapon && e.weapon.ammo ) {
             // Map ammos and weapons to relevant trainings
             e.weapon.ammo.forEach( function each_weapon_init( ammo ) {
                if ( ! ammo.wam || ! ammo.ammoIT ) return;
-               var wam = ammo.wam[0], ammo = ns.entity[ ammo.ammoIT ];
+               var wam = ammo.wam[0];
+               ammo = ns.entity[ ammo.ammoIT ];
                if ( ns.ammo_req[ wam.weaponmode ] ) {
                   makePrereq( ammo ).unshift( ns.ammo_req[ wam.weaponmode ] );
                } else if ( ns.weapon_req[ wam.weaponmode ] ) {
@@ -146,7 +149,7 @@ ns.find_unused = function ufoal_find_unused( used ) {
          /*** Manual hard code ***/
          if ( id === 902 ) entry.prereq = { "286":1 }; // Acid Mines -> Acid Mine
          else if ( id === 99 ) entry.prereq = { "303":1 }; // EM Detection -> Magnetic Scanner
-         else if ( id === 210 ) entry.prereq = { "209":1 } // Beastman Elements Control -> Controlling Martian Elements
+         else if ( id === 210 ) entry.prereq = { "209":1 }; // Beastman Elements Control -> Controlling Martian Elements
          else if ( id === 316 ) entry.prereq = { "944":1 }; // 376A -> 376A
          else if ( id === 315 ) entry.prereq = { "943":1 }; // 340G -> 340G
          ns.entity[ id ] = entry;
@@ -220,9 +223,9 @@ ns.iname = function ufoal_iname( e ) {
    return e.name;
 };
 
-ns.maindata = function ufoal_maindata( e ) {
-   return ! ( e.isvisible === 0 || e.unknown || e.type === 'unit' || e.type === 'squad' );
-}
+ns.maindata = function ufoal_maindata( e ) { // Entry that returns true will be included in auto completion suggestion
+   return ! ( e.unknown || e.type === 'unit' || e.type === 'squad' || ( e.isvisible !== undefined && e.isvisible === 0 ) );
+};
 
 ns.ucfirst = function ufoal_ucfirst( txt ) {
    return txt ? txt.substr(0,1).toUpperCase() + txt.substr(1) : txt;

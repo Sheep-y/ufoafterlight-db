@@ -51,7 +51,7 @@ var ui = ns.ui = {
    },
 
    'log_time' : function ui_log_time( msg, err, time ) {
-      var time = _.time( msg )
+      time = _.time( msg );
       time_log.appendChild( _.create( 'span', msg + ' in ' + Math.min( time[0], time[1] ) + 'ms' ) );
       time_log.appendChild( _.create( 'br' ) );
       if ( err ) {
@@ -85,8 +85,8 @@ var ui = ns.ui = {
          }
          // If no match, try to match names of normal entities
          if ( target.length <= 0 ) {
-            var name = val.toLowerCase()
-            target = ns.all.filter( function( e ){ 
+            var name = val.toLowerCase();
+            target = ns.all.filter( function( e ){
                if ( e.text.toLowerCase() === name ) {
                   if ( ns.maindata( e ) ) return true;
                   sys.push( e );
@@ -194,7 +194,7 @@ var ui = ns.ui = {
             var result = ui.create_box( root );
             for ( var type in desc ) {
                if ( lookup[ type ].length ) {
-                  var div = _.create( 'div', { class: 'help', text: desc[ type ] } )
+                  var div = _.create( 'div', { class: 'help', text: desc[ type ] } );
                   result.appendChild( div );
                   lookup[ type ].forEach( function each_enable( e ) {
                      div.appendChild( ui.create_box( e ) );

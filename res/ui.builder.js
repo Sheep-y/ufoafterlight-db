@@ -12,18 +12,19 @@ ui.create_title = function ui_create_title( e ) {
    if ( title ) attr += ' title="' + _.escHtml( title ) + '"';
    if ( ! ns.maindata( e ) ) attr += ' data-iname="' + _.escHtml( ns.iname( e ) ) + '"';
    return '<a class="title" href="?query=' + encodeURIComponent( name ) + '" ' + attr + '>' + _.escHtml( name ) + '</a>';
-}
+};
 
 ui.create_index = function ui_create_index() {
    var nav = _( '#nav_top' )[0];
-   var top = _.create( 'ul' );
+   var body = _.create( 'ul' );
    var options = [];
-   
-   function MinorMajorAdvSorter( a, b ) {
+   var plain_sorter = _.sorter(), rev_text_sorter = _.sorter( 'text', 'reverse' );
+
+   function MinorMajorAdvSorter( a, b ) { // Sort *after* discarding leading major/minor.
       var aa = a.text.replace( /^Minor|^Major|^Advanced /, '' );
       var bb = b.text.replace( /^Minor|^Major|^Advanced /, '' );
-      if ( aa === bb ) return _.sorter( 'text', 'reverse' )( a, b );
-      return _.sorter()( aa, bb );
+      if ( aa === bb ) return rev_text_sorter( a, b );
+      return plain_sorter( aa, bb );
    }
 
    function createList( name, items, sorter ) {
@@ -42,7 +43,7 @@ ui.create_index = function ui_create_index() {
       list.innerHTML = html;
       cat.appendChild( _.create( 'span', { text: ns.ucfirst( name ), id: name } ) );
       cat.appendChild( list );
-      top.appendChild( cat );
+      body.appendChild( cat );
       nav.appendChild( _.create( 'a', { href: '?#' + name, text: ns.ucfirst( name ), class: 'f_left', onclick: event.btn_reset_click } ) );
    }
 
@@ -66,13 +67,13 @@ ui.create_index = function ui_create_index() {
    // Create other indexes
    for ( var type in ns.data ) {
       if ( type !== 'item' ) {
-         var sorter = ( type === 'people' ) ? sorter = null
-            : ( ( type === 'training' || type === 'station' ) ? sorter = MinorMajorAdvSorter
+         var sorter = ( type === 'people' ) ? null
+            : ( ( type === 'training' || type === 'station' ) ? MinorMajorAdvSorter
                : _.sorter( 'text' ) );
          createList( type, ns.data[type], sorter );
       }
    }
-   _( '#pnl_index' )[0].appendChild( top );
+   _( '#pnl_index' )[0].appendChild( body );
    return options;
 };
 
@@ -89,11 +90,11 @@ ui.create_tech_box = function ui_create_tech_box( e ) {
 
 ui.create_item_box = function ui_create_item_box( e ) {
    return create_base_box( e, 'item', 'icon_item_general' );
-}
+};
 
 ui.create_general_box = function ui_create_general_box( e, icon ) {
    return create_base_box( e, icon );
-}
+};
 
 /* Create a general entity box */
 ui.create_entity_box = function ui_create_entity_box( e ) {

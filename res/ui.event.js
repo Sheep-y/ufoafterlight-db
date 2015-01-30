@@ -15,7 +15,7 @@ event.body_click = function body_click( evt ) {
 };
 
 event.lnk_internal_click = function lnk_internal_click( evt ) {
-   if ( evt && evt.target && evt.target.href && ! evt.ctrlKey && evt.button == 0 ) {
+   if ( evt && evt.target && evt.target.href && ! evt.ctrlKey && evt.button === 0 ) {
       _.noDef( evt );
       var destination = evt.target.getAttribute( 'href' );
 
@@ -65,13 +65,13 @@ event.txt_search_input.timer = 0;
 
 event.txt_search_blur = function txt_search_blur( evt ) {
    var val = txt_search.value.trim();
-   if ( ui.displayed && val != ui.find_query() && ui.find_compare() === null ) {
+   if ( ui.displayed && val !== ( ui.find_query() || '' ) && ui.find_compare() === null ) {
       history.pushState( null, '', '?query=' + val );
    }
 };
 
 event.btn_reset_click = function btn_reset_click( evt ) {
-   if ( evt && evt.target && evt.target.href && ( evt.ctrlKey || evt.button != 0 ) ) return;
+   if ( evt && evt.target && evt.target.href && ( evt.ctrlKey || evt.button !== 0 ) ) return;
    txt_search.value = '';
    history.pushState( null, '', evt.target.getAttribute( 'href' ) || '?#' );
    _.noDef( evt );
@@ -134,14 +134,14 @@ event.btn_clear_compare_click = function btn_clear_compare_click( evt ) {
    ui.save_compare();
    ui.compared = [];
    ui.update_compare();
-}
+};
 
 event.btn_undo_compare_click = function btn_undo_compare_click( evt ) {
    ui.undo_compare();
-}
+};
 
 event.btn_redo_compare_click = function btn_redo_compare_click( evt ) {
    ui.redo_compare();
-}
+};
 
 })( ufoal );
