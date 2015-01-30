@@ -153,7 +153,7 @@ var ui = ns.ui = {
       // Reverse lookup
       ui.displayed.length = 0;
       roots.forEach( function( root ) {
-         var regx = ns.special_req[ root.name ], data = ns.data;
+         var regx = ns.maps.special_req[ root.name ], data = ns.data;
          var lookup = { enable: [], used: [], addons: [] };
          lookup.enable = ns.all.filter( function filter_enable( e ) {
             var req = ns.prereq( e );

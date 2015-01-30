@@ -106,9 +106,9 @@ ui.create_entity_box = function ui_create_entity_box( e ) {
       name = txt.trigger[ e ] || ns.uncamel( e );
    }
    result.innerHTML = '<b>' + _.escHtml( name ) + '</b>';
-   for ( var r in ns.special_req ) {
+   for ( var r in ns.maps.special_req ) {
       // If special resources, add requirements
-      if ( e.match( ns.special_req[r] ) ) {
+      if ( e.match( ns.maps.special_req[r] ) ) {
          if ( ui.displayed.indexOf( r ) >= 0 ) className += ' collapsed';
          else ui.displayed.push( r );
          result.innerHTML += create_fold_buttons();

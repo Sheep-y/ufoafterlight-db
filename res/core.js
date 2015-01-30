@@ -3,9 +3,10 @@ var ufoal = (function ufoal_core(){ 'use strict';
 var txt = {};
 
 var ns = { // Main namespace
-   data: {}, // raw data
-   txt: txt, // text data
-   entity: {}, // Name to Entity map
+   data: {}, // Raw data
+   txt: txt, // Text data
+   map: {}, // Hard-coded mappings
+   entity: {} // Name to Entity map
 };
 
 function makePrereq( e ) { return e.prereq ? e.prereq : e.prereq = []; }
@@ -13,6 +14,7 @@ function makePrereq( e ) { return e.prereq ? e.prereq : e.prereq = []; }
 ns.init = function ufoal_init() {
    var ent = ns.entity;
    var data = ns.data;
+   var map = ns.maps;
    var all = ns.all = [];
    var used_id = [];
    var spec_names = ['race','subrace','unit','squad','people','training'];
@@ -29,7 +31,7 @@ ns.init = function ufoal_init() {
             var ename = e.name;
             if ( type === 'race' || type === 'subrace' ) { // Races / subrace / units have same name with each other, need special entity id
                ename = type + '_' + ename;
-               ns.special_req[ e.name ] = new RegExp( '\\b' + _.escRegx( ename ) + '\\b' );
+               map.special_req[ e.name ] = new RegExp( '\\b' + _.escRegx( ename ) + '\\b' );
             }
             if ( ent[ ename ] ) _.warn ( 'Duplicate entity "' + ename + '"' );
             else ent[ ename ] = e;
@@ -75,15 +77,15 @@ ns.init = function ufoal_init() {
                if ( ! ammo.wam || ! ammo.ammoIT ) return;
                var wam = ammo.wam[0];
                ammo = ns.entity[ ammo.ammoIT ];
-               if ( ns.ammo_req[ wam.weaponmode ] ) {
-                  makePrereq( ammo ).unshift( ns.ammo_req[ wam.weaponmode ] );
-               } else if ( ns.weapon_req[ wam.weaponmode ] ) {
-                  makePrereq( e ).unshift( ns.weapon_req[ wam.weaponmode ] );
+               if ( map.ammo_req[ wam.weaponmode ] ) {
+                  makePrereq( ammo ).unshift( map.ammo_req[ wam.weaponmode ] );
+               } else if ( map.weapon_req[ wam.weaponmode ] ) {
+                  makePrereq( e ).unshift( map.weapon_req[ wam.weaponmode ] );
                } else if ( wam.weaponmode === 'Melee' || wam.weaponmode === 'Throw' ) {
                   makePrereq( e ).unshift( 'HumanCombat' + ( e.weapon.shapeIndex <= 2 ? 'Minor' : 'Major' ) );
                }
             });
-            if ( ns.heavy_weapon[ e.name ] ) makePrereq( e ).unshift( 'HeavyEquipmentMinor' );
+            if ( map.heavy_weapon[ e.name ] ) makePrereq( e ).unshift( 'HeavyEquipmentMinor' );
 
          } else if ( e.armour && e.manufacturable && e.weight >= 20 && e.id < 900 ) {
             // Not the "correct" check per se, but good and simple enough.
@@ -159,47 +161,6 @@ ns.find_unused = function ufoal_find_unused( used ) {
       }
    }
    return result;
-};
-
-/** Entity relationship mappings */
-ns.special_req = {
-   'MineCrystalMinor': /\bCrystals\d\b/,
-   'MineNobleMinor': /\bNoble\d\b/,
-   'FossilePowerUpgrade': /\bEnergy[45]\b/,
-   'AlienPowerUpgrade': /\bEnergy[6789]\b/,
-   'MartianArtifact1': /\b(One|Two)MartianArtifact\b/,
-   'MartianArtifact2': /\b(One|Two)MartianArtifact\b/,
-   'MartianArtifact3': /\b(One|Two)MartianArtifact\b/,
-};
-
-/** Ammo training mapping by attack mode */
-ns.ammo_req = {
-   'Heal': 'MedicineMinor', // Include human training only to keep it simple
-   'HealAdvanced': 'MedicineMajor',
-   'DefuseMine': 'SurveyingMinor',
-   'RepairSuit': 'SuitManipulationMinor',
-   'RepairRobot': 'AutomationMinor'
-};
-
-/** Weapon/Device training mapping by attack mode */
-ns.weapon_req = {
-   'RobotControl': 'AutomationMinor',
-   'Homing': 'DrivingMinor',
-   'EMP': 'EMEquipmentMinor',
-   'PlasmaShot': 'PlasmaWeaponsMinor',
-   'PsiHeal': 'PsionicEquipmentMinor',
-   'PsiControll': 'PsionicEquipmentMajor',
-};
-
-/** Heavy weapons. Let me know if you can detect them correctly without using a name list. */
-ns.heavy_weapon = {
-   'BeastmenBigRifle': 1,
-   'BeastmenCannon': 1,
-   'BeastmenGrenadeLauncher': 1,
-   'HumanGatling': 1,
-   'HumanLaserCannon': 1,
-   'HumanRocketLauncher': 1,
-   'WarpCannon': 1,
 };
 
 ns.type = function ufoal_type( e ) {
