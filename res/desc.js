@@ -157,7 +157,14 @@ ns.get_ammo_desc = function ufoal_get_ammo_desc( wam ) {
    else if ( wam.close ) sub = wam.close;
    if ( sub ) {
       if ( sub.range ) line += ' ' + sub.range + ' m';
-      if ( sub.aimingtime ) line += ' ' + second( sub.aimingtime );
+      if ( sub.aimingtime || wam.animationtime ) {
+         if ( ! wam.rounds || wam.rounds <= 1 ) {
+            line += ' ' + second( ( sub.aimingtime || 0 ) + ( wam.animationtime || 0 ) );
+         } else {
+            if ( sub.aimingtime ) line += ' ' + second( sub.aimingtime ) + ' + ';
+            if ( wam.animationtime ) line += ' ' + wam.rounds + 'x ' + second( wam.animationtime );
+         }
+      }
       if ( sub.accuracy && sub.accuracy < 10 ) line += ', accuracy x' + sub.accuracy;
       if ( sub.launched && sub.launched.animationspeed ) line += " speed " + sub.launched.animationspeed + ", ";
    }
