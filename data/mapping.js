@@ -40,14 +40,15 @@ heavy_weapon : { /* Heavy weapons. Let me know if you can detect them correctly 
 compare : {
    'armour' : {
       'Light' : 'HumanLightBasicArmour;HumanLightTransportArmour;HumanLightBattleArmour;HumanLightOpenArmour;HumanMediumBattleArmour;HumanMediumAdvanceArmour',
-      'Heavy' : 'HumanHeavyBasicArmour;HumanHeavyAdvanceArmour;HumanHeavyLifesupportArmour;HumanHeavyBattleArmour',
-      'Robot' : 'BasicDecking;BattleDecking;ArmoredDecking;TurtleScoutDecking;HiTechDecking;Martian1Decking;Martian2Decking',
+      'Heavy' : 'HumanHeavyBasicArmour;HumanHeavyLifesupportArmour;HumanHeavyBattleArmour;HumanHeavyAdvanceArmour',
+      'Robot' : 'BasicDecking;BattleDecking;HiTechDecking;ArmoredDecking;TurtleScoutDecking;Martian1Decking;Martian2Decking',
       'Alien' : 'ReticulanPyjamas;ReticulanArmour;ReticulanExpPyjamas;ReticulanExpArmour;Martian;MartianArmour',
    },
    'system' : {
-      'Beastman Armour' : 'BeastmanPrivateArmour;BeastmanShamanArmour;BeastmanCaptainArmour;BeastmenAlchemistArmour;BeastmanSergeantArmour;BeastmenDomina1;BeastmenDomina2;PetArmourWormBlack;PetArmourWormClear;PetArmourSpiderPurple;PetArmourSpiderOrange;PetArmourRoller;PetArmourBoss',
+      'Beastman Armour' : 'BeastmanPrivateArmour;BeastmanSergeantArmour;BeastmanCaptainArmour;BeastmenAlchemistArmour;BeastmanShamanArmour;BeastmenDomina1;BeastmenDomina2;PetArmourWormBlack;PetArmourWormClear;PetArmourSpiderPurple;PetArmourSpiderOrange;PetArmourRoller;PetArmourBoss',
       'Other Armour' : 'ElementsArmour;MartianMechArmour;MartianBossArmour;PetArmourMartianPlant;FireballArmour',
-      'Beastman Weapon' : 'PetAttackWorm;PetAttackSpiderLegPurple;PetAttackSpiderLegOrange;PetAttackSpiderFlushPurple;PetAttackSpiderFlushOrange;PetattackRoller;PetAttackBoss',
+      /* PetAttackSpiderFlushOrange seems to be unused */
+      'Beastman Weapon' : 'PetAttackWorm;PetAttackSpiderLegPurple;PetAttackSpiderLegOrange;PetAttackSpiderFlushPurple;PetattackRoller;PetAttackBoss',
       'Other Weapon' : 'PetAttackElements;RobotEMPPistol;RobotEMPRifleMartian;RobotPlasmaCannonMartian;MechPlasmaCannon;MechEMPRifle;BossPlasmaCannon;BossEMPRifle;PetAttackMartianPlant;FireballWeapon',
    },
    'weapon' : {
@@ -55,7 +56,7 @@ compare : {
       'Laser'  : 'HumanArcheologicalLaser;ReticulanLaserPistol;ReticulanLaserRifle;HumanLaserRifle;HumanLaserCannon',
       'Energy' : 'MartianEMPpistol;LightningThrower;MartianPlasmaCannon;WarpCannon;HumanEMPRifle;Annihilator;FireballThrower',
       'Melee' : 'HumanKnife;MartianWeirdKnife;Katana;LightSword;BuzzSaw;BuzzSawCrossbow',
-      'Heavy' : 'HumanGatling;BeastmenBigRifle;BeastmenCannon',
+      'Heavy' : 'HumanGatling;HumanLaserCannon;HumanRocketLauncher;WarpCannon;BeastmenBigRifle;BeastmenCannon;BeastmenGrenadeLauncher',
       'Explosive' : 'ReticulanLauncher;HumanRocketLauncher;HumanGrenadeLauncher;BeastmenGrenadeLauncher;HumanDefenceGrenade;HumanAttackGrenade;HumanStunGrenade;HumanAcidGrenade;HumanEMGrenade;BeastmenGrenade;BeastmenAntiarmorGrenade;BeastmenAcidGrenade;MartianEMGrenade',
       'Mines' : 'Dynamite;ReticulanMine;ContactMine;PlasticMine',
       'Robot' : 'RobotRifle;RobotLaserRifle;RobotGatling;RobotLaserCannon;RobotRocketLauncher;RobotEMPRifle;RobotAnnihilator'
@@ -74,10 +75,12 @@ compare : {
       'Research' : 'Lab;MarsSimulation;Communication;DataCommunication;Range;Pyrotechnics;Autopsy;Alien;Computer;Magnetic',
       'Production' : 'Workshop;Robotics;Electronics;Technics;Chemics;Optics;Metalurgy',
    },
+   /* Not very meaningful
    'station' : {
       'Mines' : 'MineFuelMinor;MineFuelMajor;MineMetalMinor;MineMetalMajor;MineChemicalsMinor;MineChemicalsMajor;MineNobleMinor;MineNobleMajor;MineCrystalMinor;MineCrystalMajor',
       'Others' : 'Geosonde;Excavations;MilitaryMinor;MilitaryMajor;TerraformMinor;TerraformMajor',
    },
+   */
    'people' : {
       'Human' : 'Ute Heinemann;Harald Zamyatin;Diego Ramirez;Samantha Svensson;Hikaru Yoshimori;Tadeusz Yoshimori;Gene Lawrence;Mark Wells;Pauline Lasalle;Benat Haradze;Oliver Svensson;Vera Schrooten;Claude Lasalle;Pierre Lasalle;Rita Lawrence;Rita2;Olga Zamyatina;Olga2',
       'Alien' : "Tabatch't'kvlam;Oghla'k'nkmant;Bilakhi'na'mosse;Prakhti'm'tklami;Zatr'la'tchkhol;J!nai%e;Shoo*m!;Cai%m!",
