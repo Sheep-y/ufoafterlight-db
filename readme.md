@@ -1,7 +1,7 @@
 Sheepy's UFO: Afterlight database
 =================================
 
-**[&lt;Launch database>](https://cdn.rawgit.com/Sheep-y/ufoafterlight-db/r20141214/index.html)**
+**[&lt;Launch database>](https://cdn.rawgit.com/Sheep-y/ufoafterlight-db/r20150130/index.html)**
 **For source code, see [development branch](https://github.com/Sheep-y/ufoafterlight-db/tree/development).**
 
 This database shows the stats and dependancy tree of selected technology, equipment, building, station, or training.
