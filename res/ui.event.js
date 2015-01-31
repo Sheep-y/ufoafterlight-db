@@ -65,7 +65,8 @@ event.txt_search_input.timer = 0;
 
 event.txt_search_blur = function txt_search_blur( evt ) {
    var val = txt_search.value.trim();
-   if ( ui.displayed && val !== ( ui.find_query() || '' ) && ui.find_compare() === null ) {
+   if ( ui.displayed && val !== ( ui.find_query() || '' ) ) {
+      if ( ! val && ui.find_compare() !== null ) return;
       history.pushState( null, '', '?query=' + val );
    }
 };
