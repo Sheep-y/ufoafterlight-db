@@ -155,8 +155,8 @@ var ui = ns.ui = {
       roots.forEach( function each_result( root ) {
          if ( ui.displayed.indexOf( root ) >= 0 ) return;
          var result = ui.box_recur( root );
-         event.btn_desc_click( { target: _( result, '.desc' )[0] } ); // Show top level descriptions
          pnl_result.appendChild( result );
+         _( result, '.desc' )[0].click(); // Show top level descriptions
       });
       ui.log_time( 'Requirement tree built' );
 
@@ -276,8 +276,8 @@ var ui = ns.ui = {
          ui.compared.push( e );
          var box = ui.create_box( e );
          box.classList.add( 'f_left' );
-         event.btn_desc_click( { target: _( box, '.desc' )[0] } ); // Show top level descriptions
          pnl_compare_content.appendChild( box );
+         _( box, '.desc' )[0].click(); // Show top level descriptions
       });
       ui.update_compare();
       ui.comparing = false;
