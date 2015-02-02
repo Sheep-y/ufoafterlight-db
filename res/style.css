@@ -9,6 +9,14 @@ a:hover { color: yellow; text-decoration: underline; }
 .f_right { float: right; }
 .cf:after { content: " "; display: table; clear: both; }
 
+@keyframes red_text_cycle { from { color: #F00; } to { color: #FBB; }  }
+.error
+{
+   color: #F44;
+   font-weight: bold;
+   animation: red_text_cycle 2s linear 0s infinite alternate;
+}
+
 h1 { margin: 0; font-size: 24px; }
 .box {
   padding: 10px; color: white;

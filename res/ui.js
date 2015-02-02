@@ -50,10 +50,14 @@ var ui = ns.ui = {
       ui.log_time( 'UI displayed' );
    },
 
+   'log' : function ui_log( msg ) {
+      time_log.appendChild( _.create( 'span', msg ) );
+      time_log.appendChild( _.create( 'br' ) );
+   },
+
    'log_time' : function ui_log_time( msg, err, time ) {
       time = _.time( msg );
-      time_log.appendChild( _.create( 'span', msg + ' in ' + Math.min( time[0], time[1] ) + 'ms' ) );
-      time_log.appendChild( _.create( 'br' ) );
+      ui.log( msg + ' in ' + Math.min( time[0], time[1] ) + 'ms' );
       if ( err ) {
          clearTimeout( errTimeout );
          if ( time ) errTimeout = setTimeout( function(){ msg.textContent = 'Error when ' + err; }, time * 1000 );
@@ -69,6 +73,12 @@ var ui = ns.ui = {
 
    'to_dom' : function ui_html( html ) {
       return document.createRange().createContextualFragment( html ).firstElementChild;
+   },
+
+   'notify_update' : function ui_mark_update( details ) {
+      var link = '<a href="https://github.com/Sheep-y/ufoafterlight-db/"';
+      _( '#nav_top' )[0].insertAdjacentHTML( 'afterbegin', link + ' class="error">Update availabe!</a><br/>' );
+      _( '#pnl_help' )[0].insertAdjacentHTML( 'afterbegin', '<div id="lbl_update" class="help"><h1>New Version Available!</h1>' + link + '>[ [ Download from homepage ] ]</a><br/>' + details + '</div>' );
    },
 
    'search' : function ui_search( val ) {

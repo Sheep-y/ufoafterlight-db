@@ -1,5 +1,7 @@
 var ufoal = (function ufoal_core(){ 'use strict';
 
+var last_update = new Date( 2015, 1, 2 );
+
 var txt = {};
 
 var ns = { // Main namespace
@@ -128,6 +130,7 @@ ns.init = function ufoal_init() {
    });
    ns.ui.log_time( 'Data initialised' );
    ns.ui.init();
+   ns.check_update();
 };
 
 ns.find_unused = function ufoal_find_unused( used ) {
@@ -200,6 +203,74 @@ ns.uncamel = function ufoal_uncamel( txt ) {
    return txt
       .replace( /[^A-Z0-9](?=[A-Z])|\D(?=\d)/g, '$& ' )
       .replace( /[ _]+/g, ' ' ).trim();
+};
+
+ns.github_api = function ufoal_check_update( url, onload, onerror ) {
+   var xhr = new XMLHttpRequest();
+   xhr.onload = onload.bind( xhr, xhr );
+   xhr.onerror = onerror.bind( xhr, xhr );
+   xhr.ontimeout = onerror.bind( xhr, xhr, 'timeout' );
+   xhr.open( 'get', url, true );
+   xhr.setRequestHeader( 'Accept', 'application/vnd.github.v3+json' );
+   xhr.setRequestHeader( 'Origin', '*' );
+   setTimeout( xhr.send.bind( xhr ), 333 );
+};
+
+ns.check_update = function ufoal_check_update() {
+   var today = new Date().toISOString().split('T')[0], last_check;
+   if ( window.localStorage && ( last_check = localStorage.getItem( 'sheepy.ufoal.last_check_update' ) ) ) {
+      if ( last_check === today ) // Check at most once per day
+         return ns.ui.log( "Skipping update check.  Already checked not long ago." );
+   }
+   ns.github_api( 'https://api.github.com/repos/Sheep-y/ufoafterlight-db/branches/master',
+      function ufoal_checkUpdate_onload( xhr ) {
+         try {
+            var data = JSON.parse( xhr.responseText ).commit;
+            //var date = new Date( data.pushed_at ); // Used with https://api.github.com/repos/Sheep-y/ufoafterlight-db
+            var date = new Date( data.commit.author.date );
+            if ( date > last_update ) {
+               ns.ui.log( "Found update: " + date );
+               ns.get_change_log( '', data );
+            } else {
+               ns.ui.log( "Finished checking update. No updates." );
+            }
+         } catch ( ex ) {
+            ns.ui.log( "Failed to check update: " + ex );
+         }
+      },
+      function ufoal_checkUpdate_onerror( xhr, err ) {
+         ns.ui.log( "Cannot check update; HTTP response " + ( err || xhr.status ) );
+      }
+   );
+   if ( window.localStorage ) localStorage.setItem( 'sheepy.ufoal.last_check_update', today );
+};
+
+/** Recursively fetch previous commit and add to changelog */
+ns.get_change_log = function ufoal_get_change_log( html, commit ) {
+   try {
+      var date = new Date( commit.commit.author.date );
+      if ( date < last_update ) {
+         return ns.ui.notify_update( html );
+      }
+      date = date.toISOString().split('T')[0];
+      html += '<h2>Update ' + date + '</h2><pre>' + _.escHtml( commit.commit.message ) + '</pre>';
+      if ( commit.parents.length ) {
+         ns.github_api( commit.parents[0].url,
+            function ufoal_get_change_log_onload( xhr ) {
+               ufoal_get_change_log( html, JSON.parse( xhr.responseText ) );
+            },
+            function ufoal_get_change_log_onerror( xhr, err ) {
+               ns.ui.log( "Error when fetching changelog; HTTP response " + ( err || xhr.status ) );
+               ns.ui.notify_update( html );
+            }
+         );
+      } else {
+         ns.ui.notify_update( html );
+      }
+   } catch ( ex ) {
+      ns.ui.log( "Error when parsing changelog: " + ex );
+      ns.ui.notify_update( html );
+   }
 };
 
 return ns;
