@@ -16,8 +16,8 @@ Now, if you dare, here is a quick tour.
 JavaScript code is in [`res`](https://github.com/Sheep-y/ufoafterlight-db/tree/development/res) folder.
 * [`core.js`](https://github.com/Sheep-y/ufoafterlight-db/blob/development/res/core.js) defines the main namespace. It also handles data initialisation and normalisation.
 * [`ui.js`](https://github.com/Sheep-y/ufoafterlight-db/blob/development/res/ui.js) initialises the UI, provide access to url state, and find search matches.
-* [`event.js`](https://github.com/Sheep-y/ufoafterlight-db/blob/development/res/event.js) contains UI event handlers.
-* [`builder.js`](https://github.com/Sheep-y/ufoafterlight-db/blob/development/res/builder.js) is responsible for building the entry boxes.
+* [`event.js`](https://github.com/Sheep-y/ufoafterlight-db/blob/development/res/ui.event.js) contains UI event handlers.
+* [`builder.js`](https://github.com/Sheep-y/ufoafterlight-db/blob/development/res/ui.builder.js) is responsible for building the entry boxes.
 * [`data`](https://github.com/Sheep-y/ufoafterlight-db/tree/development/data) is plain JS, simplified but mostly follow original structure.
 * [`desc.js`](https://github.com/Sheep-y/ufoafterlight-db/blob/development/res/desc.js) generates description for data.
 * The underscore is a light custom JS library, but the program is mostly ES5.

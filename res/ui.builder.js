@@ -5,9 +5,8 @@ var event = ui.event;
 var txt = ns.txt;
 
 ui.create_title = function ui_create_title( e ) {
-   var attr = '';
    if ( typeof( e ) === 'string' ) e = ns.entity[ e ];
-   var title = ns.get_hint( e );
+   var title = ns.get_hint( e ), attr = '';
    var name = e.text.trim().replace( / *\([^)]*\)$/, '' );
    if ( title ) attr += ' title="' + _.escHtml( title ) + '"';
    if ( ! ns.maindata( e ) ) attr += ' data-iname="' + _.escHtml( ns.iname( e ) ) + '"';
