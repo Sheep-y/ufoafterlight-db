@@ -1,13 +1,25 @@
 ufoal.maps = {
 
-special_req : { /* Entity relationship mappings */
+fixed_req : { // Manual requirements
+   'MartianArtifact1': 'Excavations',
+   'MartianArtifact2': 'Excavations',
+   'MartianArtifact3': 'Excavations',
+   'MartianxCrystal1': 'T_EmpoweredUFO',
+   'MartianxCrystal2': 'T_EmpoweredUFO',
+   'ReticulanArtifact' : 'ReticulanTech2Prereq',
+},
+
+special_req : { /* Requirement of virtual entities */
    'MineCrystalMinor': /\bCrystals\d\b/,
    'MineNobleMinor': /\bNoble\d\b/,
    'FossilePowerUpgrade': /\bEnergy[45]\b/,
    'AlienPowerUpgrade': /\bEnergy[6789]\b/,
-   'MartianArtifact1': /\b(One|Two)MartianArtifact\b/,
-   'MartianArtifact2': /\b(One|Two)MartianArtifact\b/,
-   'MartianArtifact3': /\b(One|Two)MartianArtifact\b/,
+   'Communication' : /\bLaputaIntroSeen\b/,
+   'DataCommunication' : /\b(Cultist|Laputa)Technology\b/,
+   'MartianArtifact1': /\b(One|Two)MartianArtifacts?\b/,
+   'MartianArtifact2': /\b(One|Two)MartianArtifacts?\b/,
+   'MartianArtifact3': /\b(One|Two)MartianArtifacts?\b/,
+   'T_MartianPlanetology' : /\bMoonTravelRequest\b/,
 },
 
 ammo_req : { /* Ammo training mapping by attack mode */

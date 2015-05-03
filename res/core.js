@@ -70,6 +70,8 @@ ns.init = function ufoal_init() {
          if ( prereq.indexOf( e.allowentityid ) < 0 )
             prereq.unshift( e.allowentityid );
       }
+      if ( e.name in map.fixed_req )
+         makePrereq( e ).unshift( map.fixed_req[ e.name ] );
       if ( ! e.hasOwnProperty( 'isvisible' ) ) e.isvisible = 1;
       if ( ( e.weapon || e.armour ) && e.isvisible !== 0 && e.id < 908 ) { // 908+ = robots
          var slots = [];
@@ -100,7 +102,7 @@ ns.init = function ufoal_init() {
          if ( slots.length ) e.slots = slots;
       }
    });
-   // Flatter unit's equipment and training list
+   // Flatten unit's equipment and training list
    data.unit.forEach( function each_unit( e ) {
       var eq = e.hasEntity = [];
       if ( e.equipment ) {
