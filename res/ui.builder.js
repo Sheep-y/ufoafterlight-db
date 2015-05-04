@@ -112,11 +112,11 @@ ui.create_entity_box = function ui_create_entity_box( e ) {
    }
    result.innerHTML = '<b>' + _.escHtml( name ) + '</b>';
    for ( var r in ns.maps.special_req ) {
-      // If special resources, add requirements
+      // If special resources, e.g. TwoMartianArtifacts, add requirements
       if ( e.match( ns.maps.special_req[r] ) ) {
          if ( ui.displayed.indexOf( r ) >= 0 ) className += ' collapsed';
          else ui.displayed.push( r );
-         result.innerHTML += create_fold_buttons();
+         result.innerHTML += create_fold_buttons(); // Inefficient but happens rarely
          result.appendChild( ui.box_recur( ns.entity[r] ) );
          is_resource = false; // Do not float like a resource
          break;

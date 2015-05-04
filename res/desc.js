@@ -305,7 +305,7 @@ ns.get_people_desc = function ufoal_get_people_desc( e ) {
    if ( e.scientist ) result += sp + 'Scientist ' + e.scientist + br; else if ( ui.comparing ) result += br;
    if ( e.technician ) result += sp + 'Technician ' + e.technician + br; else if ( ui.comparing ) result += br;
    if ( e.training ) {
-      result += br + 'Training: ' +  ns.data.training.filter( function(t) { return e.training.indexOf( t.id ) >= 0 } )
+      result += br + 'Training: ' +  ns.data.training.filter( function(t) { return e.training.indexOf( t.id ) >= 0; } )
          .map( ui.create_title ).join( ', ' ) + br;
    } else if ( ui.comparing ) {
       result += br + sp + br;

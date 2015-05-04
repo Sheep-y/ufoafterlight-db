@@ -21,6 +21,7 @@ JavaScript code is in [`res`](https://github.com/Sheep-y/ufoafterlight-db/tree/d
 * [`ui.event.js`](https://github.com/Sheep-y/ufoafterlight-db/blob/development/res/ui.event.js) has all the actual event handlers.
 * [`desc.js`](https://github.com/Sheep-y/ufoafterlight-db/blob/development/res/desc.js) generates description for data.
 * [`data`](https://github.com/Sheep-y/ufoafterlight-db/tree/development/data) is plain JS, simplified but mostly follow original structure.
+* [`mapping.js`](https://github.com/Sheep-y/ufoafterlight-db/tree/development/data/mapping.js) and [`txt_trigger.js`](https://github.com/Sheep-y/ufoafterlight-db/tree/development/data/txt_trigger.js) are hand coded data.
 * The underscore is a light custom JS library, but the program is mostly ES5.
 * [`html`](https://github.com/Sheep-y/ufoafterlight-db/tree/development/html) is HTML 5.
 * [`css`](https://github.com/Sheep-y/ufoafterlight-db/blob/development/res/style.css) is CSS 3.

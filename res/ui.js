@@ -227,14 +227,13 @@ var ui = ns.ui = {
          if ( root.type === 'tech' ) ui.is_tech = true;
          ns.prereq( root ).forEach( function recur_prereq( t ) {
             if ( stack.indexOf( t ) >= 0 ) return;
-            else stack.push( t );
+            else stack.push( t ); // Prevent recursion like item > research > training > same item
             var e = ns.entity[ t ];
             if ( e ) {
-               // Do not show trainings for items in tech tree.
-               if ( ui.is_tech && e.type === 'training' ) return;
+               if ( ui.is_tech && e.type === 'training' ) return; // Do not show trainings for items in tech tree.
                result.appendChild( ui.box_recur( e, stack ) );
             } else {
-               result.appendChild( ui.create_entity_box( t ) );
+               result.appendChild( ui.create_entity_box( t ) ); // Non-entities like "Energy7" or "TwoMartianArtifacts"
             }
             --stack.length;
          });
