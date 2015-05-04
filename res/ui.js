@@ -11,6 +11,7 @@ var pnl_enable = _( '#pnl_enable' )[0];
 var pnl_license = _( '#pnl_license' )[0];
 var txt_search = _( '#txt_search' )[0];
 var time_log = _( '#lbl_time_log' )[0];
+var docRange = document.createRange();
 
 var ui = ns.ui = {
    'event' : event,
@@ -72,7 +73,7 @@ var ui = ns.ui = {
    },
 
    'to_dom' : function ui_html( html ) {
-      return document.createRange().createContextualFragment( html ).firstElementChild;
+      return docRange.createContextualFragment( html ).firstChild;
    },
 
    'notify_update' : function ui_mark_update( details ) {
