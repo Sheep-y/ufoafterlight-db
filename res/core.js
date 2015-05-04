@@ -1,6 +1,6 @@
 var ufoal = (function ufoal_core(){ 'use strict';
 
-var last_update = new Date( 2015, 1, 2 );
+var last_update = new Date( 2015, 4, 4 ); // Remember, month starts from zero!
 
 var txt = {};
 
@@ -221,8 +221,10 @@ ns.github_api = function ufoal_check_update( url, onload, onerror ) {
 ns.check_update = function ufoal_check_update() {
    var today = new Date().toISOString().split('T')[0], last_check;
    if ( window.localStorage && ( last_check = localStorage.getItem( 'sheepy.ufoal.last_check_update' ) ) ) {
-      if ( last_check === today ) // Check at most once per day
-         return ns.ui.log( "Skipping update check.  Already checked not long ago." );
+      var next_check = new Date( last_check );
+      next_check.setDate( next_check.getDate() + 7 ); // Check at most once per week
+      if ( next_check >= new Date( today ) )
+         return ns.ui.log( "Skipping update check.  Already checked on " + last_check );
    }
    ns.github_api( 'https://api.github.com/repos/Sheep-y/ufoafterlight-db/branches/master',
       function ufoal_checkUpdate_onload( xhr ) {
@@ -234,7 +236,7 @@ ns.check_update = function ufoal_check_update() {
                ns.ui.log( "Found update: " + date );
                ns.get_change_log( '', data );
             } else {
-               ns.ui.log( "Finished checking update. No updates." );
+               ns.ui.log( "Finished checking update. You are using latest release!" );
             }
          } catch ( ex ) {
             ns.ui.log( "Failed to check update: " + ex );

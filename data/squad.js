@@ -92,7 +92,7 @@ ufoal.data.squad = [
 {id:99,name:"MartianSoldierCapture",strength:1.2,min_mem:1,max_mem:1,faction:"Martians",typeIndex:13,units:{"Martian_17":{count:1}}},
 {id:100,name:"ExpeditionSoldierCapture",strength:1.3,min_mem:1,max_mem:1,faction:"ReticulanRevenge",typeIndex:14,units:{"ReticulanExpedition_18":{count:1}}},
 {id:101,name:"RobotsLeaders3",strength:0.9,min_mem:1,max_mem:1,faction:"Robots",typeIndex:4,units:{"MartianMechEMP":{count:1}}},
-{id:102,name:"TutorialMech",strength:0,min_mem:1,max_mem:1,faction:"Robots",typeIndex:2,units:{"TutorialMech":{count:1}}},
+{id:102,name:"TutorialMech-S0",strength:0,min_mem:1,max_mem:1,faction:"Robots",typeIndex:2,units:{"TutorialMech":{count:1}}},
 {id:103,name:"TutorialDrone",strength:0.1,min_mem:1,max_mem:1,faction:"Robots",typeIndex:2,units:{"MartianWalkingRobot_1":{count:1}}},
 {id:104,name:"MyrmecolSquad",strength:1.3,min_mem:1,max_mem:1,faction:"Robots",typeIndex:2,units:{"MoonMech":{chance:0.66},"MoonMechPlasma":{chance:0.34}}},
 {id:105,name:"BeastsDefenders-S2",strength:2,min_mem:3,max_mem:4,faction:"Beastman",typeIndex:1,units:{"BeastmanCaptain_22":{chance:0.2},"BeastmanCaptain_24":{chance:0.2},"BeastmanMistress_29":{count:1},"BeastmanAlchemist_20":{chance:0.2},"BeastmanSarge_15":{chance:0.2},"BeastsPetRollerStrong":{chance:0.2}}},
