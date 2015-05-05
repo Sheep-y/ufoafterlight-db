@@ -16,14 +16,8 @@ ns.get_desc = function ufoal_get_desc( e ) {
       if ( e.unknown )
          content += br + '<b>This entry is unused in the final game</b>';
       content += hr;
-      if ( e.type === 'tech' ) {
-         content += txt.tech[ e.id + '_b4' ] + hr + ns.txt.tech[ e.id + '_done' ];
-      } else if ( e.type === 'training' ) {
-         content += txt.training[ e.id + "_desc" ] + hr + 'Effect: ' + ns.uncamel( e.effect );
-      } else {
-         if ( ! ns[ method ] ) method = 'get_general_desc';
-      }
    }
+   if ( ! ns[ method ] ) method = 'get_general_desc';
    if ( ns[ method ] )
       content += ns[ method ]( e );
    return content;
@@ -31,7 +25,7 @@ ns.get_desc = function ufoal_get_desc( e ) {
 
 ns.get_hint = function ufoal_get_hint( e ) {
    if ( e.type === 'building' ) return txt.building[ e.id + '_tip' ];
-}
+};
 
 ns.get_building_desc = function ufoal_get_building_desc( e ) {
    var result = ui.comparing ? '' : ns.get_general_desc( e ) + hr, people = [];
@@ -53,6 +47,16 @@ ns.get_general_desc = function ufoal_get_general_desc( e ) {
 
 function percent( v ) { return Math.round(v*100, 3) + '%'; }
 function second( t ) { return Math.round(t)/10 + '&thinsp;s.'; }
+
+ns.get_tech_desc = function ufoal_get_tech_desc( e ) {
+   if ( ui.comparing ) return '';
+   return txt.tech[ e.id + '_b4' ] + hr + ns.txt.tech[ e.id + '_done' ];
+};
+
+ns.get_training_desc = function ufoal_get_training_desc( e ) {
+   if ( ui.comparing ) return '';
+   return txt.training[ e.id + "_desc" ] + hr + 'Effect: ' + ns.uncamel( e.effect );
+};
 
 ns.get_item_desc = function ufoal_get_item_desc( e ) {
    var sub, result = [];
@@ -297,8 +301,10 @@ ns.get_squad_desc = function ufoal_get_squad_desc( e ) {
 };
 
 ns.get_people_desc = function ufoal_get_people_desc( e ) {
-   var result = '';
-   if ( e.family ) result += ns.txt.family[ e.family ] + ' Family' + br;
+   var result = '', bio = e.id + '_bio';
+   if ( ! ui.comparing )
+      if ( bio in txt.people ) result += txt.people[ bio ] + hr;
+   if ( e.family ) result += txt.family[ e.family ] + ' Family' + br;
    else if ( ui.comparing ) result += br;
    result += br + 'Level' + br;
    if ( e.soldier ) result += sp + 'Soldier ' + e.soldier + br; else if ( ui.comparing ) result += br;

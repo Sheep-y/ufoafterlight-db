@@ -14,7 +14,7 @@ ufoal.txt.trigger = {
 'ReticulanTech2Prereq':'Raid any reticulan main base',
 
 'FirstRobotAttackAqueduct':'After first aqueduct mission',
-'FirstNonRobotBaseAttack':'After first non-aqueduct defend',
+'FirstNonRobotBaseAttack':'After first territory defence mission',
 'LostConnection':'Lost connection with Earth',
 'CultistTechnology':'Share technology with Servants or Laputian',
 'LaputaTechnology':'Share technology with Laputian',
