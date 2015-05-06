@@ -1,6 +1,6 @@
 var ufoal = (function ufoal_core(){ 'use strict';
 
-var last_update = new Date( 2015, 4, 4 ); // Remember, month starts from zero!
+var last_update = new Date( 2015, 4, 6 ); // Remember, month starts from zero!
 
 var txt = {};
 

@@ -15,11 +15,15 @@ special_req : { /* Requirement of virtual entities */
    'FossilePowerUpgrade': /\bEnergy[45]\b/,
    'AlienPowerUpgrade': /\bEnergy[6789]\b/,
    'Communication' : /\bLaputaIntroSeen\b/,
+   'TerraformMinor' : /\bTerraformForWaterCondens|TerraformAdvMine\b/,
+   'TerraformMajor' : /\bMartianTerraform|OpenArmorTerraformation\b/,
    'DataCommunication' : /\b(Cultist|Laputa)Technology\b/,
    'MartianArtifact1': /\b(One|Two)MartianArtifacts?\b/,
    'MartianArtifact2': /\b(One|Two)MartianArtifacts?\b/,
    'MartianArtifact3': /\b(One|Two)MartianArtifacts?\b/,
    'T_MartianPlanetology' : /\bMoonTravelRequest\b/,
+   'T_SpokenMartianLanguage' : /\bTerraformWarDeclared\b/,
+   'NatureAssault' : /\bBeastmenArrivesForce\b/,
 },
 
 ammo_req : { /* Ammo training mapping by attack mode */

@@ -12,6 +12,7 @@ ufoal.txt.trigger = {
 'ExpeditionLeaderCaptive':'Expedition Commander Captive',
 'ReticulanTech1Prereq':'Ally with any reticulan, or raid any reticulan main base',
 'ReticulanTech2Prereq':'Raid any reticulan main base',
+'TerraformWarDeclared':'Martian Protested about terraform',
 
 'FirstRobotAttackAqueduct':'After first aqueduct mission',
 'FirstNonRobotBaseAttack':'After first territory defence mission',
@@ -22,9 +23,8 @@ ufoal.txt.trigger = {
 'OneMartianArtifact':'Any Martian artifact from excavation',
 'TwoMartianArtifacts':'Two Martian artifacts from excavation',
 
-'TerraformForWaterCondens':'Moderate terraform level',
-'TerraformAdvMine':'Terraform 50% or above',
-'MartianTerraform':'Medium High terraform level',
-'OpenArmorTerraformation':'High terraform level',
-
+'TerraformForWaterCondens':'Terraform 40% or above',
+'TerraformAdvMine':'Terraform 48% or above',
+'MartianTerraform':'Terraform 63% or above',
+'OpenArmorTerraformation':'Terraform 70% or above',
 };
