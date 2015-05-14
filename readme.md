@@ -1,17 +1,20 @@
-Sheepy's UFO: Afterlight database
-=================================
+# Sheepy's UFO: Afterlight database #
 
-For project description and downloadable file, see the [main branch](https://github.com/Sheep-y/ufoafterlight-db/).
+**[&lt;Launch database&gt;](https://cdn.rawgit.com/Sheep-y/ufoafterlight-db/r20150514/index.html)**
+**For source code, see [development branch](https://github.com/Sheep-y/ufoafterlight-db/tree/development).**
 
-This is a self-contained, interactive, high speed, small footprint database with ~9000 'rows' of data in 30+ 'tables'.
-It uses fair amount of [HTML5](http://diveintohtml5.info/) features, such as [datalist](http://www.w3.org/TR/html5/forms.html#the-datalist-element), [multi-column layout](http://www.w3.org/TR/css3-multicol/#introduction), [gradient](http://www.w3.org/TR/css3-images/#linear-gradients), [pseudo-elements](http://www.w3.org/TR/CSS2/generate.html#before-after-content), [data uri](https://www.ietf.org/rfc/rfc2397.txt), [Storage](http://www.w3.org/TR/webstorage/#the-storage-interface), [History](https://developer.mozilla.org/en-US/docs/Web/API/History), [classList](https://developer.mozilla.org/en-US/docs/Web/API/Element.classList), Array.[forEach](http://www.ecma-international.org/ecma-262/5.1/#sec-15.4.4.18)/[filter](http://www.ecma-international.org/ecma-262/5.1/#sec-15.4.4.20)/[map](http://www.ecma-international.org/ecma-262/5.1/#sec-15.4.4.19), etc.
+This database shows the stats and dependency tree of selected technology, equipment, building, station, or training.
+It also shows the composition of enemy squads and information on enemy units.
 
-The program is [procedural](http://en.wikipedia.org/wiki/Procedural_programming) in essence, and has around 1300 lines of code (excluding data).
-Despite the small size, this code is not newbie friendly as hinted above.
-Comment is sparse and you will meet things like [lookahead regular expression](http://www.rexegg.com/regex-lookarounds.html), [multiple indirect recursion](http://en.wikipedia.org/wiki/Recursion_%28computer_science%29), or [DocumentFragment](https://dom.spec.whatwg.org/#interface-documentfragment).
-But you do not need to be able to [hand-edit](https://github.com/Sheep-y/ufoafterlight-db/commit/a423e87411cbe4ab8619b6acb8b34b9f0c87c962#diff-5bd06b100de3471b9811681100a5198b) [minified](https://github.com/Sheep-y/ufoafterlight-db/commit/8a9664d1081ae26e1171b5dca232ab2fc61e8bcc#diff-5bd06b100de3471b9811681100a5198bR19) [code](https://github.com/Sheep-y/ufoafterlight-db/commit/0ceb62b984ef9b8765898afa5a294407632824e7#diff-5bd06b100de3471b9811681100a5198bR7) (perhaps).
+Instead of opening it online, you can also right click the launch link and save it on your drive / memory to use it anywhere.
 
-Now, if you dare, here is a quick tour.
+This is inspired by [Kircket's Tech Tree](http://www.irodemine.com/afterlit/), sparked by a [discussion on Stream](http://steamcommunity.com/app/237950/discussions/0/616188677801999309/#c619568793974409287).
+Active development is NOT planned, because this database is a small sidetrack from the author's focus of the [UFO: Afterlight wiki](http://ufoafterblank.wikia.com/) on Wikia.
+
+## Developer's Guide ##
+
+This is a self-contained, interactive, high speed, small footprint database with 9000+ 'rows' of data in 30+ 'tables'.
+The [HTML5](http://diveintohtml5.info/) program is [procedural](http://en.wikipedia.org/wiki/Procedural_programming) in essence, has around 1600 lines of code (excluding data).
 
 JavaScript code is in [`res`](https://github.com/Sheep-y/ufoafterlight-db/tree/development/res) folder.
 * [`core.js`](https://github.com/Sheep-y/ufoafterlight-db/blob/development/res/core.js) defines the main namespace. It also handles data initialisation and normalisation.
