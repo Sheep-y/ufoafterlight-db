@@ -1,7 +1,6 @@
 # Sheepy's UFO: Afterlight database #
 
 **[&lt;Launch database&gt;](https://cdn.rawgit.com/Sheep-y/ufoafterlight-db/r20150514/index.html)**
-**For source code, see [development branch](https://github.com/Sheep-y/ufoafterlight-db/tree/development).**
 
 This database shows the stats and dependency tree of selected technology, equipment, building, station, or training.
 It also shows the composition of enemy squads and information on enemy units.

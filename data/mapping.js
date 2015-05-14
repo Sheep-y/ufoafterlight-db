@@ -6,7 +6,7 @@ fixed_req : { // Manual requirements
    'MartianArtifact3': 'Excavations',
    'MartianxCrystal1': 'T_EmpoweredUFO',
    'MartianxCrystal2': 'T_EmpoweredUFO',
-   'ReticulanArtifact' : 'ReticulanTech2Prereq',
+   /*'ReticulanArtifact' : 'ReticulanTech2Prereq',*/
 },
 
 special_req : { /* Requirement of virtual entities */
