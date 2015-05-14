@@ -30,8 +30,8 @@ JavaScript code is in [`res`](https://github.com/Sheep-y/ufoafterlight-db/tree/d
 Data and text are [deflated](http://docs.oracle.com/javase/8/docs/api/java/util/zip/DeflaterOutputStream.html) and [Base64 encoded](http://docs.oracle.com/javase/8/docs/api/java/util/Base64.Encoder.html), keeping the program small.
 I find this much more efficient and [reliable](http://en.wikipedia.org/wiki/HTTP_compression#Problems_preventing_the_use_of_HTTP_compression) than HTTP compression.
 
-A prototype build tool 'CocoDoc' (a [Java jar](https://docs.oracle.com/javase/tutorial/deployment/jar/basicsindex.html)) is included in the [project root](https://github.com/Sheep-y/ufoafterlight-db/tree/development/).
-[Run it](http://stackoverflow.com/a/5774976/893578) and it will loads [build config](https://github.com/Sheep-y/ufoafterlight-db/tree/development/build.cocodoc.conf), which direct it to reads [ufoal.html](https://github.com/Sheep-y/ufoafterlight-db/tree/development/ufoal.html), outputting build messages to stdout.
+The build tool 'CocoDoc' (a [Java jar](https://docs.oracle.com/javase/tutorial/deployment/jar/basicsindex.html)) is included in the [project root](https://github.com/Sheep-y/ufoafterlight-db/tree/development/).
+[Run it](http://stackoverflow.com/a/5774976/893578) and it will loads [build config](https://github.com/Sheep-y/ufoafterlight-db/tree/development/build.cocodoc.conf), which direct it to reads [ufoal.html](https://github.com/Sheep-y/ufoafterlight-db/tree/development/ufoal.html).
 If there is no error, it will create (overwrite) [index.html](https://github.com/Sheep-y/ufoafterlight-db/blob/master/index.html).
 
 The build tool is necessary to produce a self-contained deliverable, and to keep it small.
