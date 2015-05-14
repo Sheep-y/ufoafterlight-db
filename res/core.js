@@ -1,6 +1,6 @@
 var ufoal = (function ufoal_core(){ 'use strict';
 
-var last_update = new Date( 2015, 4, 6 ); // Remember, month starts from zero!
+var last_update = '2015-05-14'; // Use UTC date
 
 var txt = {};
 
@@ -231,7 +231,7 @@ ns.check_update = function ufoal_check_update() {
          try {
             var data = JSON.parse( xhr.responseText ).commit;
             //var date = new Date( data.pushed_at ); // Used with https://api.github.com/repos/Sheep-y/ufoafterlight-db
-            var date = new Date( data.commit.author.date );
+            var date = new Date( data.commit.author.date ).toISOString().split('T')[0];
             if ( date > last_update ) {
                ns.ui.log( "Found update: " + date );
                ns.get_change_log( '', data );
